@@ -1,0 +1,20 @@
+﻿{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2015",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noStrictGenericChecks": true,
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "types": [ "node" ]
+  },
+  "include": [
+    "Client"
+  ]
+}
