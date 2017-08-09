@@ -20,7 +20,6 @@ namespace Shriek.Utils
             return System.Convert.ChangeType(source, dest);
         }
 
-
         /// <summary>
         /// 将当前对象转换成其他类型的对象
         /// </summary>
@@ -31,6 +30,7 @@ namespace Shriek.Utils
         {
             return Shriek.Converter.Converter.Cast(originObject, targetType);
         }
+
         /// <summary>
         /// 将当前对象转换成其他类型的对象
         /// </summary>
@@ -42,6 +42,5 @@ namespace Shriek.Utils
             var targetType = typeof(T);
             return Shriek.Converter.Converter.Cast(originObject, targetType);
         }
-
     }
 }

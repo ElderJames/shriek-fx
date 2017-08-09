@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ConfigCenter.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ConfigCenter.DomainRepository", "src\core\Shriek.CMS.DomainRepository\Shriek.ConfigCenter.DomainRepository.csproj", "{B37A8E54-99FF-458D-B31D-8613C627543A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Infra", "1 - Infra", "{FB287301-9188-4D0B-AD85-C667D058B6DD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Fx", "1 - Fx", "{FB287301-9188-4D0B-AD85-C667D058B6DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - core", "2 - core", "{CD4D4081-7B33-4D8A-8073-56F9B439B176}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ConfigCenter.Web", "src\web\Shriek.ConfigCenter.Web\Shriek.ConfigCenter.Web.csproj", "{1554DB38-9CBE-4CA3-961B-EE39C2AE0C57}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EEB91B32-C066-4D31-88EA-604BBBCDCB73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - test", "4 - test", "{48C42471-05D2-499C-ADCB-76B70E00D22B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Test", "src\test\Shriek.Test\Shriek.Test.csproj", "{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,10 @@ Global
 		{1554DB38-9CBE-4CA3-961B-EE39C2AE0C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1554DB38-9CBE-4CA3-961B-EE39C2AE0C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1554DB38-9CBE-4CA3-961B-EE39C2AE0C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +70,7 @@ Global
 		{CD4D4081-7B33-4D8A-8073-56F9B439B176} = {4BBFDA53-D7DC-4A74-9178-254FE3355ABC}
 		{C9457F60-F11F-4E53-A246-DB661DA7EA84} = {4BBFDA53-D7DC-4A74-9178-254FE3355ABC}
 		{1554DB38-9CBE-4CA3-961B-EE39C2AE0C57} = {C9457F60-F11F-4E53-A246-DB661DA7EA84}
+		{48C42471-05D2-499C-ADCB-76B70E00D22B} = {4BBFDA53-D7DC-4A74-9178-254FE3355ABC}
+		{82966B8B-8A49-4E7A-B009-65DE5A6ADCD0} = {FB287301-9188-4D0B-AD85-C667D058B6DD}
 	EndGlobalSection
 EndGlobal
