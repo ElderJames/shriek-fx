@@ -11,7 +11,7 @@ namespace Shriek
     {
         public static IServiceCollection AddShriek(this IServiceCollection services)
         {
-            return services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()));
+            return services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()).AddClasses().AsImplementedInterfaces().AsSelf().WithScopedLifetime());
         }
     }
 }

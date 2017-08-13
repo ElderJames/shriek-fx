@@ -1,6 +1,4 @@
 ﻿using Shriek.Commands;
-using System.Runtime.InteropServices.ComTypes;
-using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -34,12 +34,14 @@ namespace Shriek.Utils
                 ////过滤掉“动态生成的”
                 if (assembly.IsDynamic) continue;
 
+                //匹配tyoe所在程序集
                 if (assembly.FullName == type.AssemblyQualifiedName.Replace(type.FullName + ", ", ""))
                 {
                     assemblies.Add(assembly);
                     continue;
                 }
 
+                //匹配引用了type的程序集
                 if (assembly.GetReferencedAssemblies().Any(ass => ass.FullName == type.AssemblyQualifiedName.Replace(type.FullName + ", ", "")))
                 {
                     assemblies.Add(assembly);
