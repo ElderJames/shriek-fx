@@ -4,4 +4,12 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="ConfigItemAggregateRoot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shriek\Shriek.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shriek.Domains
+namespace Shriek.Storage.Mementos
 {
     public class Memento<AggregateKey>
     {

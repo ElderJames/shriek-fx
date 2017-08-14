@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shriek.Utils
 {
-    internal static class Converter
+    public static class Converter
     {
         public static Action<object> Convert<T>(Action<T> myActionT)
         {

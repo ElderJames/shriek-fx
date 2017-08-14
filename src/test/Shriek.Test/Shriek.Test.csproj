@@ -10,6 +10,7 @@
         <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\core\Shriek.CMS.Domain\Shriek.ConfigCenter.Domain.csproj" />
         <ProjectReference Include="..\..\core\Shriek\Shriek.csproj" />
     </ItemGroup>
     <ItemGroup>

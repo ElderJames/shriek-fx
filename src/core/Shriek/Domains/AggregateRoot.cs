@@ -1,14 +1,11 @@
 ﻿using Shriek.Events;
-using Shriek.Storage.Mementos;
 using Shriek.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot<TAggregateKey> : IOriginator
+    public abstract class AggregateRoot<TAggregateKey> : IEventProvider<TAggregateKey>
     {
         private readonly List<Event<TAggregateKey>> _changes;
 
@@ -17,10 +14,10 @@ namespace Shriek.Domains
         public int Version { get; protected set; }
         public int EventVersion { get; protected set; }
 
-        public AggregateRoot(TAggregateKey key)
+        public AggregateRoot(TAggregateKey aggregateId)
         {
             _changes = new List<Event<TAggregateKey>>();
-            AggregateId = key;
+            AggregateId = aggregateId;
         }
 
         public override bool Equals(object obj)
@@ -56,7 +53,7 @@ namespace Shriek.Domains
 
         public override string ToString()
         {
-            return GetType().Name + " [Id=" + AggregateId + "]";
+            return GetType().Name + " [Id=" + AggregateId.ToString() + "]";
         }
 
         public void MarkChangesAsCommitted()
@@ -82,7 +79,7 @@ namespace Shriek.Domains
         protected void ApplyChange(Event<TAggregateKey> @event, bool isNew)
         {
             dynamic d = this;
-            d.Handle(@event.As(@event.GetType()));
+            d.Handle((dynamic)@event);
             if (isNew)
             {
                 _changes.Add(@event);
@@ -94,10 +91,10 @@ namespace Shriek.Domains
             return _changes;
         }
 
-        public abstract Memento GetMemento();
+        //public abstract Memento GetMemento();
 
-        public abstract void SetMemento(Memento memento);
+        //public abstract void SetMemento(Memento memento);
 
-        public bool CanCommit { get => _changes.Any(); }
+        public bool CanCommit => _changes.Any();
     }
 }
