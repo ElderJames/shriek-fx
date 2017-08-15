@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot<TAggregateKey> : IEventProvider<TAggregateKey>
+    public abstract class AggregateRoot<TAggregateKey> : IEventProvider<TAggregateKey>, IAggregateRoot
     {
         private readonly List<Event<TAggregateKey>> _changes;
 

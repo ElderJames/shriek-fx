@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Prerendering;
 using Microsoft.AspNetCore.NodeServices;
@@ -36,6 +36,7 @@ namespace Shriek.ConfigCenter.Web.Controllers
       var prerenderResult = await Prerenderer.RenderToString(
           "/",
           nodeServices,
+          new System.Threading.CancellationToken(true),
           new JavaScriptModuleExport(applicationBasePath + "/Client/dist/main-server"),
           unencodedAbsoluteUrl,
           unencodedPathAndQuery,
