@@ -18,16 +18,28 @@ namespace Shriek.Test
 
             services.AddShriek();
             services.AddScoped<IRepository<ConfigItemAggregateRoot>, Repository<ConfigItemAggregateRoot>>();
+            services.AddSingleton<IEventStorage, InMemoryEventStorage>();
 
             var bus = services.BuildServiceProvider().GetService<ICommandBus>();
 
             Assert.IsNotNull(bus);
 
-            bus.Send(new CreateConfigItemCommand(Guid.NewGuid())
+            var id = Guid.NewGuid();
+
+            var command = new CreateConfigItemCommand(id)
             {
                 Name = "ysj",
                 Value = "very good"
-            });
+            };
+            bus.Send(command);
+
+            var repository = services.BuildServiceProvider().GetService<IRepository<ConfigItemAggregateRoot>>();
+
+            var root = repository.GetById(id);
+
+            Assert.IsNotNull(root);
+            Assert.Equals(command.Name, root.Name);
+            Assert.Equals(command.Value, root.Value);
         }
     }
 }
