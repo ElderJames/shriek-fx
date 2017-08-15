@@ -1,28 +1,30 @@
-﻿using Shriek.Events;
+﻿using Shriek.Storage.Mementos;
+using Shriek.Events;
 using Shriek.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot<TAggregateKey> : IEventProvider<TAggregateKey>, IAggregateRoot
+    public abstract class AggregateRoot : IEventProvider, IAggregateRoot, IOriginator
     {
-        private readonly List<Event<TAggregateKey>> _changes;
+        private readonly List<Event> _changes;
 
-        public TAggregateKey AggregateId { get; protected set; }
+        public Guid AggregateId { get; protected set; }
 
-        public int Version { get; protected set; }
+        public int Version { get; protected set; } = -1;
         public int EventVersion { get; protected set; }
 
-        public AggregateRoot(TAggregateKey aggregateId)
+        public AggregateRoot(Guid aggregateId)
         {
-            _changes = new List<Event<TAggregateKey>>();
+            _changes = new List<Event>();
             AggregateId = aggregateId;
         }
 
         public override bool Equals(object obj)
         {
-            var compareTo = obj as AggregateRoot<TAggregateKey>;
+            var compareTo = obj as AggregateRoot;
 
             if (ReferenceEquals(this, compareTo)) return true;
             if (ReferenceEquals(null, compareTo)) return false;
@@ -30,7 +32,7 @@ namespace Shriek.Domains
             return AggregateId.Equals(compareTo.AggregateId);
         }
 
-        public static bool operator ==(AggregateRoot<TAggregateKey> a, AggregateRoot<TAggregateKey> b)
+        public static bool operator ==(AggregateRoot a, AggregateRoot b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -41,7 +43,7 @@ namespace Shriek.Domains
             return a.Equals(b);
         }
 
-        public static bool operator !=(AggregateRoot<TAggregateKey> a, AggregateRoot<TAggregateKey> b)
+        public static bool operator !=(AggregateRoot a, AggregateRoot b)
         {
             return !(a == b);
         }
@@ -61,7 +63,7 @@ namespace Shriek.Domains
             _changes.Clear();
         }
 
-        public void LoadsFromHistory(IEnumerable<Event<TAggregateKey>> history)
+        public void LoadsFromHistory(IEnumerable<Event> history)
         {
             foreach (var e in history)
             {
@@ -71,12 +73,12 @@ namespace Shriek.Domains
             EventVersion = Version;
         }
 
-        protected void ApplyChange(Event<TAggregateKey> @event)
+        protected void ApplyChange(Event @event)
         {
             ApplyChange(@event, true);
         }
 
-        protected void ApplyChange(Event<TAggregateKey> @event, bool isNew)
+        protected void ApplyChange(Event @event, bool isNew)
         {
             dynamic d = this;
             d.Handle((dynamic)@event);
@@ -86,14 +88,21 @@ namespace Shriek.Domains
             }
         }
 
-        public IEnumerable<Event<TAggregateKey>> GetUncommittedChanges()
+        public IEnumerable<Event> GetUncommittedChanges()
         {
             return _changes;
         }
 
-        //public abstract Memento GetMemento();
+        public Memento GetMemento()
+        {
+            var dict = this.ToMap();
+            return new Memento() { Id = AggregateId, Mapper = dict, Version = 0 };
+        }
 
-        //public abstract void SetMemento(Memento memento);
+        public void SetMemento(Memento memento)
+        {
+            memento.Mapper.ToObject(this.GetType());
+        }
 
         public bool CanCommit => _changes.Any();
     }

@@ -5,10 +5,10 @@ using Shriek.Events;
 
 namespace Shriek.Domains
 {
-    public interface IEventProvider<TAggregateId>
+    public interface IEventProvider
     {
-        void LoadsFromHistory(IEnumerable<Event<TAggregateId>> history);
+        void LoadsFromHistory(IEnumerable<Event> history);
 
-        IEnumerable<Event<TAggregateId>> GetUncommittedChanges();
+        IEnumerable<Event> GetUncommittedChanges();
     }
 }

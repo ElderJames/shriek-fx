@@ -1,4 +1,5 @@
-﻿using Shriek.Events;
+﻿using Shriek.Storage;
+using Shriek.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,9 +14,12 @@ namespace Shriek
     {
         public static IServiceCollection AddShriek(this IServiceCollection services)
         {
+            services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()).AddClasses().AsImplementedInterfaces().AsMatchingInterface().AsSelf().WithScopedLifetime());
+
             CommandBus.ContainerAccessor = () => services.BuildServiceProvider();
             EventBus.ContainerAccessor = () => services.BuildServiceProvider();
-            return services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()).AddClasses().AsImplementedInterfaces().AsSelf().WithScopedLifetime());
+
+            return services;
         }
     }
 }

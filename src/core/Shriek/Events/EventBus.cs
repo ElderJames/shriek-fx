@@ -11,17 +11,17 @@ namespace Shriek.Events
         public static Func<IServiceProvider> ContainerAccessor { get; set; }
         private static IServiceProvider Container => ContainerAccessor();
 
-        private readonly IEventStore _eventStore;
+        //private readonly IEventStorage _eventStore;
 
-        public EventBus(IEventStore eventStore)
-        {
-            _eventStore = eventStore;
-        }
+        //public EventBus(IEventStorage eventStore)
+        //{
+        //    _eventStore = eventStore;
+        //}
 
         public void Publish<T>(T @event) where T : Event
         {
-            if (!(@event is DomainNotification))
-                _eventStore?.Save(@event);
+            //if (!(@event is DomainNotification))
+            //    _eventStore?.Save(@event);
 
             var handlers = Container.GetServices<IEventHandler<T>>();
 

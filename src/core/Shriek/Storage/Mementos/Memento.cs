@@ -4,13 +4,11 @@ using System.Text;
 
 namespace Shriek.Storage.Mementos
 {
-    public class Memento<AggregateKey>
+    public class Memento
     {
-        public AggregateKey Id { get; set; }
+        public Guid Id { get; set; }
         public int Version { get; set; }
-    }
 
-    public class Memento : Memento<Guid>
-    {
+        public IDictionary<string, object> Mapper { get; set; }
     }
 }

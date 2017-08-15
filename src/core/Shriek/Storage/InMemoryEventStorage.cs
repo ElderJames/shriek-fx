@@ -8,7 +8,7 @@ using Shriek.Utils;
 
 namespace Shriek.Storage
 {
-    public class InMemoryEventStorage : IEventStore
+    public class InMemoryEventStorage : IEventStorage
     {
         private List<Event> _events;
         private List<Memento> _mementoes;
@@ -23,15 +23,15 @@ namespace Shriek.Storage
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
-            var events = _events.Where(p => p.AggregateId == aggregateId);
-            if (events.Count() == 0)
-            {
-                throw new Exception();
-            }
+            var events = _events.Where(p => p.AggregateId.Equals(aggregateId));
+            //if (events.Count() == 0)
+            //{
+            //    throw new Exception();
+            //}
             return events;
         }
 
-        public void Save<TKey>(AggregateRoot<TKey> aggregate)
+        public void Save(AggregateRoot aggregate)
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -54,14 +54,14 @@ namespace Shriek.Storage
             }
             foreach (var @event in uncommittedChanges)
             {
-                var desEvent = (Event<TKey>)@event.As(@event.GetType());
+                var desEvent = (dynamic)@event; /*(Event)@event.As(@event.GetType());*/
                 _eventBus.Publish(desEvent);
             }
         }
 
         public T GetMemento<T>(Guid aggregateId) where T : Memento
         {
-            var memento = _mementoes.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
+            var memento = _mementoes.Where(m => m.Id.Equals(aggregateId)).Select(m => m).LastOrDefault();
             if (memento != null)
             {
                 return (T)memento;
@@ -74,19 +74,24 @@ namespace Shriek.Storage
             _mementoes.Add(memento);
         }
 
-        public void Save<T>(T theEvent) where T : Event
+        public void Save<T>(T @event) where T : Event
         {
-            _events.Add(theEvent);
+            _events.Add(@event);
         }
 
-        public T GetMemento<T, TKey>(TKey aggregateId) where T : Memento
-        {
-            //var memento = _mementoes.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
-            //if (memento != null)
-            //{
-            //    return (T)memento;
-            //}
-            return default(T);
-        }
+        //public void Save<T>(T theEvent) where T : Event
+        //{
+        //    _events.Add(theEvent);
+        //}
+
+        //public T GetMemento<T>(TKey aggregateId) where T : Memento
+        //{
+        //    //var memento = _mementoes.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
+        //    //if (memento != null)
+        //    //{
+        //    //    return (T)memento;
+        //    //}
+        //    return default(T);
+        //}
     }
 }

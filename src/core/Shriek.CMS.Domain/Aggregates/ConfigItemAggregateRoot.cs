@@ -7,8 +7,12 @@ using Shriek.Storage.Mementos;
 
 namespace Shriek.ConfigCenter.Domain.Aggregates
 {
-    public class ConfigItemAggregateRoot : AggregateRoot<Guid>, IHandle<ConfigItemCreatedEvent>
+    public class ConfigItemAggregateRoot : AggregateRoot, IHandle<ConfigItemCreatedEvent>
     {
+        public ConfigItemAggregateRoot() : this(Guid.Empty)
+        {
+        }
+
         public ConfigItemAggregateRoot(Guid aggregateId) : base(aggregateId)
         {
         }
