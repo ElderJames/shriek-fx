@@ -1,133 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.DependencyInjection
 {
-    internal class LifetimeSelector : ILifetimeSelector, ISelector
+    internal sealed class LifetimeSelector : ServiceTypeSelector, ILifetimeSelector, ISelector
     {
-        public LifetimeSelector(IServiceTypeSelector serviceTypeSelector, IEnumerable<TypeMap> typeMaps)
+        public LifetimeSelector(IEnumerable<Type> types, IEnumerable<TypeMap> typeMaps) : base(types)
         {
-            ServiceTypeSelector = serviceTypeSelector;
             TypeMaps = typeMaps;
         }
 
         private IEnumerable<TypeMap> TypeMaps { get; }
 
         private ServiceLifetime? Lifetime { get; set; }
-
-        private IServiceTypeSelector ServiceTypeSelector { get; }
-
-        public IImplementationTypeSelector FromAssemblyOf<T>()
-        {
-            return ServiceTypeSelector.FromAssemblyOf<T>();
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(params Type[] types)
-        {
-            return ServiceTypeSelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(IEnumerable<Type> types)
-        {
-            return ServiceTypeSelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(params Assembly[] assemblies)
-        {
-            return ServiceTypeSelector.FromAssemblies(assemblies);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(IEnumerable<Assembly> assemblies)
-        {
-            return ServiceTypeSelector.FromAssemblies(assemblies);
-        }
-
-        public void AddFromAttributes()
-        {
-            ServiceTypeSelector.AddClasses().UsingAttributes();
-        }
-
-        public void AddFromAttributes(bool publicOnly)
-        {
-            ServiceTypeSelector.AddClasses(publicOnly).UsingAttributes();
-        }
-
-        public IServiceTypeSelector AddClasses()
-        {
-            return ServiceTypeSelector.AddClasses();
-        }
-
-        public IServiceTypeSelector AddClasses(bool publicOnly)
-        {
-            return ServiceTypeSelector.AddClasses(publicOnly);
-        }
-
-        public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action)
-        {
-            return ServiceTypeSelector.AddClasses(action);
-        }
-
-        public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action, bool publicOnly)
-        {
-            return ServiceTypeSelector.AddClasses(action, publicOnly);
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action)
-        {
-            ServiceTypeSelector.AddClasses(action).UsingAttributes();
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action, bool publicOnly)
-        {
-            ServiceTypeSelector.AddClasses(action, publicOnly).UsingAttributes();
-        }
-
-        public ILifetimeSelector AsSelf()
-        {
-            return ServiceTypeSelector.AsSelf();
-        }
-
-        public ILifetimeSelector As<T>()
-        {
-            return ServiceTypeSelector.As<T>();
-        }
-
-        public ILifetimeSelector As(params Type[] types)
-        {
-            return ServiceTypeSelector.As(types);
-        }
-
-        public ILifetimeSelector As(IEnumerable<Type> types)
-        {
-            return ServiceTypeSelector.As(types);
-        }
-
-        public ILifetimeSelector AsImplementedInterfaces()
-        {
-            return ServiceTypeSelector.AsImplementedInterfaces();
-        }
-
-        public ILifetimeSelector AsMatchingInterface()
-        {
-            return ServiceTypeSelector.AsMatchingInterface();
-        }
-
-        public ILifetimeSelector AsMatchingInterface(Action<TypeInfo, IImplementationTypeFilter> action)
-        {
-            return ServiceTypeSelector.AsMatchingInterface(action);
-        }
-
-        public IImplementationTypeSelector UsingAttributes()
-        {
-            return ServiceTypeSelector.UsingAttributes();
-        }
-
-        public ILifetimeSelector As(Func<Type, IEnumerable<Type>> selector)
-        {
-            return ServiceTypeSelector.As(selector);
-        }
 
         public IImplementationTypeSelector WithSingletonLifetime()
         {
@@ -146,21 +32,20 @@ namespace Shriek.DependencyInjection
 
         public IImplementationTypeSelector WithLifetime(ServiceLifetime lifetime)
         {
+            Preconditions.IsDefined(lifetime, nameof(lifetime));
+
             Lifetime = lifetime;
             return this;
         }
 
-        void ISelector.Populate(IServiceCollection services)
+        void ISelector.Populate(IServiceCollection services, RegistrationStrategy strategy)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
             if (!Lifetime.HasValue)
             {
                 Lifetime = ServiceLifetime.Transient;
             }
+
+            strategy = strategy ?? RegistrationStrategy.Append;
 
             foreach (var typeMap in TypeMaps)
             {
@@ -168,9 +53,14 @@ namespace Shriek.DependencyInjection
                 {
                     var implementationType = typeMap.ImplementationType;
 
+                    if (!implementationType.IsAssignableTo(serviceType))
+                    {
+                        throw new InvalidOperationException($@"Type ""{implementationType.FullName}"" is not assignable to ""${serviceType.FullName}"".");
+                    }
+
                     var descriptor = new ServiceDescriptor(serviceType, implementationType, Lifetime.Value);
 
-                    services.Add(descriptor);
+                    strategy.Apply(services, descriptor);
                 }
             }
         }

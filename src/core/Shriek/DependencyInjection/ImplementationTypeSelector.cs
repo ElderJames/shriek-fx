@@ -1,90 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.DependencyInjection
 {
-    internal class ImplementationTypeSelector : IImplementationTypeSelector, ISelector
+    internal class ImplementationTypeSelector : TypeSourceSelector, IImplementationTypeSelector, ISelector
     {
-        public ImplementationTypeSelector(IAssemblySelector assemblySelector, IEnumerable<Type> types)
+        protected ImplementationTypeSelector(IEnumerable<Type> types)
         {
-            AssemblySelector = assemblySelector;
             Types = types;
-            Selectors = new List<ISelector>();
         }
 
-        private IEnumerable<Type> Types { get; }
-
-        private List<ISelector> Selectors { get; }
-
-        private IAssemblySelector AssemblySelector { get; }
-
-        public IImplementationTypeSelector FromAssemblyOf<T>()
-        {
-            return AssemblySelector.FromAssemblyOf<T>();
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(params Type[] types)
-        {
-            return AssemblySelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(IEnumerable<Type> types)
-        {
-            return AssemblySelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(params Assembly[] assemblies)
-        {
-            return AssemblySelector.FromAssemblies(assemblies);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(IEnumerable<Assembly> assemblies)
-        {
-            return AssemblySelector.FromAssemblies(assemblies);
-        }
-
-        public void AddFromAttributes()
-        {
-            AddFromAttributes(publicOnly: false);
-        }
-
-        public void AddFromAttributes(bool publicOnly)
-        {
-            Selectors.Add(new AttributeSelector(GetNonAbstractClasses(publicOnly)));
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action)
-        {
-            AddFromAttributes(action, publicOnly: false);
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action, bool publicOnly)
-        {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            var filter = new ImplementationTypeFilter(GetNonAbstractClasses(publicOnly));
-
-            action(filter);
-
-            var selector = new AttributeSelector(filter.Types);
-
-            Selectors.Add(selector);
-        }
+        protected IEnumerable<Type> Types { get; }
 
         public IServiceTypeSelector AddClasses()
         {
-            return AddClasses(publicOnly: false);
+            return AddClasses(publicOnly: true);
         }
 
         public IServiceTypeSelector AddClasses(bool publicOnly)
         {
-            return AddSelector(GetNonAbstractClasses(publicOnly));
+            var classes = GetNonAbstractClasses(publicOnly);
+
+            return AddSelector(classes);
         }
 
         public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action)
@@ -94,34 +33,33 @@ namespace Shriek.DependencyInjection
 
         public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action, bool publicOnly)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Preconditions.NotNull(action, nameof(action));
 
-            var filter = new ImplementationTypeFilter(GetNonAbstractClasses(publicOnly));
+            var classes = GetNonAbstractClasses(publicOnly);
+
+            var filter = new ImplementationTypeFilter(classes);
 
             action(filter);
 
             return AddSelector(filter.Types);
         }
 
-        void ISelector.Populate(IServiceCollection services)
+        void ISelector.Populate(IServiceCollection services, RegistrationStrategy registrationStrategy)
         {
-            if (services == null)
+            if (Selectors.Count == 0)
             {
-                throw new ArgumentNullException(nameof(services));
+                AddClasses();
             }
 
             foreach (var selector in Selectors)
             {
-                selector.Populate(services);
+                selector.Populate(services, registrationStrategy);
             }
         }
 
         private IServiceTypeSelector AddSelector(IEnumerable<Type> types)
         {
-            var selector = new ServiceTypeSelector(this, types);
+            var selector = new ServiceTypeSelector(types);
 
             Selectors.Add(selector);
 

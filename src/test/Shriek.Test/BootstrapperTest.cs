@@ -17,8 +17,6 @@ namespace Shriek.Test
             var services = new ServiceCollection();
 
             services.AddShriek();
-            services.AddScoped<IRepository<ConfigItemAggregateRoot>, Repository<ConfigItemAggregateRoot>>();
-            services.AddSingleton<IEventStorage, InMemoryEventStorage>();
 
             var bus = services.BuildServiceProvider().GetService<ICommandBus>();
 

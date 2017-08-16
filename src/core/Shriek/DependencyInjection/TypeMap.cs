@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Shriek.DependencyInjection
 {
-    internal class TypeMap
+    internal struct TypeMap
     {
         public TypeMap(Type implementationType, IEnumerable<Type> serviceTypes)
         {

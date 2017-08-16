@@ -29,6 +29,27 @@ namespace Shriek.DependencyInjection
             return false;
         }
 
+        public static IEnumerable<Type> GetBaseTypes(this Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+
+            foreach (var implementedInterface in typeInfo.ImplementedInterfaces)
+            {
+                yield return implementedInterface;
+            }
+
+            var baseType = typeInfo.BaseType;
+
+            while (baseType != null)
+            {
+                var baseTypeInfo = baseType.GetTypeInfo();
+
+                yield return baseType;
+
+                baseType = baseTypeInfo.BaseType;
+            }
+        }
+
         public static bool IsInNamespace(this Type type, string @namespace)
         {
             var typeNamespace = type.Namespace ?? string.Empty;
@@ -70,9 +91,17 @@ namespace Shriek.DependencyInjection
             var typeInfo = type.GetTypeInfo();
             var otherTypeInfo = otherType.GetTypeInfo();
 
-            return otherTypeInfo.IsGenericTypeDefinition
-                ? typeInfo.IsAssignableToGenericTypeDefinition(otherTypeInfo)
-                : otherTypeInfo.IsAssignableFrom(typeInfo);
+            if (otherTypeInfo.IsGenericTypeDefinition)
+            {
+                if (typeInfo.IsGenericTypeDefinition)
+                {
+                    return typeInfo.Equals(otherTypeInfo);
+                }
+
+                return typeInfo.IsAssignableToGenericTypeDefinition(otherTypeInfo);
+            }
+
+            return otherTypeInfo.IsAssignableFrom(typeInfo);
         }
 
         private static bool IsAssignableToGenericTypeDefinition(this TypeInfo typeInfo, TypeInfo genericTypeInfo)
@@ -87,7 +116,7 @@ namespace Shriek.DependencyInjection
                         .GetGenericTypeDefinition()
                         .GetTypeInfo();
 
-                    if (typeDefinitionTypeInfo == genericTypeInfo)
+                    if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
                     {
                         return true;
                     }
@@ -100,7 +129,7 @@ namespace Shriek.DependencyInjection
                     .GetGenericTypeDefinition()
                     .GetTypeInfo();
 
-                if (typeDefinitionTypeInfo == genericTypeInfo)
+                if (typeDefinitionTypeInfo.Equals(genericTypeInfo))
                 {
                     return true;
                 }
@@ -197,6 +226,11 @@ namespace Shriek.DependencyInjection
             }
 
             return true;
+        }
+
+        public static bool IsOpenGeneric(this Type type)
+        {
+            return type.GetTypeInfo().IsGenericTypeDefinition;
         }
     }
 }

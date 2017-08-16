@@ -2,45 +2,77 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+#if DEPENDENCY_MODEL
+using Microsoft.Extensions.DependencyModel;
+#endif
+
 namespace Shriek.DependencyInjection
 {
-    /// <summary>
-    /// 程序集选择器
-    /// </summary>
     public interface IAssemblySelector : IFluentInterface
     {
+#if NET451
         /// <summary>
-        /// 将从类型 <typeparamref name="T"/> 所在程序集扫描类型.
+        /// Will scan for types from the calling assembly.
         /// </summary>
-        /// <typeparam name="T">需要扫描的程序集中的一个类型。</typeparam>
+        IImplementationTypeSelector FromCallingAssembly();
+
+        /// <summary>
+        /// Will scan for types from the currently executing assembly.
+        /// </summary>
+        IImplementationTypeSelector FromExecutingAssembly();
+#endif
+
+#if DEPENDENCY_MODEL
+        /// <summary>
+        /// Will scan for types from the entry assembly.
+        /// </summary>
+        IImplementationTypeSelector FromEntryAssembly();
+
+        /// <summary>
+        /// Will load and scan all runtime libraries referenced by the currently executing application.
+        /// Calling this method is equivalent to calling <see cref="FromDependencyContext"/> and passing in <see cref="DependencyContext.Default"/>.
+        /// </summary>
+        IImplementationTypeSelector FromApplicationDependencies();
+
+        /// <summary>
+        /// Will load and scan all runtime libraries in the given <paramref name="context"/>.
+        /// </summary>
+        /// <param name="context">The dependency context.</param>
+        IImplementationTypeSelector FromDependencyContext(DependencyContext context);
+#endif
+
+        /// <summary>
+        /// Will scan for types from the assembly of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type in which assembly that should be scanned.</typeparam>
         IImplementationTypeSelector FromAssemblyOf<T>();
 
         /// <summary>
-        /// 将扫描参数 <paramref name="types"/> 里的每个 <see cref="Type"/> 类型所在的程序集中的类型。
+        /// Will scan for types from the assemblies of each <see cref="Type"/> in <paramref name="types"/>.
         /// </summary>
-        /// <param name="types">类型数组，将扫描他们所在的程序集。</param>
-        /// <exception cref="ArgumentNullException">当参数 <paramref name="types"/> 的值为 <c>null</c>.</exception>
+        /// <param name="types">The types in which assemblies that should be scanned.</param>
+        /// <exception cref="ArgumentNullException">If the <paramref name="types"/> argument is <c>null</c>.</exception>
         IImplementationTypeSelector FromAssembliesOf(params Type[] types);
 
         /// <summary>
-        /// 将扫描参数 <paramref name="types"/> 里的每个<see cref="Type"/> 类型所在的程序集中的类型。
+        /// Will scan for types from the assemblies of each <see cref="Type"/> in <paramref name="types"/>.
         /// </summary>
-        /// <param name="types">类型列表，将扫描他们所在的程序集。</param>
-        /// <exception cref="ArgumentNullException">当参数 <paramref name="types"/> 的值为 <c>null</c>.</exception>
+        /// <param name="types">The types in which assemblies that should be scanned.</param>
+        /// <exception cref="ArgumentNullException">If the <paramref name="types"/> argument is <c>null</c>.</exception>
         IImplementationTypeSelector FromAssembliesOf(IEnumerable<Type> types);
 
         /// <summary>
-        /// 将在 <paramref name="assemblies"/> 中的每个 <see cref="Assembly"/> 中扫描类型。
+        /// Will scan for types in each <see cref="Assembly"/> in <paramref name="assemblies"/>.
         /// </summary>
-        /// <param name="assemblies">需要扫描的程序集</param>
-        /// <exception cref="ArgumentNullException">当参数 <paramref name="assemblies"/> 的值为 <c>null</c>.</exception>
+        /// <param name="assemblies">The assemblies to should be scanned.</param>
+        /// <exception cref="ArgumentNullException">If the <paramref name="assemblies"/> argument is <c>null</c>.</exception>
         IImplementationTypeSelector FromAssemblies(params Assembly[] assemblies);
 
         /// <summary>
-        /// 将从 <paramref name="assemblies"/> 中的每个 <see cref="Assembly"/> 中扫描类型。
+        /// Will scan for types in each <see cref="Assembly"/> in <paramref name="assemblies"/>.
         /// </summary>
-        /// <param name="assemblies">需要扫描的程序集</param>
-        /// <exception cref="ArgumentNullException">当参数 <paramref name="assemblies"/> 的值为 <c>null</c>.</exception>
+        /// <param name="assemblies">The assemblies to should be scanned.</param>
+        /// <exception cref="ArgumentNullException">If the <paramref name="assemblies"/> argument is <c>null</c>.</exception>
         IImplementationTypeSelector FromAssemblies(IEnumerable<Assembly> assemblies);
     }
 }

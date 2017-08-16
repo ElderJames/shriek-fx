@@ -16,6 +16,12 @@ namespace Shriek
         {
             services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()).AddClasses().AsImplementedInterfaces().AsMatchingInterface().AsSelf().WithScopedLifetime());
 
+            //services.Scan(scan => scan.FromAssemblyOf<IEventStorage>().AddClasses(x => x.AssignableTo<IEventStorage>()).UsingRegistrationStrategy(RegistrationStrategy.Replace()).AsImplementedInterfaces().WithSingletonLifetime());
+            //services.AddScoped<ICommandBus, CommandBus>();
+            //services.AddScoped<IEventBus, EventBus>();
+            services.AddSingleton<IEventStorage, InMemoryEventStorage>();
+            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+
             CommandBus.ContainerAccessor = () => services.BuildServiceProvider();
             EventBus.ContainerAccessor = () => services.BuildServiceProvider();
 

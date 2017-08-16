@@ -4,47 +4,37 @@ using System.Reflection;
 
 namespace Shriek.DependencyInjection
 {
-    /// <summary>
-    /// 服务选择器，用于确定服务的类型、接口、特性等。
-    /// </summary>
     public interface IServiceTypeSelector : IImplementationTypeSelector
     {
         /// <summary>
-        /// 注册每个类型与自身的类型映射.
+        /// Registers each matching concrete type as itself.
         /// </summary>
         ILifetimeSelector AsSelf();
 
         /// <summary>
-        /// 注册每个类型与 <typeparamref name="T"/>类型映射.
+        /// Registers each matching concrete type as <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">类型（一般为接口）</typeparam>
+        /// <typeparam name="T">The type to register as.</typeparam>
         ILifetimeSelector As<T>();
 
         /// <summary>
-        /// 注册多对多的类型映射关系根据 <paramref name="types" />.
+        /// Registers each matching concrete type as each of the specified <paramref name="types" />.
         /// </summary>
-        /// <param name="types">要匹配的类型列表</param>
+        /// <param name="types">The types to register as.</param>
         /// <exception cref="ArgumentNullException">If the <paramref name="types"/> argument is <c>null</c>.</exception>
         ILifetimeSelector As(params Type[] types);
 
         /// <summary>
-        /// 注册多对多的类型映射关系根据 <paramref name="types" />.
+        /// Registers each matching concrete type as each of the specified <paramref name="types" />.
         /// </summary>
-        /// <param name="types">要匹配的类型列表</param>
+        /// <param name="types">The types to register as.</param>
         /// <exception cref="ArgumentNullException">If the <paramref name="types"/> argument is <c>null</c>.</exception>
         ILifetimeSelector As(IEnumerable<Type> types);
 
         /// <summary>
-        /// 注册每个类型与自身的接口类型映射.
+        /// Registers each matching concrete type as all of its implemented interfaces.
         /// </summary>
         ILifetimeSelector AsImplementedInterfaces();
-
-        /// <summary>
-        /// 注册多对多的类型映射关系根据 <paramref name="selector"/> function，确定自定义的映射关系.
-        /// </summary>
-        /// <param name="selector">选择器代理用于确定类与继承类或接口的关系映射</param>
-        /// <exception cref="ArgumentNullException">If the <paramref name="selector"/> argument is <c>null</c>.</exception>
-        ILifetimeSelector As(Func<Type, IEnumerable<Type>> selector);
 
         /// <summary>
         /// Registers the type with the first found matching interface name.  (e.g. ClassName is matched to IClassName)
@@ -52,14 +42,24 @@ namespace Shriek.DependencyInjection
         ILifetimeSelector AsMatchingInterface();
 
         /// <summary>
-        /// Registers the type with the first found matching interface name.  (e.g. ClassName is matched to IClassName) 
+        /// Registers the type with the first found matching interface name.  (e.g. ClassName is matched to IClassName)
         /// </summary>
         /// <param name="action">Filter for matching the Type to an implementing interface</param>
         ILifetimeSelector AsMatchingInterface(Action<TypeInfo, IImplementationTypeFilter> action);
 
         /// <summary>
-        /// 根据<see cref="ServiceDescriptorAttribute"/>注册类型映射.
+        /// Registers each matching concrete type as each of the types returned
+        /// from the <paramref name="selector"/> function.
+        /// </summary>
+        /// <param name="selector">A function to select service types based on implementation types.</param>
+        /// <exception cref="ArgumentNullException">If the <paramref name="selector"/> argument is <c>null</c>.</exception>
+        ILifetimeSelector As(Func<Type, IEnumerable<Type>> selector);
+
+        /// <summary>
+        /// Registers each matching concrete type according to their <see cref="ServiceDescriptorAttribute"/>.
         /// </summary>
         IImplementationTypeSelector UsingAttributes();
+
+        IServiceTypeSelector UsingRegistrationStrategy(RegistrationStrategy registrationStrategy);
     }
 }

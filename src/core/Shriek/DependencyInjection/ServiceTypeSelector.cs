@@ -6,85 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.DependencyInjection
 {
-    internal class ServiceTypeSelector : IServiceTypeSelector, ISelector
+    internal class ServiceTypeSelector : ImplementationTypeSelector, IServiceTypeSelector, ISelector
     {
-        public ServiceTypeSelector(IImplementationTypeSelector implementationTypeSelector, IEnumerable<Type> types)
+        public ServiceTypeSelector(IEnumerable<Type> types) : base(types)
         {
-            ImplementationTypeSelector = implementationTypeSelector;
-            Types = types;
-            Selectors = new List<ISelector>();
         }
 
-        private IEnumerable<Type> Types { get; }
-
-        private List<ISelector> Selectors { get; }
-
-        private IImplementationTypeSelector ImplementationTypeSelector { get; }
-
-        public IImplementationTypeSelector FromAssemblyOf<T>()
-        {
-            return ImplementationTypeSelector.FromAssemblyOf<T>();
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(params Type[] types)
-        {
-            return ImplementationTypeSelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssembliesOf(IEnumerable<Type> types)
-        {
-            return ImplementationTypeSelector.FromAssembliesOf(types);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(params Assembly[] assemblies)
-        {
-            return ImplementationTypeSelector.FromAssemblies(assemblies);
-        }
-
-        public IImplementationTypeSelector FromAssemblies(IEnumerable<Assembly> assemblies)
-        {
-            return ImplementationTypeSelector.FromAssemblies(assemblies);
-        }
-
-        public void AddFromAttributes()
-        {
-            ImplementationTypeSelector.AddClasses().UsingAttributes();
-        }
-
-        public void AddFromAttributes(bool publicOnly)
-        {
-            ImplementationTypeSelector.AddClasses(publicOnly).UsingAttributes();
-        }
-
-        public IServiceTypeSelector AddClasses()
-        {
-            return ImplementationTypeSelector.AddClasses();
-        }
-
-        public IServiceTypeSelector AddClasses(bool publicOnly)
-        {
-            return ImplementationTypeSelector.AddClasses(publicOnly);
-        }
-
-        public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action)
-        {
-            return ImplementationTypeSelector.AddClasses(action);
-        }
-
-        public IServiceTypeSelector AddClasses(Action<IImplementationTypeFilter> action, bool publicOnly)
-        {
-            return ImplementationTypeSelector.AddClasses(action, publicOnly);
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action)
-        {
-            ImplementationTypeSelector.AddClasses(action).UsingAttributes();
-        }
-
-        public void AddFromAttributes(Action<IImplementationTypeFilter> action, bool publicOnly)
-        {
-            ImplementationTypeSelector.AddClasses(action, publicOnly).UsingAttributes();
-        }
+        private RegistrationStrategy RegistrationStrategy { get; set; }
 
         public ILifetimeSelector AsSelf()
         {
@@ -98,20 +26,14 @@ namespace Shriek.DependencyInjection
 
         public ILifetimeSelector As(params Type[] types)
         {
-            if (types == null)
-            {
-                throw new ArgumentNullException(nameof(types));
-            }
+            Preconditions.NotNull(types, nameof(types));
 
             return As(types.AsEnumerable());
         }
 
         public ILifetimeSelector As(IEnumerable<Type> types)
         {
-            if (types == null)
-            {
-                throw new ArgumentNullException(nameof(types));
-            }
+            Preconditions.NotNull(types, nameof(types));
 
             return AddSelector(Types.Select(t => new TypeMap(t, types)));
         }
@@ -119,48 +41,6 @@ namespace Shriek.DependencyInjection
         public ILifetimeSelector AsImplementedInterfaces()
         {
             return AsTypeInfo(t => t.ImplementedInterfaces);
-        }
-
-        public ILifetimeSelector As(Func<Type, IEnumerable<Type>> selector)
-        {
-            if (selector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
-            return AddSelector(Types.Select(t => new TypeMap(t, selector(t))));
-        }
-
-        void ISelector.Populate(IServiceCollection services)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (Selectors.Count == 0)
-            {
-                AsSelf();
-            }
-
-            foreach (var selector in Selectors)
-            {
-                selector.Populate(services);
-            }
-        }
-
-        private ILifetimeSelector AddSelector(IEnumerable<TypeMap> types)
-        {
-            var lifetimeSelector = new LifetimeSelector(this, types);
-
-            Selectors.Add(lifetimeSelector);
-
-            return lifetimeSelector;
-        }
-
-        private ILifetimeSelector AsTypeInfo(Func<TypeInfo, IEnumerable<Type>> selector)
-        {
-            return As(t => selector(t.GetTypeInfo()));
         }
 
         public ILifetimeSelector AsMatchingInterface()
@@ -173,13 +53,57 @@ namespace Shriek.DependencyInjection
             return AsTypeInfo(t => t.FindMatchingInterface(action));
         }
 
+        public ILifetimeSelector As(Func<Type, IEnumerable<Type>> selector)
+        {
+            Preconditions.NotNull(selector, nameof(selector));
+
+            return AddSelector(Types.Select(t => new TypeMap(t, selector(t))));
+        }
+
         public IImplementationTypeSelector UsingAttributes()
         {
             var selector = new AttributeSelector(Types);
 
             Selectors.Add(selector);
 
-            return ImplementationTypeSelector;
+            return this;
+        }
+
+        public IServiceTypeSelector UsingRegistrationStrategy(RegistrationStrategy registrationStrategy)
+        {
+            Preconditions.NotNull(registrationStrategy, nameof(registrationStrategy));
+
+            RegistrationStrategy = registrationStrategy;
+            return this;
+        }
+
+        void ISelector.Populate(IServiceCollection services, RegistrationStrategy registrationStrategy)
+        {
+            if (Selectors.Count == 0)
+            {
+                AsSelf();
+            }
+
+            var strategy = RegistrationStrategy ?? registrationStrategy;
+
+            foreach (var selector in Selectors)
+            {
+                selector.Populate(services, strategy);
+            }
+        }
+
+        private ILifetimeSelector AddSelector(IEnumerable<TypeMap> types)
+        {
+            var selector = new LifetimeSelector(Types, types);
+
+            Selectors.Add(selector);
+
+            return selector;
+        }
+
+        private ILifetimeSelector AsTypeInfo(Func<TypeInfo, IEnumerable<Type>> selector)
+        {
+            return As(t => selector(t.GetTypeInfo()));
         }
     }
 }
