@@ -39,6 +39,7 @@ namespace Shriek.Storage
                 //获取所有历史更改记录
                 events = _eventStorage.GetEvents(id);
             }
+
             //重现历史更改
             obj.LoadsFromHistory(events);
             return obj;

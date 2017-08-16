@@ -6,6 +6,6 @@ namespace Shriek.Events
 {
     internal interface IEvent<TAggregateId>
     {
-        TAggregateId Id { get; }
+        TAggregateId AggregateId { get; }
     }
 }

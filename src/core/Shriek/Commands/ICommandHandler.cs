@@ -6,6 +6,6 @@ namespace Shriek.Commands
 {
     public interface ICommandHandler<TCommand> where TCommand : Command
     {
-        void Execute(TCommand command);
+        void Execute(ICommandContext context, TCommand command);
     }
 }

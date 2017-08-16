@@ -8,8 +8,8 @@ namespace Shriek.Events
 {
     public class EventBus : IEventBus
     {
-        public static Func<IServiceProvider> ContainerAccessor { get; set; }
-        private static IServiceProvider Container => ContainerAccessor();
+        //public static Func<IServiceProvider> ContainerAccessor { get; set; }
+        //private static IServiceProvider Container => ContainerAccessor();
 
         //private readonly IEventStorage _eventStore;
 
@@ -17,6 +17,12 @@ namespace Shriek.Events
         //{
         //    _eventStore = eventStore;
         //}
+        private IServiceProvider Container;
+
+        public EventBus(IServiceProvider Container)
+        {
+            this.Container = Container;
+        }
 
         public void Publish<T>(T @event) where T : Event
         {

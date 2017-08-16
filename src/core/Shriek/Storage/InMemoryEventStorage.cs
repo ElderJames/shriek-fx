@@ -23,7 +23,7 @@ namespace Shriek.Storage
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
-            var events = _events.Where(p => p.AggregateId.Equals(aggregateId));
+            var events = _events.Where(p => p.AggregateId == aggregateId);
             //if (events.Count() == 0)
             //{
             //    throw new Exception();

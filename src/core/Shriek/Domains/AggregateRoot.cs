@@ -69,7 +69,7 @@ namespace Shriek.Domains
             {
                 ApplyChange(e, false);
             }
-            Version = history.Last().Version;
+            Version = history.LastOrDefault()?.Version ?? 0;
             EventVersion = Version;
         }
 

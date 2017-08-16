@@ -40,6 +40,7 @@ namespace Shriek.ConfigCenter.Domain.Aggregates
 
         public void Handle(ConfigItemCreatedEvent e)
         {
+            this.AggregateId = e.AggregateId;
             this.Name = e.Name;
             this.Value = e.Value;
         }

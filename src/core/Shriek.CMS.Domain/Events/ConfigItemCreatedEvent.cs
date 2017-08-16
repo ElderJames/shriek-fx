@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Shriek.ConfigCenter.Domain.Events
 {
-    public class ConfigItemCreatedEvent : Event<Guid>
+    public class ConfigItemCreatedEvent : Event
     {
         public string Name { get; set; }
 

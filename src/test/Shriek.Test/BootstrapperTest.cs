@@ -18,7 +18,9 @@ namespace Shriek.Test
 
             services.AddShriek();
 
-            var bus = services.BuildServiceProvider().GetService<ICommandBus>();
+            var container = services.BuildServiceProvider();
+
+            var bus = container.GetService<ICommandBus>();
 
             Assert.IsNotNull(bus);
 
@@ -31,13 +33,13 @@ namespace Shriek.Test
             };
             bus.Send(command);
 
-            var repository = services.BuildServiceProvider().GetService<IRepository<ConfigItemAggregateRoot>>();
+            var repository = container.GetService<IRepository<ConfigItemAggregateRoot>>();
 
             var root = repository.GetById(id);
 
             Assert.IsNotNull(root);
-            Assert.Equals(command.Name, root.Name);
-            Assert.Equals(command.Value, root.Value);
+            Assert.AreEqual(command.Name, root.Name);
+            Assert.AreEqual(command.Value, root.Value);
         }
     }
 }

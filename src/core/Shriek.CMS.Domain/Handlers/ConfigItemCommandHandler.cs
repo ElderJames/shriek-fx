@@ -11,18 +11,18 @@ namespace Shriek.ConfigCenter.Domain.Handlers
 {
     public class ConfigItemCommandHandler : ICommandHandler<CreateConfigItemCommand>
     {
-        private IRepository<ConfigItemAggregateRoot> repository;
+        //private IRepository<ConfigItemAggregateRoot> repository;
 
-        public ConfigItemCommandHandler(IRepository<ConfigItemAggregateRoot> repository)
+        public ConfigItemCommandHandler()
         {
-            this.repository = repository;
+            //this.repository = repository;
         }
 
-        public void Execute(CreateConfigItemCommand command)
+        public void Execute(ICommandContext context, CreateConfigItemCommand command)
         {
-            var root = ConfigItemAggregateRoot.Register(command);
+            var root = context.GetAggregateRoot(command.AggregateId, () => ConfigItemAggregateRoot.Register(command));
 
-            repository.Save(root, root.Version);
+            // repository.Save(root, root.Version);
         }
     }
 }

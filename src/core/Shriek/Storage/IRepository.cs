@@ -5,7 +5,7 @@ using Shriek.Domains;
 
 namespace Shriek.Storage
 {
-    public interface IRepository<T> where T : AggregateRoot, new()
+    public interface IRepository<T> where T : IAggregateRoot, new()
     {
         void Save(AggregateRoot aggregate, int expectedVersion);
 

@@ -1,4 +1,6 @@
-﻿using Shriek.Storage;
+﻿using Shriek.Domains;
+using System.Runtime.InteropServices.ComTypes;
+using Shriek.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,26 +9,27 @@ namespace Shriek.Commands
 {
     public class CommandContext : ICommandContext
     {
+        private IServiceProvider Container;
+
+        public CommandContext(IServiceProvider Container)
+        {
+            this.Container = Container;
+        }
+
         public IDictionary<string, object> Items => new Dictionary<string, object>();
 
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRootKey, TAggregateRoot>(TAggregateRootKey key)
+        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository)
         {
-            throw new NotImplementedException();
-        }
+            var repository = Container.GetService(typeof(IRepository<TAggregateRoot>)) as IRepository<TAggregateRoot>;
 
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRootKey, TAggregateRoot>(IAggregateCommand<TAggregateRootKey> command)
-        {
-            throw new NotImplementedException();
-        }
+            if (repository != null)
+            {
+                var root = repository.GetById(key);
+                if (root != null)
+                    return root;
+            }
 
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRootKey, TAggregateRoot>(TAggregateRootKey key, Func<TAggregateRoot> initFromRepository)
-        {
-            throw new NotImplementedException();
-        }
-
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRootKey, TAggregateRoot>(IAggregateCommand<TAggregateRootKey> command, Func<TAggregateRoot> initFromRepository)
-        {
-            throw new NotImplementedException();
+            return initFromRepository();
         }
     }
 }
