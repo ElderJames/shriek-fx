@@ -32,11 +32,14 @@ namespace Shriek.ConfigCenter.Web.Controllers
       transferData.thisCameFromDotNET = "Hi Angular it's asp.net :)";
       // Add more customData here, add it to the TransferData class
 
+      System.Threading.CancellationTokenSource cancelSource = new System.Threading.CancellationTokenSource();
+      System.Threading.CancellationToken cancelToken = cancelSource.Token;
+
       // Prerender / Serialize application (with Universal)
       var prerenderResult = await Prerenderer.RenderToString(
           "/",
           nodeServices,
-          new System.Threading.CancellationToken(true),
+          cancelToken,
           new JavaScriptModuleExport(applicationBasePath + "/Client/dist/main-server"),
           unencodedAbsoluteUrl,
           unencodedPathAndQuery,
