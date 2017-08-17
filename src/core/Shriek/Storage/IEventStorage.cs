@@ -7,7 +7,7 @@ using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {
-    public interface IEventStorage
+    internal interface IEventStorage
     {
         T GetMemento<T>(Guid aggregateId) where T : Memento;
 
@@ -15,7 +15,7 @@ namespace Shriek.Storage
 
         IEnumerable<Event> GetEvents(Guid aggregateId);
 
-        void Save(AggregateRoot aggreagate);
+        void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggreagate) where TAggregateRoot : IAggregateRoot, IEventProvider;
 
         void Save<T>(T @event) where T : Event;
     }

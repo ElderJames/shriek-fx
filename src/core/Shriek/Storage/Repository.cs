@@ -45,7 +45,7 @@ namespace Shriek.Storage
             return obj;
         }
 
-        public void Save(AggregateRoot aggregate, int expectedVersion)
+        public void Save(AggregateRoot aggregate)
         {
             if (aggregate.GetUncommittedChanges().Any())
             {
@@ -53,19 +53,19 @@ namespace Shriek.Storage
                 lock (_lock)
                 {
                     //如果不是新增事件
-                    if (expectedVersion != -1)
+                    if (aggregate.Version != -1)
                     {
                         //从历史更改中回滚该聚合根的最后更改状态
                         var item = GetById(aggregate.AggregateId);
                         //如果正要执行的状态与历史中最后一次更改的状态不同，则抛异常，不执行这次更改
                         //（更改命令不会修改version，只有保存更改后聚合根记录的版本才被更新）
-                        if (item.Version != expectedVersion)
+                        if (item.Version != aggregate.Version)
                         {
-                            throw new Exception();
+                            throw new Exception("与已保存的版本相同，无需更新");
                         }
                     }
                     //保存到事件存储
-                    _eventStorage.Save(aggregate);
+                    _eventStorage.SaveAggregateRoot(aggregate);
                 }
             }
         }

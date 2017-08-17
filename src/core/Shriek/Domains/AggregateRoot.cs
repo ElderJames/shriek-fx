@@ -16,6 +16,10 @@ namespace Shriek.Domains
         public int Version { get; protected set; } = -1;
         public int EventVersion { get; protected set; }
 
+        public AggregateRoot() : this(Guid.Empty)
+        {
+        }
+
         public AggregateRoot(Guid aggregateId)
         {
             _changes = new List<Event>();

@@ -5,7 +5,7 @@ using Shriek.Events;
 
 namespace Shriek.Domains
 {
-    internal interface IEventProvider
+    public interface IEventProvider
     {
         void LoadsFromHistory(IEnumerable<Event> history);
 

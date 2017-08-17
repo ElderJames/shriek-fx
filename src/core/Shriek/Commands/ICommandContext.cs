@@ -9,6 +9,6 @@ namespace Shriek.Commands
     {
         IDictionary<string, object> Items { get; }
 
-        TAggregateRoot GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository) where TAggregateRoot : class, IAggregateRoot, new();
+        TAggregateRoot GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository) where TAggregateRoot : AggregateRoot, new();
     }
 }

@@ -7,7 +7,7 @@ namespace Shriek.Storage
 {
     public interface IRepository<T> where T : IAggregateRoot, new()
     {
-        void Save(AggregateRoot aggregate, int expectedVersion);
+        void Save(AggregateRoot aggregate);
 
         T GetById(Guid id);
     }

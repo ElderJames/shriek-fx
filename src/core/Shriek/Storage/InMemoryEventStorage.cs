@@ -24,14 +24,14 @@ namespace Shriek.Storage
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
             var events = _events.Where(p => p.AggregateId == aggregateId);
-            //if (events.Count() == 0)
-            //{
-            //    throw new Exception();
-            //}
+            if (events.Count() == 0)
+            {
+                throw new Exception("没有修改状态");
+            }
             return events;
         }
 
-        public void Save(AggregateRoot aggregate)
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IEventProvider, IAggregateRoot
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
