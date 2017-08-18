@@ -112,5 +112,14 @@ namespace Shriek.Commands
                 }
             }
         }
+
+        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key)
+        {
+            var obj = GetById<TAggregateRoot>(key);
+            if (obj != null)
+                aggregates.Enqueue(obj);
+
+            return obj;
+        }
     }
 }

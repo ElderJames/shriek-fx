@@ -9,20 +9,22 @@ using System.Text;
 
 namespace Shriek.ConfigCenter.Domain.Handlers
 {
-    public class ConfigItemCommandHandler : ICommandHandler<CreateConfigItemCommand>
+    public class ConfigItemCommandHandler : ICommandHandler<CreateConfigItemCommand>,
+        ICommandHandler<ChangeConfigItemCommand>
     {
-        //private IRepository<ConfigItemAggregateRoot> repository;
-
         public ConfigItemCommandHandler()
         {
-            //this.repository = repository;
         }
 
         public void Execute(ICommandContext context, CreateConfigItemCommand command)
         {
             var root = context.GetAggregateRoot(command.AggregateId, () => ConfigItemAggregateRoot.Register(command));
+        }
 
-            // repository.Save(root, root.Version);
+        public void Execute(ICommandContext context, ChangeConfigItemCommand command)
+        {
+            var root = context.GetAggregateRoot<ConfigItemAggregateRoot>(command.AggregateId);
+            root.Change(command);
         }
     }
 }

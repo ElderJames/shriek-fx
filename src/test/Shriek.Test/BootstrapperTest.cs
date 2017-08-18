@@ -38,8 +38,22 @@ namespace Shriek.Test
             var root = repository.GetById(id);
 
             Assert.IsNotNull(root);
+            Assert.AreEqual(0, root.Version);
             Assert.AreEqual(command.Name, root.Name);
             Assert.AreEqual(command.Value, root.Value);
+
+            bus.Send(new ChangeConfigItemCommand(id)
+            {
+                Name = "Cho",
+                Value = "Beautiful!"
+            });
+
+            root = repository.GetById(id);
+
+            Assert.IsNotNull(root);
+            Assert.AreEqual(1, root.Version);
+            Assert.AreEqual("Cho", root.Name);
+            Assert.AreEqual("Beautiful!", root.Value);
         }
     }
 }
