@@ -1,15 +1,11 @@
-﻿using JetBrains.Annotations;
-using System.Xml.Linq;
-using Shriek.Events;
+﻿using Shriek.Events;
 using Shriek.Domains;
-using System.Runtime.InteropServices.ComTypes;
 using Shriek.Storage;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Shriek.DependencyInjection;
 using Shriek.Storage.Mementos;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.Commands
 {
@@ -29,6 +25,13 @@ namespace Shriek.Commands
 
         public IDictionary<string, object> Items => new Dictionary<string, object>();
 
+        /// <summary>
+        /// 从内存获取聚合，获取不到则使用委托从数据库获取
+        /// </summary>
+        /// <typeparam name="TAggregateRoot"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="initFromRepository"></param>
+        /// <returns></returns>
         TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository)
         {
             var obj = GetById<TAggregateRoot>(key);
