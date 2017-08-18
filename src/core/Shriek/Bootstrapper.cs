@@ -14,9 +14,12 @@ namespace Shriek
     {
         public static IServiceCollection AddShriek(this IServiceCollection services)
         {
-            services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies()).AddClasses().AsImplementedInterfaces().AsMatchingInterface().AsSelf().WithScopedLifetime());
+            services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies())
+            .AddClasses()
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
-            services.AddSingleton<IEventStorage, InMemoryEventStorage>();
+            // services.AddScoped<IEventStorage, InMemoryEventStorage>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             return services;

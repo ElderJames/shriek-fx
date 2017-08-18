@@ -1,4 +1,5 @@
-﻿using Shriek.ConfigCenter.Domain.Events;
+﻿using System.Threading;
+using Shriek.ConfigCenter.Domain.Events;
 using Shriek.Events;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Shriek.ConfigCenter.Domain.Handlers
     {
         public void Handle(ConfigItemCreatedEvent e)
         {
+            Thread.Sleep(5000);
             Console.WriteLine("here is " + e.Name);
         }
 

@@ -1,17 +1,21 @@
-﻿using System;
+﻿using System.Threading;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Shriek.Events;
 using Shriek.Domains;
 using Shriek.Storage.Mementos;
 using Shriek.Utils;
+using System.Threading.Tasks;
 
 namespace Shriek.Storage
 {
-    public class InMemoryEventStorage : IEventStorage
+    public class InMemoryEventStorage : IEventStorage, IDisposable
     {
         private List<Event> _events;
         private List<Memento> _mementoes;
+        private Queue<Event> eventQueue;
+        private Task queueTask;
         private readonly IEventBus _eventBus;
 
         public InMemoryEventStorage(IEventBus eventBus)
@@ -19,6 +23,7 @@ namespace Shriek.Storage
             _events = new List<Event>();
             _mementoes = new List<Memento>();
             _eventBus = eventBus;
+            InitQueuePublisher();
         }
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
@@ -54,14 +59,14 @@ namespace Shriek.Storage
             }
             foreach (var @event in uncommittedChanges)
             {
-                var desEvent = (dynamic)@event; /*(Event)@event.As(@event.GetType());*/
-                _eventBus.Publish(desEvent);
+                /*(Event)@event.As(@event.GetType());*/
+                eventQueue.Enqueue(@event);
             }
         }
 
         public T GetMemento<T>(Guid aggregateId) where T : Memento
         {
-            var memento = _mementoes.Where(m => m.Id.Equals(aggregateId)).Select(m => m).LastOrDefault();
+            var memento = _mementoes.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
             if (memento != null)
             {
                 return (T)memento;
@@ -77,6 +82,26 @@ namespace Shriek.Storage
         public void Save<T>(T @event) where T : Event
         {
             _events.Add(@event);
+        }
+
+        public void InitQueuePublisher()
+        {
+            eventQueue = new Queue<Event>();
+            queueTask = Task.Factory.StartNew(() =>
+              {
+                  while (true)
+                  {
+                      Thread.Sleep(1000);
+                      if (!eventQueue.Any()) continue;
+                      var desEvent = (dynamic)eventQueue.Dequeue();
+                      _eventBus.Publish(desEvent);
+                  }
+              });
+        }
+
+        public void Dispose()
+        {
+            queueTask?.Dispose();
         }
 
         //public void Save<T>(T theEvent) where T : Event
