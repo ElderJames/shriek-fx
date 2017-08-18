@@ -36,6 +36,7 @@ namespace Shriek.Commands
             if (handler != null)
             {
                 ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
+                ((DefaultCommandContext)commandContext).Save();
             }
             else
             {

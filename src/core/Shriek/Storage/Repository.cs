@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Shriek.Storage
 {
-    public class Repository<T> : IRepository<T> where T : AggregateRoot, new()
+    internal class Repository<T> : IRepository<T> where T : AggregateRoot, new()
     {
         private readonly IEventStorage _eventStorage;
         private static object _lock = new object();

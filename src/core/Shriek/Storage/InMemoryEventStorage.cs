@@ -26,7 +26,7 @@ namespace Shriek.Storage
             var events = _events.Where(p => p.AggregateId == aggregateId);
             if (events.Count() == 0)
             {
-                throw new Exception("没有修改状态");
+                return new Event[] { };
             }
             return events;
         }

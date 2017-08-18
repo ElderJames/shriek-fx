@@ -13,17 +13,18 @@ using System.Linq;
 
 namespace Shriek.Commands
 {
-    public class CommandContext : ICommandContext
+    public class DefaultCommandContext : ICommandContext
     {
         private IServiceProvider Container;
-        private Queue<AggregateRoot> aggregates;
+        private Queue<AggregateRoot> aggregates = null;
         private static object _lock = new object();
         private IEventStorage eventStorage;
 
-        public CommandContext(IServiceProvider Container)
+        public DefaultCommandContext(IServiceProvider Container)
         {
             this.Container = Container;
             eventStorage = Container.GetService<IEventStorage>();
+            aggregates = new Queue<AggregateRoot>();
         }
 
         public IDictionary<string, object> Items => new Dictionary<string, object>();
@@ -60,6 +61,9 @@ namespace Shriek.Commands
                 events = eventStorage.GetEvents(Id);
             }
 
+            if (!events.Any())
+                return null;
+
             //重现历史更改
             obj.LoadsFromHistory(events);
             return obj;
@@ -74,7 +78,7 @@ namespace Shriek.Commands
             }
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot, IAggregateRoot, new()
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot, IAggregateRoot
         {
             if (aggregate.GetUncommittedChanges().Any())
             {
@@ -84,15 +88,22 @@ namespace Shriek.Commands
                     //如果不是新增事件
                     if (aggregate.Version != -1)
                     {
-                        //从历史更改中回滚该聚合根的最后更改状态
-                        var item = GetById<TAggregateRoot>(aggregate.AggregateId);
-                        //如果正要执行的状态与历史中最后一次更改的状态不同，则抛异常，不执行这次更改
-                        //（更改命令不会修改version，只有保存更改后聚合根记录的版本才被更新）
-                        if (item.Version != aggregate.Version)
+                        var lastestEvent = eventStorage.GetEvents(aggregate.AggregateId).OrderBy(x => x.Version).LastOrDefault();
+                        if (lastestEvent != null && lastestEvent.Version != aggregate.Version)
                         {
-                            throw new Exception("与已保存的版本相同，无需更新");
+                            throw new Exception("事件库中该聚合的状态版本与当前传入聚合状态版本不同，可能已被更新");
                         }
                     }
+                    //{
+                    //    //从历史更改中回滚该聚合根的最后更改状态
+                    //    var item = GetById<TAggregateRoot>(aggregate.AggregateId);
+                    //    //如果正要执行的状态与历史中最后一次更改的状态不同，则抛异常，不执行这次更改
+                    //    //（更改命令不会修改version，只有保存更改后聚合根记录的版本才被更新）
+                    //    if (item.Version != aggregate.Version)
+                    //    {
+                    //        throw new Exception("与已保存的版本相同，无需更新");
+                    //    }
+                    //}
                     //保存到事件存储
                     eventStorage.SaveAggregateRoot(aggregate);
                 }
