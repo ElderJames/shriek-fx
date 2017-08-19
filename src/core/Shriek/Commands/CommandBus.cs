@@ -10,8 +10,6 @@ namespace Shriek.Commands
     /// </summary>
     public class CommandBus : ICommandBus
     {
-        //public static Func<IServiceProvider> ContainerAccessor { get; set; }
-        //private static IServiceProvider Container => ContainerAccessor();
         private IServiceProvider Container;
 
         private ICommandContext commandContext;
@@ -36,7 +34,7 @@ namespace Shriek.Commands
             if (handler != null)
             {
                 ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
-                ((DefaultCommandContext)commandContext).Save();
+                ((ICommandContextSave)commandContext).Save();
             }
             else
             {

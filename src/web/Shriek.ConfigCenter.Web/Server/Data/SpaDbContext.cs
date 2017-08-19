@@ -1,4 +1,4 @@
-﻿using Shriek.ConfigCenter.Web.Models;
+using Shriek.ConfigCenter.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Shriek.ConfigCenter.Web.Data

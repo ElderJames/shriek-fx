@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.Commands
 {
-    public class DefaultCommandContext : ICommandContext
+    public class DefaultCommandContext : ICommandContext, ICommandContextSave
     {
         private IServiceProvider Container;
         private Queue<AggregateRoot> aggregates = null;
