@@ -11,9 +11,9 @@
         <PackageReference Include="MSTest.TestFramework" Version="1.2.0-beta3" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\core\Shriek.CMS.Domain\Shriek.ConfigCenter.Domain.csproj" />
-        <ProjectReference Include="..\..\core\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
-        <ProjectReference Include="..\..\core\Shriek\Shriek.csproj" />
+        <ProjectReference Include="..\..\core\Shriek.ConfigCenter.Domain\Shriek.ConfigCenter.Domain.csproj" />
+        <ProjectReference Include="..\..\fx\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\..\fx\Shriek\Shriek.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />

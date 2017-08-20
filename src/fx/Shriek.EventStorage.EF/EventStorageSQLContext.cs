@@ -10,16 +10,10 @@ namespace Shriek.EventSourcing.Sql.EFCore
 {
     public class EventStorageSQLContext : BaseDbContext
     {
-        public EventStorageSQLContext()
+        public EventStorageSQLContext(DbContextOptions<EventStorageSQLContext> options) : base(options)
         {
         }
 
         public DbSet<StoredEvent> StoredEvent { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new StoredEventMap());
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }
