@@ -6,15 +6,18 @@ namespace Shriek.Events
 {
     public class Event : IEvent<Guid>
     {
+        public Event()
+        {
+            this.EventType = GetType().Name;
+            this.Timestamp = DateTime.Now;
+        }
+
         public Guid AggregateId { get; set; }
 
-        public int Version;
+        public int Version { get; set; }
+
+        public DateTime Timestamp { get; private set; }
+
+        public string EventType { get; private set; }
     }
-
-    //public class Event<TAggregateId> : Event, IEvent<TAggregateId>
-    //{
-    //    public new TAggregateId Id { get; private set; }
-
-    //    public new TAggregateId AggregateId { get; set; }
-    //}
 }

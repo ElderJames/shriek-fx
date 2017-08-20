@@ -1,25 +1,35 @@
-﻿using System;
+﻿using Shriek.EventSourcing.Sql.EFCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Shriek.Events;
+using System.Linq;
 
 namespace Shriek.EventSourcing
 {
     public class EventStorageSQLRepository : IEventStorageRepository
     {
-        public IList<StoredEvent> All(Guid aggregateId)
+        private EventStorageSQLContext context;
+
+        public EventStorageSQLRepository(EventStorageSQLContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
+        }
+
+        public IEnumerable<StoredEvent> All(Guid aggregateId)
+        {
+            return context.StoredEvent.Where(e => e.AggregateId == aggregateId).AsEnumerable();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            context.Dispose();
         }
 
         public void Store(StoredEvent theEvent)
         {
-            throw new NotImplementedException();
+            context.StoredEvent.Add(theEvent);
+            context.SaveChanges();
         }
     }
 }

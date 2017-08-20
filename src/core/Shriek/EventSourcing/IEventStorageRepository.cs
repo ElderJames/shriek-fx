@@ -8,6 +8,6 @@ namespace Shriek.EventSourcing
     {
         void Store(StoredEvent theEvent);
 
-        IList<StoredEvent> All(Guid aggregateId);
+        IEnumerable<StoredEvent> All(Guid aggregateId);
     }
 }
