@@ -3,14 +3,16 @@
         <TargetFramework>netcoreapp2.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="1.1.11" />
-        <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170810-02" />
+        <PackageReference Include="MSTest.TestAdapter" Version="1.2.0-beta3" />
+        <PackageReference Include="MSTest.TestFramework" Version="1.2.0-beta3" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\core\Shriek.CMS.Domain\Shriek.ConfigCenter.Domain.csproj" />
+        <ProjectReference Include="..\..\core\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
         <ProjectReference Include="..\..\core\Shriek\Shriek.csproj" />
     </ItemGroup>
     <ItemGroup>
