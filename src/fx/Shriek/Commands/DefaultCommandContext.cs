@@ -16,12 +16,14 @@ namespace Shriek.Commands
         private IServiceProvider Container;
         private Queue<AggregateRoot> aggregates = null;
         private static object _lock = new object();
+        private IEventBus eventBus;
         private IEventStorage eventStorage;
 
         public DefaultCommandContext(IServiceProvider Container)
         {
             this.Container = Container;
             eventStorage = Container.GetService<IEventStorage>();
+            eventBus = Container.GetService<IEventBus>();
             aggregates = new Queue<AggregateRoot>();
         }
 
@@ -111,6 +113,10 @@ namespace Shriek.Commands
                     //}
                     //保存到事件存储
                     eventStorage.SaveAggregateRoot(aggregate);
+                    foreach (var @event in aggregate.GetUncommittedChanges())
+                    {
+                        eventBus.Publish(@event);
+                    }
                 }
             }
         }

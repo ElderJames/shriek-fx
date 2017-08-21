@@ -19,7 +19,7 @@ namespace Shriek
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-            // services.AddScoped<IEventStorage, InMemoryEventStorage>();
+            services.AddScoped<IEventStorage, InMemoryEventStorage>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             return services;
