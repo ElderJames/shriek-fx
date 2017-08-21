@@ -101,16 +101,7 @@ namespace Shriek.Commands
                             throw new Exception("事件库中该聚合的状态版本与当前传入聚合状态版本不同，可能已被更新");
                         }
                     }
-                    //{
-                    //    //从历史更改中回滚该聚合根的最后更改状态
-                    //    var item = GetById<TAggregateRoot>(aggregate.AggregateId);
-                    //    //如果正要执行的状态与历史中最后一次更改的状态不同，则抛异常，不执行这次更改
-                    //    //（更改命令不会修改version，只有保存更改后聚合根记录的版本才被更新）
-                    //    if (item.Version != aggregate.Version)
-                    //    {
-                    //        throw new Exception("与已保存的版本相同，无需更新");
-                    //    }
-                    //}
+
                     //保存到事件存储
                     eventStorage.SaveAggregateRoot(aggregate);
                     foreach (var @event in aggregate.GetUncommittedChanges())

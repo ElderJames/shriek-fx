@@ -1,30 +1,30 @@
-﻿using System;
+﻿using Shriek.Storage;
+using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using Shriek.Notifications;
 
 namespace Shriek.Events
 {
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private IServiceProvider Container;
-
+        private static object _lock = new object();
         private Queue<Event> eventQueue;
         private Task queueTask;
 
         public InMemoryEventBus(IServiceProvider Container)
         {
             this.Container = Container;
+
             InitQueuePublisher();
         }
 
         public void Publish<T>(T @event) where T : Event
         {
-            //if (!(@event is DomainNotification))
-            //    _eventStore?.Save(@event);
-
             eventQueue.Enqueue(@event);
         }
 
@@ -47,9 +47,12 @@ namespace Shriek.Events
                 while (true)
                 {
                     Thread.Sleep(1000);
-                    if (!eventQueue.Any()) continue;
-                    var desEvent = (dynamic)eventQueue.Dequeue();
-                    Hanlde(desEvent);
+                    lock (_lock)
+                    {
+                        if (!eventQueue.Any()) continue;
+                        var desEvent = (dynamic)eventQueue.Dequeue();
+                        Hanlde(desEvent);
+                    }
                 }
             });
         }

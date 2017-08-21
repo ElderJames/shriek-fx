@@ -1,7 +1,13 @@
-﻿using Shriek.Utils;
+﻿using Shriek.Exceptions;
+using System.Security.Cryptography;
+using Shriek.Notifications;
+using System.ComponentModel.Design;
+using Shriek.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Shriek.DependencyInjection;
+using Shriek.Events;
 
 namespace Shriek.Commands
 {
@@ -14,10 +20,13 @@ namespace Shriek.Commands
 
         private ICommandContext commandContext;
 
+        private IEventBus eventBus;
+
         public CommandBus(IServiceProvider Container, ICommandContext commandContext)
         {
             this.Container = Container;
             this.commandContext = commandContext;
+            this.eventBus = Container.GetService<IEventBus>();
         }
 
         /// <summary>
@@ -33,8 +42,18 @@ namespace Shriek.Commands
 
             if (handler != null)
             {
-                ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
-                ((ICommandContextSave)commandContext).Save();
+                try
+                {
+                    ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
+                    ((ICommandContextSave)commandContext).Save();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is DomainException)
+                        eventBus.Publish(new DomainNotification(command.GetType().Name, ex.Message));
+                    else
+                        throw;
+                }
             }
             else
             {

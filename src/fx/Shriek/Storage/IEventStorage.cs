@@ -7,7 +7,7 @@ using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {
-    internal interface IEventStorage
+    public interface IEventStorage
     {
         T GetMemento<T>(Guid aggregateId) where T : Memento;
 
