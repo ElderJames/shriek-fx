@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System.Threading.Tasks;
 using System.Threading;
 using Shriek.Exceptions;
 using Shriek.Notifications;
@@ -22,6 +23,7 @@ namespace Shriek.Commands
         private IEventBus eventBus;
 
         private ConcurrentQueue<Command> commandQueue;
+        private ConcurrentQueue<Command> retryQueue;
         private Task queueTask;
 
         public CommandBus(IServiceProvider Container, ICommandContext commandContext, IEventBus eventBus)
@@ -60,7 +62,7 @@ namespace Shriek.Commands
                 }
                 catch (DomainException ex)
                 {
-                    eventBus.Publish(new DomainNotification(command.GetType().Name, ex.Message));
+                    eventBus.Publish(new DomainNotification(ex.Message, JsonConvert.SerializeObject(command)));
                 }
             }
             else
@@ -80,17 +82,36 @@ namespace Shriek.Commands
 
                     while (commandQueue.Any())
                     {
-                        try
+                        if (commandQueue.TryDequeue(out Command command))
                         {
-                            if (commandQueue.TryPeek(out Command command))
+                            try
                             {
                                 Handle((dynamic)command);
-                                commandQueue.TryDequeue(out command);
+                            }
+                            catch (DomainException ex)
+                            {
+                            }
+                            catch (Exception ex)
+                            {
+                                //TODO:日志
+                                retryQueue.Enqueue(command);
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < retryQueue.Count; i++)
+                    {
+                        try
+                        {
+                            if (retryQueue.TryPeek(out Command command))
+                            {
+                                Handle((dynamic)command);
+                                retryQueue.TryDequeue(out command);
                             }
                         }
                         catch
                         {
-                            break;
+                            //TODO:日志
                         }
                     }
                 }

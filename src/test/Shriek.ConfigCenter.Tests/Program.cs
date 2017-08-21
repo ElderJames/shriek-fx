@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
-using Newtonsoft.Json;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
-using Shriek.ConfigCenter.Domain.Aggregates;
-using Shriek.ConfigCenter.Domain.Commands;
+using Shriek.Console.Commands;
 using Shriek.Storage;
 
-namespace Shriek.ConfigCenter.Tests
+namespace Shriek.Console.Tests
 {
     internal class Program
     {
@@ -30,7 +28,7 @@ namespace Shriek.ConfigCenter.Tests
                 Value = "very good"
             });
 
-            Debug.WriteLine($"{nameof(CreateConfigItemCommand)} sended!");
+            System.Console.WriteLine($"{nameof(CreateConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
@@ -38,33 +36,37 @@ namespace Shriek.ConfigCenter.Tests
                 Value = "Beautiful!"
             });
 
-            Debug.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
+            System.Console.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
                 Name = "Ron",
                 Value = "hansome!"
             });
+            System.Console.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
                 Name = "Luna",
                 Value = "Beautiful!"
             });
+            System.Console.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
                 Name = "Albus",
                 Value = "great!"
             });
+            System.Console.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
                 Name = "throw exception",
                 Value = "throw exception"
             });
+            System.Console.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
 
-            Console.ReadKey();
+            System.Console.ReadKey();
         }
     }
 }

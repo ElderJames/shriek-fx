@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\core\Shriek.ConfigCenter.Domain\Shriek.ConfigCenter.Domain.csproj" />
         <ProjectReference Include="..\..\fx\Shriek\Shriek.csproj" />
     </ItemGroup>
 
