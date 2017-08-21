@@ -1,13 +1,12 @@
-﻿using Shriek.Exceptions;
-using System.Security.Cryptography;
+﻿using System.Threading.Tasks;
+using System.Threading;
+using Shriek.Exceptions;
 using Shriek.Notifications;
-using System.ComponentModel.Design;
-using Shriek.Utils;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Shriek.DependencyInjection;
 using Shriek.Events;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Shriek.Commands
 {
@@ -22,11 +21,16 @@ namespace Shriek.Commands
 
         private IEventBus eventBus;
 
-        public CommandBus(IServiceProvider Container, ICommandContext commandContext)
+        private ConcurrentQueue<Command> commandQueue;
+        private Task queueTask;
+
+        public CommandBus(IServiceProvider Container, ICommandContext commandContext, IEventBus eventBus)
         {
             this.Container = Container;
             this.commandContext = commandContext;
-            this.eventBus = Container.GetService<IEventBus>();
+            this.eventBus = eventBus;
+
+            Subscriber();
         }
 
         /// <summary>
@@ -35,6 +39,13 @@ namespace Shriek.Commands
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="command"></param>
         public void Send<TCommand>(TCommand command) where TCommand : Command
+        {
+            if (command == null) return;
+            commandQueue.Enqueue(command);
+            //Handle(command);
+        }
+
+        private void Handle<TCommand>(TCommand command) where TCommand : Command
         {
             if (Container == null) return;
 
@@ -47,18 +58,43 @@ namespace Shriek.Commands
                     ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
                     ((ICommandContextSave)commandContext).Save();
                 }
-                catch (Exception ex)
+                catch (DomainException ex)
                 {
-                    if (ex is DomainException)
-                        eventBus.Publish(new DomainNotification(command.GetType().Name, ex.Message));
-                    else
-                        throw;
+                    eventBus.Publish(new DomainNotification(command.GetType().Name, ex.Message));
                 }
             }
             else
             {
-                throw new Exceptions.DomainException($"找不到命令{nameof(command)}的处理类，或者IOC未注册。");
+                throw new Exception($"找不到命令{nameof(command)}的处理类，或者IOC未注册。");
             }
+        }
+
+        public void Subscriber()
+        {
+            commandQueue = new ConcurrentQueue<Command>();
+            queueTask = Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(1000);
+
+                    while (commandQueue.Any())
+                    {
+                        try
+                        {
+                            if (commandQueue.TryPeek(out Command command))
+                            {
+                                Handle((dynamic)command);
+                                commandQueue.TryDequeue(out command);
+                            }
+                        }
+                        catch
+                        {
+                            break;
+                        }
+                    }
+                }
+            });
         }
     }
 }

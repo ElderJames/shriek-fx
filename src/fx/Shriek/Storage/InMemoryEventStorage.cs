@@ -7,7 +7,7 @@ using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {
-    public class InMemoryEventStorage : IEventStorage
+    public class InMemoryEventStorage : IEventStorage, IEventOriginator
     {
         private List<Event> _events;
         private List<Memento> _mementoes;

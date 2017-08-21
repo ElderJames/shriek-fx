@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 using Shriek.Events;
 using Shriek.Domains;
@@ -14,7 +15,7 @@ namespace Shriek.Commands
     public class DefaultCommandContext : ICommandContext, ICommandContextSave
     {
         private IServiceProvider Container;
-        private Queue<AggregateRoot> aggregates = null;
+        private ConcurrentQueue<AggregateRoot> aggregates = null;
         private static object _lock = new object();
         private IEventBus eventBus;
         private IEventStorage eventStorage;
@@ -24,7 +25,7 @@ namespace Shriek.Commands
             this.Container = Container;
             eventStorage = Container.GetService<IEventStorage>();
             eventBus = Container.GetService<IEventBus>();
-            aggregates = new Queue<AggregateRoot>();
+            aggregates = new ConcurrentQueue<AggregateRoot>();
         }
 
         public IDictionary<string, object> Items => new Dictionary<string, object>();
@@ -52,9 +53,14 @@ namespace Shriek.Commands
         {
             //获取该记录的所有缓存事件
             IEnumerable<Event> events;
+            Memento memento = null;
             var obj = new TAggregateRoot();
-            //获取该记录的更改快照
-            var memento = eventStorage.GetMemento<Memento>(Id);
+            if (eventStorage is IEventOriginator)
+            {
+                //获取该记录的更改快照
+                memento = ((IEventOriginator)eventStorage).GetMemento<Memento>(Id);
+            }
+
             if (memento != null)
             {
                 //获取该记录最后一次快照之后的更改，避免加载过多历史更改
@@ -68,7 +74,7 @@ namespace Shriek.Commands
                 events = eventStorage.GetEvents(Id);
             }
 
-            if (!events.Any())
+            if (memento == null && !events.Any())
                 return null;
 
             //重现历史更改
@@ -80,8 +86,8 @@ namespace Shriek.Commands
         {
             for (var i = 0; i < aggregates.Count; i++)
             {
-                var root = aggregates.Dequeue();
-                SaveAggregateRoot(root);
+                if (aggregates.TryDequeue(out AggregateRoot root))
+                    SaveAggregateRoot(root);
             }
         }
 

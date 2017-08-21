@@ -9,10 +9,6 @@ namespace Shriek.Storage
 {
     public interface IEventStorage
     {
-        T GetMemento<T>(Guid aggregateId) where T : Memento;
-
-        void SaveMemento(Memento memento);
-
         IEnumerable<Event> GetEvents(Guid aggregateId);
 
         void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggreagate) where TAggregateRoot : IAggregateRoot, IEventProvider;

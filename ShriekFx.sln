@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ConfigCenter.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ConfigCenter.DomainRepository", "src\core\Shriek.ConfigCenter.DomainRepository\Shriek.ConfigCenter.DomainRepository.csproj", "{3731EDF7-BD2C-4096-BA79-9F169EB91E9A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{133A4B22-C5F1-427A-BCB8-C83DA76CE2CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

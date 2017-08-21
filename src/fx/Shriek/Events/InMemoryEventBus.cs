@@ -1,4 +1,5 @@
-﻿using Shriek.Storage;
+﻿using System.Collections.Concurrent;
+using Shriek.Storage;
 using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,7 @@ namespace Shriek.Events
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private IServiceProvider Container;
-        private static object _lock = new object();
-        private Queue<Event> eventQueue;
+        private ConcurrentQueue<Event> eventQueue;
         private Task queueTask;
 
         public InMemoryEventBus(IServiceProvider Container)
@@ -41,17 +41,27 @@ namespace Shriek.Events
 
         public void InitQueuePublisher()
         {
-            eventQueue = new Queue<Event>();
+            eventQueue = new ConcurrentQueue<Event>();
             queueTask = Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
                     Thread.Sleep(1000);
-                    lock (_lock)
+
+                    while (eventQueue.Any())
                     {
-                        if (!eventQueue.Any()) continue;
-                        var desEvent = (dynamic)eventQueue.Dequeue();
-                        Hanlde(desEvent);
+                        try
+                        {
+                            if (eventQueue.TryPeek(out Event desEvent))
+                            {
+                                Hanlde((dynamic)desEvent);
+                                eventQueue.TryDequeue(out desEvent);
+                            }
+                        }
+                        catch
+                        {
+                            break;
+                        }
                     }
                 }
             });

@@ -1,4 +1,5 @@
-﻿using Shriek.Events;
+﻿using Shriek.Exceptions;
+using Shriek.Events;
 using Shriek.ConfigCenter.Domain.Events;
 using Shriek.ConfigCenter.Domain.Commands;
 using System;
@@ -49,6 +50,9 @@ namespace Shriek.ConfigCenter.Domain.Aggregates
 
         public void Change(ChangeConfigItemCommand command)
         {
+            if (command.Value == "throw exception")
+                throw new DomainException("throw exception throw DomaiNotification");
+
             ApplyChange(new ConfigItemChangedEvent()
             {
                 AggregateId = this.AggregateId,

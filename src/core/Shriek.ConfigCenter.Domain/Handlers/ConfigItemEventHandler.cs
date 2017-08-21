@@ -11,13 +11,16 @@ namespace Shriek.ConfigCenter.Domain.Handlers
     {
         public void Handle(ConfigItemCreatedEvent e)
         {
-            Thread.Sleep(5000);
             Console.WriteLine("here is " + e.Name);
+            Thread.Sleep(5000);
+            Console.WriteLine(e.Name + " finished!");
         }
 
         public void Handle(ConfigItemChangedEvent e)
         {
             Console.WriteLine("here is " + e.Name);
+            Thread.Sleep(5000);
+            Console.WriteLine(e.Name + " finished!");
         }
     }
 }

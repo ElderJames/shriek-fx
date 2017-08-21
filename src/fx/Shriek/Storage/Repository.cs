@@ -24,9 +24,13 @@ namespace Shriek.Storage
         {
             //获取该记录的所有缓存事件
             IEnumerable<Event> events;
+            Memento memento = null;
             var obj = new T();
-            //获取该记录的更改快照
-            var memento = _eventStorage.GetMemento<Memento>(id);
+            if (_eventStorage is IEventOriginator)
+            {
+                //获取该记录的更改快照
+                memento = ((IEventOriginator)_eventStorage).GetMemento<Memento>(id);
+            }
             if (memento != null)
             {
                 //获取该记录最后一次快照之后的更改，避免加载过多历史更改

@@ -54,7 +54,9 @@ namespace Shriek.Utils
 
             foreach (var d in dic)
             {
-                md.GetType().GetProperty(d.Key).SetValue(md, d.Value);
+                var prop = md.GetType().GetProperty(d.Key);
+                if (prop.CanWrite)
+                    prop.SetValue(md, d.Value);
             }
             return md;
         }

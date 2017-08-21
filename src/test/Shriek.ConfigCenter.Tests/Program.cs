@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics;
+using Newtonsoft.Json;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
@@ -19,7 +20,7 @@ namespace Shriek.ConfigCenter.Tests
             var container = services.BuildServiceProvider();
 
             var bus = container.GetService<ICommandBus>();
-            var repository = container.GetService<IRepository<ConfigItemAggregateRoot>>();
+            var eventStorage = container.GetService<IEventStorage>();
 
             var id = Guid.NewGuid();
 
@@ -29,17 +30,39 @@ namespace Shriek.ConfigCenter.Tests
                 Value = "very good"
             });
 
-            var root = repository.GetById(id);
-            Console.WriteLine(JsonConvert.SerializeObject(root));
+            Debug.WriteLine($"{nameof(CreateConfigItemCommand)} sended!");
 
             bus.Send(new ChangeConfigItemCommand(id)
             {
                 Name = "Cho",
                 Value = "Beautiful!"
             });
-            root = repository.GetById(id);
-            Console.WriteLine(JsonConvert.SerializeObject(root));
-            Console.WriteLine("command handled");
+
+            Debug.WriteLine($"{nameof(ChangeConfigItemCommand)} sended!");
+
+            bus.Send(new ChangeConfigItemCommand(id)
+            {
+                Name = "Ron",
+                Value = "hansome!"
+            });
+
+            bus.Send(new ChangeConfigItemCommand(id)
+            {
+                Name = "Luna",
+                Value = "Beautiful!"
+            });
+
+            bus.Send(new ChangeConfigItemCommand(id)
+            {
+                Name = "Albus",
+                Value = "great!"
+            });
+
+            bus.Send(new ChangeConfigItemCommand(id)
+            {
+                Name = "throw exception",
+                Value = "throw exception"
+            });
 
             Console.ReadKey();
         }
