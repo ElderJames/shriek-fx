@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shriek.EntityFrameworkCore;
-using Shriek.Events;
+using Shriek.Storage;
 
 namespace Shriek.EventStorage.EFCore
 {

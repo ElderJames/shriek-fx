@@ -1,6 +1,7 @@
 ﻿using Shriek.Events;
 using System;
 using System.Collections.Generic;
+using Shriek.Storage;
 
 namespace Shriek.EventSourcing
 {

@@ -1,4 +1,4 @@
-﻿using Shriek.Events;
+﻿using Shriek.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

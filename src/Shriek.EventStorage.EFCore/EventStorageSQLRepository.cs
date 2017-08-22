@@ -4,6 +4,7 @@ using System.Text;
 using Shriek.Events;
 using System.Linq;
 using Shriek.EventSourcing;
+using Shriek.Storage;
 
 namespace Shriek.EventStorage.EFCore
 {
