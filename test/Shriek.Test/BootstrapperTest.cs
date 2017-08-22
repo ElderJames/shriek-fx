@@ -1,10 +1,9 @@
-﻿using Shriek.Samples.Aggregates;
-using System;
-using Shriek.Samples.Commands;
+﻿using Shriek.Messages;
+using Shriek.Storage;
+using Shriek.Events;
 using Shriek.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shriek.Storage;
 
 namespace Shriek.Test
 {
@@ -20,41 +19,15 @@ namespace Shriek.Test
 
             var container = services.BuildServiceProvider();
 
-            var bus = container.GetService<ICommandBus>();
+            var commandBus = container.GetService<ICommandBus>();
+            var eventBus = container.GetService<IEventBus>();
+            var eventStorage = container.GetService<IEventStorage>();
+            var messageProcessor = container.GetService<IMessageProcessor>();
 
-            Assert.IsNotNull(bus);
-
-            var id = Guid.NewGuid();
-
-            var command = new CreateTodoCommand(id)
-            {
-                Name = "go to bed",
-                Desception = "very good",
-                FinishTime = DateTime.Now.AddHours(1)
-            };
-            bus.Send(command);
-
-            var repository = container.GetService<IRepository<TodoAggregateRoot>>();
-
-            var root = repository.GetById(id);
-
-            Assert.IsNotNull(root);
-            Assert.AreEqual(0, root.Version);
-            Assert.AreEqual(command.Name, root.Name);
-            Assert.AreEqual(command.Desception, root.Desception);
-
-            bus.Send(new ChangeTodoCommand(id)
-            {
-                Name = "Cho",
-                Desception = "Beautiful!"
-            });
-
-            root = repository.GetById(id);
-
-            Assert.IsNotNull(root);
-            Assert.AreEqual(1, root.Version);
-            Assert.AreEqual("Cho", root.Name);
-            Assert.AreEqual("Beautiful!", root.Desception);
+            Assert.IsNotNull(commandBus);
+            Assert.IsNotNull(eventBus);
+            Assert.IsNotNull(eventStorage);
+            Assert.IsNotNull(messageProcessor);
         }
     }
 }

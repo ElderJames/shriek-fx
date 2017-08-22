@@ -11,9 +11,7 @@
         <PackageReference Include="MSTest.TestFramework" Version="1.2.0-beta3" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\samples\Shriek.Samples\Shriek.Samples.csproj" />
       <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
-      <ProjectReference Include="..\..\src\Shriek.EventStorage.EF\Shriek.EventStorage.EF.csproj" />
       <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     </ItemGroup>
     <ItemGroup>

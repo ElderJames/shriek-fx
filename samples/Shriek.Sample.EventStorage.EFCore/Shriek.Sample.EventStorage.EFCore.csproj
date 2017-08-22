@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Shriek.EventStorage.EFCore\Shriek.EventStorage.EFCore.csproj" />
+    <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
+    <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
+  </ItemGroup>
+
+</Project>

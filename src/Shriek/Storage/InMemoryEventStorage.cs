@@ -47,7 +47,7 @@ namespace Shriek.Storage
                     }
                 }
                 @event.Version = version;
-                _events.Add(@event);
+                Save(@event);
             }
         }
 

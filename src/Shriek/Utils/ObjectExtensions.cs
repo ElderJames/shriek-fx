@@ -41,16 +41,16 @@ namespace Shriek.Utils
 
             foreach (var d in dic)
             {
-                md.GetType().GetProperty(d.Key).SetValue(md, d.Value);
+                var prop = md.GetType().GetProperty(d.Key);
+                if (prop.CanWrite)
+                    prop.SetValue(md, d.Value);
             }
             return md;
         }
 
         public static object ToObject(this IDictionary<string, object> dic, Type type)
         {
-            var assembly = Assembly.GetAssembly(type);
-
-            var md = assembly.CreateInstance(type.FullName);
+            var md = Activator.CreateInstance(type);
 
             foreach (var d in dic)
             {

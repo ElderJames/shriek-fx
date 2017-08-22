@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Shriek.Messages;
 
@@ -9,7 +10,7 @@ namespace Shriek.Events
     {
         public Event()
         {
-            this.EventType = GetType().Name;
+            this.EventType = GetType().FullName;
             this.Timestamp = DateTime.Now;
         }
 
@@ -19,6 +20,6 @@ namespace Shriek.Events
 
         public DateTime Timestamp { get; private set; }
 
-        public string EventType { get; private set; }
+        public string EventType { get; protected set; }
     }
 }

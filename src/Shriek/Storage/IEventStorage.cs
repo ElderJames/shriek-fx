@@ -11,7 +11,7 @@ namespace Shriek.Storage
     {
         IEnumerable<Event> GetEvents(Guid aggregateId);
 
-        void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggreagate) where TAggregateRoot : IAggregateRoot, IEventProvider;
+        void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot, IEventProvider;
 
         void Save<T>(T @event) where T : Event;
     }

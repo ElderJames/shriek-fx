@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.Events;
+﻿using Shriek.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shriek.EntityFrameworkCore;
 
 namespace Shriek.EventStorage.EF
 {

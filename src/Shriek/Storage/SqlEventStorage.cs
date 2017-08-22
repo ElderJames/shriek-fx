@@ -1,11 +1,10 @@
-﻿using System;
+﻿using System.Reflection;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Shriek.Domains;
 using Shriek.Events;
 using Shriek.EventSourcing;
-using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {
@@ -20,12 +19,12 @@ namespace Shriek.Storage
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
-            throw new NotImplementedException();
-        }
-
-        public T GetMemento<T>(Guid aggregateId) where T : Memento
-        {
-            throw new NotImplementedException();
+            var storeEvents = _eventStoreRepository.All(aggregateId);
+            foreach (var e in storeEvents)
+            {
+                var eventType = Type.GetType(e.EventType);
+                yield return JsonConvert.DeserializeObject(e.Data, eventType) as Event;
+            }
         }
 
         public void Save<T>(T theEvent) where T : Event
@@ -41,14 +40,27 @@ namespace Shriek.Storage
             _eventStoreRepository.Store(storedEvent);
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggreagate) where TAggregateRoot : IAggregateRoot, IEventProvider
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot, IEventProvider
         {
-            throw new NotImplementedException();
-        }
+            var uncommittedChanges = aggregate.GetUncommittedChanges();
+            var version = aggregate.Version;
 
-        public void SaveMemento(Memento memento)
-        {
-            throw new NotImplementedException();
+            foreach (var @event in uncommittedChanges)
+            {
+                version++;
+                //if (version > 2)
+                //{
+                //    if (version % 3 == 0)
+                //    {
+                //        var originator = (IOriginator)aggregate;
+                //        var memento = originator.GetMemento();
+                //        memento.Version = version;
+                //        SaveMemento(memento);
+                //    }
+                //}
+                @event.Version = version;
+                Save(@event);
+            }
         }
     }
 }
