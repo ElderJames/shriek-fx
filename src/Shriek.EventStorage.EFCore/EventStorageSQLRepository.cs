@@ -1,11 +1,11 @@
-﻿using Shriek.EventSourcing.Sql.EFCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Shriek.Events;
 using System.Linq;
+using Shriek.EventSourcing;
 
-namespace Shriek.EventSourcing
+namespace Shriek.EventStorage.EFCore
 {
     public class EventStorageSQLRepository : IEventStorageRepository
     {

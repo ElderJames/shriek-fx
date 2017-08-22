@@ -13,6 +13,7 @@ namespace Shriek.Events
             EventType = @event.GetType().AssemblyQualifiedName;
             Data = data;
             User = user;
+            Version = @event.Version;
         }
 
         // EF Constructor

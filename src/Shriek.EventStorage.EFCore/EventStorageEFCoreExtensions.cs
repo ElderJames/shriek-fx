@@ -1,11 +1,8 @@
 ﻿using Shriek.EventSourcing;
 using Shriek.Storage;
-using Shriek.EventSourcing.Sql.EFCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shriek.EventStorage.EFCore
 {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Shriek.EventStorage.EF
+namespace Shriek.EventStorage.EFCore
 {
     internal class StoredEventMap : IEntityTypeConfiguration<StoredEvent>
     {
