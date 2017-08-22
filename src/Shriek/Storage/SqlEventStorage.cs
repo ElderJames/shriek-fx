@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Collections.Concurrent;
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -11,24 +12,39 @@ namespace Shriek.Storage
     public class SqlEventStorage : IEventStorage
     {
         private readonly IEventStorageRepository _eventStoreRepository;
+        private ConcurrentDictionary<Guid, ConcurrentBag<Event>> _events;
 
         public SqlEventStorage(IEventStorageRepository eventStoreRepository)
         {
             _eventStoreRepository = eventStoreRepository;
+            _events = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
         }
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
-            var storeEvents = _eventStoreRepository.All(aggregateId);
-            foreach (var e in storeEvents)
+            _events.TryGetValue(aggregateId, out var events);
+            if (events == null)
             {
-                var eventType = Type.GetType(e.EventType);
-                yield return JsonConvert.DeserializeObject(e.Data, eventType) as Event;
+                var storeEvents = _eventStoreRepository.All(aggregateId);
+                _events[aggregateId] = new ConcurrentBag<Event>();
+
+                foreach (var e in storeEvents)
+                {
+                    var eventType = Type.GetType(e.EventType);
+                    _events[aggregateId].Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
+                }
             }
+            return _events[aggregateId].OrderBy(x => x.Timestamp);
         }
 
         public void Save<T>(T theEvent) where T : Event
         {
+            _events.TryGetValue(theEvent.AggregateId, out var events);
+            if (events == null)
+                _events[theEvent.AggregateId] = new ConcurrentBag<Event>();
+
+            _events[theEvent.AggregateId].Add(theEvent);
+
             var serializedData = JsonConvert.SerializeObject(theEvent);
 
             var storedEvent = new StoredEvent(

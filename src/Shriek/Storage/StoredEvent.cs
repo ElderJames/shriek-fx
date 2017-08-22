@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shriek.Events
+namespace Shriek.Storage
 {
     public class StoredEvent : Event
     {
