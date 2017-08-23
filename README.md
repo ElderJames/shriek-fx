@@ -24,6 +24,7 @@ A ddd-cqrs framework that would make you shriek! simple,elegant and useful!
     - [ ] NoSql实现
     - [ ] Redis实现
   - [ ] 消息队列（MQ）
+  - [ ] Saga
   - [ ] Q端 + Real DB 
     - [ ] EF
     - [ ] Dapper
