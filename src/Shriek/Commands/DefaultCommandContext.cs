@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Concurrent;
 using Shriek.Events;
 using Shriek.Domains;
 using Shriek.Storage;
@@ -49,35 +50,7 @@ namespace Shriek.Commands
 
         private TAggregateRoot GetById<TAggregateRoot>(Guid Id) where TAggregateRoot : AggregateRoot, new()
         {
-            //获取该记录的所有缓存事件
-            IEnumerable<Event> events;
-            Memento memento = null;
-            var obj = new TAggregateRoot();
-            if (eventStorage is IEventOriginator)
-            {
-                //获取该记录的更改快照
-                memento = ((IEventOriginator)eventStorage).GetMemento<Memento>(Id);
-            }
-
-            if (memento != null)
-            {
-                //获取该记录最后一次快照之后的更改，避免加载过多历史更改
-                events = eventStorage.GetEvents(Id).Where(x => x.Version >= memento.Version);
-                //从快照恢复
-                ((IOriginator)obj).SetMemento(memento);
-            }
-            else
-            {
-                //获取所有历史更改记录
-                events = eventStorage.GetEvents(Id);
-            }
-
-            if (memento == null && !events.Any())
-                return null;
-
-            //重现历史更改
-            obj.LoadsFromHistory(events);
-            return obj;
+            return eventStorage.Source<TAggregateRoot>(Id);
         }
 
         public void Save()
@@ -85,11 +58,13 @@ namespace Shriek.Commands
             for (var i = 0; i < aggregates.Count; i++)
             {
                 if (aggregates.TryDequeue(out AggregateRoot root) && root.CanCommit)
+                {
                     SaveAggregateRoot(root);
+                }
             }
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot, IAggregateRoot
+        private void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot, IAggregateRoot
         {
             if (aggregate.GetUncommittedChanges().Any())
             {
@@ -99,7 +74,7 @@ namespace Shriek.Commands
                     //如果不是新增事件
                     if (aggregate.Version != -1)
                     {
-                        var lastestEvent = eventStorage.GetEvents(aggregate.AggregateId).OrderBy(x => x.Version).LastOrDefault();
+                        var lastestEvent = eventStorage.GetLastEvent(aggregate.AggregateId);
                         if (lastestEvent != null && lastestEvent.Version != aggregate.Version)
                         {
                             throw new Exception("事件库中该聚合的状态版本与当前传入聚合状态版本不同，可能已被更新");
@@ -113,6 +88,7 @@ namespace Shriek.Commands
                         eventBus.Publish(@event);
                     }
                 }
+                aggregate.MarkChangesAsCommitted();
             }
         }
 

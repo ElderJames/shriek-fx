@@ -37,6 +37,11 @@ namespace Shriek.Storage
             return _events[aggregateId].OrderBy(x => x.Timestamp);
         }
 
+        public Event GetLastEvent(Guid aggregateId)
+        {
+            return GetEvents(aggregateId).LastOrDefault();
+        }
+
         public void Save<T>(T theEvent) where T : Event
         {
             _events.TryGetValue(theEvent.AggregateId, out var events);
@@ -64,19 +69,18 @@ namespace Shriek.Storage
             foreach (var @event in uncommittedChanges)
             {
                 version++;
-                //if (version > 2)
-                //{
-                //    if (version % 3 == 0)
-                //    {
-                //        var originator = (IOriginator)aggregate;
-                //        var memento = originator.GetMemento();
-                //        memento.Version = version;
-                //        SaveMemento(memento);
-                //    }
-                //}
                 @event.Version = version;
                 Save(@event);
             }
+        }
+
+        public TAggregateRoot Source<TAggregateRoot>(Guid aggregateId) where TAggregateRoot : IAggregateRoot, IEventProvider, new()
+        {
+            var obj = new TAggregateRoot();
+            var events = GetEvents(aggregateId);
+            //重现历史更改
+            obj.LoadsFromHistory(events);
+            return obj;
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Shriek.Events
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private IServiceProvider Container;
-        private IMessageProcessor messageProcessor;
+        private IMessagePublisher messageProcessor;
 
-        public InMemoryEventBus(IServiceProvider Container, IMessageProcessor messageProcessor)
+        public InMemoryEventBus(IServiceProvider Container, IMessagePublisher messageProcessor)
         {
             this.Container = Container;
             this.messageProcessor = messageProcessor;

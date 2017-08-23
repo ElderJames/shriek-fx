@@ -9,6 +9,8 @@ namespace Shriek.EventSourcing
     {
         void Store(StoredEvent theEvent);
 
+        Event GetLastEvent(Guid aggregateId);
+
         IEnumerable<StoredEvent> All(Guid aggregateId);
     }
 }

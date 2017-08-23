@@ -21,11 +21,14 @@ namespace Shriek.Storage
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
             var events = _events.Where(p => p.AggregateId == aggregateId);
-            if (events.Count() == 0)
-            {
-                return new Event[] { };
-            }
+
             return events;
+        }
+
+        public Event GetLastEvent(Guid aggregateId)
+        {
+            return _events.Where(p => p.AggregateId == aggregateId)
+                .OrderBy(x => x.Version).LastOrDefault();
         }
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IEventProvider, IAggregateRoot
@@ -53,7 +56,7 @@ namespace Shriek.Storage
 
         public T GetMemento<T>(Guid aggregateId) where T : Memento
         {
-            var memento = _mementoes.Where(m => m.Id == aggregateId).Select(m => m).LastOrDefault();
+            var memento = _mementoes.Where(m => m.Id == aggregateId).OrderBy(m => m.Version).LastOrDefault();
             if (memento != null)
             {
                 return (T)memento;
@@ -69,6 +72,40 @@ namespace Shriek.Storage
         public void Save<T>(T @event) where T : Event
         {
             _events.Add(@event);
+        }
+
+        public TAggregateRoot Source<TAggregateRoot>(Guid aggregateId) where TAggregateRoot : IAggregateRoot, IEventProvider, new()
+        {
+            //获取该记录的所有缓存事件
+            IEnumerable<Event> events;
+            Memento memento = null;
+            var obj = new TAggregateRoot();
+
+            if (obj is IOriginator)
+            {
+                //获取该记录的更改快照
+                memento = GetMemento<Memento>(aggregateId);
+            }
+
+            if (memento != null)
+            {
+                //获取该记录最后一次快照之后的更改，避免加载过多历史更改
+                events = GetEvents(aggregateId).Where(x => x.Version >= memento.Version);
+                //从快照恢复
+                ((IOriginator)obj).SetMemento(memento);
+            }
+            else
+            {
+                //获取所有历史更改记录
+                events = GetEvents(aggregateId);
+            }
+
+            if (memento == null && !events.Any())
+                return default(TAggregateRoot);
+
+            //重现历史更改
+            obj.LoadsFromHistory(events);
+            return obj;
         }
     }
 }

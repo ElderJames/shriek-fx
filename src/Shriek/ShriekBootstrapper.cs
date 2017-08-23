@@ -16,7 +16,7 @@ namespace Shriek
             .WithScopedLifetime());
 
             services.AddScoped<IEventStorage, InMemoryEventStorage>();
-            services.AddTransient<IMessageProcessor, InProcessMessageProcessor>();
+            services.AddTransient<IMessagePublisher, InProcessMessagePublisher>();
 
             if (optionAction != null)
             {

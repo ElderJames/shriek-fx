@@ -10,5 +10,7 @@ namespace Shriek.Domains
         Guid AggregateId { get; }
 
         int Version { get; }
+
+        bool CanCommit { get; }
     }
 }

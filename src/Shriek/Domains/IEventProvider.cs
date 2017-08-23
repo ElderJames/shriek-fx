@@ -10,5 +10,7 @@ namespace Shriek.Domains
         void LoadsFromHistory(IEnumerable<Event> history);
 
         IEnumerable<Event> GetUncommittedChanges();
+
+        void MarkChangesAsCommitted();
     }
 }

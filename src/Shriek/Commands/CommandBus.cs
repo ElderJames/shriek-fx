@@ -22,11 +22,11 @@ namespace Shriek.Commands
 
         private IEventBus eventBus;
 
-        private IMessageProcessor messageProcessor;
+        private IMessagePublisher messageProcessor;
 
         private IDomainNotificationHandler<DomainNotification> notification;
 
-        public CommandBus(IServiceProvider Container, ICommandContext commandContext, IEventBus eventBus, IMessageProcessor messageProcessor, IDomainNotificationHandler<DomainNotification> notification)
+        public CommandBus(IServiceProvider Container, ICommandContext commandContext, IEventBus eventBus, IMessagePublisher messageProcessor, IDomainNotificationHandler<DomainNotification> notification)
         {
             this.Container = Container;
             this.commandContext = commandContext;

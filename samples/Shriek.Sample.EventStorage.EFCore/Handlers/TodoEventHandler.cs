@@ -16,7 +16,7 @@ namespace Shriek.Sample.EventStorage.EFCore.Handlers
 
         public void Handle(TodoChangedEvent e)
         {
-            System.Console.WriteLine($"here is {nameof(TodoCreatedEvent)}:" + e.Name);
+            System.Console.WriteLine($"here is {nameof(TodoChangedEvent)}:" + e.Name);
             Thread.Sleep(5000);
             System.Console.WriteLine($"{e.Name} finished!");
         }

@@ -22,7 +22,7 @@ namespace Shriek.Test
             var commandBus = container.GetService<ICommandBus>();
             var eventBus = container.GetService<IEventBus>();
             var eventStorage = container.GetService<IEventStorage>();
-            var messageProcessor = container.GetService<IMessageProcessor>();
+            var messageProcessor = container.GetService<IMessagePublisher>();
 
             Assert.IsNotNull(commandBus);
             Assert.IsNotNull(eventBus);

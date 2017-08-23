@@ -12,7 +12,7 @@ namespace Shriek.Sample.EventStorage.EFCore
         private static void Main(string[] args)
         {
             var services = new ServiceCollection();
-            var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.sample.db" };
+            var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.event.db" };
             var connectionString = connectionStringBuilder.ToString();
 
             services.AddShriek();

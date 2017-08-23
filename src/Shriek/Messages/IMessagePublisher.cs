@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shriek.Messages
 {
-    public interface IMessageProcessor : IDisposable
+    public interface IMessagePublisher : IDisposable
     {
         void Subscriber(Action<Message> handle);
 

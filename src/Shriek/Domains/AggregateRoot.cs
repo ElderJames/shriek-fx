@@ -1,4 +1,6 @@
-﻿using Shriek.Storage.Mementos;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Shriek.Storage.Mementos;
 using Shriek.Events;
 using Shriek.Utils;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot : IEventProvider, IAggregateRoot, IOriginator
+    public abstract class AggregateRoot : IAggregateRoot, IEventProvider, IOriginator
     {
         private readonly List<Event> _changes;
 
@@ -99,13 +101,21 @@ namespace Shriek.Domains
 
         public Memento GetMemento()
         {
-            var dict = this.ToMap();
-            return new Memento() { Id = AggregateId, Mapper = dict, Version = 0 };
+            return new Memento() { Id = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
         }
 
         public void SetMemento(Memento memento)
         {
-            memento.Mapper.ToObject(this.GetType());
+            var data = JObject.Parse(memento.Data);
+            foreach (var t in data)
+            {
+                var prop = GetType().GetProperty(t.Key);
+                if (prop != null && prop.CanWrite)
+                {
+                    var value = t.Value.ToObject(prop.PropertyType);
+                    prop.SetValue(this, value);
+                }
+            }
         }
 
         public bool CanCommit => _changes.Any();
