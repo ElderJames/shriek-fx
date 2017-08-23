@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,34 +24,34 @@ namespace Shriek.EntityFrameworkCore
         private IEnumerable<Type> GetEntityTypes()
         {
             return this.GetType().GetProperties((BindingFlags.Public | BindingFlags.Instance)).Select(x => x.PropertyType)
-                .Where(x => x.IsGenericType && x.GetGenericTypeDefinition().FullName == typeof(DbSet<>).FullName).Select(x => x.GetGenericArguments()[0]).ToArray();
+                .Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DbSet<>)).Select(x => x.GetGenericArguments()[0]).ToArray();
         }
 
         /// <summary>
         /// 获取DbContext中所有作为DbSet<>的类型参数的实体类型对应的实体配置
         /// </summary>
         /// <returns></returns>
-        private IEnumerable<Type> GetEntityBuilderMaps()
+        private IEnumerable<Type> GetEntityTypeConfigurations()
         {
-            var entities = GetEntityTypes();
-            if (!entities.Any())
-                return new Type[] { };
+            //var entities = GetEntityTypes();
+            //if (!entities.Any())
+            //    return new Type[] { };
 
-            return Reflection.GetAssemblies(type: entities.FirstOrDefault()).SelectMany(ass => ass.GetTypes())
+            var types = Reflection.GetAssemblies().SelectMany(ass => ass.GetTypes())
                  .Where(x =>
                  {
-                     //获取接口是IEntityTypeConfiguration<>以及接口的类型参数被包含在entities里
-                     var intf = x.GetInterface(typeof(IEntityTypeConfiguration<>).Name);
-                     return intf != null && intf.GetGenericArguments().Intersect(entities).Count() > 0;
-                 }
-               );
+                     //获取IEntityTypeConfiguration<>的实现类
+                     var type = x.GetInterface(typeof(IEntityTypeConfiguration<,>).Name);
+                     return type != null && type.GetGenericArguments().Contains(GetType());
+                 });
+            return types;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var map in GetEntityBuilderMaps())
+            foreach (var map in GetEntityTypeConfigurations())
             {
-                modelBuilder.ApplyConfiguration((dynamic)Assembly.GetAssembly(map).CreateInstance(map.FullName));
+                modelBuilder.ApplyConfiguration((dynamic)Activator.CreateInstance(map));
             }
 
             base.OnModelCreating(modelBuilder);

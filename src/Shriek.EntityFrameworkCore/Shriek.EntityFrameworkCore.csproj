@@ -11,4 +11,8 @@
     <ItemGroup>
       <ProjectReference Include="..\Shriek\Shriek.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Attributes\" />
+    </ItemGroup>
 </Project>

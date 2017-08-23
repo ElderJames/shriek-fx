@@ -19,7 +19,7 @@ namespace Shriek.EventStorage.EFCore
 
         public IEnumerable<StoredEvent> All(Guid aggregateId)
         {
-            return context.StoredEvent.Where(e => e.AggregateId == aggregateId).AsEnumerable();
+            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId).AsEnumerable();
         }
 
         public void Dispose()
@@ -29,7 +29,7 @@ namespace Shriek.EventStorage.EFCore
 
         public void Store(StoredEvent theEvent)
         {
-            context.StoredEvent.Add(theEvent);
+            context.Set<StoredEvent>().Add(theEvent);
             context.SaveChanges();
         }
     }

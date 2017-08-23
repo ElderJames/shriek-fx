@@ -10,6 +10,6 @@ namespace Shriek.EventStorage.EFCore
         {
         }
 
-        public DbSet<StoredEvent> StoredEvent { get; set; }
+        // public DbSet<StoredEvent> StoredEvent { get; set; }
     }
 }

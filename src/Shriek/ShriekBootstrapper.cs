@@ -17,6 +17,13 @@ namespace Shriek
 
             services.AddScoped<IEventStorage, InMemoryEventStorage>();
             services.AddTransient<IMessageProcessor, InProcessMessageProcessor>();
+
+            if (optionAction != null)
+            {
+                var options = new ShriekOption();
+                optionAction(options);
+            }
+
             return services;
         }
     }
