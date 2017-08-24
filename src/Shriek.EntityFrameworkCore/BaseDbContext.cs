@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Microsoft.Extensions.Options;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ using Shriek.Utils;
 
 namespace Shriek.EntityFrameworkCore
 {
-    public class BaseDbContext : DbContext
+    public abstract class BaseDbContext : DbContext
     {
         public BaseDbContext(DbContextOptions options)
         : base(options)

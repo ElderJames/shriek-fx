@@ -8,7 +8,7 @@ A ddd-cqrs framework that would make you shriek! simple,elegant and useful!
 
 1. 领域驱动（DDD）
 2. 命令查询职责分离（CQRS）
-3. 事件溯源 （ES）
+3. 事件回溯 （ES）
 4. 最终一致性
 
 ### 任务列表（更新中）：
