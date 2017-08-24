@@ -33,5 +33,5 @@ A ddd-cqrs framework that would make you shriek! simple,elegant and useful!
   - [ ] RPC
 - 示例
   - [x] 内存事件仓储示例
-  - [x] SQl事件仓储示例
+  - [x] SQL事件仓储示例
   - [ ] Web示例

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shriek.EntityFrameworkCore;
 
-namespace Shriek.EventStorage.EFCore
+namespace Shriek.EventStorage.EFCore.EntityConfigurations
 {
-    internal class StoredEventMap : IEntityTypeConfiguration<StoredEvent, EventStorageSQLContext>
+    internal class StoredEventConfiguration : IEntityTypeConfiguration<StoredEvent, EventStorageSQLContext>
     {
         public void Configure(EntityTypeBuilder<StoredEvent> builder)
         {
@@ -15,6 +15,9 @@ namespace Shriek.EventStorage.EFCore
             builder.Property(c => c.EventType)
                 .HasColumnName("Action")
                 .HasColumnType("varchar(100)");
+
+            builder.Property(c => c.AggregateId)
+                .HasColumnType("char(36)");
         }
     }
 }

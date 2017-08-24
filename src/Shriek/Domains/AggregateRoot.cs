@@ -75,7 +75,7 @@ namespace Shriek.Domains
             {
                 ApplyChange(e, false);
             }
-            Version = history.LastOrDefault()?.Version ?? 0;
+            Version = history.LastOrDefault()?.Version ?? -1;
             EventVersion = Version;
         }
 
@@ -101,7 +101,7 @@ namespace Shriek.Domains
 
         public Memento GetMemento()
         {
-            return new Memento() { Id = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
+            return new Memento() { aggregateId = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
         }
 
         public void SetMemento(Memento memento)

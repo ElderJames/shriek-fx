@@ -54,12 +54,12 @@ namespace Shriek.Storage
             }
         }
 
-        public T GetMemento<T>(Guid aggregateId) where T : Memento
+        public Memento GetMemento(Guid aggregateId)
         {
-            var memento = _mementoes.Where(m => m.Id == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            var memento = _mementoes.Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
             if (memento != null)
             {
-                return (T)memento;
+                return memento;
             }
             return null;
         }
@@ -84,7 +84,7 @@ namespace Shriek.Storage
             if (obj is IOriginator)
             {
                 //获取该记录的更改快照
-                memento = GetMemento<Memento>(aggregateId);
+                memento = GetMemento(aggregateId);
             }
 
             if (memento != null)

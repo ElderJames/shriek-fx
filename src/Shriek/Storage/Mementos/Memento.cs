@@ -7,12 +7,14 @@ namespace Shriek.Storage.Mementos
     public class Memento
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+
+        public Guid aggregateId { get; set; }
 
         public int Version { get; set; }
 
         public string Data { get; set; }
 
-        public DateTime Timestamp => DateTime.Now;
+        public DateTime Timestamp { get; protected set; } = DateTime.Now;
     }
 }

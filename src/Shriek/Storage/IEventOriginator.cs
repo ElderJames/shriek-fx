@@ -10,7 +10,7 @@ namespace Shriek.Storage
     /// </summary>
     public interface IEventOriginator
     {
-        T GetMemento<T>(Guid aggregateId) where T : Memento;
+        Memento GetMemento(Guid aggregateId);
 
         void SaveMemento(Memento memento);
     }

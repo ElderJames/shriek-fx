@@ -4,10 +4,11 @@ using System.Linq;
 using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using Shriek.Storage.Mementos;
 
 namespace Shriek.EventStorage.EFCore
 {
-    public class EventStorageSQLRepository : IEventStorageRepository
+    public class EventStorageSQLRepository : IEventStorageRepository, IMementoRepository
     {
         private EventStorageSQLContext context;
 
@@ -34,6 +35,17 @@ namespace Shriek.EventStorage.EFCore
         public void Store(StoredEvent theEvent)
         {
             context.Set<StoredEvent>().Add(theEvent);
+            context.SaveChanges();
+        }
+
+        public Memento GetMemento(Guid aggregateId)
+        {
+            return context.Set<Memento>().Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+        }
+
+        public void SaveMemento(Memento memento)
+        {
+            context.Set<Memento>().Add(memento);
             context.SaveChanges();
         }
     }

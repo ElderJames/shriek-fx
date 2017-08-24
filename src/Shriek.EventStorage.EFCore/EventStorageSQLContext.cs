@@ -9,7 +9,5 @@ namespace Shriek.EventStorage.EFCore
         public EventStorageSQLContext(DbContextOptions<EventStorageSQLContext> options) : base(options)
         {
         }
-
-        // public DbSet<StoredEvent> StoredEvent { get; set; }
     }
 }
