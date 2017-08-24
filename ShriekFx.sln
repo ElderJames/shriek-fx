@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -26,7 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.EFCore", "src\Shriek.EventStorage.EFCore\Shriek.EventStorage.EFCore.csproj", "{60117DDA-35FA-49A5-8BCC-7A404B67D37D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Sample.EventStorage.EFCore", "samples\Shriek.Sample.EventStorage.EFCore\Shriek.Sample.EventStorage.EFCore.csproj", "{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Sample.EventStorage.EFCore", "samples\Shriek.Sample.EventStorage.EFCore\Shriek.Sample.EventStorage.EFCore.csproj", "{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Sample.CQRS.EFCore", "samples\Shriek.Sample.CQRS.EFCore\Shriek.Sample.CQRS.EFCore.csproj", "{9484D871-092F-40F9-A4B0-B004F4788719}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9484D871-092F-40F9-A4B0-B004F4788719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9484D871-092F-40F9-A4B0-B004F4788719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9484D871-092F-40F9-A4B0-B004F4788719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9484D871-092F-40F9-A4B0-B004F4788719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{92E69FD4-B29F-45AB-A525-A2A1248926A9} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{60117DDA-35FA-49A5-8BCC-7A404B67D37D} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{A00F88AB-51EB-4FF4-A926-A4A56B5653F8} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{9484D871-092F-40F9-A4B0-B004F4788719} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
