@@ -11,7 +11,7 @@ A ddd-cqrs framework that would make you shriek! simple,elegant and useful!
 3. 事件溯源 （ES）
 4. 最终一致性
 
-进度：
+任务列表（更新中）：
 
 - [x] C端
   - [x] CommandBus
@@ -25,10 +25,12 @@ A ddd-cqrs framework that would make you shriek! simple,elegant and useful!
     - [ ] Redis实现
   - [ ] 消息队列（MQ）
   - [ ] Saga
-  - [ ] Q端 + Real DB 
+- [ ] Q端 + Real DB 
     - [ ] EF
     - [ ] Dapper
 - [ ] Service层
+    - [ ] 自动路由绑定
+    - [ ] RPC
 - [ ] 示例
   - [x] 内存事件仓储示例
   - [x] SQl事件仓储示例
