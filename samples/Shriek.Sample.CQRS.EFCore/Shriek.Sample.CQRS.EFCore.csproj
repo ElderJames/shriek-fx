@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Components\Summary\" />
+  </ItemGroup>
+
 </Project>

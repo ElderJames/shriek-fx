@@ -1,4 +1,7 @@
-﻿using Shriek.Samples.Aggregates;
+﻿using Shriek.Samples.Repositories;
+using Shriek.Samples.Queries;
+using Shriek.EventSourcing;
+using Shriek.Samples.Aggregates;
 using Shriek.Samples;
 using Shriek.EventStorage.EFCore;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +35,9 @@ namespace Shriek.Sample.CQRS.EFCore
             //真实数据库
             services.AddDbContext<TodoDbContext>(options =>
                 options.UseSqlite(new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.real.db" }.ToString()));
+
+            services.AddScoped<ITodoQuery, TodoQuery>();
+            services.AddScoped<ITodoRepository, TodoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

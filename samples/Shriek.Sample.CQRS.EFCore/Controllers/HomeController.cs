@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Shriek.Samples.Commands;
+using Shriek.Samples.Events;
+using Shriek.Samples.Model;
+using Shriek.Samples.Queries;
+using Shriek.Commands;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +15,15 @@ namespace Shriek.Sample.CQRS.EFCore.Controllers
 {
     public class HomeController : Controller
     {
+        private ICommandBus commandBus;
+        private ITodoQuery todoQuery;
+
+        public HomeController(ICommandBus commandBus, ITodoQuery todoQuery)
+        {
+            this.commandBus = commandBus;
+            this.todoQuery = todoQuery;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -32,6 +46,50 @@ namespace Shriek.Sample.CQRS.EFCore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult GetTodoList()
+        {
+            var list = this.todoQuery.GetList();
+            return Ok(list);
+        }
+
+        public IActionResult Todo(Guid aggregateId)
+        {
+            var todo = todoQuery.GetById(aggregateId);
+            return View(todo);
+        }
+
+        [HttpPost]
+        public IActionResult Todo(Todo todo)
+        {
+            try
+            {
+                if (todo.AggregateId == Guid.Empty)
+                {
+                    commandBus.Send(new CreateTodoCommand(Guid.NewGuid())
+                    {
+                        Name = todo.Name,
+                        Desception = todo.Desception,
+                        FinishTime = todo.FinishTime,
+                    });
+                }
+                else
+                {
+                    commandBus.Send(new ChangeTodoCommand(todo.AggregateId)
+                    {
+                        Name = todo.Name,
+                        Desception = todo.Desception,
+                        FinishTime = todo.FinishTime,
+                    });
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
         }
     }
 }

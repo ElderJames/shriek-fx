@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Shriek.Samples.EntityConfigurations
 {
-    public class AggregateRootTypeConfiguration : IEntityTypeConfiguration<TodoAggregateRoot, TodoDbContext>
+    public class TodoAggregateRootTypeConfiguration : IEntityTypeConfiguration<TodoAggregateRoot, TodoDbContext>
     {
         public void Configure(EntityTypeBuilder<TodoAggregateRoot> builder)
         {

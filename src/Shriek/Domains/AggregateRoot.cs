@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Shriek.Storage.Mementos;
 using Shriek.Events;
@@ -12,6 +13,9 @@ namespace Shriek.Domains
     public abstract class AggregateRoot : IAggregateRoot, IEventProvider, IOriginator
     {
         private readonly List<Event> _changes;
+
+        [Key]
+        public int Id { get; protected set; }
 
         public Guid AggregateId { get; protected set; }
 

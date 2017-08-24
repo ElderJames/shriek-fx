@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Shriek.Samples.Aggregates;
 
 namespace Shriek.Samples.Repositories
 {
-    class ITodoRepository
+    public interface ITodoRepository
     {
+        bool Create(TodoAggregateRoot root);
+
+        bool Change(TodoAggregateRoot root);
+
+        bool Delete(TodoAggregateRoot root);
+
+        int Save();
     }
 }

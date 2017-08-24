@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.EFCore"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Sample.EventStorage.EFCore", "samples\Shriek.Sample.EventStorage.EFCore\Shriek.Sample.EventStorage.EFCore.csproj", "{A00F88AB-51EB-4FF4-A926-A4A56B5653F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Sample.CQRS.EFCore", "samples\Shriek.Sample.CQRS.EFCore\Shriek.Sample.CQRS.EFCore.csproj", "{9484D871-092F-40F9-A4B0-B004F4788719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Sample.CQRS.EFCore", "samples\Shriek.Sample.CQRS.EFCore\Shriek.Sample.CQRS.EFCore.csproj", "{9484D871-092F-40F9-A4B0-B004F4788719}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

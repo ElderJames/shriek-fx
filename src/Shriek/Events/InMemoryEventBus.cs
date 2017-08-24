@@ -1,13 +1,7 @@
 ﻿using Shriek.Messages;
-using System.Collections.Concurrent;
-using Shriek.Storage;
 using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
-using Shriek.Notifications;
 using System.Runtime.CompilerServices;
 
 namespace Shriek.Events
