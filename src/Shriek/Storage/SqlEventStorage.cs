@@ -14,31 +14,29 @@ namespace Shriek.Storage
     {
         private readonly IEventStorageRepository eventStoreRepository;
         private readonly IMementoRepository mementoRepository;
-        private ConcurrentDictionary<Guid, ConcurrentBag<Event>> _events;
+        private ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
 
         public SqlEventStorage(IEventStorageRepository eventStoreRepository, IMementoRepository mementoRepository)
         {
             this.eventStoreRepository = eventStoreRepository;
             this.mementoRepository = mementoRepository;
 
-            _events = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
+            _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
         }
 
         public IEnumerable<Event> GetEvents(Guid aggregateId)
         {
-            _events.TryGetValue(aggregateId, out var events);
-            if (events == null)
+            return _eventsDict.GetOrAdd(aggregateId, x =>
             {
                 var storeEvents = eventStoreRepository.All(aggregateId);
-                _events[aggregateId] = new ConcurrentBag<Event>();
-
-                foreach (var e in storeEvents)
+                var eventlist= new ConcurrentBag<Event>();
+                foreach (var e in storeEvents.OrderBy(e =>e.Timestamp))
                 {
-                    var eventType = Type.GetType(e.EventType);
-                    _events[aggregateId].Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
+                     var eventType = Type.GetType(e.EventType);
+                    eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                 }
-            }
-            return _events[aggregateId].OrderBy(x => x.Timestamp);
+                return eventlist;
+            });
         }
 
         public Event GetLastEvent(Guid aggregateId)
@@ -48,11 +46,10 @@ namespace Shriek.Storage
 
         public void Save<T>(T theEvent) where T : Event
         {
-            _events.TryGetValue(theEvent.AggregateId, out var events);
-            if (events == null)
-                _events[theEvent.AggregateId] = new ConcurrentBag<Event>();
-
-            _events[theEvent.AggregateId].Add(theEvent);
+            _eventsDict.AddOrUpdate(theEvent.AggregateId, new ConcurrentBag<Event> { theEvent },(key,list)=> {
+                list.Add(theEvent);
+                return list;
+            });
 
             var serializedData = JsonConvert.SerializeObject(theEvent);
 
