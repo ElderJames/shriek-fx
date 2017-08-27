@@ -21,7 +21,9 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - 事件存储 + 事件快照（备忘录模式）
     - [x] 内存模式 *(需要在命令处理完后立刻存储到Real DB)*
     - [x] EF实现
-    - [ ] NoSql实现
+    - NoSql实现
+		- [x] LiteDB
+		- [ ] Cosmos DB
     - [ ] Redis实现
   - [ ] 消息队列（MQ）
   - [ ] Saga
