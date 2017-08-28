@@ -30,9 +30,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.CQRS.EFCore", "samples\Shriek.Sample.CQRS.EFCore\Shriek.Samples.CQRS.EFCore.csproj", "{9484D871-092F-40F9-A4B0-B004F4788719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.EventStorage.NoSql", "samples\Shriek.Samples.EventStorage.NoSql\Shriek.Samples.EventStorage.NoSql.csproj", "{77144B2E-EBDF-4AD5-8734-796FD1BD13B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.NoSql", "samples\Shriek.Samples.EventStorage.NoSql\Shriek.Samples.EventStorage.NoSql.csproj", "{77144B2E-EBDF-4AD5-8734-796FD1BD13B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.LiteDB", "src\Shriek.EventStorage.LiteDB\Shriek.EventStorage.LiteDB.csproj", "{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.LiteDB", "src\Shriek.EventStorage.LiteDB\Shriek.EventStorage.LiteDB.csproj", "{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.MongoDB", "src\Shriek.EventStorage.CosmosDB\Shriek.EventStorage.MongoDB.csproj", "{991134E2-72AC-4C47-8373-D171506075A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,10 @@ Global
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{991134E2-72AC-4C47-8373-D171506075A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991134E2-72AC-4C47-8373-D171506075A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991134E2-72AC-4C47-8373-D171506075A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991134E2-72AC-4C47-8373-D171506075A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{9484D871-092F-40F9-A4B0-B004F4788719} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{77144B2E-EBDF-4AD5-8734-796FD1BD13B6} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
+		{991134E2-72AC-4C47-8373-D171506075A4} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}

@@ -23,7 +23,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
     - [x] EF实现
     - NoSql实现
 		- [x] LiteDB
-		- [ ] Cosmos DB
+		- [ ] Cosmos DB （MongoDB API）
     - [ ] Redis实现
   - [ ] 消息队列（MQ）
   - [ ] Saga
