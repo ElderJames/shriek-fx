@@ -31,7 +31,9 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 - Service层
   - [ ] 自动路由绑定
   - [ ] RPC
+  - [ ] GraphSQL
 - 示例
   - [x] 内存事件仓储示例
-  - [x] SQL事件仓储示例
+  - [x] EFCore事件仓储示例
+  - [x] NoSQL事件仓储示例
   - [ ] Web示例
