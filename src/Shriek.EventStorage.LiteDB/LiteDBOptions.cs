@@ -5,7 +5,7 @@ using LiteDB;
 
 namespace Shriek.EventStorage.LiteDB
 {
-    public class LiteDBOptions<TLiteDatabase> where TLiteDatabase : LiteDatabase
+    public class LiteDBOptions
     {
         /// <summary>
         /// 数据库路径
