@@ -10,12 +10,12 @@ namespace Shriek.EventStorage.MongoDB
 {
     public class EventStorageRepository : IEventStorageRepository, IMementoRepository
     {
-        private IEventStorageMongoDatabase database;
+        private IMongoDatabase database;
 
         private IMongoCollection<StoredEvent> eventStore => database.GetCollection<StoredEvent>("events");
         private IMongoCollection<Memento> mementStore => database.GetCollection<Memento>("mementos");
 
-        public EventStorageRepository(IEventStorageMongoDatabase database)
+        public EventStorageRepository(IMongoDatabase database)
         {
             this.database = database;
         }

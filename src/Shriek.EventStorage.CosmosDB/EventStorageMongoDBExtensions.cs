@@ -33,7 +33,9 @@ namespace Shriek.EventStorage.MongoDB
                 settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
             }
             var mongoClient = new MongoClient(settings);
-            services.AddScoped(typeof(IEventStorageMongoDatabase), x => mongoClient.GetDatabase(options.DatabaseName));
+            var database = mongoClient.GetDatabase(options.DatabaseName);
+
+            services.AddScoped(x => database);
 
             services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             services.AddScoped<IMementoRepository, EventStorageRepository>();
