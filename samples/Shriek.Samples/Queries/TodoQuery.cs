@@ -1,8 +1,7 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using Shriek.Samples.Models;
 using System;
 using System.Collections.Generic;
-using Shriek.Samples.Model;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Shriek.Samples.Queries

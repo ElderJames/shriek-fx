@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.Events;
+﻿using Shriek.Events;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shriek.Storage
 {

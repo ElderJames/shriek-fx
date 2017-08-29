@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using Shriek.Samples.Aggregates;
+using System;
 using System.Linq;
 
 namespace Shriek.Samples.Repositories

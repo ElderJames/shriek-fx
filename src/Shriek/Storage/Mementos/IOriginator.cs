@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shriek.Storage.Mementos
+﻿namespace Shriek.Storage.Mementos
 {
     /// <summary>
     /// 备忘录模式接口

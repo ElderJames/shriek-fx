@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Shriek.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Shriek.Notifications;
 
 namespace Shriek.Samples.InProcess.Notifications
 {

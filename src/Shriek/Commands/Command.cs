@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.Messages;
+﻿using Shriek.Messages;
+using System;
 
 namespace Shriek.Commands
 {

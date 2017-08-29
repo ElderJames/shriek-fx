@@ -1,13 +1,9 @@
-﻿using Shriek.Messages;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using Newtonsoft.Json;
+using Shriek.Events;
 using Shriek.Exceptions;
+using Shriek.Messages;
 using Shriek.Notifications;
 using System;
-using Shriek.Events;
-using System.Collections.Concurrent;
-using System.Linq;
 
 namespace Shriek.Commands
 {

@@ -1,15 +1,18 @@
-﻿using Shriek.Samples.Model;
-using Shriek.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+using Shriek.EntityFrameworkCore;
+using Shriek.Samples.Models;
 
 namespace Shriek.Samples.EntityConfigurations
 {
-    internal class TodoTypeConfiguration : IEntityTypeConfiguration<Todo, TodoDbContext>
+    public class TodoTypeConfiguration : IEntityTypeConfiguration<Todo, TodoDbContext>
     {
         public void Configure(EntityTypeBuilder<Todo> builder)
         {
             builder.HasAnnotation("Table", "Todo");
+
+            builder.HasKey(c => c.AggregateId);
+
             builder.Property(c => c.AggregateId)
                      .HasColumnType("char(36)");
         }

@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Concurrent;
-using Shriek.Events;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Domains;
+using Shriek.Events;
 using Shriek.Storage;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Shriek.Storage.Mementos;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Shriek.Commands
 {

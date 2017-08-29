@@ -1,7 +1,7 @@
-﻿using Shriek.Storage;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shriek.EntityFrameworkCore;
+using Shriek.Storage;
 
 namespace Shriek.EventStorage.EFCore.EntityConfigurations
 {
@@ -9,6 +9,8 @@ namespace Shriek.EventStorage.EFCore.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<StoredEvent> builder)
         {
+            builder.HasKey(c => c.Id);
+
             builder.Property(c => c.Timestamp)
                 .HasColumnName("CreationDate");
 

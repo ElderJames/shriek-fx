@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Shriek.Samples.Model
+namespace Shriek.Samples.Models
 {
     public class Todo
     {

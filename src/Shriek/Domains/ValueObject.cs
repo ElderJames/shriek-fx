@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shriek.Domains
+﻿namespace Shriek.Domains
 {
     public abstract class ValueObject<T> where T : ValueObject<T>
     {

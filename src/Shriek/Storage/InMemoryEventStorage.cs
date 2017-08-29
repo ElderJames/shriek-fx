@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Shriek.Domains;
+using Shriek.Events;
+using Shriek.Storage.Mementos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shriek.Events;
-using Shriek.Domains;
-using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {

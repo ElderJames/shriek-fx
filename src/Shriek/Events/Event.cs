@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using Shriek.Messages;
+﻿using Shriek.Messages;
+using System;
 
 namespace Shriek.Events
 {

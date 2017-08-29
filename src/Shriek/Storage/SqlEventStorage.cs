@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Concurrent;
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Shriek.Domains;
 using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage.Mementos;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Shriek.Storage
 {
@@ -29,10 +29,10 @@ namespace Shriek.Storage
             return _eventsDict.GetOrAdd(aggregateId, x =>
             {
                 var storeEvents = eventStoreRepository.All(aggregateId);
-                var eventlist= new ConcurrentBag<Event>();
-                foreach (var e in storeEvents.OrderBy(e =>e.Timestamp))
+                var eventlist = new ConcurrentBag<Event>();
+                foreach (var e in storeEvents.OrderBy(e => e.Timestamp))
                 {
-                     var eventType = Type.GetType(e.EventType);
+                    var eventType = Type.GetType(e.EventType);
                     eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                 }
                 return eventlist;
@@ -46,7 +46,8 @@ namespace Shriek.Storage
 
         public void Save<T>(T theEvent) where T : Event
         {
-            _eventsDict.AddOrUpdate(theEvent.AggregateId, new ConcurrentBag<Event> { theEvent },(key,list)=> {
+            _eventsDict.AddOrUpdate(theEvent.AggregateId, new ConcurrentBag<Event> { theEvent }, (key, list) =>
+            {
                 list.Add(theEvent);
                 return list;
             });

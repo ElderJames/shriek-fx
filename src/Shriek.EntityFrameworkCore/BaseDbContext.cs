@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Shriek.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shriek.Utils;
+using System.Reflection;
 
 namespace Shriek.EntityFrameworkCore
 {

@@ -1,9 +1,9 @@
-﻿using Shriek.Messages;
-using Shriek.Storage;
-using Shriek.Events;
-using Shriek.Commands;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Shriek.Commands;
+using Shriek.Events;
+using Shriek.Messages;
+using Shriek.Storage;
 
 namespace Shriek.Test
 {

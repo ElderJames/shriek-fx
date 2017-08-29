@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.Storage;
+﻿using Shriek.Storage;
 
 namespace Shriek.EventSourcing
 {

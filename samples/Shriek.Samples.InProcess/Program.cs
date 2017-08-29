@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.Samples.Commands;
 using Shriek.Storage;
+using System;
 
 namespace Shriek.Samples.InProcess
 {

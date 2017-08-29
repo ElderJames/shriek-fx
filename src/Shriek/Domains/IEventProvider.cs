@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Shriek.Events;
 using System.Collections.Generic;
-using System.Text;
-using Shriek.Events;
 
 namespace Shriek.Domains
 {

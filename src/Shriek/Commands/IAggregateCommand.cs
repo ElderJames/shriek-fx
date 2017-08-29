@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shriek.Commands
+﻿namespace Shriek.Commands
 {
     /// <summary>
     /// 聚合根命令

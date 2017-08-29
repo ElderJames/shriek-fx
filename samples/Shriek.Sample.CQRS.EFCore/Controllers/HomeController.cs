@@ -1,15 +1,11 @@
-﻿using Shriek.Samples.Commands;
-using Shriek.Samples.Events;
-using Shriek.Samples.Model;
-using Shriek.Samples.Queries;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shriek.Commands;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Shriek.Sample.CQRS.EFCore.Models;
+using Shriek.Samples.Commands;
+using Shriek.Samples.Models;
+using Shriek.Samples.Queries;
+using System;
+using System.Diagnostics;
 
 namespace Shriek.Sample.CQRS.EFCore.Controllers
 {

@@ -1,10 +1,6 @@
-﻿using Shriek.Storage;
+﻿using Shriek.Commands;
 using Shriek.Samples.Aggregates;
 using Shriek.Samples.Commands;
-using Shriek.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shriek.Samples.InProcess.Handlers
 {

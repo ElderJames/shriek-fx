@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Shriek.Domains;
+﻿using Shriek.Domains;
 using Shriek.Events;
 using System;
 using System.Collections.Generic;

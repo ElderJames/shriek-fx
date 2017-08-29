@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.IdGenerators;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using Shriek.EventSourcing;
 using Shriek.Storage;
@@ -21,17 +18,13 @@ namespace Shriek.EventStorage.MongoDB
             BsonClassMap.RegisterClassMap<StoredEvent>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdMember(c => c.Id)
-                    .SetSerializer(new StringSerializer(BsonType.ObjectId))
-                    .SetIdGenerator(StringObjectIdGenerator.Instance);
+                cm.MapIdProperty(c => c.Id);
             });
 
             BsonClassMap.RegisterClassMap<Memento>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdMember(c => c.Id)
-                    .SetSerializer(new StringSerializer(BsonType.ObjectId))
-                    .SetIdGenerator(StringObjectIdGenerator.Instance);
+                cm.MapIdProperty(c => c.Id);
             });
 
             MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));

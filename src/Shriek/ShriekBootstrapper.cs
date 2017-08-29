@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Messages;
-using Microsoft.Extensions.DependencyInjection;
 using Shriek.Storage;
 using Shriek.Utils;
+using System;
 
 namespace Shriek
 {

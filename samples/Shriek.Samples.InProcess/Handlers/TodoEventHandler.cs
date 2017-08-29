@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using Shriek.Events;
 using Shriek.Samples.Events;
-using Shriek.Events;
+using System.Threading;
 
 namespace Shriek.Samples.InProcess.Handlers
 {

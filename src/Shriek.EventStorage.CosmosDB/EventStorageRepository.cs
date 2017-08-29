@@ -1,10 +1,10 @@
-﻿using Shriek.EventSourcing;
+﻿using MongoDB.Driver;
+using Shriek.Events;
+using Shriek.EventSourcing;
+using Shriek.Storage;
+using Shriek.Storage.Mementos;
 using System;
 using System.Collections.Generic;
-using Shriek.Events;
-using Shriek.Storage;
-using MongoDB.Driver;
-using Shriek.Storage.Mementos;
 
 namespace Shriek.EventStorage.MongoDB
 {

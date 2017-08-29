@@ -1,10 +1,8 @@
 ﻿using Shriek.Converter.Core;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Shriek.Converter.Converts
 {
@@ -51,8 +49,8 @@ namespace Shriek.Converter.Converts
 
         /// <summary>
         /// 属性的Setter
-        /// </summary>       
-        /// <param name="property">属性</param>        
+        /// </summary>
+        /// <param name="property">属性</param>
         public PropertySetter(PropertyInfo property)
         {
             this.methodInvoker = MethodReflection.CreateInvoker(property.GetSetMethod());
@@ -80,5 +78,4 @@ namespace Shriek.Converter.Converts
             return this.Name;
         }
     }
-
 }

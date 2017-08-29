@@ -1,18 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.Extensions.DependencyInjection;
-using System.Runtime.CompilerServices;
-using Shriek.Utils;
-using System.Net.Mime;
-using System.Security.Cryptography.X509Certificates;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Shriek.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Reflection;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Shriek.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shriek.Test
 {

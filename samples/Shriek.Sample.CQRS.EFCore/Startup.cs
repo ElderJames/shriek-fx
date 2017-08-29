@@ -1,14 +1,12 @@
-﻿using Shriek.Samples.Repositories;
-using Shriek.Samples.Queries;
-using Shriek.EventSourcing;
-using Shriek.Samples.Aggregates;
-using Shriek.Samples;
-using Shriek.EventStorage.EFCore;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Shriek.EventStorage.EFCore;
+using Shriek.Samples;
+using Shriek.Samples.Queries;
+using Shriek.Samples.Repositories;
 
 namespace Shriek.Sample.CQRS.EFCore
 {

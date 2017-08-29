@@ -1,9 +1,5 @@
-﻿using Shriek.Utils;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Shriek.Utils;
 
 namespace Shriek.Test
 {

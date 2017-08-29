@@ -1,14 +1,9 @@
 ﻿using Shriek.Converter.Converts;
-using Shriek.Converter.Core;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace Shriek.Converter
 {
@@ -22,12 +17,12 @@ namespace Shriek.Converter
         /// </summary>
         private static readonly Converter Instance = new Converter();
 
-        /// <summary>       
+        /// <summary>
         /// 支持基础类型、decimal、guid和枚举相互转换以及这些类型的可空类型和数组类型相互转换
         /// 支持字典和DynamicObject转换为对象以及字典和DynamicObject的数组转换为对象数组
         /// </summary>
         /// <typeparam name="T">目标类型</typeparam>
-        /// <param name="value">值</param>      
+        /// <param name="value">值</param>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="Exception"></exception>
         /// <returns></returns>
@@ -41,7 +36,7 @@ namespace Shriek.Converter
         /// 支持字典和DynamicObject转换为对象以及字典和DynamicObject的数组转换为对象数组
         /// </summary>
         /// <param name="value">值</param>
-        /// <param name="targetType">目标类型</param>       
+        /// <param name="targetType">目标类型</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="Exception"></exception>
@@ -52,7 +47,7 @@ namespace Shriek.Converter
         }
 
         /// <summary>
-        /// 获取转换单元操控对象        
+        /// 获取转换单元操控对象
         /// </summary>
         public ContertItems Items { get; private set; }
 
@@ -75,7 +70,7 @@ namespace Shriek.Converter
         /// 转换为目标类型
         /// </summary>
         /// <typeparam name="T">要转换的目标类型</typeparam>
-        /// <param name="value">要转换的值</param>    
+        /// <param name="value">要转换的值</param>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="Exception"></exception>
         /// <returns>转换后的值</returns>
@@ -112,7 +107,6 @@ namespace Shriek.Converter
             var message = string.Format("不支持将{0}转换为{1}", value, targetType.Name);
             throw new NotSupportedException(message);
         }
-
 
         /// <summary>
         /// 表示转换器的转换单元合集
@@ -245,6 +239,7 @@ namespace Shriek.Converter
             }
 
             #region DebugView
+
             /// <summary>
             /// 调试视图
             /// </summary>
@@ -277,7 +272,7 @@ namespace Shriek.Converter
                 }
             }
 
-            #endregion
+            #endregion DebugView
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
-using Shriek.Samples.Commands;
 using Shriek.EventStorage.EFCore;
-using Microsoft.EntityFrameworkCore;
+using Shriek.Samples.Commands;
+using System;
 
 namespace Shriek.Sample.EventStorage.EFCore
 {

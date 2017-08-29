@@ -1,7 +1,5 @@
 ﻿using Shriek.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shriek.Samples.Commands
 {

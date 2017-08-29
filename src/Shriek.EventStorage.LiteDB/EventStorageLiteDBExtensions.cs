@@ -1,6 +1,6 @@
-﻿using Shriek.EventSourcing;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shriek.EventSourcing;
 using Shriek.Storage;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Shriek.EventStorage.LiteDB
