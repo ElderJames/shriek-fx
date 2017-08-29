@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.LiteDB", "src\Shriek.EventStorage.LiteDB\Shriek.EventStorage.LiteDB.csproj", "{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.MongoDB", "src\Shriek.EventStorage.CosmosDB\Shriek.EventStorage.MongoDB.csproj", "{991134E2-72AC-4C47-8373-D171506075A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.MongoDB", "src\Shriek.EventStorage.CosmosDB\Shriek.EventStorage.MongoDB.csproj", "{991134E2-72AC-4C47-8373-D171506075A4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.Mongo", "samples\Shriek.Samples.EventStorage.Mongo\Shriek.Samples.EventStorage.Mongo.csproj", "{13868D3C-B17F-4B0E-B824-7B958B259CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +88,10 @@ Global
 		{991134E2-72AC-4C47-8373-D171506075A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991134E2-72AC-4C47-8373-D171506075A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991134E2-72AC-4C47-8373-D171506075A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{77144B2E-EBDF-4AD5-8734-796FD1BD13B6} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{991134E2-72AC-4C47-8373-D171506075A4} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
+		{13868D3C-B17F-4B0E-B824-7B958B259CAD} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
