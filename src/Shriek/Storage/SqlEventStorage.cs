@@ -30,13 +30,13 @@ namespace Shriek.Storage
             {
                 var storeEvents = eventStoreRepository.All(aggregateId);
                 var eventlist = new ConcurrentBag<Event>();
-                foreach (var e in storeEvents.OrderBy(e => e.Timestamp))
+                foreach (var e in storeEvents)
                 {
                     var eventType = Type.GetType(e.EventType);
                     eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                 }
                 return eventlist;
-            });
+            }).OrderBy(e => e.Timestamp);
         }
 
         public Event GetLastEvent(Guid aggregateId)

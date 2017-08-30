@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Shriek.EventStorage.CosmosDB\Shriek.EventStorage.MongoDB.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.EventStorage.MongoDB\Shriek.EventStorage.MongoDB.csproj" />
     <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>
