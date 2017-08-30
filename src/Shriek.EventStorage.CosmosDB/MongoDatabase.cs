@@ -15,13 +15,13 @@ namespace Shriek.EventStorage.MongoDB
             BsonClassMap.RegisterClassMap<StoredEvent>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int64IdGenerator());
+                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int32IdGenerator<StoredEvent>());
             });
 
             BsonClassMap.RegisterClassMap<Memento>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int64IdGenerator());
+                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int32IdGenerator<Memento>());
             });
 
             MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));
