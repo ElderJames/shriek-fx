@@ -15,9 +15,9 @@ namespace Shriek.EventStorage.MongoDB
         private IMongoCollection<StoredEvent> eventStore => database.GetCollection<StoredEvent>("events");
         private IMongoCollection<Memento> mementStore => database.GetCollection<Memento>("mementos");
 
-        public EventStorageRepository(IMongoDatabase database)
+        public EventStorageRepository(MongoDatabase database)
         {
-            this.database = database;
+            this.database = database.Database;
         }
 
         public IEnumerable<StoredEvent> All(Guid aggregateId)

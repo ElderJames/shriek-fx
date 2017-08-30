@@ -15,27 +15,7 @@ namespace Shriek.EventStorage.MongoDB
             var options = new MongoDBOptions();
             optionsAction(options);
 
-            BsonClassMap.RegisterClassMap<StoredEvent>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapIdProperty(c => c.Id);
-            });
-
-            BsonClassMap.RegisterClassMap<Memento>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapIdProperty(c => c.Id);
-            });
-
-            MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));
-            if (options.IsSSL)
-            {
-                settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
-            }
-            var mongoClient = new MongoClient(settings);
-            var database = mongoClient.GetDatabase(options.DatabaseName);
-
-            services.AddScoped(x => database);
+            services.AddScoped(x => new MongoDatabase(options));
 
             services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             services.AddScoped<IMementoRepository, EventStorageRepository>();
