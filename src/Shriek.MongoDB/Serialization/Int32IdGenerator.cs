@@ -4,7 +4,7 @@ using System;
 
 namespace Shriek.MongoDB.Serialization
 {
-    public class Int32IdGenerator : IntIdGeneratorBase
+    public sealed class Int32IdGenerator<T> : IntIdGeneratorBase<T> where T : class
     {
         public Int32IdGenerator(string idCollectionName) : base(idCollectionName)
         {
@@ -26,7 +26,10 @@ namespace Shriek.MongoDB.Serialization
 
         public override bool IsEmpty(object id)
         {
-            return (Int32)id == 0;
+            if (id is Int64)
+                return (Int64)id == 0;
+            else
+                return (Int32)id == 0;
         }
     }
 }

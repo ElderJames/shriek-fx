@@ -5,13 +5,13 @@ using MongoDB.Driver.Builders;
 
 namespace Shriek.MongoDB.Serialization
 {
-    public abstract class IntIdGeneratorBase : IIdGenerator
+    public abstract class IntIdGeneratorBase<T> : IIdGenerator where T : class
     {
-        private string m_idCollectionName;
+        private string idCollectionName;
 
         protected IntIdGeneratorBase(string idCollectionName)
         {
-            m_idCollectionName = idCollectionName;
+            this.idCollectionName = idCollectionName;
         }
 
         protected IntIdGeneratorBase() : this("IDs")
@@ -26,18 +26,22 @@ namespace Shriek.MongoDB.Serialization
 
         public object GenerateId(object container, object document)
         {
-            var idSequenceCollection = ((MongoCollection)container).Database
-                .GetCollection(m_idCollectionName);
+            var idSequenceCollection = ((IMongoCollection<T>)container).Database
+              .GetCollection<BsonDocument>(idCollectionName);
 
-            var query = Query.EQ("_id", ((MongoCollection)container).Name);
+            var collectionName = document.GetType().Name;
 
-            return ConvertToInt(idSequenceCollection.FindAndModify(new FindAndModifyArgs()
+            var filterQuery = Builders<BsonDocument>.Filter.Eq("_id", collectionName);
+            var updates = Builders<BsonDocument>.Update.Inc("seq", 1);
+            var updateOptions = new FindOneAndUpdateOptions<BsonDocument>
             {
-                Query = query,
-                Update = CreateUpdateBuilder(),
-                VersionReturned = FindAndModifyDocumentVersion.Modified,
-                Upsert = true
-            }).ModifiedDocument["seq"]);
+                IsUpsert = true,
+                ReturnDocument = ReturnDocument.After
+            };
+
+            var doc = idSequenceCollection.FindOneAndUpdate(filterQuery, updates, updateOptions);
+
+            return ConvertToInt(doc["seq"]);
         }
     }
 }

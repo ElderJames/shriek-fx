@@ -4,7 +4,7 @@ using MongoDB.Driver.Builders;
 
 namespace Shriek.MongoDB.Serialization
 {
-    public sealed class Int64IdGenerator : IntIdGeneratorBase
+    public sealed class Int64IdGenerator<T> : IntIdGeneratorBase<T> where T : class
     {
         public Int64IdGenerator(string idCollectionName) : base(idCollectionName)
         {
@@ -21,6 +21,9 @@ namespace Shriek.MongoDB.Serialization
 
         protected override object ConvertToInt(BsonValue value)
         {
+            if (value.BsonType == BsonType.Int32)
+                return (Int64)value.AsInt32;
+
             return value.AsInt64;
         }
 
