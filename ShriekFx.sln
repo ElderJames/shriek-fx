@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.MongoDB", "src\Shriek.EventStorage.CosmosDB\Shriek.EventStorage.MongoDB.csproj", "{991134E2-72AC-4C47-8373-D171506075A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.Mongo", "samples\Shriek.Samples.EventStorage.Mongo\Shriek.Samples.EventStorage.Mongo.csproj", "{13868D3C-B17F-4B0E-B824-7B958B259CAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.MongoDB", "src\Shriek.MongoDB\Shriek.MongoDB.csproj", "{4E089D76-AB68-420E-A58B-D83BBFC52089}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +94,10 @@ Global
 		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13868D3C-B17F-4B0E-B824-7B958B259CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E089D76-AB68-420E-A58B-D83BBFC52089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E089D76-AB68-420E-A58B-D83BBFC52089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E089D76-AB68-420E-A58B-D83BBFC52089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E089D76-AB68-420E-A58B-D83BBFC52089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +115,7 @@ Global
 		{DF02BCA8-B3A8-4AB4-A0ED-D144404AADC7} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{991134E2-72AC-4C47-8373-D171506075A4} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{13868D3C-B17F-4B0E-B824-7B958B259CAD} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{4E089D76-AB68-420E-A58B-D83BBFC52089} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}

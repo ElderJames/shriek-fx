@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization;
+﻿using Shriek.MongoDB;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
@@ -14,13 +15,13 @@ namespace Shriek.EventStorage.MongoDB
             BsonClassMap.RegisterClassMap<StoredEvent>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdProperty(c => c.Id);
+                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int64IdGenerator());
             });
 
             BsonClassMap.RegisterClassMap<Memento>(cm =>
             {
                 cm.AutoMap();
-                cm.MapIdProperty(c => c.Id);
+                cm.MapIdProperty(c => c.Id).SetIdGenerator(new Int64IdGenerator());
             });
 
             MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));
