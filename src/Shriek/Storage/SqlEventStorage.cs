@@ -24,11 +24,11 @@ namespace Shriek.Storage
             _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
         }
 
-        public IEnumerable<Event> GetEvents(Guid aggregateId)
+        public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
             return _eventsDict.GetOrAdd(aggregateId, x =>
             {
-                var storeEvents = eventStoreRepository.All(aggregateId);
+                var storeEvents = eventStoreRepository.GetEvents(aggregateId, afterVersion);
                 var eventlist = new ConcurrentBag<Event>();
                 foreach (var e in storeEvents)
                 {
@@ -101,7 +101,7 @@ namespace Shriek.Storage
             if (memento != null)
             {
                 //获取该记录最后一次快照之后的更改，避免加载过多历史更改
-                events = GetEvents(aggregateId).Where(x => x.Version >= memento.Version);
+                events = GetEvents(aggregateId, memento.Version);
                 //从快照恢复
                 ((IOriginator)obj).SetMemento(memento);
             }

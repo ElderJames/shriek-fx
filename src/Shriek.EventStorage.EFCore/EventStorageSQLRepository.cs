@@ -17,9 +17,9 @@ namespace Shriek.EventStorage.EFCore
             this.context = context;
         }
 
-        public IEnumerable<StoredEvent> All(Guid aggregateId)
+        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId);
+            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
         }
 
         public void Dispose()

@@ -20,9 +20,9 @@ namespace Shriek.EventStorage.MongoDB
             this.database = database.Database;
         }
 
-        public IEnumerable<StoredEvent> All(Guid aggregateId)
+        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return eventStore.Find(e => e.AggregateId == aggregateId).ToEnumerable();
+            return eventStore.Find(e => e.AggregateId == aggregateId && e.Version >= afterVersion).ToEnumerable();
         }
 
         public void Dispose()

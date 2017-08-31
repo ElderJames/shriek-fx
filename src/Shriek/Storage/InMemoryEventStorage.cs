@@ -18,17 +18,17 @@ namespace Shriek.Storage
             _mementoes = new List<Memento>();
         }
 
-        public IEnumerable<Event> GetEvents(Guid aggregateId)
+        public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            var events = _events.Where(p => p.AggregateId == aggregateId);
+            var events = _events.Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
 
             return events;
         }
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            return _events.Where(p => p.AggregateId == aggregateId)
-                .OrderBy(x => x.Version).LastOrDefault();
+            return _events.Where(e => e.AggregateId == aggregateId)
+                .OrderBy(e => e.Version).LastOrDefault();
         }
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IEventProvider, IAggregateRoot
@@ -90,7 +90,7 @@ namespace Shriek.Storage
             if (memento != null)
             {
                 //获取该记录最后一次快照之后的更改，避免加载过多历史更改
-                events = GetEvents(aggregateId).Where(x => x.Version >= memento.Version);
+                events = GetEvents(aggregateId, memento.Version);
                 //从快照恢复
                 ((IOriginator)obj).SetMemento(memento);
             }

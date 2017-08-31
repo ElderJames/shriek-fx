@@ -11,6 +11,6 @@ namespace Shriek.EventSourcing
 
         Event GetLastEvent(Guid aggregateId);
 
-        IEnumerable<StoredEvent> All(Guid aggregateId);
+        IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0);
     }
 }

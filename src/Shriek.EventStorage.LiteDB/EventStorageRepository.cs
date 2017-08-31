@@ -17,9 +17,9 @@ namespace Shriek.EventStorage.LiteDB
             this.liteDatabase = liteDatabase;
         }
 
-        public IEnumerable<StoredEvent> All(Guid aggregateId)
+        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(x => x.AggregateId == aggregateId);
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
         }
 
         public void Dispose()
@@ -29,7 +29,7 @@ namespace Shriek.EventStorage.LiteDB
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(x => x.AggregateId == aggregateId).OrderBy(x => x.Timestamp).LastOrDefault();
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
         public Memento GetMemento(Guid aggregateId)
