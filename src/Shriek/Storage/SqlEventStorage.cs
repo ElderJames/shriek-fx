@@ -36,7 +36,7 @@ namespace Shriek.Storage
                     eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                 }
                 return eventlist;
-            }).OrderBy(e => e.Timestamp);
+            }).Where(e => e.Version >= afterVersion).OrderBy(e => e.Timestamp);
         }
 
         public Event GetLastEvent(Guid aggregateId)
