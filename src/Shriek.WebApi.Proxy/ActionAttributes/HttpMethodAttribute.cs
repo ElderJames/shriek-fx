@@ -50,7 +50,7 @@ namespace Shriek.WebApi.Proxy
         {
             context.RequestMessage.Method = this.Method;
             context.RequestMessage.RequestUri = new Uri(context.HostAttribute.Host, this.Path);
-            return TaskExtend.CompletedTask;
+            return TaskExtensions.CompletedTask;
         }
 
         /// <summary>

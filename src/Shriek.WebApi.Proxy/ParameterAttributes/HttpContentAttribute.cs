@@ -31,7 +31,7 @@ namespace Shriek.WebApi.Proxy
 
             var httpContent = this.GetHttpContent(context, parameter);
             context.RequestMessage.Content = httpContent;
-            await TaskExtend.CompletedTask;
+            await TaskExtensions.CompletedTask;
         }
 
         /// <summary>

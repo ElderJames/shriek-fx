@@ -19,7 +19,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public virtual Task OnBeginRequestAsync(ApiActionContext context)
         {
-            return TaskExtend.CompletedTask;
+            return TaskExtensions.CompletedTask;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public virtual Task OnEndRequestAsync(ApiActionContext context)
         {
-            return TaskExtend.CompletedTask;
+            return TaskExtensions.CompletedTask;
         }
     }
 }

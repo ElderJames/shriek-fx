@@ -31,7 +31,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - [ ] EF
   - [ ] Dapper
 - Service层
-  - [ ] 自动路由绑定
+  - [ ] WebApi客户端AOP代理
   - [ ] RPC
   - [ ] GraphSQL
 - 示例

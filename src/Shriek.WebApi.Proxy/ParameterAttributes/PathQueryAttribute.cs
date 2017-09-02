@@ -52,7 +52,7 @@ namespace Shriek.WebApi.Proxy
             var uri = context.RequestMessage.RequestUri;
             var pathQuery = this.GetPathQuery(uri.LocalPath + uri.Query, parameter);
             context.RequestMessage.RequestUri = new Uri(uri, pathQuery);
-            await TaskExtend.CompletedTask;
+            await TaskExtensions.CompletedTask;
         }
 
         /// <summary>
