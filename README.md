@@ -9,7 +9,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 1. 领域驱动（DDD）
 2. 命令查询职责分离（CQRS）
 3. 事件回溯 （ES）
-4. 最终一致性
+4. 最终一致性 （Eventually Consistent）
 
 ### 任务列表（更新中）：
 
@@ -18,20 +18,22 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - [x] 事件总线 EventBus
   - [x] 进程内异步队列
   - [x] 内存事件缓存
-  - 事件存储 + 事件快照（备忘录模式）
-    - [x] 内存模式 *(命令消费后立刻持久化)*
-    - [x] EF实现
-    - NoSql实现
+  - 事件存储 + 聚合快照（备忘录模式）
+    - [x] 内存模式 *(聚合修改后立刻持久化)*
+    - [x] EF Core实现
+    - NoSQL实现
 		- [x] LiteDB
 		- [x] Cosmos DB （MongoDB API）
-    - [ ] Redis实现
+    - [ ] Redis
   - [ ] 消息队列（MQ）
   - [ ] Saga
 - Q端 + Real DB 
-  - [ ] EF
+  - [x] EF Core
   - [ ] Dapper
+  - [ ] 仓储扫描注册
+  - [ ] 查询基类
 - Service层
-  - [ ] WebApi客户端AOP代理
+  - [ ] WebApi 接口客户端
   - [ ] RPC
   - [ ] GraphSQL
 - 示例
