@@ -56,7 +56,12 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public TInterface GetHttpApi<TInterface>() where TInterface : class
         {
-            return HttpApiClient.GeneratoProxy<TInterface>(null, this);
+            return GeneratoProxy<TInterface>(null, this);
+        }
+
+        public object GetHttpApi(Type obj, string url)
+        {
+            return GeneratoProxy(obj, url, this);
         }
 
         /// <summary>
@@ -79,7 +84,7 @@ namespace Shriek.WebApi.Proxy
                 throw new ArgumentException(typeof(TInterface).Name + "不是接口类型");
             }
 
-            return HttpApiClient.GeneratoProxy<TInterface>(host, this);
+            return GeneratoProxy<TInterface>(host, this);
         }
 
         /// <summary>
@@ -98,7 +103,19 @@ namespace Shriek.WebApi.Proxy
                 var hostAttribute = new CustomAttributeInfo(ctor, new object[] { host });
                 option.AdditionalAttributes.Add(hostAttribute);
             }
-            return HttpApiClient.generator.CreateInterfaceProxyWithoutTarget<TInterface>(option, interceptor);
+            return generator.CreateInterfaceProxyWithoutTarget<TInterface>(option, interceptor);
+        }
+
+        private static object GeneratoProxy(Type type, string host, IInterceptor interceptor)
+        {
+            var option = new ProxyGenerationOptions();
+            if (string.IsNullOrEmpty(host) == false)
+            {
+                var ctor = typeof(HttpHostAttribute).GetConstructors().FirstOrDefault();
+                var hostAttribute = new CustomAttributeInfo(ctor, new object[] { host });
+                option.AdditionalAttributes.Add(hostAttribute);
+            }
+            return generator.CreateInterfaceProxyWithoutTarget(type, option, interceptor);
         }
 
         /// <summary>
