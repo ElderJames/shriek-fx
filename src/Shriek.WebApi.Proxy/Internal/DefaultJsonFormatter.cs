@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
 {
     /// <summary>
     /// 默认的json解析工具
     /// </summary>
-    class DefaultJsonFormatter : IJsonFormatter
+    internal class DefaultJsonFormatter : IJsonFormatter
     {
         /// <summary>
         /// 序列化为json

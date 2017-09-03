@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -22,7 +19,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public override async Task<object> GetTaskResult(ApiActionContext context)
         {
-            var response =  context.ResponseMessage;
+            var response = context.ResponseMessage;
             var returnType = context.ApiActionDescriptor.ReturnDataType;
 
             if (returnType == typeof(HttpResponseMessage))

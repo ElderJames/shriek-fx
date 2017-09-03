@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Shriek.WebApi.Proxy
 {
@@ -7,7 +6,6 @@ namespace Shriek.WebApi.Proxy
     {
         public static void AddWebApiProxy(this IServiceCollection services)
         {
-
         }
     }
 }

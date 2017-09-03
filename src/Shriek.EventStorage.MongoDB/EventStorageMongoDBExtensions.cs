@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
 using Shriek.EventSourcing;
 using Shriek.Storage;
-using Shriek.Storage.Mementos;
 using System;
 
 namespace Shriek.EventStorage.MongoDB

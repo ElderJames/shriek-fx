@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using Shriek.MongoDB.Serialization;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
-using Shriek.MongoDB.Serialization;
 
 namespace Shriek.EventStorage.MongoDB
 {

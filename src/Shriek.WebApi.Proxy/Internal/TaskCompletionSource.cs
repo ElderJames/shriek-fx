@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -9,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 提供任务的创建
     /// </summary>
-    class TaskCompletionSource
+    internal class TaskCompletionSource
     {
         /// <summary>
         /// 提供任务的创建接口
@@ -81,7 +78,6 @@ namespace Shriek.WebApi.Proxy
             /// <returns></returns>
             bool SetException(Exception ex);
         }
-
 
         /// <summary>
         /// 提供Task结果设置

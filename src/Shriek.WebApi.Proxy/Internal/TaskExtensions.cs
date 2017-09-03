@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -9,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 提供Taskof(Object)类型转换强类型
     /// </summary>
-    static class TaskExtensions
+    internal static class TaskExtensions
     {
         /// <summary>
         /// 完成的任务

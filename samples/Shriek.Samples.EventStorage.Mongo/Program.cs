@@ -1,9 +1,9 @@
-﻿using Shriek.EventStorage.MongoDB;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using System;
 using Shriek.Commands;
+using Shriek.EventStorage.MongoDB;
 using Shriek.Samples.Commands;
+using System;
 
 namespace Shriek.Samples.EventStorage.Mongo
 {

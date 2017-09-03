@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -16,6 +13,6 @@ namespace Shriek.WebApi.Proxy
         /// </summary>
         /// <param name="context">上下文</param>
         /// <returns></returns>
-        public abstract Task BeforeRequestAsync(ApiActionContext context);     
+        public abstract Task BeforeRequestAsync(ApiActionContext context);
     }
 }

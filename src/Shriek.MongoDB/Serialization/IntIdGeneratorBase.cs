@@ -1,6 +1,6 @@
 using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
 namespace Shriek.MongoDB.Serialization

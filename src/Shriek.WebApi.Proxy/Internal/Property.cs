@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Web;
 
 namespace Shriek.WebApi.Proxy
 {
     /// <summary>
     /// 表示属性
     /// </summary>
-    class Property
+    internal class Property
     {
         /// <summary>
         /// 获取器
@@ -80,7 +78,6 @@ namespace Shriek.WebApi.Proxy
         {
             this.seter.Invoke(instance, value);
         }
-
 
         /// <summary>
         /// 类型属性的Setter缓存

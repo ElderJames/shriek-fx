@@ -11,7 +11,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示Castle相关上下文
     /// </summary>
-    class CastleContext
+    internal class CastleContext
     {
         /// <summary>
         /// 获取HttpHostAttribute
@@ -202,13 +202,12 @@ namespace Shriek.WebApi.Proxy
             /// 获取哈希码
             /// </summary>
             /// <param name="obj"></param>
-            /// <returns></returns> 
+            /// <returns></returns>
             public int GetHashCode(ApiActionFilterAttribute obj)
             {
                 return obj.TypeId.GetHashCode();
             }
         }
-
 
         /// <summary>
         /// IInvocation对象的比较器
