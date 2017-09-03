@@ -7,11 +7,11 @@ namespace Shriek.WebApi.Proxy
 {
     public class WebApiProxyOptions
     {
-        internal IEnumerable<IWebApiProxyOption> proxyOptions { get; set; }
+        internal IEnumerable<IWebApiProxyOption> ProxyOptions { get; set; }
 
         public void AddWebApiProxy<TWebApiProxyOption>(TWebApiProxyOption option) where TWebApiProxyOption : IWebApiProxyOption
         {
-            proxyOptions.Concat(new IWebApiProxyOption[] { option });
+            ProxyOptions.Concat(new IWebApiProxyOption[] { option });
         }
     }
 }

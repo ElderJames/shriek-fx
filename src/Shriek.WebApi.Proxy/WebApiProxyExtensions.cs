@@ -1,6 +1,4 @@
-﻿using System.Data;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Linq;
+﻿using System.Linq;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,12 +12,12 @@ namespace Shriek.WebApi.Proxy
             optionAction(option);
 
             var webClient = new HttpApiClient();
-            foreach (var o in option.proxyOptions)
+            foreach (var o in option.ProxyOptions)
             {
                 var types = o.GetType().Assembly.GetTypes().Where(x => x.IsInterface);
                 foreach (var t in types)
                 {
-                    services.AddScoped(t.GetType(), x => webClient.GetHttpApi(t.GetType(), o.BaseUrl));
+                    services.AddScoped(t, x => webClient.GetHttpApi(t, o.BaseUrl));
                 }
             }
         }
