@@ -8,7 +8,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示将回复的Xml结果作反序化为指定类型
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class XmlReturnAttribute : ApiReturnAttribute
     {
         /// <summary>

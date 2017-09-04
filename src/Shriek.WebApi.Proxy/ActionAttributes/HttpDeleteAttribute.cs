@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示Delete请求
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class HttpDeleteAttribute : HttpMethodAttribute
     {
         /// <summary>

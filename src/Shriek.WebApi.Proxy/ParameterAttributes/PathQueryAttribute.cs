@@ -60,17 +60,9 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         private string GetPathQuery(string pathQuery, ApiParameterDescriptor parameter)
         {
-            if (parameter.IsSimpleType == true)
-            {
-                return this.GetPathQuerySimple(pathQuery, parameter.Name, parameter.Value);
-            }
-
-            if (parameter.ParameterType.IsArray == true)
-            {
-                return this.GetPathQueryArray(pathQuery, parameter);
-            }
-
-            return this.GetPathQueryComplex(pathQuery, parameter);
+            return parameter.IsSimpleType ? this.GetPathQuerySimple(pathQuery, parameter.Name, parameter.Value) :
+                   parameter.ParameterType.IsArray ? this.GetPathQueryArray(pathQuery, parameter) :
+                   this.GetPathQueryComplex(pathQuery, parameter);
         }
 
         /// <summary>
@@ -81,8 +73,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         private string GetPathQueryArray(string pathQuery, ApiParameterDescriptor parameter)
         {
-            var array = parameter.Value as Array;
-            if (array == null)
+            if (!(parameter.Value is Array array))
             {
                 return pathQuery;
             }
@@ -126,7 +117,7 @@ namespace Shriek.WebApi.Proxy
             var valueString = value == null ? string.Empty : value.ToString();
             var regex = new Regex("{" + name + "}", RegexOptions.IgnoreCase);
 
-            if (regex.IsMatch(pathQuery) == true)
+            if (regex.IsMatch(pathQuery))
             {
                 return regex.Replace(pathQuery, valueString);
             }

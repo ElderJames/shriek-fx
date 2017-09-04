@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示回复处理抽象类
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public abstract class ApiReturnAttribute : Attribute
     {
         /// <summary>

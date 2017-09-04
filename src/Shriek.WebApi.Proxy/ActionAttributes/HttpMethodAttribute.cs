@@ -7,7 +7,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示http请求方法描述特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class HttpMethodAttribute : ApiActionAttribute
     {
         /// <summary>

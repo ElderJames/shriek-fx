@@ -34,11 +34,11 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         protected virtual string GetFormContent(ApiParameterDescriptor parameter, Encoding encoding)
         {
-            if (parameter.IsSimpleType == true)
+            if (parameter.IsSimpleType)
             {
                 return this.GetContentSimple(parameter.Name, parameter.Value, encoding);
             }
-            else if (parameter.ParameterType.IsArray == true)
+            if (parameter.ParameterType.IsArray)
             {
                 return this.GetContentArray(parameter, encoding);
             }
@@ -54,8 +54,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         private string GetContentArray(ApiParameterDescriptor parameter, Encoding encoding)
         {
-            var array = parameter.Value as Array;
-            if (array == null)
+            if (!(parameter.Value is Array array))
             {
                 return null;
             }
@@ -93,7 +92,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         private string GetContentSimple(string name, object value, Encoding encoding)
         {
-            var valueString = value == null ? null : value.ToString();
+            var valueString = value?.ToString();
             var valueEncoded = HttpUtility.UrlEncode(valueString, encoding);
             return string.Format("{0}={1}", name, valueEncoded);
         }

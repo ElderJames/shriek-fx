@@ -55,7 +55,7 @@ namespace Shriek.Test.WebApiProxy
 
             var client = new HttpApiClient(_client.Object);
             apiClient = client.GetHttpApi<ITestInterface>("http://localhost");
-            client.Intercept(_invokation.Object);
+            ((IInterceptor)client).Intercept(_invokation.Object);
         }
 
         [TestMethod]

@@ -15,11 +15,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public string Serialize(object obj)
         {
-            if (obj == null)
-            {
-                return null;
-            }
-            return JsonConvert.SerializeObject(obj);
+            return obj == null ? null : JsonConvert.SerializeObject(obj);
         }
 
         /// <summary>

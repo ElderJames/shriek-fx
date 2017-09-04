@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示请求Api过滤器特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public abstract class ApiActionFilterAttribute : Attribute
     {
         /// <summary>

@@ -5,7 +5,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示请求服务根路径
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface)]
     public sealed class HttpHostAttribute : Attribute
     {
         /// <summary>

@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示Get请求
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class HttpGetAttribute : HttpMethodAttribute
     {
         /// <summary>

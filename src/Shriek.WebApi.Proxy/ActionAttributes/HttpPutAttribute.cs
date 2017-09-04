@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示Put请求
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class HttpPutAttribute : HttpMethodAttribute
     {
         /// <summary>

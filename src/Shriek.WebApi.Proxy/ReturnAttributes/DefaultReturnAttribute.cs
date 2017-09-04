@@ -9,7 +9,7 @@ namespace Shriek.WebApi.Proxy
     /// 如果使用其它类型作接收结果，将引发NotSupportedException
     /// 此特性不需要显示声明
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public sealed class DefaultReturnAttribute : ApiReturnAttribute
     {
         /// <summary>

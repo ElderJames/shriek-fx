@@ -58,7 +58,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public TInterface GetHttpApi<TInterface>() where TInterface : class
         {
-            if (typeof(TInterface).IsInterface == false)
+            if (!typeof(TInterface).IsInterface)
             {
                 throw new ArgumentException(typeof(TInterface).Name + "不是接口类型");
             }
@@ -73,7 +73,7 @@ namespace Shriek.WebApi.Proxy
                 throw new ArgumentNullException();
             }
 
-            if (obj.IsInterface == false)
+            if (!obj.IsInterface)
             {
                 throw new ArgumentException(obj.Name + "不是接口类型");
             }
@@ -95,7 +95,7 @@ namespace Shriek.WebApi.Proxy
                 throw new ArgumentNullException();
             }
 
-            if (typeof(TInterface).IsInterface == false)
+            if (!typeof(TInterface).IsInterface)
             {
                 throw new ArgumentException(typeof(TInterface).Name + "不是接口类型");
             }
@@ -113,7 +113,7 @@ namespace Shriek.WebApi.Proxy
         private static TInterface GeneratoProxy<TInterface>(string host, IInterceptor interceptor) where TInterface : class
         {
             var option = new ProxyGenerationOptions();
-            if (string.IsNullOrEmpty(host) == false)
+            if (!string.IsNullOrEmpty(host))
             {
                 var ctor = typeof(HttpHostAttribute).GetConstructors().FirstOrDefault();
                 var hostAttribute = new CustomAttributeInfo(ctor, new object[] { host });
@@ -125,7 +125,7 @@ namespace Shriek.WebApi.Proxy
         private static object GeneratoProxy(Type type, string host, IInterceptor interceptor)
         {
             var option = new ProxyGenerationOptions();
-            if (string.IsNullOrEmpty(host) == false)
+            if (!string.IsNullOrEmpty(host))
             {
                 var ctor = typeof(HttpHostAttribute).GetConstructors().FirstOrDefault();
                 var hostAttribute = new CustomAttributeInfo(ctor, new object[] { host });
@@ -138,7 +138,7 @@ namespace Shriek.WebApi.Proxy
         /// 方法拦截
         /// </summary>
         /// <param name="invocation">拦截内容</param>
-        public void Intercept(IInvocation invocation)
+        void IInterceptor.Intercept(IInvocation invocation)
         {
             var context = CastleContext.From(invocation);
             var actionContext = new ApiActionContext

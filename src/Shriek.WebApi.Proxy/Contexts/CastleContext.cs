@@ -65,21 +65,11 @@ namespace Shriek.WebApi.Proxy
         private static CastleContext GetContextNoCache(IInvocation invocation)
         {
             var method = invocation.Method;
-            var hostAttribute = CastleContext.GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false);
-            if (hostAttribute == null)
-            {
-                hostAttribute = invocation.Proxy.GetType().GetCustomAttribute<HttpHostAttribute>();
-            }
-            if (hostAttribute == null)
-            {
-                throw new HttpRequestException("未指定HttpHostAttribute");
-            }
+            var hostAttribute = CastleContext.GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ??
+                                invocation.Proxy.GetType().GetCustomAttribute<HttpHostAttribute>() ??
+                                throw new HttpRequestException("未指定HttpHostAttribute");
 
-            var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
-            if (returnAttribute == null)
-            {
-                returnAttribute = new DefaultReturnAttribute();
-            }
+            var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true) ?? new DefaultReturnAttribute();
 
             var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);
@@ -134,7 +124,7 @@ namespace Shriek.WebApi.Proxy
             {
                 parameterDescriptor.Attributes = new[] { new HttpContentAttribute() };
             }
-            else if (parameterDescriptor.Attributes.Length == 0)
+            else if (!parameterDescriptor.Attributes.Any())
             {
                 parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
             }
