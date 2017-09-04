@@ -18,7 +18,7 @@ namespace Shriek.WebApi.Proxy
         /// <summary>
         /// 获取或设置http客户端
         /// </summary>
-        public HttpClient HttpClient { get; set; }
+        public IHttpClient HttpClient { get; set; }
 
         /// <summary>
         /// 获取或设置json解析工具
@@ -39,12 +39,7 @@ namespace Shriek.WebApi.Proxy
         /// <param name="httpClient">关联的http客户端</param>
         public HttpApiClient(HttpClient httpClient)
         {
-            if (httpClient == null)
-            {
-                httpClient = new HttpClient();
-            }
-
-            this.HttpClient = httpClient;
+            HttpClient = new HttpClientAdapter(httpClient ?? new HttpClient());
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
