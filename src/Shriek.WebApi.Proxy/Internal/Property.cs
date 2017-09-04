@@ -14,12 +14,12 @@ namespace Shriek.WebApi.Proxy
         /// <summary>
         /// 获取器
         /// </summary>
-        private readonly Method geter;
+        private readonly Method getter;
 
         /// <summary>
         /// 设置器
         /// </summary>
-        private readonly Method seter;
+        private readonly Method setter;
 
         /// <summary>
         /// 获取属性名称
@@ -48,15 +48,15 @@ namespace Shriek.WebApi.Proxy
             var getMethod = property.GetGetMethod();
             if (getMethod != null)
             {
-                this.geter = new Method(getMethod);
+                this.getter = new Method(getMethod);
             }
 
             var setMethod = property.GetSetMethod();
             if (setMethod != null)
             {
-                this.seter = new Method(setMethod);
+                this.setter = new Method(setMethod);
             }
-            this.IsVirtual = this.geter.Info.IsVirtual;
+            this.IsVirtual = this.getter.Info.IsVirtual;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public object GetValue(object instance)
         {
-            return this.geter.Invoke(instance, null);
+            return this.getter.Invoke(instance, null);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Shriek.WebApi.Proxy
         /// <param name="value">值</param>
         public void SetValue(object instance, object value)
         {
-            this.seter.Invoke(instance, value);
+            this.setter.Invoke(instance, value);
         }
 
         /// <summary>

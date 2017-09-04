@@ -29,8 +29,15 @@ namespace Shriek.WebApi.Proxy
         /// web api请求客户端
         /// </summary>
         public HttpApiClient()
-            : this(null)
         {
+            HttpClient = new HttpClientAdapter(new HttpClient());
+            this.JsonFormatter = new DefaultJsonFormatter();
+        }
+
+        public HttpApiClient(IHttpClient httpClient)
+        {
+            HttpClient = httpClient ?? new HttpClientAdapter(new HttpClient());
+            this.JsonFormatter = new DefaultJsonFormatter();
         }
 
         /// <summary>
@@ -51,12 +58,26 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public TInterface GetHttpApi<TInterface>() where TInterface : class
         {
+            if (typeof(TInterface).IsInterface == false)
+            {
+                throw new ArgumentException(typeof(TInterface).Name + "不是接口类型");
+            }
+
             return GeneratoProxy<TInterface>(null, this);
         }
 
-        public object GetHttpApi(Type obj, string url)
+        public object GetHttpApi(Type obj, string host)
         {
-            return GeneratoProxy(obj, url, this);
+            if (string.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (obj.IsInterface == false)
+            {
+                throw new ArgumentException(obj.Name + "不是接口类型");
+            }
+            return GeneratoProxy(obj, host, this);
         }
 
         /// <summary>
@@ -117,7 +138,7 @@ namespace Shriek.WebApi.Proxy
         /// 方法拦截
         /// </summary>
         /// <param name="invocation">拦截内容</param>
-        void IInterceptor.Intercept(IInvocation invocation)
+        public void Intercept(IInvocation invocation)
         {
             var context = CastleContext.From(invocation);
             var actionContext = new ApiActionContext

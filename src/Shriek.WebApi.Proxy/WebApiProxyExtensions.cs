@@ -14,7 +14,7 @@ namespace Shriek.WebApi.Proxy
             var webClient = new HttpApiClient();
             foreach (var o in option.ProxyOptions)
             {
-                var types = o.GetType().Assembly.GetTypes().Where(x => x.IsInterface);
+                var types = o.GetType().Assembly.GetTypes().Where(x => x.IsInterface && x.GetMethods().Any(m => m.CustomAttributes.Any(a => a.AttributeType.BaseType == typeof(ApiActionAttribute))));
                 foreach (var t in types)
                 {
                     services.AddScoped(t, x => webClient.GetHttpApi(t, o.BaseUrl));

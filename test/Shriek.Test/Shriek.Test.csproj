@@ -7,11 +7,13 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170810-02" />
+        <PackageReference Include="Moq" Version="4.7.99" />
         <PackageReference Include="MSTest.TestAdapter" Version="1.2.0-beta3" />
         <PackageReference Include="MSTest.TestFramework" Version="1.2.0-beta3" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
+      <ProjectReference Include="..\..\src\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj" />
       <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     </ItemGroup>
     <ItemGroup>
