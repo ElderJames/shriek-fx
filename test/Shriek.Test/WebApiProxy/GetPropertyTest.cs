@@ -11,19 +11,24 @@ using System.Threading.Tasks;
 namespace Shriek.Test.WebApiProxy
 {
     [TestClass]
-    public class GetNotEncodingPlusTest
+    public class GetPropertyTest
     {
-        private const string HelloWorld = "Hello world!";
+        private const string ResponseMessage = "Hello John Doe!";
         private Mock<IInvocation> _invokation;
         private Mock<IHttpClient> _client;
         private IGreetings apiClient;
 
+        public class Name
+        {
+            public string First { get; set; }
+            public string Last { get; set; }
+        }
+
         [HttpHost("http://localhost")]
         public interface IGreetings
         {
-            [HttpGet("/to/{+number}")]
-            [JsonReturn]
-            Task<string> Hello(string number);
+            [HttpGet("/hello/{first}/{last}")]
+            Task<string> Hello(Name name);
         }
 
         [TestInitialize]
@@ -31,7 +36,7 @@ namespace Shriek.Test.WebApiProxy
         {
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent($"\"{HelloWorld}\"", Encoding.UTF8, "application/json")
+                Content = new StringContent($"\"{ResponseMessage}\"", Encoding.UTF8, "application/json")
             };
 
             _client = new Mock<IHttpClient>();
@@ -39,9 +44,9 @@ namespace Shriek.Test.WebApiProxy
 
             _invokation = new Mock<IInvocation>();
             _invokation.SetupGet(i => i.Method).Returns(typeof(IGreetings).GetMethod("Hello"));
-            _invokation.SetupGet(i => i.Arguments).Returns(new object[] { "+15550127896" });
-            _invokation.SetupGet(i => i.Proxy).Returns(typeof(IGreetings));
+            _invokation.SetupGet(i => i.Arguments).Returns(new object[] { new Name { First = "John", Last = "Doe" } });
             _invokation.SetupProperty(i => i.ReturnValue);
+            _invokation.SetupGet(i => i.Proxy).Returns(typeof(IGreetings));
 
             var client = new HttpApiClient(_client.Object);
             apiClient = client.GetHttpApi<IGreetings>("http://localhost");
@@ -54,7 +59,7 @@ namespace Shriek.Test.WebApiProxy
             Assert.IsNotNull(_invokation.Object.ReturnValue);
             var result = await ((Task<string>)_invokation.Object.ReturnValue).ConfigureAwait(false);
 
-            Assert.AreEqual(HelloWorld, result);
+            Assert.AreEqual(ResponseMessage, result);
         }
 
         [TestMethod]
@@ -63,7 +68,7 @@ namespace Shriek.Test.WebApiProxy
             _client.Verify(c =>
                 c.SendAsync(It.Is<HttpRequestMessage>(m =>
                     m.Method == HttpMethod.Get &&
-                    m.RequestUri == new Uri("http://localhost/to/+15550127896"))));
+                    m.RequestUri == new Uri("http://localhost/hello/John/Doe"))));
         }
     }
 }

@@ -116,7 +116,8 @@ namespace Shriek.WebApi.Proxy
                 Name = parameter.Name,
                 Index = index,
                 ParameterType = parameter.ParameterType,
-                IsSimpleType = CastleContext.IsSimple(parameter.ParameterType),
+                IsSimpleType = IsSimple(parameter.ParameterType),
+                IsUriParameterType = IsUriParameterType(parameter.ParameterType),
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
 
@@ -166,10 +167,41 @@ namespace Shriek.WebApi.Proxy
             }
 
             return type == typeof(string)
-                || type == typeof(decimal)
-                || type == typeof(DateTime)
-                || type == typeof(Guid)
-                || type == typeof(Uri);
+                   || type == typeof(decimal)
+                   || type == typeof(DateTime)
+                   || type == typeof(Guid)
+                   || type == typeof(Uri);
+        }
+
+        private static bool IsUriParameterType(Type parameterType)
+        {
+            return parameterType == typeof(string) ||
+                   parameterType == typeof(int) ||
+                   parameterType == typeof(int?) ||
+                   parameterType == typeof(byte) ||
+                   parameterType == typeof(byte?) ||
+                   parameterType == typeof(char) ||
+                   parameterType == typeof(char?) ||
+                   parameterType == typeof(short) ||
+                   parameterType == typeof(short?) ||
+                   parameterType == typeof(ushort) ||
+                   parameterType == typeof(ushort?) ||
+                   parameterType == typeof(uint) ||
+                   parameterType == typeof(uint?) ||
+                   parameterType == typeof(long) ||
+                   parameterType == typeof(long?) ||
+                   parameterType == typeof(ulong) ||
+                   parameterType == typeof(ulong?) ||
+                   parameterType == typeof(decimal) ||
+                   parameterType == typeof(decimal?) ||
+                   parameterType == typeof(float) ||
+                   parameterType == typeof(float?) ||
+                   parameterType == typeof(double) ||
+                   parameterType == typeof(double?) ||
+                   parameterType == typeof(DateTime) ||
+                   parameterType == typeof(DateTime?) ||
+                   parameterType == typeof(Guid) ||
+                   parameterType == typeof(Guid?);
         }
 
         /// <summary>

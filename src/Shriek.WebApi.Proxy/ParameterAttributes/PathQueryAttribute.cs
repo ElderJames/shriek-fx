@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using Shriek.WebApi.Proxy.UriTemplates;
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -9,7 +9,7 @@ namespace Shriek.WebApi.Proxy
     /// 表示Url路径参数或query参数的特性
     /// 此特性不需要显示声明
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class PathQueryAttribute : ApiParameterAttribute
     {
         /// <summary>
@@ -45,86 +45,45 @@ namespace Shriek.WebApi.Proxy
             {
                 return;
             }
-
             var uri = context.RequestMessage.RequestUri;
-            var pathQuery = this.GetPathQuery(uri.LocalPath + uri.Query, parameter);
-            context.RequestMessage.RequestUri = new Uri(uri, pathQuery);
+            var template = new UriTemplate(uri.ToString(), false, true);
+            this.GetPathQuery(template, parameter);
+            context.RequestMessage.RequestUri = new Uri(template.Resolve());
             await TaskExtensions.CompletedTask;
         }
 
         /// <summary>
         /// 获取新的Path与Query
         /// </summary>
+        /// <param name="uriTemplate"></param>
         /// <param name="pathQuery">原始path与query</param>
         /// <param name="parameter">特性关联的参数</param>
         /// <returns></returns>
-        private string GetPathQuery(string pathQuery, ApiParameterDescriptor parameter)
+        private void GetPathQuery(UriTemplate uriTemplate, ApiParameterDescriptor parameter)
         {
-            return parameter.IsSimpleType ? this.GetPathQuerySimple(pathQuery, parameter.Name, parameter.Value) :
-                   parameter.ParameterType.IsArray ? this.GetPathQueryArray(pathQuery, parameter) :
-                   this.GetPathQueryComplex(pathQuery, parameter);
-        }
-
-        /// <summary>
-        /// 获取新的Path与Query
-        /// </summary>
-        /// <param name="pathQuery">原始path与query</param>
-        /// <param name="parameter">参数</param>
-        /// <returns></returns>
-        private string GetPathQueryArray(string pathQuery, ApiParameterDescriptor parameter)
-        {
-            if (!(parameter.Value is Array array))
+            if (parameter.IsUriParameterType)
             {
-                return pathQuery;
+                uriTemplate.SetParameter(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));
             }
-
-            foreach (var item in array)
+            else if (parameter.ParameterType.IsArray && parameter.Value is Array array)
             {
-                pathQuery = this.GetPathQuerySimple(pathQuery, parameter.Name, item);
+                foreach (var item in array)
+                {
+                    uriTemplate.SetParameter(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", item));
+                }
             }
-            return pathQuery;
-        }
-
-        /// <summary>
-        /// 获取新的Path与Query
-        /// </summary>
-        /// <param name="pathQuery">原始path与query</param>
-        /// <param name="parameter">参数</param>
-        /// <returns></returns>
-        private string GetPathQueryComplex(string pathQuery, ApiParameterDescriptor parameter)
-        {
-            var instance = parameter.Value;
-            var instanceType = parameter.ParameterType;
-
-            var properties = Property.GetProperties(instanceType);
-            foreach (var p in properties)
+            else
             {
-                var value = instance == null ? null : p.GetValue(instance);
-                pathQuery = this.GetPathQuerySimple(pathQuery, p.Name, value);
+                var instance = parameter.Value;
+                var instanceType = parameter.ParameterType;
+
+                var properties = Property.GetProperties(instanceType);
+                foreach (var p in properties)
+                {
+                    var value = instance == null ? null : p.GetValue(instance);
+                    uriTemplate.SetParameter(p.Name, string.Format(CultureInfo.InvariantCulture, "{0}", value));
+                }
             }
-            return pathQuery;
-        }
-
-        /// <summary>
-        /// 获取新的Path与Query
-        /// </summary>
-        /// <param name="pathQuery">原始path与query</param>
-        /// <param name="name">名称</param>
-        /// <param name="value">值</param>
-        /// <returns></returns>
-        private string GetPathQuerySimple(string pathQuery, string name, object value)
-        {
-            var valueString = value == null ? string.Empty : value.ToString();
-            var regex = new Regex("{" + name + "}", RegexOptions.IgnoreCase);
-
-            if (regex.IsMatch(pathQuery))
-            {
-                return regex.Replace(pathQuery, valueString);
-            }
-
-            var keyValue = string.Format("{0}={1}", name, valueString);
-            var concat = pathQuery.Contains('?') ? "&" : "?";
-            return pathQuery + concat + keyValue;
         }
     }
 }

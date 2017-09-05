@@ -38,6 +38,11 @@ namespace Shriek.WebApi.Proxy
         public ApiParameterAttribute[] Attributes { get; internal set; }
 
         /// <summary>
+        /// 获取参数类型是否为Uri参数类型
+        /// </summary>
+        public bool IsUriParameterType { get; internal set; }
+
+        /// <summary>
         /// 转换为字符串
         /// </summary>
         /// <returns></returns>
@@ -57,6 +62,7 @@ namespace Shriek.WebApi.Proxy
                 Attributes = this.Attributes,
                 Index = this.Index,
                 IsSimpleType = this.IsSimpleType,
+                IsUriParameterType = this.IsUriParameterType,
                 Name = this.Name,
                 ParameterType = this.ParameterType,
                 Value = this.Value
