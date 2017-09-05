@@ -18,6 +18,10 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public override async Task<object> GetTaskResult(ApiActionContext context)
         {
+
+            if (context.ResponseMessage.Content.Headers.ContentType.MediaType != "application/xml")
+                return null;
+
             var response = context.ResponseMessage;
             var dataType = context.ApiActionDescriptor.ReturnDataType;
             var xmlSerializer = new XmlSerializer(dataType);

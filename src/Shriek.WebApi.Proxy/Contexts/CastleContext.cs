@@ -66,10 +66,10 @@ namespace Shriek.WebApi.Proxy
         {
             var method = invocation.Method;
             var hostAttribute = CastleContext.GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ??
-                                invocation.Proxy.GetType().GetCustomAttribute<HttpHostAttribute>() ??
+                                invocation.Proxy?.GetType().GetCustomAttribute<HttpHostAttribute>() ??
                                 throw new HttpRequestException("未指定HttpHostAttribute");
 
-            var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true) ?? new DefaultReturnAttribute();
+            var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
 
             var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);

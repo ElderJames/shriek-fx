@@ -21,7 +21,7 @@ namespace Shriek.Test.WebApiProxy
         [HttpHost("http://localhost")]
         public interface ITestInterface
         {
-            [HttpPost("/find/{type}"), JsonReturn]
+            [HttpPost("/find/{type}")]
             Task<TestResponse> Find(string type, [JsonContent] TestRequest request);
         }
 

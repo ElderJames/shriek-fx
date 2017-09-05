@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
@@ -72,12 +75,26 @@ namespace Shriek.WebApi.Proxy
             var httpClient = context.HttpApiClient.HttpClient;
             context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
 
+            var contenttype = context.ResponseMessage.Content.Headers.ContentType.MediaType;
+
             foreach (var filter in context.ApiActionFilterAttributes)
             {
                 await filter.OnEndRequestAsync(context);
             }
 
-            return await context.ApiReturnAttribute.GetTaskResult(context);
+            if (context.ApiReturnAttribute != null)
+                return await context.ApiReturnAttribute.GetTaskResult(context);
+
+            foreach (var attr in Assembly.GetExecutingAssembly().GetTypes()
+                .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
+            {
+                var result = await attr.GetTaskResult(context);
+                if (result != null)
+                    return result;
+            }
+
+            var message = string.Format("不支持的类型{0}的解析", context.ApiActionDescriptor.ReturnDataType);
+            throw new NotSupportedException(message);
         }
 
         /// <summary>

@@ -19,6 +19,10 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public override async Task<object> GetTaskResult(ApiActionContext context)
         {
+            if (context.ResponseMessage.Content.Headers.ContentType.MediaType == "application/json" ||
+                context.ResponseMessage.Content.Headers.ContentType.MediaType == "application/xml")
+                return null;
+
             var response = context.ResponseMessage;
             var returnType = context.ApiActionDescriptor.ReturnDataType;
 
@@ -37,8 +41,8 @@ namespace Shriek.WebApi.Proxy
                 return await response.Content.ReadAsStringAsync();
             }
 
-            var message = string.Format("不支持的类型{0}的解析", returnType);
-            throw new NotSupportedException(message);
+            return null;
+
         }
     }
 }
