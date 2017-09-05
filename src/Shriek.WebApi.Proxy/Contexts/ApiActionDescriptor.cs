@@ -75,8 +75,6 @@ namespace Shriek.WebApi.Proxy
             var httpClient = context.HttpApiClient.HttpClient;
             context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
 
-            var contenttype = context.ResponseMessage.Content.Headers.ContentType.MediaType;
-
             foreach (var filter in context.ApiActionFilterAttributes)
             {
                 await filter.OnEndRequestAsync(context);
