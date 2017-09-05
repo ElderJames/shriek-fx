@@ -33,7 +33,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - [ ] 仓储扫描注册
   - [ ] 查询基类
 - Service层
-  - [ ] WebApi 接口客户端
+  - [x] WebApi 接口动态代理客户端
   - [ ] RPC
   - [ ] GraphSQL
 - 示例
