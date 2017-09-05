@@ -8,6 +8,5 @@ namespace Shriek.WebApi.Proxy.UriTemplates
         public bool Named { get; set; }
         public string IfEmpty { get; set; }
         public bool AllowReserved { get; set; }
-
     }
 }

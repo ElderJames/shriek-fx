@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace Shriek.WebApi.Proxy
 {

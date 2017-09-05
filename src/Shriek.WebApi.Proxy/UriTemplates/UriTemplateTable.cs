@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.WebApi.Proxy.UriTemplates
 {
@@ -42,7 +40,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 }
             }
         }
-
     }
 
     public class TemplateMatch

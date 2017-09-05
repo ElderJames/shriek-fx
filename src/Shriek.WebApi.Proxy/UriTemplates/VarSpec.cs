@@ -23,7 +23,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                    VarName
                    + (Explode ? "*" : "")
                    + (PrefixLength > 0 ? ":" + PrefixLength : "");
-
         }
     }
 }

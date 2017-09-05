@@ -42,7 +42,6 @@ namespace Shriek.WebApi.Proxy
             }
 
             return null;
-
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Shriek.WebApi.Proxy.UriTemplates
 {
@@ -12,11 +8,8 @@ namespace Shriek.WebApi.Proxy.UriTemplates
     using System.Linq;
     using System.Text;
 
-
     public class UriTemplate
     {
-
-
         private static Dictionary<char, OperatorInfo> _Operators = new Dictionary<char, OperatorInfo>() {
                                         {'\0', new OperatorInfo {Default = true, First = "", Seperator = ',', Named = false, IfEmpty = "",AllowReserved = false}},
                                         {'+', new OperatorInfo {Default = false, First = "", Seperator = ',', Named = false, IfEmpty = "",AllowReserved = true}},
@@ -30,8 +23,8 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
         private readonly string _template;
         private readonly Dictionary<string, object> _Parameters;
-        private enum States { CopyingLiterals, ParsingExpression }
 
+        private enum States { CopyingLiterals, ParsingExpression }
 
         private readonly bool _resolvePartially;
 
@@ -110,6 +103,7 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                             result.Append(character);
                         }
                         break;
+
                     case States.ParsingExpression:
                         if (character == '}')
                         {
@@ -142,7 +136,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
         private void ProcessExpression(StringBuilder currentExpression, Result result)
         {
-
             if (currentExpression.Length == 0)
             {
                 result.ErrorDetected = true;
@@ -187,7 +180,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                         if (success || !isFirst || _resolvePartially) varSpec.First = false;
                         if (!success && _resolvePartially) { result.Append(","); }
                         break;
-
 
                     default:
                         if (IsVarNameChar(currentChar))
@@ -278,7 +270,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 }
                 else
                 {
-
                     // Handle associative arrays
                     var dictionary = value as IDictionary<string, string>;
                     if (dictionary != null)
@@ -299,9 +290,7 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                         }
                         result.AppendValue(stringValue, varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
                     }
-
                 }
-
             }
             return true;
         }
@@ -320,7 +309,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             OperatorInfo op;
             switch (operatorIndicator)
             {
-
                 case '+':
                 case ';':
                 case '/':
@@ -370,7 +358,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                     {
                         parameters.Add(paramName, Uri.UnescapeDataString(match.Groups[x].Value));
                     }
-
                 }
             }
             return match.Success ? parameters : null;
@@ -389,19 +376,22 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 {
                     case "?":
                         return GetQueryExpression(paramNames, prefix: "?");
+
                     case "&":
                         return GetQueryExpression(paramNames, prefix: "&");
+
                     case "#":
                         return GetExpression(paramNames, prefix: "#");
+
                     case "/":
                         return GetExpression(paramNames, prefix: "/");
 
                     case "+":
                         return GetExpression(paramNames);
+
                     default:
                         return GetExpression(paramNames);
                 }
-
             });
 
             return regex + "$";
@@ -421,19 +411,22 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 {
                     case "?":
                         return GetQueryExpression(paramNames, prefix: "?");
+
                     case "&":
                         return GetQueryExpression(paramNames, prefix: "&");
+
                     case "#":
                         return GetExpression(paramNames, prefix: "#");
+
                     case "/":
                         return GetExpression(paramNames, prefix: "/");
 
                     case "+":
                         return GetExpression(paramNames);
+
                     default:
                         return GetExpression(paramNames);
                 }
-
             });
 
             return regex + "$";
@@ -444,7 +437,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             StringBuilder sb = new StringBuilder();
             foreach (var paramname in paramNames)
             {
-
                 sb.Append(@"\" + prefix + "?");
                 if (prefix == "?") prefix = "&";
 
@@ -463,7 +455,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             return sb.ToString();
         }
 
-
         private static string GetExpression(List<String> paramNames, string prefix = null)
         {
             StringBuilder sb = new StringBuilder();
@@ -475,16 +466,20 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 case "#":
                     paramDelim = "[^,]+";
                     break;
+
                 case "/":
                     paramDelim = "[^/?]+";
                     break;
+
                 case "?":
                 case "&":
                     paramDelim = "[^&#]+";
                     break;
+
                 case ";":
                     paramDelim = "[^;/?#]+";
                     break;
+
                 case ".":
                     paramDelim = "[^./?#]+";
                     break;
@@ -492,7 +487,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                 default:
                     paramDelim = "[^/?&]+";
                     break;
-
             }
 
             foreach (var paramname in paramNames)
@@ -513,9 +507,5 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
             return sb.ToString();
         }
-
-
     }
-
-
 }

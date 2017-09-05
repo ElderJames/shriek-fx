@@ -17,7 +17,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
         public static UriTemplate AddParameters(this UriTemplate template, object parametersObject)
         {
-
             if (parametersObject != null)
             {
                 IEnumerable<PropertyInfo> properties;
@@ -36,6 +35,7 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
             return template;
         }
+
         public static UriTemplate AddParameters(this UriTemplate uriTemplate, IDictionary<string, object> linkParameters)
         {
             if (linkParameters != null)
@@ -55,7 +55,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
         {
             var parameters = uri.GetQueryStringParameters();
             return MakeTemplate(uri, parameters);
-
         }
 
         public static UriTemplate MakeTemplate(this Uri uri, IDictionary<string, object> parameters)
@@ -83,7 +82,5 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             }
             return parameters;
         }
-
-
     }
 }

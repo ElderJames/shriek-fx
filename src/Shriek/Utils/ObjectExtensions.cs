@@ -47,7 +47,6 @@ namespace Shriek.Utils
                 var prop = md.GetType().GetProperty(d.Key);
                 if (prop != null && prop.CanWrite)
                 {
-
                     if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
                     {
                         if (d.Value is Dictionary<string, object> dict)
@@ -56,7 +55,6 @@ namespace Shriek.Utils
                     else
                         prop.SetValue(md, d.Value);
                 }
-
             }
             return md;
         }
@@ -70,7 +68,6 @@ namespace Shriek.Utils
                 var prop = md.GetType().GetProperty(d.Key);
                 if (prop != null && prop.CanWrite)
                 {
-
                     if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
                     {
                         if (d.Value is Dictionary<string, object> dict)

@@ -8,7 +8,7 @@ namespace Shriek.WebApi.Proxy
     /// 表示参数为HttpContent或派生类型的特性
     /// 此特性不需要显示声明
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public class HttpContentAttribute : ApiParameterAttribute
     {
         /// <summary>

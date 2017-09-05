@@ -7,7 +7,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示将参数体作为application/json请求
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public class JsonContentAttribute : HttpContentAttribute
     {
         /// <summary>

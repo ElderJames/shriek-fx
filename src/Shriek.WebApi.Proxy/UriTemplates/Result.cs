@@ -18,13 +18,14 @@ namespace Shriek.WebApi.Proxy.UriTemplates
         {
             ParameterNames = new List<string>();
         }
+
         public StringBuilder Append(char value)
         {
             return _Result.Append(value);
         }
+
         public StringBuilder Append(string value)
         {
-
             return _Result.Append(value);
         }
 
@@ -32,12 +33,12 @@ namespace Shriek.WebApi.Proxy.UriTemplates
         {
             return _Result.ToString();
         }
+
         public void AppendName(string variable, OperatorInfo op, bool valueIsEmpty)
         {
             _Result.Append(variable);
             if (valueIsEmpty) { _Result.Append(op.IfEmpty); } else { _Result.Append("="); }
         }
-
 
         public void AppendList(OperatorInfo op, bool explode, string variable, IList list)
         {
@@ -83,7 +84,6 @@ namespace Shriek.WebApi.Proxy.UriTemplates
 
         public void AppendValue(string value, int prefixLength, bool allowReserved)
         {
-
             if (prefixLength != 0)
             {
                 if (prefixLength < value.Length)
@@ -93,13 +93,10 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             }
 
             _Result.Append(Encode(value, allowReserved));
-
         }
-
 
         private static string Encode(string p, bool allowReserved)
         {
-
             var result = new StringBuilder();
             foreach (char c in p)
             {
@@ -117,13 +114,10 @@ namespace Shriek.WebApi.Proxy.UriTemplates
                     {
                         result.Append(HexEscape(abyte));
                     }
-
                 }
             }
 
             return result.ToString();
-
-
         }
 
         public static string HexEscape(byte i)
@@ -134,6 +128,7 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             esc[2] = HexDigits[(i & 15)];
             return new string(esc);
         }
+
         public static string HexEscape(char c)
         {
             var esc = new char[3];
@@ -142,9 +137,7 @@ namespace Shriek.WebApi.Proxy.UriTemplates
             esc[2] = HexDigits[((int)c & 15)];
             return new string(esc);
         }
+
         private static readonly char[] HexDigits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
-
-
     }
 }

@@ -9,7 +9,7 @@ namespace Shriek.WebApi.Proxy
     /// <summary>
     /// 表示将参数体作为x-www-form-urlencoded请求
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public class FormContentAttribute : HttpContentAttribute
     {
         /// <summary>
