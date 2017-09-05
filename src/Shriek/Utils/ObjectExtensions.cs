@@ -21,7 +21,12 @@ namespace Shriek.Utils
                     var value = p.GetValue(o);
                     if (value != null)
                     {
-                        map.Add(p.Name, value);
+                        if (p.PropertyType.IsClass && !p.PropertyType.AssemblyQualifiedName.Contains("System"))
+                        {
+                            map.Add(p.Name, value.ToMap());
+                        }
+                        else
+                            map.Add(p.Name, value);
                     }
                 }
             }
@@ -40,8 +45,18 @@ namespace Shriek.Utils
             foreach (var d in dic)
             {
                 var prop = md.GetType().GetProperty(d.Key);
-                if (prop.CanWrite)
-                    prop.SetValue(md, d.Value);
+                if (prop != null && prop.CanWrite)
+                {
+
+                    if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
+                    {
+                        if (d.Value is Dictionary<string, object> dict)
+                            prop.SetValue(md, dict.ToObject(prop.PropertyType));
+                    }
+                    else
+                        prop.SetValue(md, d.Value);
+                }
+
             }
             return md;
         }
@@ -53,8 +68,17 @@ namespace Shriek.Utils
             foreach (var d in dic)
             {
                 var prop = md.GetType().GetProperty(d.Key);
-                if (prop.CanWrite)
-                    prop.SetValue(md, d.Value);
+                if (prop != null && prop.CanWrite)
+                {
+
+                    if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
+                    {
+                        if (d.Value is Dictionary<string, object> dict)
+                            prop.SetValue(md, dict.ToObject(prop.PropertyType));
+                    }
+                    else
+                        prop.SetValue(md, d.Value);
+                }
             }
             return md;
         }

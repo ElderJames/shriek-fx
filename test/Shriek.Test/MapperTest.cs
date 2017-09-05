@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shriek.Utils;
 
 namespace Shriek.Test
@@ -9,7 +10,7 @@ namespace Shriek.Test
         [TestMethod]
         public void ObjectToMapTest()
         {
-            var obj = new obj { name = "ysj", age = 1, gender = genter.男 };
+            var obj = new obj { name = "ysj", age = 1, gender = genter.男, Obj = new obj { name = "objname", age = 2, gender = genter.女 } };
 
             var dict = obj.ToMap();
 
@@ -19,7 +20,10 @@ namespace Shriek.Test
 
             Assert.IsNotNull(obj2);
             Assert.IsNotNull(obj3);
-            //Assert.Equals(obj, obj2);
+            Assert.IsNotNull(obj2.Obj);
+
+            Assert.AreEqual(obj2.name, "ysj");
+            Assert.AreEqual(obj.Obj.name, "objname");
         }
     }
 
@@ -30,6 +34,8 @@ namespace Shriek.Test
         public int age { get; set; }
 
         public genter gender { get; set; }
+
+        public obj Obj { get; set; }
     }
 
     public enum genter
