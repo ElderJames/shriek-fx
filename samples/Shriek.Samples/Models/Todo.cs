@@ -6,10 +6,10 @@ namespace Shriek.Samples.Models
     {
         public Guid AggregateId { get; set; }
 
-        public string Name { get; protected set; }
+        public string Name { get; set; }
 
-        public string Desception { get; protected set; }
+        public string Desception { get; set; }
 
-        public DateTime FinishTime { get; protected set; }
+        public DateTime FinishTime { get; set; }
     }
 }

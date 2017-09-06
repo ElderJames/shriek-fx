@@ -43,49 +43,5 @@ namespace Shriek.Sample.CQRS.EFCore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult GetTodoList()
-        {
-            var list = this.todoQuery.GetList();
-            return Ok(list);
-        }
-
-        public IActionResult Todo(Guid aggregateId)
-        {
-            var todo = todoQuery.GetById(aggregateId);
-            return View(todo);
-        }
-
-        [HttpPost]
-        public IActionResult Todo(Todo todo)
-        {
-            try
-            {
-                if (todo.AggregateId == Guid.Empty)
-                {
-                    commandBus.Send(new CreateTodoCommand(Guid.NewGuid())
-                    {
-                        Name = todo.Name,
-                        Desception = todo.Desception,
-                        FinishTime = todo.FinishTime,
-                    });
-                }
-                else
-                {
-                    commandBus.Send(new ChangeTodoCommand(todo.AggregateId)
-                    {
-                        Name = todo.Name,
-                        Desception = todo.Desception,
-                        FinishTime = todo.FinishTime,
-                    });
-                }
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
     }
 }
