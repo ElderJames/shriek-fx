@@ -21,7 +21,8 @@ namespace Shriek.Messages
 
         public void Dispose()
         {
-            queueTask.Dispose();
+            if (queueTask != null && queueTask.IsCompleted)
+                queueTask?.Dispose();
         }
 
         public void Send<TMessage>(TMessage message) where TMessage : Message

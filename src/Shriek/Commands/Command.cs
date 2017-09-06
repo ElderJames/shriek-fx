@@ -5,9 +5,9 @@ namespace Shriek.Commands
 {
     public class Command : Message
     {
-        public int Version { get; set; }
+        public int Version { get; protected set; }
 
-        public Guid AggregateId { get; set; }
+        public Guid AggregateId { get; protected set; }
     }
 
     public class Command<TAggregateId> : Command, IAggregateCommand<TAggregateId>
