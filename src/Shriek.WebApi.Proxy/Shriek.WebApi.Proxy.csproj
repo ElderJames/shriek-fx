@@ -6,11 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.0.0" />
   </ItemGroup>
 </Project>
