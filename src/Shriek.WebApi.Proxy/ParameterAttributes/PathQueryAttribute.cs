@@ -1,7 +1,11 @@
-﻿using Shriek.WebApi.Proxy.UriTemplates;
+﻿using Microsoft.AspNetCore.Routing.Internal;
+using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Globalization;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Routing;
 
 namespace Shriek.WebApi.Proxy
 {
@@ -46,30 +50,31 @@ namespace Shriek.WebApi.Proxy
                 return;
             }
             var uri = context.RequestMessage.RequestUri;
-            var template = new UriTemplate(uri.ToString(), false, true);
-            this.GetPathQuery(template, parameter);
-            context.RequestMessage.RequestUri = new Uri(template.Resolve());
+            var baseUrl = uri.Scheme + "://" + uri.Host + (uri.IsDefaultPort ? "" : uri.Port.ToString());
+            var pathQuery = GetPathQuery(uri.LocalPath.Trim('/'), parameter);
+
+            context.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);
             await TaskExtensions.CompletedTask;
         }
 
         /// <summary>
-        /// 获取新的Path与Query
+        /// 绑定路由参数到模版
         /// </summary>
-        /// <param name="uriTemplate"></param>
-        /// <param name="pathQuery">原始path与query</param>
-        /// <param name="parameter">特性关联的参数</param>
+        /// <param name="template">路由模版</param>
+        /// <param name="parameter">参数</param>
         /// <returns></returns>
-        private void GetPathQuery(UriTemplate uriTemplate, ApiParameterDescriptor parameter)
+        private string GetPathQuery(string template, ApiParameterDescriptor parameter)
         {
+            var _params = new RouteValueDictionary();
             if (parameter.IsUriParameterType)
             {
-                uriTemplate.SetParameter(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));
+                _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));
             }
             else if (parameter.ParameterType.IsArray && parameter.Value is Array array)
             {
                 foreach (var item in array)
                 {
-                    uriTemplate.SetParameter(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", item));
+                    _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", item));
                 }
             }
             else
@@ -81,9 +86,32 @@ namespace Shriek.WebApi.Proxy
                 foreach (var p in properties)
                 {
                     var value = instance == null ? null : p.GetValue(instance);
-                    uriTemplate.SetParameter(p.Name, string.Format(CultureInfo.InvariantCulture, "{0}", value));
+                    _params.Add(p.Name, string.Format(CultureInfo.InvariantCulture, "{0}", value));
                 }
             }
+
+            return BoundTemplate(template, _params);
+        }
+
+        /// <summary>
+        /// 使用mvc路由模版绑定参数
+        /// </summary>
+        /// <param name="template">路由模版</param>
+        /// <param name="values">参数</param>
+        /// <returns></returns>
+        private string BoundTemplate(string template, RouteValueDictionary values)
+        {
+            var binder = new TemplateBinder(
+                UrlEncoder.Default,
+                new DefaultObjectPoolProvider().Create(new UriBuilderContextPooledObjectPolicy(UrlEncoder.Default)),
+                TemplateParser.Parse(template),
+                null
+                );
+
+            // Act & Assert
+            var result = binder.GetValues(new RouteValueDictionary(), values);
+
+            return binder.BindValues(result.AcceptedValues);
         }
     }
 }
