@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
@@ -11,5 +6,16 @@ namespace Shriek.Samples.CQRS.EFCore.Controllers
     [Route("api/Test")]
     public class TestController : Controller
     {
+        [HttpGet("{name}")]
+        public string GetName(string name)
+        {
+            return name;
+        }
+
+        [HttpGet("{id:int}")]
+        public int GetName(int id)
+        {
+            return id;
+        }
     }
 }

@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Shriek.Samples.Services;
 using System.Net.Http;
 
 namespace Shriek.Samples.CQRS.EFCore
@@ -45,8 +42,16 @@ namespace Shriek.Samples.CQRS.EFCore
         {
             if (!typeof(TService).IsAssignableFrom(action.Controller.ControllerType)) return;
 
+            var actionParams = action.ActionMethod.GetParameters();
+
             //TODO:获取Action实现了接口中对应的方法
-            var method = typeof(TService).GetMethods().FirstOrDefault(mth => action.ActionMethod.Name == mth.Name);
+            var method = typeof(TService).GetMethods().FirstOrDefault(mth =>
+            {
+                var mthParams = mth.GetParameters();
+                return action.ActionMethod.Name == mth.Name
+                       && actionParams.Length == mthParams.Length
+                       && actionParams.Any(x => mthParams.Any(o => x.Name == o.Name && x.GetType() == o.GetType()));
+            });
 
             var attrs = method.GetCustomAttributes();
             var actionAttrs = new List<object>();

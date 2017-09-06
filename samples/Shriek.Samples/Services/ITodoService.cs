@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using Shriek.Samples.Models;
+﻿using Shriek.Samples.Models;
 using Shriek.WebApi.Proxy;
 
 namespace Shriek.Samples.Services
@@ -13,7 +9,10 @@ namespace Shriek.Samples.Services
         [HttpPost("todo")]
         bool Create([JsonContent] Todo todo);
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         Todo Get(int id);
+
+        [HttpGet("{name}")]
+        Todo Get(string name);
     }
 }
