@@ -14,7 +14,7 @@ namespace Shriek.WebApi.Proxy
         /// </summary>
         /// <param name="path">相对路径</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public HttpPostAttribute(string path)
+        public HttpPostAttribute(string path = "")
             : base(HttpMethod.Post, path)
         {
         }

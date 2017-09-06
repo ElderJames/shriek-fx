@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,10 +29,10 @@ namespace Shriek.WebApi.Proxy
         /// <exception cref="ArgumentNullException"></exception>
         public HttpMethodAttribute(HttpMethod method, string path)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException();
-            }
+            //if (string.IsNullOrEmpty(path))
+            //{
+            //    throw new ArgumentNullException();
+            //}
             this.Method = method;
             this.Path = path.TrimEnd('&');
         }
@@ -44,7 +45,8 @@ namespace Shriek.WebApi.Proxy
         public override Task BeforeRequestAsync(ApiActionContext context)
         {
             context.RequestMessage.Method = this.Method;
-            context.RequestMessage.RequestUri = new Uri(context.HostAttribute.Host, this.Path);
+            var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1).Select(x => x.Template.Trim('/'));
+            context.RequestMessage.RequestUri = new Uri(context.HostAttribute.Host, string.Join("/", routes) + '/' + this.Path.Trim('/'));
             return TaskExtensions.CompletedTask;
         }
 

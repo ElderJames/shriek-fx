@@ -11,7 +11,7 @@ using System.Net.Http;
 
 namespace Shriek.Samples.CQRS.EFCore
 {
-    public class MyClass<TService> : IControllerModelConvention, IActionModelConvention
+    public class Convention<TService> : IControllerModelConvention, IActionModelConvention
     {
         public void Apply(ControllerModel controller)
         {
@@ -22,11 +22,10 @@ namespace Shriek.Samples.CQRS.EFCore
 
             foreach (var att in attrs)
             {
-                if (att is WebApi.Proxy.RouteAttribute routeAtt)
+                if (att is WebApi.Proxy.RouteAttribute routeAttr)
                 {
-                    var route = routeAtt.Route;
-                    //var ctor = typeof(RouteAttribute).GetConstructors().FirstOrDefault();
-                    var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), route);
+                    var template = routeAttr.Template;
+                    var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);
                     controllerAttrs.Add(routeAttribute);
                 }
             }
@@ -58,22 +57,47 @@ namespace Shriek.Samples.CQRS.EFCore
 
             foreach (var att in attrs)
             {
-                if (att is WebApi.Proxy.HttpMethodAttribute routeAtt)
+                if (att is WebApi.Proxy.HttpMethodAttribute methodAttr)
                 {
-                    var httpMethod = routeAtt.Method;
-                    var path = routeAtt.Path;
+                    var httpMethod = methodAttr.Method;
+                    var path = methodAttr.Path;
+
                     if (httpMethod == HttpMethod.Get)
                     {
                         var methodAttribute = Activator.CreateInstance(typeof(HttpGetAttribute), path);
                         actionAttrs.Add(methodAttribute);
                     }
-                    if (httpMethod == HttpMethod.Post)
+                    else if (httpMethod == HttpMethod.Post)
                     {
                         var methodAttribute = Activator.CreateInstance(typeof(HttpPostAttribute), path);
                         actionAttrs.Add(methodAttribute);
                     }
-
-                    //TODO:more method...
+                    else if (httpMethod == HttpMethod.Put)
+                    {
+                        var methodAttribute = Activator.CreateInstance(typeof(HttpPutAttribute), path);
+                        actionAttrs.Add(methodAttribute);
+                    }
+                    else if (httpMethod == HttpMethod.Delete)
+                    {
+                        var methodAttribute = Activator.CreateInstance(typeof(HttpDeleteAttribute), path);
+                        actionAttrs.Add(methodAttribute);
+                    }
+                    else if (httpMethod == HttpMethod.Head)
+                    {
+                        var methodAttribute = Activator.CreateInstance(typeof(HttpHeadAttribute), path);
+                        actionAttrs.Add(methodAttribute);
+                    }
+                    else if (httpMethod == HttpMethod.Options)
+                    {
+                        var methodAttribute = Activator.CreateInstance(typeof(HttpOptionsAttribute), path);
+                        actionAttrs.Add(methodAttribute);
+                    }
+                }
+                if (att is WebApi.Proxy.RouteAttribute routeAttr)
+                {
+                    var template = routeAttr.Template;
+                    var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);
+                    actionAttrs.Add(routeAttribute);
                 }
             }
 
@@ -265,22 +289,6 @@ namespace Shriek.Samples.CQRS.EFCore
             }
 
             return selectorModel;
-        }
-
-        private bool IsIDisposableMethod(MethodInfo methodInfo)
-        {
-            // Ideally we do not want Dispose method to be exposed as an action. However there are some scenarios where a user
-            // might want to expose a method with name "Dispose" (even though they might not be really disposing resources)
-            // Example: A controller deriving from MVC's Controller type might wish to have a method with name Dispose,
-            // in which case they can use the "new" keyword to hide the base controller's declaration.
-
-            // Find where the method was originally declared
-            var baseMethodInfo = methodInfo.GetBaseDefinition();
-            var declaringTypeInfo = baseMethodInfo.DeclaringType.GetTypeInfo();
-
-            return
-                (typeof(IDisposable).GetTypeInfo().IsAssignableFrom(declaringTypeInfo) &&
-                 declaringTypeInfo.GetRuntimeInterfaceMap(typeof(IDisposable)).TargetMethods[0] == baseMethodInfo);
         }
 
         private bool IsSilentRouteAttribute(IRouteTemplateProvider routeTemplateProvider)

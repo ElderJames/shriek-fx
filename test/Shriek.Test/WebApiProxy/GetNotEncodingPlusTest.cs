@@ -19,9 +19,11 @@ namespace Shriek.Test.WebApiProxy
         private IGreetings apiClient;
 
         [HttpHost("http://localhost")]
+        [Route("api")]
         public interface IGreetings
         {
-            [HttpGet("to/{number:int}")]
+            [Route("{number:int}")]
+            [HttpGet]
             [JsonReturn]
             Task<string> Hello(int number);
         }
@@ -63,7 +65,7 @@ namespace Shriek.Test.WebApiProxy
             _client.Verify(c =>
                 c.SendAsync(It.Is<HttpRequestMessage>(m =>
                     m.Method == HttpMethod.Get &&
-                    m.RequestUri == new Uri("http://localhost/to/1555"))));
+                    m.RequestUri == new Uri("http://localhost/api/1555"))));
         }
     }
 }

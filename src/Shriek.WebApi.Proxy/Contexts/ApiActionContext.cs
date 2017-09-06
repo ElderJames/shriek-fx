@@ -18,6 +18,11 @@ namespace Shriek.WebApi.Proxy
         public HttpHostAttribute HostAttribute { get; internal set; }
 
         /// <summary>
+        /// 中间路由模版
+        /// </summary>
+        public RouteAttribute[] RouteAttributes { get; internal set; }
+
+        /// <summary>
         /// 获取关联的ApiReturnAttribute
         /// </summary>
         public ApiReturnAttribute ApiReturnAttribute { get; internal set; }

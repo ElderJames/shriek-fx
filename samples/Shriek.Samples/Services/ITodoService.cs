@@ -9,7 +9,8 @@ namespace Shriek.Samples.Services
         [HttpPost("todo")]
         bool Create([JsonContent] Todo todo);
 
-        [HttpGet("{id:int}")]
+        [Route("route/{id:int}")]
+        [HttpGet("route2/{id:int}")]
         Todo Get(int id);
 
         [HttpGet("{name}")]

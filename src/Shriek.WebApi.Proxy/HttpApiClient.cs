@@ -146,6 +146,7 @@ namespace Shriek.WebApi.Proxy
                 HttpApiClient = this,
                 RequestMessage = new HttpRequestMessage(),
                 HostAttribute = context.HostAttribute,
+                RouteAttributes = context.RouteAttributes,
                 ApiReturnAttribute = context.ApiReturnAttribute,
                 ApiActionFilterAttributes = context.ApiActionFilterAttributes,
                 ApiActionDescriptor = context.ApiActionDescriptor.Clone() as ApiActionDescriptor

@@ -19,6 +19,11 @@ namespace Shriek.WebApi.Proxy
         public HttpHostAttribute HostAttribute { get; private set; }
 
         /// <summary>
+        /// 中间路由模版
+        /// </summary>
+        public RouteAttribute[] RouteAttributes { get; internal set; }
+
+        /// <summary>
         /// 获取ApiReturnAttribute
         /// </summary>
         public ApiReturnAttribute ApiReturnAttribute { get; private set; }
@@ -69,6 +74,9 @@ namespace Shriek.WebApi.Proxy
                                 invocation.Proxy?.GetType().GetCustomAttribute<HttpHostAttribute>() ??
                                 throw new HttpRequestException("未指定HttpHostAttribute");
 
+            var routeAttributes = CastleContext.GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
+                                 new RouteAttribute[] { };
+
             var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
 
             var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
@@ -78,6 +86,7 @@ namespace Shriek.WebApi.Proxy
             return new CastleContext
             {
                 HostAttribute = hostAttribute,
+                RouteAttributes = routeAttributes,
                 ApiReturnAttribute = returnAttribute,
                 ApiActionFilterAttributes = filterAttributes,
                 ApiActionDescriptor = CastleContext.GetActionDescriptor(invocation)
@@ -147,6 +156,21 @@ namespace Shriek.WebApi.Proxy
                 attribute = method.DeclaringType.GetCustomAttribute<TAttribute>(inherit);
             }
             return attribute;
+        }
+
+        private static TAttribute[] GetAttributesFromMethodAndInterface<TAttribute>(MethodInfo method, bool inherit) where TAttribute : Attribute
+        {
+            IEnumerable<TAttribute> attributes = new TAttribute[] { };
+
+            //接口优先
+            var attribute = method.DeclaringType.GetCustomAttribute<TAttribute>(inherit);
+            if (attribute != null) attributes = attributes.Concat(new[] { attribute });
+
+            //第二是方法
+            attribute = method.GetCustomAttribute<TAttribute>(inherit);
+            if (attribute != null) attributes = attributes.Concat(new[] { attribute });
+
+            return attributes.ToArray();
         }
 
         /// <summary>
