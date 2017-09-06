@@ -40,7 +40,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.MongoDB", "src\Shrie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.MongoDB", "src\Shriek.EventStorage.MongoDB\Shriek.EventStorage.MongoDB.csproj", "{77DD8837-2D6B-4166-B0F6-2010AB7A07B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.WebApi.Proxy", "src\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj", "{813F6DE8-7A69-4F47-8BAB-9F7B0424D375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.WebApi.Proxy", "src\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj", "{813F6DE8-7A69-4F47-8BAB-9F7B0424D375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Mvc", "src\Shriek.Mvc\Shriek.Mvc.csproj", "{9793BD09-97C6-4D52-AB10-ACB1C4E21B59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +106,10 @@ Global
 		{813F6DE8-7A69-4F47-8BAB-9F7B0424D375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{813F6DE8-7A69-4F47-8BAB-9F7B0424D375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{813F6DE8-7A69-4F47-8BAB-9F7B0424D375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9793BD09-97C6-4D52-AB10-ACB1C4E21B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9793BD09-97C6-4D52-AB10-ACB1C4E21B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9793BD09-97C6-4D52-AB10-ACB1C4E21B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9793BD09-97C6-4D52-AB10-ACB1C4E21B59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{4E089D76-AB68-420E-A58B-D83BBFC52089} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{77DD8837-2D6B-4166-B0F6-2010AB7A07B3} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{813F6DE8-7A69-4F47-8BAB-9F7B0424D375} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
+		{9793BD09-97C6-4D52-AB10-ACB1C4E21B59} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
