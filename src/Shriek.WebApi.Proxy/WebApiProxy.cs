@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
 {
     public abstract class WebApiProxy : IWebApiProxy
     {
-        public WebApiProxy(string baseUrl)
+        protected WebApiProxy(string baseUrl)
         {
             this.BaseUrl = baseUrl;
         }

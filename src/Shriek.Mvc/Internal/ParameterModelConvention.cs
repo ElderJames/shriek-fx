@@ -10,15 +10,22 @@ using Shriek.WebApi.Proxy;
 
 namespace Shriek.Mvc.Internal
 {
-    internal class ParameterModelConvention<TService> : IParameterModelConvention
+    internal class ParameterModelConvention : IParameterModelConvention
     {
+        public ParameterModelConvention(Type serviceType)
+        {
+            this.serviceType = serviceType;
+        }
+
+        private Type serviceType { get; }
+
         public void Apply(ParameterModel parameter)
         {
-            if (!typeof(TService).IsAssignableFrom(parameter.Action.Controller.ControllerType)) return;
+            if (!serviceType.IsAssignableFrom(parameter.Action.Controller.ControllerType)) return;
 
             var actionParams = parameter.Action.ActionMethod.GetParameters();
 
-            var method = typeof(TService).GetMethods().FirstOrDefault(mth =>
+            var method = serviceType.GetMethods().FirstOrDefault(mth =>
             {
                 var mthParams = mth.GetParameters();
                 return parameter.Action.ActionMethod.Name == mth.Name

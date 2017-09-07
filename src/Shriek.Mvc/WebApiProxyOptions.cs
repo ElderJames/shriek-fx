@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Shriek.WebApi.Proxy;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.Mvc
 {
     public class WebApiProxyOptions
     {
         public ICollection<IWebApiProxy> WebApiProxies { get; set; } = new List<IWebApiProxy>();
 
-        public void AddWebApiProxy<TWebApiProxy>(string baseUrl) where TWebApiProxy : WebApiProxy
+        public void AddWebApiProxy<TWebApiProxy>() where TWebApiProxy : WebApiProxy
         {
-            if (Activator.CreateInstance(typeof(TWebApiProxy), baseUrl) is WebApiProxy proxy)
+            if (Activator.CreateInstance(typeof(TWebApiProxy), "") is WebApiProxy proxy)
                 WebApiProxies.Add(proxy);
         }
     }

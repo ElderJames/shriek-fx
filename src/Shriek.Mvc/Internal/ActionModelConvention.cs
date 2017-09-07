@@ -8,15 +8,22 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Shriek.Mvc.Internal
 {
-    internal class ActionModelConvention<TService> : IActionModelConvention
+    internal class ActionModelConvention : IActionModelConvention
     {
+        public ActionModelConvention(Type serviceType)
+        {
+            this.serviceType = serviceType;
+        }
+
+        private Type serviceType { get; }
+
         public void Apply(ActionModel action)
         {
-            if (!typeof(TService).IsAssignableFrom(action.Controller.ControllerType)) return;
+            if (!serviceType.IsAssignableFrom(action.Controller.ControllerType)) return;
 
             var actionParams = action.ActionMethod.GetParameters();
 
-            var method = typeof(TService).GetMethods().FirstOrDefault(mth =>
+            var method = serviceType.GetMethods().FirstOrDefault(mth =>
             {
                 var mthParams = mth.GetParameters();
                 return action.ActionMethod.Name == mth.Name

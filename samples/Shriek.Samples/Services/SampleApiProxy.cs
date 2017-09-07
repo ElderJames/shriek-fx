@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.WebApi.Proxy;
+﻿using Shriek.WebApi.Proxy;
 
 namespace Shriek.Samples.Services
 {
