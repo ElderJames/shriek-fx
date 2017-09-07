@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Shriek.WebApi.Proxy
 {
-    //TODO:在uri模板实现控制器路由前缀
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class RouteAttribute : Attribute
     {

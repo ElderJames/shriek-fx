@@ -7,9 +7,9 @@ namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
     public class TodoServiceController : Controller, ITodoService
     {
-        public bool Create(Todo todo)
+        public Todo Create(Todo todo)
         {
-            return true;
+            return todo;
         }
 
         public Todo Get(int id)

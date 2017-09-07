@@ -7,7 +7,7 @@ namespace Shriek.Samples.Services
     public interface ITodoService
     {
         [HttpPost("todo")]
-        bool Create([JsonContent] Todo todo);
+        Todo Create([JsonContent] Todo todo);
 
         [Route("route/{id:int}")]
         [HttpGet("route2/{id:int}")]

@@ -29,6 +29,7 @@ namespace Shriek.Sample.CQRS.EFCore
             {
                 mvc.Conventions.Add(new Convention<ITodoService>() as IControllerModelConvention);
                 mvc.Conventions.Add(new Convention<ITodoService>() as IActionModelConvention);
+                mvc.Conventions.Add(new Convention<ITodoService>() as IParameterModelConvention);
             });
 
             services.AddShriek();
