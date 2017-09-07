@@ -116,6 +116,7 @@ namespace Shriek.WebApi.Proxy
             /// <returns></returns>
             public bool SetResult(object result)
             {
+                var type = typeof(TResult);
                 return this.taskSource.TrySetResult((TResult)result);
             }
 

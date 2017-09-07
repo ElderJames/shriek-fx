@@ -42,7 +42,10 @@ namespace Shriek.WebApi.Proxy
         /// <returns></returns>
         public object Execute(ApiActionContext context)
         {
-            return this.ExecuteAsync(context).CastResult(this.ReturnDataType);
+            if (ReturnTaskType.IsGenericType && ReturnTaskType.GetGenericTypeDefinition() == typeof(Task<>))
+                return this.ExecuteAsync(context).CastResult(this.ReturnDataType);
+            else
+                return ((dynamic)this.ExecuteAsync(context).CastResult(this.ReturnDataType)).Result;
         }
 
         /// <summary>

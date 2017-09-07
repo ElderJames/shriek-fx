@@ -1,21 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shriek.Samples.Models;
+using Shriek.Samples.Services;
 
 namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Test")]
-    public class TestController : Controller
+    public class TestController : Controller, ITestService
     {
-        [HttpGet("{name}")]
-        public string GetName(string name)
+        public Todo Test(int id)
         {
-            return name;
-        }
-
-        [HttpGet("{id:int}")]
-        public int GetName(int id)
-        {
-            return id;
+            return new Todo() { Name = id.ToString() };
         }
     }
 }

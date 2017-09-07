@@ -30,11 +30,14 @@ namespace Shriek.Samples.WebApiProxy
             var provider = services.BuildServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
+            var testService = provider.GetService<ITestService>();
 
             var result = todoService.Get(1).Result;
-
             Console.WriteLine(JsonConvert.SerializeObject(result));
+            Console.ReadKey();
 
+            var result2 = testService.Test(11);
+            Console.WriteLine(JsonConvert.SerializeObject(result2));
             Console.ReadKey();
         }
     }

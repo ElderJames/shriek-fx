@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Shriek.WebApi.Proxy
 {
@@ -107,8 +108,9 @@ namespace Shriek.WebApi.Proxy
                 ReturnTaskType = method.ReturnType,
                 ReturnDataType = method.ReturnType.IsGenericType ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
                 Attributes = method.GetCustomAttributes<ApiActionAttribute>(true).ToArray(),
-                Parameters = method.GetParameters().Select((p, i) => GetParameterDescriptor(p, i)).ToArray()
+                Parameters = method.GetParameters().Select(GetParameterDescriptor).ToArray()
             };
+
             return descriptor;
         }
 
