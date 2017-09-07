@@ -12,13 +12,16 @@ using Shriek.Samples.Queries;
 using Shriek.Samples.Repositories;
 using Shriek.Samples.Services;
 
-namespace Shriek.Sample.CQRS.EFCore
+namespace Shriek.Samples.CQRS.EFCore
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }

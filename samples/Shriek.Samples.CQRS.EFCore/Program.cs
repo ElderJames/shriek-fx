@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Shriek.Sample.CQRS.EFCore
+namespace Shriek.Samples.CQRS.EFCore
 {
     public class Program
     {

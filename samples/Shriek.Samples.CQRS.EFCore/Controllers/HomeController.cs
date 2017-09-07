@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shriek.Commands;
-using Shriek.Sample.CQRS.EFCore.Models;
+using Shriek.Samples.CQRS.EFCore.Models;
 using Shriek.Samples.Commands;
 using Shriek.Samples.Models;
 using Shriek.Samples.Queries;
 using System;
 using System.Diagnostics;
 
-namespace Shriek.Sample.CQRS.EFCore.Controllers
+namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
     public class HomeController : Controller
     {

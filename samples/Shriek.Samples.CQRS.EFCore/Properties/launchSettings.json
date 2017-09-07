@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Shriek.Sample.CQRS.EFCore": {
+    "Shriek.Samples.CQRS.EFCore": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

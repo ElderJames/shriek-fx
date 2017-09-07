@@ -1,4 +1,4 @@
-namespace Shriek.Sample.CQRS.EFCore.Models
+namespace Shriek.Samples.CQRS.EFCore.Models
 {
     public class ErrorViewModel
     {

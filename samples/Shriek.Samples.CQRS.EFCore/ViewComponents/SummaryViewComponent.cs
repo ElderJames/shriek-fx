@@ -2,7 +2,7 @@
 using Shriek.Notifications;
 using System.Threading.Tasks;
 
-namespace Shriek.Sample.CQRS.EFCore.ViewComponents
+namespace Shriek.Samples.CQRS.EFCore.ViewComponents
 {
     public class SummaryViewComponent : ViewComponent
     {
