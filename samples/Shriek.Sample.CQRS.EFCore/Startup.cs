@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventStorage.EFCore;
+using Shriek.Mvc;
 using Shriek.Samples;
 using Shriek.Samples.CQRS.EFCore;
 using Shriek.Samples.Queries;
@@ -25,12 +26,7 @@ namespace Shriek.Sample.CQRS.EFCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(mvc =>
-            {
-                mvc.Conventions.Add(new Convention<ITodoService>() as IControllerModelConvention);
-                mvc.Conventions.Add(new Convention<ITodoService>() as IActionModelConvention);
-                mvc.Conventions.Add(new Convention<ITodoService>() as IParameterModelConvention);
-            });
+            services.AddMvc().UseWebApiProxy<ITodoService>();
 
             services.AddShriek();
 

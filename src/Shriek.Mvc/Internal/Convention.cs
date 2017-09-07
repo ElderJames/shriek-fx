@@ -9,10 +9,16 @@ using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Shriek.WebApi.Proxy;
+using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
+using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
+using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace Shriek.Samples.CQRS.EFCore
+namespace Shriek.Mvc.Internal
 {
-    public class Convention<TService> : IControllerModelConvention, IActionModelConvention, IParameterModelConvention
+    internal class Convention<TService> : IControllerModelConvention, IActionModelConvention, IParameterModelConvention
     {
         public void Apply(ControllerModel controller)
         {
@@ -127,48 +133,11 @@ namespace Shriek.Samples.CQRS.EFCore
             if (theParam == null) return;
 
             var attrs = theParam.GetCustomAttributes();
-            var paramAttrs = new List<object>();
+            var paramAttrs = attrs.OfType<JsonContentAttribute>().Select(att => Activator.CreateInstance(typeof(FromBodyAttribute)));
 
-            foreach (var att in attrs)
-            {
-                if (att is WebApi.Proxy.JsonContentAttribute)
-                {
-                    var paramAttribute = Activator.CreateInstance(typeof(FromBodyAttribute));
+            if (!paramAttrs.Any()) return;
 
-                    paramAttrs.Add(paramAttribute);
-                }
-            }
-
-            if (paramAttrs.Any())
-            {
-                var parameterModel = CreateParameterModel(parameter.ParameterInfo, paramAttrs);
-                parameter.BindingInfo = parameterModel.BindingInfo;
-            }
-        }
-
-        /// <summary>
-        /// Creates a <see cref="ParameterModel"/> for the given <see cref="ParameterInfo"/>.
-        /// </summary>
-        /// <param name="parameterInfo">The <see cref="ParameterInfo"/>.</param>
-        /// <returns>A <see cref="ParameterModel"/> for the given <see cref="ParameterInfo"/>.</returns>
-        protected virtual ParameterModel CreateParameterModel(ParameterInfo parameterInfo, IList<object> objects)
-        {
-            if (parameterInfo == null)
-            {
-                throw new ArgumentNullException(nameof(parameterInfo));
-            }
-
-            // CoreCLR returns IEnumerable<Attribute> from GetCustomAttributes - the OfType<object>
-            // is needed to so that the result of ToArray() is object
-            var attributes = parameterInfo.GetCustomAttributes(inherit: true).Concat(objects).ToList();
-            var parameterModel = new ParameterModel(parameterInfo, attributes);
-
-            var bindingInfo = BindingInfo.GetBindingInfo(attributes);
-            parameterModel.BindingInfo = bindingInfo;
-
-            parameterModel.ParameterName = parameterInfo.Name;
-
-            return parameterModel;
+            parameter.BindingInfo = BindingInfo.GetBindingInfo(paramAttrs);
         }
 
         private ICollection<SelectorModel> CreateSelectors(IList<object> attributes)
