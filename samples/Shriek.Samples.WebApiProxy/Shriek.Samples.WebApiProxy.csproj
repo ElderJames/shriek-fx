@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj" />
+    <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
+    <ProjectReference Include="..\Shriek.Samples.CQRS.EFCore\Shriek.Samples.CQRS.EFCore.csproj" />
+    <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
+  </ItemGroup>
+
+</Project>
