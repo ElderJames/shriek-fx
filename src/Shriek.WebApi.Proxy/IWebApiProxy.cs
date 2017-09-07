@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace Shriek.WebApi.Proxy
 {
-    public interface IWebApiProxyOption
+    internal interface IWebApiProxy
     {
         string BaseUrl { get; set; }
-
-        IEnumerable<Type> ServiceTypes { get; }
     }
 }

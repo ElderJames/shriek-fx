@@ -50,7 +50,7 @@ namespace Shriek.WebApi.Proxy
                 return;
             }
             var uri = context.RequestMessage.RequestUri;
-            var baseUrl = uri.Scheme + "://" + uri.Host + (uri.IsDefaultPort ? "" : uri.Port.ToString());
+            var baseUrl = uri.Scheme + "://" + uri.Host + (uri.IsDefaultPort ? "" : ":" + uri.Port);
             var pathQuery = GetPathQuery(uri.LocalPath.Trim('/'), parameter);
 
             context.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);

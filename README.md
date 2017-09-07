@@ -33,9 +33,13 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - [ ] 仓储扫描注册
   - [ ] 查询基类
 - Service层
-  - [x] WebApi 接口动态代理客户端
+  - WebApi 接口动态代理
+    - [x] 客户端
+    - [x] 服务端 
   - [ ] RPC
   - [ ] GraphSQL
+- 定时任务
+  - [ ] Hangfire   
 - 示例
   - [x] 内存事件仓储示例
   - [x] EFCore事件仓储示例

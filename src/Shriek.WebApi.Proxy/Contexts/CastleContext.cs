@@ -105,7 +105,7 @@ namespace Shriek.WebApi.Proxy
             {
                 Name = method.Name,
                 ReturnTaskType = method.ReturnType,
-                ReturnDataType = method.ReturnType.GetGenericArguments().FirstOrDefault(),
+                ReturnDataType = method.ReturnType.IsGenericType ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
                 Attributes = method.GetCustomAttributes<ApiActionAttribute>(true).ToArray(),
                 Parameters = method.GetParameters().Select((p, i) => GetParameterDescriptor(p, i)).ToArray()
             };
