@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Shriek.Mvc;
 using Shriek.Samples.WebApiProxy.Contacts;
 using Shriek.WebApi.Proxy.AspectCore;
 
@@ -11,25 +12,22 @@ namespace Shriek.Samples.WebApiProxy
     {
         public static void Main(string[] args)
         {
-            var h = new WebHostBuilder()
+            new WebHostBuilder()
                 .UseKestrel()
-                .UseStartup<Startup>()
-                .UseUrls("http://*:8080")
-                .Build();
+                .UseShriekStartup("http://localhost:8080")
+                .Build().Start();
 
-            h.Start();
-
-            var services = new ServiceCollection();
-
-            services.AddWebApiProxy(option =>
-            {
-                option.AddWebApiProxy<SampleApiProxy>("http://localhost:8080"); ;
-            });
-
-            var provider = services.BuildServiceProvider();
+            var provider = new ServiceCollection()
+                .AddShriek().AddWebApiProxy(option =>
+                {
+                    option.AddWebApiProxy<SampleApiProxy>("http://localhost:8080");
+                })
+                .Services.BuildServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
+
+            Console.ReadKey();
 
             var result = todoService.Get(1).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result));

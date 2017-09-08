@@ -2,7 +2,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AspectCore.Configuration;
 
 namespace Shriek.WebApi.Proxy.AspectCore
 {
@@ -11,14 +10,14 @@ namespace Shriek.WebApi.Proxy.AspectCore
     /// </summary>
     public class HttpApiClient : InterceptorAttribute, IDisposable
     {
+        private readonly IHttpClient _httpClient;
+
         /// <summary>
         /// 获取或设置http客户端
         /// </summary>
         public IHttpClient HttpClient => _httpClient;
 
-        private IHttpClient _httpClient;
-
-        public Uri RequestHost { get; }
+        public Uri RequestHost { get; private set; }
 
         /// <summary>
         /// 获取或设置json解析工具
@@ -28,11 +27,22 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <summary>
         /// web api请求客户端
         /// </summary>
-        public HttpApiClient(string host)
+        /// <param name="baseUrl"></param>
+        public HttpApiClient(string baseUrl)
         {
-            RequestHost = new Uri(host);
+            RequestHost = new Uri(baseUrl);
             if (_httpClient == null)
-                _httpClient = new HttpClientAdapter(new HttpClient() { BaseAddress = RequestHost });
+                _httpClient = new HttpClientAdapter(new HttpClient());
+            this.JsonFormatter = new DefaultJsonFormatter();
+        }
+
+        /// <summary>
+        /// web api请求客户端
+        /// </summary>
+        public HttpApiClient()
+        {
+            if (_httpClient == null)
+                _httpClient = new HttpClientAdapter(new HttpClient());
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -44,7 +54,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
         {
             RequestHost = httpClient.BaseAddress;
             if (_httpClient == null)
-                _httpClient = new HttpClientAdapter(httpClient ?? new HttpClient());
+                _httpClient = new HttpClientAdapter(httpClient);
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -58,7 +68,12 @@ namespace Shriek.WebApi.Proxy.AspectCore
 
         public override async Task Invoke(AspectContext context, AspectDelegate next)
         {
-            var _context = CastleContext.From(context);
+            var _context = AspectCoreContext.From(context);
+
+            if (string.IsNullOrEmpty(RequestHost.OriginalString) &&
+                !string.IsNullOrEmpty(_context.HostAttribute.Host.OriginalString))
+                RequestHost = _context.HostAttribute.Host;
+
             var actionContext = new ApiActionContext
             {
                 HttpApiClient = this,

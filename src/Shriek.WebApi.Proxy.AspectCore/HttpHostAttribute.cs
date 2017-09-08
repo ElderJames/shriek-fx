@@ -11,7 +11,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <summary>
         /// 获取根路径
         /// </summary>
-        public Uri Host { get; private set; }
+        public Uri Host { get; }
 
         /// <summary>
         /// 请求服务的根路径
@@ -21,7 +21,8 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <exception cref="UriFormatException"></exception>
         public HttpHostAttribute(string host)
         {
-            this.Host = new Uri(host);
+            if (!string.IsNullOrEmpty(host))
+                this.Host = new Uri(host);
         }
 
         /// <summary>

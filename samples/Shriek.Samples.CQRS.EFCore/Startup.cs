@@ -29,15 +29,14 @@ namespace Shriek.Samples.CQRS.EFCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().UseWebApiProxy(option =>
+            services.AddMvc().AddWebApiProxy(option =>
             {
                 option.AddWebApiProxy<SampleApiProxy>();
             });
 
-            services.AddShriek();
-
+            services.AddShriek()
             //事件存储
-            services.AddEFCoreEventStorage(options =>
+            .AddEFCoreEventStorage(options =>
                 options.UseSqlite(new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.event.db" }.ToString()));
 
             //真实数据库

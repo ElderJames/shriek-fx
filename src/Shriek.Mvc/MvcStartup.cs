@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shriek.Mvc;
-using Shriek.Samples.WebApiProxy.Contacts;
 
-namespace Shriek.Samples.WebApiProxy
+namespace Shriek.Mvc
 {
-    public class Startup
+    public class MvcStartup
     {
-        public Startup()
+        public MvcStartup()
         {
             var builder = new ConfigurationBuilder();
 
@@ -24,10 +25,7 @@ namespace Shriek.Samples.WebApiProxy
             services.AddMvcCore()
                 .AddJsonFormatters()
                 .AddFormatterMappings()
-                .UseWebApiProxy(option =>
-            {
-                option.AddWebApiProxy<SampleApiProxy>();
-            });
+                .AddWebApiProxy();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -41,6 +39,7 @@ namespace Shriek.Samples.WebApiProxy
                 if (context.Response.StatusCode != StatusCodes.Status200OK)
                 {
                     context.Response.StatusCode = StatusCodes.Status200OK;
+                    context.Response.ContentType = "text/plain";
                     await context.Response.WriteAsync("server is ok");
                 }
             });

@@ -73,13 +73,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
             {
                 config.Interceptors.AddDelegate(async (ctx, next) =>
                 {
-                    try
-                    {
-                        await next(ctx);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
+                    await next(ctx);
                 });
 
                 config.Interceptors.AddTyped<HttpApiClient>(new object[] { host });
@@ -97,13 +91,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
             {
                 config.Interceptors.AddDelegate(async (ctx, next) =>
                 {
-                    try
-                    {
-                        await next(ctx);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
+                    await next(ctx);
                 });
 
                 config.Interceptors.AddTyped<HttpApiClient>(new object[] { host });

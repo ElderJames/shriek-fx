@@ -7,16 +7,17 @@ namespace Shriek.EventStorage.MongoDB
 {
     public static class EventStorageMongoDBExtensions
     {
-        public static void AddMongoDBEventStorage(this IServiceCollection services, Action<MongoDBOptions> optionsAction)
+        public static IShriekBuilder AddMongoDBEventStorage(this IShriekBuilder builder, Action<MongoDBOptions> optionsAction)
         {
             var options = new MongoDBOptions();
             optionsAction(options);
 
-            services.AddScoped(x => new MongoDatabase(options));
+            builder.Services.AddScoped(x => new MongoDatabase(options));
+            builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
+            builder.Services.AddScoped<IMementoRepository, EventStorageRepository>();
+            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
 
-            services.AddScoped<IEventStorageRepository, EventStorageRepository>();
-            services.AddScoped<IMementoRepository, EventStorageRepository>();
-            services.AddScoped<IEventStorage, SqlEventStorage>();
+            return builder;
         }
     }
 }

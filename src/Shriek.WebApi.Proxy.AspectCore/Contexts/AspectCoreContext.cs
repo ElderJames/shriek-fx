@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
 
 namespace Shriek.WebApi.Proxy.AspectCore
@@ -12,12 +11,12 @@ namespace Shriek.WebApi.Proxy.AspectCore
     /// <summary>
     /// 表示Castle相关上下文
     /// </summary>
-    internal class CastleContext
+    internal class AspectCoreContext
     {
         /// <summary>
         /// 获取HttpHostAttribute
         /// </summary>
-        //public HttpHostAttribute HostAttribute { get; private set; }
+        public HttpHostAttribute HostAttribute { get; private set; }
 
         /// <summary>
         /// 中间路由模版
@@ -42,14 +41,14 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <summary>
         /// 缓存字典
         /// </summary>
-        private static readonly ConcurrentDictionary<AspectContext, CastleContext> cache;
+        private static readonly ConcurrentDictionary<AspectContext, AspectCoreContext> cache;
 
         /// <summary>
         /// Castle相关上下文
         /// </summary>
-        static CastleContext()
+        static AspectCoreContext()
         {
-            CastleContext.cache = new ConcurrentDictionary<AspectContext, CastleContext>(new IInvocationComparer());
+            cache = new ConcurrentDictionary<AspectContext, AspectCoreContext>(new IInvocationComparer());
         }
 
         /// <summary>
@@ -58,14 +57,9 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        //public static CastleContext From(IInvocation invocation)
-        //{
-        //    return CastleContext.cache.GetOrAdd(invocation, CastleContext.GetContextNoCache);
-        //}
-
-        public static CastleContext From(AspectContext context)
+        public static AspectCoreContext From(AspectContext context)
         {
-            return CastleContext.cache.GetOrAdd(context, CastleContext.GetContextNoCache);
+            return cache.GetOrAdd(context, GetContextNoCache);
         }
 
         /// <summary>
@@ -73,27 +67,29 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        private static CastleContext GetContextNoCache(AspectContext invocation)
+        private static AspectCoreContext GetContextNoCache(AspectContext invocation)
         {
             var method = invocation.ServiceMethod;
             var host = invocation.Parameters[0] as string;
 
-            var routeAttributes = CastleContext.GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
+            var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
                                  new RouteAttribute[] { };
 
-            var returnAttribute = CastleContext.GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
+            var hostAttribute = GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ?? new HttpHostAttribute("");
+
+            var returnAttribute = GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
 
             var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var filterAttributes = methodFilters.Concat(interfaceFilters).Distinct(new ApiActionFilterAttributeComparer()).ToArray();
 
-            return new CastleContext
+            return new AspectCoreContext
             {
-                //HostAttribute = hostAttribute,
+                HostAttribute = hostAttribute,
                 RouteAttributes = routeAttributes,
                 ApiReturnAttribute = returnAttribute,
                 ApiActionFilterAttributes = filterAttributes,
-                ApiActionDescriptor = CastleContext.GetActionDescriptor(invocation)
+                ApiActionDescriptor = GetActionDescriptor(invocation)
             };
         }
 
@@ -105,6 +101,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
         private static ApiActionDescriptor GetActionDescriptor(AspectContext invocation)
         {
             var method = invocation.ServiceMethod;
+
             var descriptor = new ApiActionDescriptor
             {
                 Name = method.Name,
@@ -185,7 +182,7 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <returns></returns>
         private static bool IsSimple(Type type)
         {
-            if (type.IsGenericType == true)
+            if (type.IsGenericType)
             {
                 type = type.GetGenericArguments().FirstOrDefault();
             }

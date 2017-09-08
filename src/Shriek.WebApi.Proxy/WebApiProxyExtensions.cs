@@ -6,7 +6,7 @@ namespace Shriek.WebApi.Proxy
 {
     public static class WebApiProxyExtensions
     {
-        public static void AddWebApiProxy(this IServiceCollection services, Action<WebApiProxyOptions> optionAction)
+        public static IShriekBuilder AddWebApiProxy(this IShriekBuilder builder, Action<WebApiProxyOptions> optionAction)
         {
             var option = new WebApiProxyOptions();
             optionAction(option);
@@ -18,9 +18,11 @@ namespace Shriek.WebApi.Proxy
                     x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
                 foreach (var t in types)
                 {
-                    services.AddScoped(t, x => webClient.GetHttpApi(t, o.BaseUrl));
+                    builder.Services.AddScoped(t, x => webClient.GetHttpApi(t, o.BaseUrl));
                 }
             }
+
+            return builder;
         }
     }
 }

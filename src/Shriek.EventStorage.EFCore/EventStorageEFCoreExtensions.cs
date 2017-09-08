@@ -8,12 +8,14 @@ namespace Shriek.EventStorage.EFCore
 {
     public static class EventStorageEFCoreExtensions
     {
-        public static void AddEFCoreEventStorage(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction = null)
+        public static IShriekBuilder AddEFCoreEventStorage(this IShriekBuilder builder, Action<DbContextOptionsBuilder> optionsAction = null)
         {
-            services.AddDbContext<EventStorageSQLContext>(optionsAction);
-            services.AddScoped<IEventStorageRepository, EventStorageSQLRepository>();
-            services.AddScoped<IMementoRepository, EventStorageSQLRepository>();
-            services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddDbContext<EventStorageSQLContext>(optionsAction);
+            builder.Services.AddScoped<IEventStorageRepository, EventStorageSQLRepository>();
+            builder.Services.AddScoped<IMementoRepository, EventStorageSQLRepository>();
+            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+
+            return builder;
         }
     }
 }

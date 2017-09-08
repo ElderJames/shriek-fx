@@ -11,6 +11,19 @@ namespace Shriek.Utils
     /// </summary>
     public static class Reflection
     {
+        private static IEnumerable<Assembly> _currentAssemblies;
+
+        public static IEnumerable<Assembly> CurrentAssembiles
+        {
+            get
+            {
+                if (_currentAssemblies == null || !_currentAssemblies.Any())
+                    _currentAssemblies = GetAssemblies();
+
+                return _currentAssemblies;
+            }
+        }
+
         public static IEnumerable<Assembly> GetAssemblies(string filter = null, Type type = null)
         {
             List<Assembly> assemblies = new List<Assembly>();

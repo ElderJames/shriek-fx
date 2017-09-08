@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="HttpHostAttribute.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspectCore.Core" Version="0.2.0-preview2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shriek\Shriek.csproj" />
   </ItemGroup>
 </Project>
