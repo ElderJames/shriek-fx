@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示与Api方法关联的特性

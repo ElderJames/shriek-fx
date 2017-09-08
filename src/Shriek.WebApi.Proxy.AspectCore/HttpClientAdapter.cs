@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     internal class HttpClientAdapter : IHttpClient
     {
@@ -15,7 +15,7 @@ namespace Shriek.WebApi.Proxy
 
         public void Dispose()
         {
-            httpClient.Dispose();
+            //httpClient.Dispose();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

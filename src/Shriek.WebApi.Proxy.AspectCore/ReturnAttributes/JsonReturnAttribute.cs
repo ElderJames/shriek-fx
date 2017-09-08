@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示将回复的Json结果作反序化为指定类型

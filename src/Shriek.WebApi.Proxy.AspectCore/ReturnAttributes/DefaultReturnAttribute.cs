@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示将回复的结果作HttpResponseMessage或byte[]或string处理

@@ -7,7 +7,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示Url路径参数或query参数的特性

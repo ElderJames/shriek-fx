@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示请求Api的上下文
@@ -11,11 +11,6 @@ namespace Shriek.WebApi.Proxy
         /// 获取关联的HttpApiClient
         /// </summary>
         public HttpApiClient HttpApiClient { get; internal set; }
-
-        /// <summary>
-        /// 获取关联的HttpHostAttribute
-        /// </summary>
-        public HttpHostAttribute HostAttribute { get; internal set; }
 
         /// <summary>
         /// 中间路由模版

@@ -9,6 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj" />
+    <ProjectReference Include="..\Shriek.WebApi.Proxy.AspectCore\Shriek.WebApi.Proxy.AspectCore.csproj" />
   </ItemGroup>
 </Project>

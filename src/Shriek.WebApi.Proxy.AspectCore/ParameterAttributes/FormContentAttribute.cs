@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示将参数体作为x-www-form-urlencoded请求

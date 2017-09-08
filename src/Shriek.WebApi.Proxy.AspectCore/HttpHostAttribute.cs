@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示请求服务根路径

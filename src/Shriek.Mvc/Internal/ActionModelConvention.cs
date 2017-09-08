@@ -36,7 +36,7 @@ namespace Shriek.Mvc.Internal
 
             foreach (var att in attrs)
             {
-                if (att is WebApi.Proxy.HttpMethodAttribute methodAttr)
+                if (att is WebApi.Proxy.AspectCore.HttpMethodAttribute methodAttr)
                 {
                     var httpMethod = methodAttr.Method;
                     var path = methodAttr.Path;
@@ -72,7 +72,7 @@ namespace Shriek.Mvc.Internal
                         actionAttrs.Add(methodAttribute);
                     }
                 }
-                if (att is WebApi.Proxy.RouteAttribute routeAttr)
+                if (att is WebApi.Proxy.AspectCore.RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
                     var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);

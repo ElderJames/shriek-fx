@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Mvc.Internal;
-using Shriek.WebApi.Proxy;
+using Shriek.WebApi.Proxy.AspectCore;
 
 namespace Shriek.Mvc
 {

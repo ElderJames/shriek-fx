@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Shriek.WebApi.Proxy;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Shriek.Mvc.Internal
 {
@@ -27,7 +25,7 @@ namespace Shriek.Mvc.Internal
 
             foreach (var att in attrs)
             {
-                if (att is WebApi.Proxy.RouteAttribute routeAttr)
+                if (att is WebApi.Proxy.AspectCore.RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
                     var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);

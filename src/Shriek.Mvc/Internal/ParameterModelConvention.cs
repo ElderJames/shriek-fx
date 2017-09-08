@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Shriek.WebApi.Proxy;
+using Shriek.WebApi.Proxy.AspectCore;
 
 namespace Shriek.Mvc.Internal
 {

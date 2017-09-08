@@ -1,5 +1,4 @@
-﻿using Castle.DynamicProxy;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示Castle相关上下文
@@ -18,7 +17,7 @@ namespace Shriek.WebApi.Proxy
         /// <summary>
         /// 获取HttpHostAttribute
         /// </summary>
-        public HttpHostAttribute HostAttribute { get; private set; }
+        //public HttpHostAttribute HostAttribute { get; private set; }
 
         /// <summary>
         /// 中间路由模版
@@ -77,9 +76,7 @@ namespace Shriek.WebApi.Proxy
         private static CastleContext GetContextNoCache(AspectContext invocation)
         {
             var method = invocation.ServiceMethod;
-            var hostAttribute = CastleContext.GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ??
-                                invocation.ProxyMethod?.GetType().GetCustomAttribute<HttpHostAttribute>() ??
-                                throw new HttpRequestException("未指定HttpHostAttribute");
+            var host = invocation.Parameters[0] as string;
 
             var routeAttributes = CastleContext.GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
                                  new RouteAttribute[] { };
@@ -92,7 +89,7 @@ namespace Shriek.WebApi.Proxy
 
             return new CastleContext
             {
-                HostAttribute = hostAttribute,
+                //HostAttribute = hostAttribute,
                 RouteAttributes = routeAttributes,
                 ApiReturnAttribute = returnAttribute,
                 ApiActionFilterAttributes = filterAttributes,

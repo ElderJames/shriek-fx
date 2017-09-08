@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     public static class WebApiProxyExtensions
     {
@@ -11,14 +11,13 @@ namespace Shriek.WebApi.Proxy
             var option = new WebApiProxyOptions();
             optionAction(option);
 
-            var webClient = new HttpApiClient();
             foreach (var o in option.WebApiProxies)
             {
                 var types = o.GetType().Assembly.GetTypes().Where(x =>
                     x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
                 foreach (var t in types)
                 {
-                    services.AddScoped(t, x => webClient.GetHttpApi(t, o.BaseUrl));
+                    services.AddScoped(t, x => ServiceAdapter.GetHttpApi(t, o.BaseUrl));
                 }
             }
         }

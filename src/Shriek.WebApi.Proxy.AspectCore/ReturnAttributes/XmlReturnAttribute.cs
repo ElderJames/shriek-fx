@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示将回复的Xml结果作反序化为指定类型

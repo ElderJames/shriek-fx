@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 定义json解析工具的接口

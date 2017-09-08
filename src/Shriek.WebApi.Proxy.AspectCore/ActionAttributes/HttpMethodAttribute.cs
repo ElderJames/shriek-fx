@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示http请求方法描述特性
@@ -46,7 +46,7 @@ namespace Shriek.WebApi.Proxy
         {
             context.RequestMessage.Method = this.Method;
             var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1).Select(x => x.Template.Trim('/'));
-            context.RequestMessage.RequestUri = new Uri(context.HostAttribute.Host, string.Join("/", routes) + '/' + this.Path.Trim('/'));
+            context.RequestMessage.RequestUri = new Uri(context.HttpApiClient.RequestHost, string.Join("/", routes) + '/' + this.Path.Trim('/'));
             return TaskExtensions.CompletedTask;
         }
 

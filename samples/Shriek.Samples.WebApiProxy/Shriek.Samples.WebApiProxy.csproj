@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Shriek.WebApi.Proxy.AspectCore\Shriek.WebApi.Proxy.AspectCore.csproj" />
     <ProjectReference Include="..\..\src\Shriek.WebApi.Proxy\Shriek.WebApi.Proxy.csproj" />
     <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     <ProjectReference Include="..\Shriek.Samples.CQRS.EFCore\Shriek.Samples.CQRS.EFCore.csproj" />

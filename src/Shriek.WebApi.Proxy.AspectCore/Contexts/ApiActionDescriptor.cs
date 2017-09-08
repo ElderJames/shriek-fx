@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示请求Api描述
@@ -75,6 +78,9 @@ namespace Shriek.WebApi.Proxy
 
             var httpClient = context.HttpApiClient.HttpClient;
             context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
+
+            if (!context.ResponseMessage.IsSuccessStatusCode)
+                throw new HttpRequestException(context.ResponseMessage.ReasonPhrase);
 
             foreach (var filter in context.ApiActionFilterAttributes)
             {

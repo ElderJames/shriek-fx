@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     /// <summary>
     /// 表示Post请求

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shriek.WebApi.Proxy
+namespace Shriek.WebApi.Proxy.AspectCore
 {
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class RouteAttribute : Attribute

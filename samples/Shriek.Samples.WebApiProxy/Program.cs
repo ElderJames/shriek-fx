@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Shriek.Samples.CQRS.EFCore;
 using Shriek.Samples.Services;
-using Shriek.WebApi.Proxy;
+using Shriek.WebApi.Proxy.AspectCore;
 
 namespace Shriek.Samples.WebApiProxy
 {

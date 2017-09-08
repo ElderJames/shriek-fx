@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Shriek.Samples.Models;
-using Shriek.WebApi.Proxy;
+using Shriek.WebApi.Proxy.AspectCore;
 
 namespace Shriek.Samples.Services
 {
