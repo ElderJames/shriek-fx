@@ -4,12 +4,22 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 
 一个使用 **.NET Core 2.0** 开发的简单易用的领域驱动框架，宗旨是让小型应用也能用DDD的思想去开发，打破DDD很复杂的谣言！
 
+---
+
 ### 特性：
 
 1. 领域驱动（DDD）
 2. 命令查询职责分离（CQRS）
 3. 事件回溯 （ES）
 4. 最终一致性 （Eventually Consistent）
+5. Server/Client 动态代理 (提供接口自动实现客户端和服务端)
+
+### 开发环境
+
+1. [Visual Studio 15.3](https://www.visualstudio.com/zh-hans/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+2. .NET Core 2.0 SDK [ [x64](https://download.microsoft.com/download/0/F/D/0FD852A4-7EA1-4E2A-983A-0484AC19B92C/dotnet-sdk-2.0.0-win-x64.exe) | [x86](https://download.microsoft.com/download/0/F/D/0FD852A4-7EA1-4E2A-983A-0484AC19B92C/dotnet-sdk-2.0.0-win-x86.exe) ]
+
+---
 
 ### 任务列表（更新中）：
 
@@ -35,13 +45,15 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 - Service层
   - WebApi 接口动态代理
     - [x] 客户端
-    - [x] 服务端 
-  - [ ] RPC
+    - 服务端 
+      - [x] Http / MVC
+      - [ ] TCP  / RPC
   - [ ] GraphSQL
 - 定时任务
   - [ ] Hangfire   
 - 示例
-  - [x] 内存事件仓储示例
-  - [x] EFCore事件仓储示例
-  - [x] NoSQL事件仓储示例
-  - [ ] Web示例
+  - [x] 内存事件仓储
+  - [x] EFCore事件仓储
+  - [x] NoSQL事件仓储
+  - [x] WebApi代理
+  - [ ] CQRS 整体示例
