@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Mvc.Internal;
-using Shriek.WebApi.Proxy.AspectCore;
+using Shriek.ServiceProxy.Http;
 using Shriek.Utils;
 
 namespace Shriek.Mvc

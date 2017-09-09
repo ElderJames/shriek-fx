@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shriek.WebApi.Proxy.AspectCore;
+using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Mvc
 {

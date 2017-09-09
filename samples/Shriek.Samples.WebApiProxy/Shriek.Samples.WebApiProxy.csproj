@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shriek.Mvc\Shriek.Mvc.csproj" />
-    <ProjectReference Include="..\..\src\Shriek.WebApi.Proxy.AspectCore\Shriek.WebApi.Proxy.AspectCore.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
   </ItemGroup>
 
 </Project>

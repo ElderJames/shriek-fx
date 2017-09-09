@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Shriek.Mvc;
 using Shriek.Samples.WebApiProxy.Contacts;
-using Shriek.WebApi.Proxy.AspectCore;
+using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -18,11 +18,10 @@ namespace Shriek.Samples.WebApiProxy
                 .Build().Start();
 
             var provider = new ServiceCollection()
-                .AddShriek().AddWebApiProxy(option =>
-                {
-                    option.AddWebApiProxy<SampleApiProxy>("http://localhost:8080");
-                })
-                .Services.BuildServiceProvider();
+                .AddShriek()
+                .AddWebApiProxy(opt => opt.AddWebApiProxy<SampleApiProxy>())
+                .Services
+                .BuildServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();

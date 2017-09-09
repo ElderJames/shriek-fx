@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Shriek.Samples.WebApiProxy.Models;
-using Shriek.WebApi.Proxy.AspectCore;
+using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.WebApiProxy.Contacts
 {
+    [HttpHost("http://localhost:8080")]
     [Route("api")]
     public interface ITodoService
     {

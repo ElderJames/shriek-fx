@@ -25,7 +25,7 @@ namespace Shriek.Mvc.Internal
 
             foreach (var att in attrs)
             {
-                if (att is WebApi.Proxy.AspectCore.RouteAttribute routeAttr)
+                if (att is Shriek.ServiceProxy.Http.RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
                     var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);

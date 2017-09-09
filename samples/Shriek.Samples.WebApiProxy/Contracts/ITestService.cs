@@ -1,5 +1,5 @@
 ﻿using Shriek.Samples.WebApiProxy.Models;
-using Shriek.WebApi.Proxy.AspectCore;
+using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.WebApiProxy.Contacts
 {

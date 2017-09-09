@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.Samples.Models;
-using Shriek.WebApi.Proxy.AspectCore;
+﻿using Shriek.Samples.Models;
+using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.Services
 {
