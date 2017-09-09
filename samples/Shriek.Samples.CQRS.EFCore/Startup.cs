@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventStorage.EFCore;
 using Shriek.Mvc;
-using Shriek.Samples;
-using Shriek.Samples.CQRS.EFCore;
 using Shriek.Samples.Queries;
 using Shriek.Samples.Repositories;
 using Shriek.Samples.Services;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     public interface IWebApiProxyOption
     {

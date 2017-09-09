@@ -1,4 +1,4 @@
-﻿using Shriek.ServiceProxy.Http;
+﻿using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.Samples.Services
 {

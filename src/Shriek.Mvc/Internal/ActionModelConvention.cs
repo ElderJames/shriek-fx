@@ -36,7 +36,7 @@ namespace Shriek.Mvc.Internal
 
             foreach (var att in attrs)
             {
-                if (att is Shriek.ServiceProxy.Http.HttpMethodAttribute methodAttr)
+                if (att is ServiceProxy.Http.HttpMethodAttribute methodAttr)
                 {
                     var httpMethod = methodAttr.Method;
                     var path = methodAttr.Path;

@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Http
+﻿namespace Shriek.ServiceProxy.Abstractions
 {
     public abstract class WebApiProxy : IWebApiProxy
     {

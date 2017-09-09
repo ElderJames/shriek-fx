@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
         <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
         <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     </ItemGroup>

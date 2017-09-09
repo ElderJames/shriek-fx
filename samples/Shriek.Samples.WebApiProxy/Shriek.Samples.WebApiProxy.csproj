@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shriek.Mvc\Shriek.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
   </ItemGroup>
 
