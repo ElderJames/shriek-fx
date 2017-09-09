@@ -24,11 +24,6 @@ namespace Shriek.WebApi.Proxy.AspectCore
 
         public static object GetHttpApi(Type obj, string host)
         {
-            if (string.IsNullOrEmpty(host))
-            {
-                throw new ArgumentNullException();
-            }
-
             if (!obj.IsInterface)
             {
                 throw new ArgumentException(obj.Name + "不是接口类型");

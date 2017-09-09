@@ -12,7 +12,7 @@ namespace Shriek
         {
             var builder = new ShriekBuilder(services);
 
-            builder.Services.Scan(scan => scan.FromAssemblies(Reflection.GetAssemblies())
+            builder.Services.Scan(scan => scan.FromAssemblies(Reflection.CurrentAssembiles)
             .AddClasses()
             .AsImplementedInterfaces()
             .WithScopedLifetime());

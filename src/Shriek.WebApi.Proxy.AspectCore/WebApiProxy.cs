@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shriek.WebApi.Proxy.AspectCore;
-
-namespace Shriek.WebApi.Proxy.AspectCore
+﻿namespace Shriek.WebApi.Proxy.AspectCore
 {
     public abstract class WebApiProxy : IWebApiProxy
     {

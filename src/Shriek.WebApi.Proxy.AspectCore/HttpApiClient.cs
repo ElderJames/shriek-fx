@@ -30,7 +30,8 @@ namespace Shriek.WebApi.Proxy.AspectCore
         /// <param name="baseUrl"></param>
         public HttpApiClient(string baseUrl)
         {
-            RequestHost = new Uri(baseUrl);
+            if (!string.IsNullOrEmpty(baseUrl))
+                RequestHost = new Uri(baseUrl);
             if (_httpClient == null)
                 _httpClient = new HttpClientAdapter(new HttpClient());
             this.JsonFormatter = new DefaultJsonFormatter();
@@ -70,9 +71,11 @@ namespace Shriek.WebApi.Proxy.AspectCore
         {
             var _context = AspectCoreContext.From(context);
 
-            if (string.IsNullOrEmpty(RequestHost.OriginalString) &&
-                !string.IsNullOrEmpty(_context.HostAttribute.Host.OriginalString))
-                RequestHost = _context.HostAttribute.Host;
+            if (RequestHost == null || string.IsNullOrEmpty(RequestHost.OriginalString))
+                if (_context.HostAttribute.Host != null && !string.IsNullOrEmpty(_context.HostAttribute.Host.OriginalString))
+                    RequestHost = _context.HostAttribute.Host;
+                else
+                    throw new ArgumentNullException("BaseUrl or HttpHost attribute", "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
             var actionContext = new ApiActionContext
             {

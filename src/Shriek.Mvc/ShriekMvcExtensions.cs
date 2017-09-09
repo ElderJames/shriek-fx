@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Mvc.Internal;
 using Shriek.WebApi.Proxy.AspectCore;
-using Shriek;
 using Shriek.Utils;
 
 namespace Shriek.Mvc
