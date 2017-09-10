@@ -34,7 +34,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
                 var mthParams = mth.GetParameters();
                 return action.ActionMethod.Name == mth.Name
                        && actionParams.Length == mthParams.Length
-                       && actionParams.Any(x => mthParams.Any(o => x.Name == o.Name && x.GetType() == o.GetType()));
+                       && actionParams.Any(x => mthParams.Where(o => x.Name == o.Name).Any(o => x.GetType() == o.GetType()));
             });
 
             var attrs = method.GetCustomAttributes();

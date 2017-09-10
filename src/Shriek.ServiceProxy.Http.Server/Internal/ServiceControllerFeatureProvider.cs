@@ -24,7 +24,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
         {
             foreach (var type in Reflection.CurrentAssembiles.SelectMany(o => o.DefinedTypes))
             {
-                if (IsController(type) || ServiceTypes.Any(o => type.GetInterface(o.Name) == o) && !feature.Controllers.Contains(type))
+                if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)) && !feature.Controllers.Contains(type))
                 {
                     feature.Controllers.Add(type);
                 }
