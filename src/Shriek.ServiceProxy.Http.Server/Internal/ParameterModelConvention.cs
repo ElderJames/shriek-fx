@@ -4,9 +4,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Shriek.ServiceProxy.Http;
 
-namespace Shriek.Mvc.Internal
+namespace Shriek.ServiceProxy.Http.Server.Internal
 {
     internal class ParameterModelConvention : IParameterModelConvention
     {

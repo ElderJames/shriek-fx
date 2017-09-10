@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Shriek.ServiceProxy.Abstractions;
 
-namespace Shriek.Mvc
+namespace Shriek.ServiceProxy.Http.Server
 {
     public class WebApiProxyOptions
     {

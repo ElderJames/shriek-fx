@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
-using Shriek.Mvc.Internal;
-using Shriek.ServiceProxy.Http;
+using Shriek.ServiceProxy.Http.Server.Internal;
 using Shriek.Utils;
 
-namespace Shriek.Mvc
+namespace Shriek.ServiceProxy.Http.Server
 {
     public static class ShriekMvcExtensions
     {
@@ -31,10 +30,8 @@ namespace Shriek.Mvc
 
         public static IMvcCoreBuilder AddWebApiProxy(this IMvcCoreBuilder mvcBuilder)
         {
-            IEnumerable<Type> interfaceTypes = new List<Type>();
-
-            interfaceTypes = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes()).Where(x =>
-                  x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
+            var interfaceTypes = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
 
             foreach (var t in interfaceTypes)
             {

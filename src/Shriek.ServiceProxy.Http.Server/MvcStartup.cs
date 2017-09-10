@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Shriek.Mvc
+namespace Shriek.ServiceProxy.Http.Server
 {
     public class MvcStartup
     {

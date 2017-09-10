@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Route = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace Shriek.Mvc.Internal
+namespace Shriek.ServiceProxy.Http.Server.Internal
 {
     internal class ControllerModelConvention : IControllerModelConvention
     {
@@ -25,10 +25,10 @@ namespace Shriek.Mvc.Internal
 
             foreach (var att in attrs)
             {
-                if (att is Shriek.ServiceProxy.Http.RouteAttribute routeAttr)
+                if (att is RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
-                    var routeAttribute = Activator.CreateInstance(typeof(RouteAttribute), template);
+                    var routeAttribute = Activator.CreateInstance(typeof(Route), template);
                     controllerAttrs.Add(routeAttribute);
                 }
             }

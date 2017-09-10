@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Shriek.Utils;
 
-namespace Shriek.Mvc.Internal
+namespace Shriek.ServiceProxy.Http.Server.Internal
 {
     internal class ServiceControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {
         private const string ControllerTypeNameSuffix = "Controller";
-        private IEnumerable<Type> ServiceTypes;
+        private readonly IEnumerable<Type> ServiceTypes;
 
         public ServiceControllerFeatureProvider(IEnumerable<Type> ServiceTypes)
         {

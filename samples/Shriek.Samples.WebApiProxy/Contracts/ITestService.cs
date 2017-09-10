@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shriek.Samples.WebApiProxy.Models;
+﻿using Shriek.Samples.WebApiProxy.Models;
+using Shriek.ServiceProxy.Http;
 
-namespace Shriek.Samples.WebApiProxy.Contacts
+namespace Shriek.Samples.WebApiProxy.Contracts
 {
-    [ServiceProxy.Http.Route("route")]
+    [Route("route")]
     public interface ITestService
     {
         [HttpGet("test/{id:int}")]

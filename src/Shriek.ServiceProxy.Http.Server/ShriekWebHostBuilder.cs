@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Shriek.Mvc
+namespace Shriek.ServiceProxy.Http.Server
 {
     public class ShriekWebHostBuilder : WebHostBuilder, IShriekBuilder
     {

@@ -2,7 +2,7 @@
 using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Http;
 
-namespace Shriek.Samples.WebApiProxy.Contacts
+namespace Shriek.Samples.WebApiProxy.Contracts
 {
     [HttpHost("http://localhost:8080")]
     [Route("api")]

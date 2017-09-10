@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Shriek.Mvc;
-using Shriek.Samples.WebApiProxy.Contacts;
+using Shriek.Samples.WebApiProxy.Contracts;
 using Shriek.ServiceProxy.Http;
+using Shriek.ServiceProxy.Http.Server;
 
 namespace Shriek.Samples.WebApiProxy
 {

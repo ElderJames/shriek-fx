@@ -91,6 +91,7 @@ namespace Shriek.ServiceProxy.Http
             foreach (var attr in Assembly.GetExecutingAssembly().GetTypes()
                 .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
             {
+                if (attr == null) continue;
                 var result = await attr.GetTaskResult(context);
                 if (result != null)
                     return result;

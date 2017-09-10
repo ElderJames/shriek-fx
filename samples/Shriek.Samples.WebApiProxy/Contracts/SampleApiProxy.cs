@@ -1,6 +1,4 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-
-namespace Shriek.Samples.WebApiProxy.Contacts
+﻿namespace Shriek.Samples.WebApiProxy.Contracts
 {
     public class SampleApiProxy : ServiceProxy.Abstractions.WebApiProxy
     {

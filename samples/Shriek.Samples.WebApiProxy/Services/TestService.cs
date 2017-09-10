@@ -1,4 +1,4 @@
-﻿using Shriek.Samples.WebApiProxy.Contacts;
+﻿using Shriek.Samples.WebApiProxy.Contracts;
 using Shriek.Samples.WebApiProxy.Models;
 
 namespace Shriek.Samples.WebApiProxy.Services

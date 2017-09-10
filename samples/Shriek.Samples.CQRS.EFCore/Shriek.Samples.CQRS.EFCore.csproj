@@ -20,8 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Shriek.EventStorage.EFCore\Shriek.EventStorage.EFCore.csproj" />
-    <ProjectReference Include="..\..\src\Shriek.Mvc\Shriek.Mvc.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http.Server\Shriek.ServiceProxy.Http.Server.csproj" />
     <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>

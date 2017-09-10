@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -11,7 +8,7 @@ namespace Shriek.ServiceProxy.Http
         /// <summary>
         /// 获取路由
         /// </summary>
-        public string Template { get; private set; }
+        public string Template { get; }
 
         /// <summary>
         /// 设置路由

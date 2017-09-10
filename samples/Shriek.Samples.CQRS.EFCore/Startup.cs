@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventStorage.EFCore;
-using Shriek.Mvc;
 using Shriek.Samples.Queries;
 using Shriek.Samples.Repositories;
 using Shriek.Samples.Services;
+using Shriek.ServiceProxy.Http.Server;
 
 namespace Shriek.Samples.CQRS.EFCore
 {

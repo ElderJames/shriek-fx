@@ -18,7 +18,7 @@ namespace Shriek.ServiceProxy.Http
                     x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
                 foreach (var t in types)
                 {
-                    builder.Services.AddScoped(t, x => ServiceAdapter.GetHttpApi(t, o.BaseUrl));
+                    builder.Services.AddScoped(t, x => ServiceProvider.GetHttpService(t, o.BaseUrl));
                 }
             }
 
