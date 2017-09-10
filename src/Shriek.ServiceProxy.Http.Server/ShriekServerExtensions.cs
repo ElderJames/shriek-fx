@@ -10,7 +10,7 @@ using Shriek.Utils;
 
 namespace Shriek.ServiceProxy.Http.Server
 {
-    public static class ShriekMvcExtensions
+    public static class ShriekServerExtensions
     {
         public static IWebHostBuilder UseShriekStartup(this IWebHostBuilder builder, params string[] urls)
         {

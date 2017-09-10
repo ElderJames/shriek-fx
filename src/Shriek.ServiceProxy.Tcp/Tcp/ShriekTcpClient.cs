@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Abstractions.TcpClient;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
-using SimpleTCP;
 
-namespace Shriek.ServiceProxy.Tcp.TcpClient
+namespace Shriek.ServiceProxy.Tcp
 {
-    public class TcpClient : IDisposable
+    public class ShriekTcpClient : IDisposable
     {
-        public TcpClient()
+        public ShriekTcpClient()
         {
             StringEncoder = System.Text.Encoding.UTF8;
             ReadLoopIntervalMs = 10;
@@ -22,15 +22,15 @@ namespace Shriek.ServiceProxy.Tcp.TcpClient
         public byte Delimiter { get; set; }
         public System.Text.Encoding StringEncoder { get; set; }
 
-        public event EventHandler<Message> DelimiterDataReceived;
+        public event EventHandler<TcpMessage> DelimiterDataReceived;
 
-        public event EventHandler<Message> DataReceived;
+        public event EventHandler<TcpMessage> DataReceived;
 
         internal bool QueueStop { get; set; }
         internal int ReadLoopIntervalMs { get; set; }
         public bool AutoTrimStrings { get; set; }
 
-        public TcpClient Connect(string hostNameOrIpAddress, int port)
+        public ShriekTcpClient Connect(string hostNameOrIpAddress, int port)
         {
             if (string.IsNullOrEmpty(hostNameOrIpAddress))
             {
@@ -53,7 +53,7 @@ namespace Shriek.ServiceProxy.Tcp.TcpClient
             _rxThread.Start();
         }
 
-        public TcpClient Disconnect()
+        public ShriekTcpClient Disconnect()
         {
             if (_TcpClient == null) { return this; }
             _TcpClient.Close();
@@ -125,14 +125,14 @@ namespace Shriek.ServiceProxy.Tcp.TcpClient
         private void NotifyDelimiterMessageRx(System.Net.Sockets.TcpClient client, byte[] msg)
         {
             if (DelimiterDataReceived == null) return;
-            var m = new Message(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
+            var m = new TcpMessage(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
             DelimiterDataReceived(this, m);
         }
 
         private void NotifyEndTransmissionRx(System.Net.Sockets.TcpClient client, byte[] msg)
         {
             if (DataReceived == null) return;
-            var m = new Message(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
+            var m = new TcpMessage(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
             DataReceived(this, m);
         }
 
@@ -161,9 +161,9 @@ namespace Shriek.ServiceProxy.Tcp.TcpClient
             }
         }
 
-        public Message WriteLineAndGetReply(string data, TimeSpan timeout)
+        public TcpMessage WriteLineAndGetReply(string data, TimeSpan timeout)
         {
-            Message mReply = null;
+            TcpMessage mReply = null;
             DataReceived += (s, e) => { mReply = e; };
             WriteLine(data);
 
@@ -206,7 +206,7 @@ namespace Shriek.ServiceProxy.Tcp.TcpClient
             _disposedValue = true;
         }
 
-        ~TcpClient()
+        ~ShriekTcpClient()
         {
             Dispose(false);
         }

@@ -3,13 +3,13 @@ using System.Text;
 
 namespace Shriek.ServiceProxy.Abstractions.TcpClient
 {
-    public class Message
+    public class TcpMessage
     {
         private readonly Encoding _encoder;
         private readonly byte _writeLineDelimiter;
         private readonly bool _autoTrim;
 
-        internal Message(byte[] data, System.Net.Sockets.TcpClient tcpClient, Encoding stringEncoder, byte lineDelimiter)
+        public TcpMessage(byte[] data, System.Net.Sockets.TcpClient tcpClient, Encoding stringEncoder, byte lineDelimiter)
         {
             Data = data;
             TcpClient = tcpClient;
@@ -17,7 +17,7 @@ namespace Shriek.ServiceProxy.Abstractions.TcpClient
             _writeLineDelimiter = lineDelimiter;
         }
 
-        internal Message(byte[] data, System.Net.Sockets.TcpClient tcpClient, Encoding stringEncoder, byte lineDelimiter, bool autoTrim)
+        public TcpMessage(byte[] data, System.Net.Sockets.TcpClient tcpClient, Encoding stringEncoder, byte lineDelimiter, bool autoTrim)
         {
             Data = data;
             TcpClient = tcpClient;
