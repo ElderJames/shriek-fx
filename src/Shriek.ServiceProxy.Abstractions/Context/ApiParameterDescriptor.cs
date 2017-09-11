@@ -1,7 +1,6 @@
 ﻿using System;
-using Shriek.ServiceProxy.Abstractions;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示请求Api的参数描述
@@ -11,37 +10,37 @@ namespace Shriek.ServiceProxy.Http
         /// <summary>
         /// 获取参数名称
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 获取参数索引
         /// </summary>
-        public int Index { get; internal set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// 获取参数类型
         /// </summary>
-        public Type ParameterType { get; internal set; }
+        public Type ParameterType { get; set; }
 
         /// <summary>
         /// 获取参数值
         /// </summary>
-        public object Value { get; internal set; }
+        public object Value { get; set; }
 
         /// <summary>
         /// 获取参数类型是否为简单类型
         /// </summary>
-        public bool IsSimpleType { get; internal set; }
+        public bool IsSimpleType { get; set; }
 
         /// <summary>
         /// 获取关联的参数特性
         /// </summary>
-        public ApiParameterAttribute[] Attributes { get; internal set; }
+        public ApiParameterAttribute[] Attributes { get; set; }
 
         /// <summary>
         /// 获取参数类型是否为Uri参数类型
         /// </summary>
-        public bool IsUriParameterType { get; internal set; }
+        public bool IsUriParameterType { get; set; }
 
         /// <summary>
         /// 转换为字符串

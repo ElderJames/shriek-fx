@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示与Api方法关联的特性

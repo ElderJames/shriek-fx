@@ -3,8 +3,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using Shriek.Utils;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示请求Api描述
@@ -14,27 +15,27 @@ namespace Shriek.ServiceProxy.Http
         /// <summary>
         /// 获取Api名称
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 获取Api关联的特性
         /// </summary>
-        public ApiActionAttribute[] Attributes { get; internal set; }
+        public ApiActionAttribute[] Attributes { get; set; }
 
         /// <summary>
         /// 获取Api的参数描述
         /// </summary>
-        public ApiParameterDescriptor[] Parameters { get; internal set; }
+        public ApiParameterDescriptor[] Parameters { get; set; }
 
         /// <summary>
         /// 获取Api返回的TaskOf(T)类型
         /// </summary>
-        public Type ReturnTaskType { get; internal set; }
+        public Type ReturnTaskType { get; set; }
 
         /// <summary>
         /// 获取Api返回的TaskOf(T)的T类型
         /// </summary>
-        public Type ReturnDataType { get; internal set; }
+        public Type ReturnDataType { get; set; }
 
         /// <summary>
         /// 执行api
@@ -74,8 +75,8 @@ namespace Shriek.ServiceProxy.Http
                 await filter.OnBeginRequestAsync(context);
             }
 
-            var httpClient = context.HttpApiClient.HttpClient;
-            context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
+            await context.HttpApiClient.SendAsync(context);
+            //context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
 
             if (!context.ResponseMessage.IsSuccessStatusCode)
                 throw new HttpRequestException(context.ResponseMessage.ReasonPhrase);
@@ -88,7 +89,7 @@ namespace Shriek.ServiceProxy.Http
             if (context.ApiReturnAttribute != null)
                 return await context.ApiReturnAttribute.GetTaskResult(context);
 
-            foreach (var attr in Assembly.GetExecutingAssembly().GetTypes()
+            foreach (var attr in Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes())
                 .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
             {
                 if (attr == null) continue;

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Routing;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -54,7 +55,7 @@ namespace Shriek.ServiceProxy.Http
             var pathQuery = GetPathQuery(uri.LocalPath.Trim('/'), parameter);
 
             context.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);
-            await TaskExtensions.CompletedTask;
+            await Task.CompletedTask;
         }
 
         /// <summary>

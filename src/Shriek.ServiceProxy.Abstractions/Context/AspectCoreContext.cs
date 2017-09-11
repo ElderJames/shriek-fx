@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示Castle相关上下文

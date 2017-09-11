@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApiActionFilterAttribute.cs" />
+    <Compile Remove="Contexts\ApiActionDescriptor.cs" />
+    <Compile Remove="Contexts\ApiParameterDescriptor.cs" />
+    <Compile Remove="ParameterAttributes\ApiParameterAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspectCore.Core" Version="0.2.0-preview2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />

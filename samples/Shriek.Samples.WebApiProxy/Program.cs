@@ -19,7 +19,7 @@ namespace Shriek.Samples.WebApiProxy
 
             var provider = new ServiceCollection()
                 .AddShriek()
-                .AddWebApiProxy(opt => opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8080"))
+                .AddWebApiProxy(opt => opt.AddWebApiProxy<SampleApiProxy>())
                 .Services
                 .BuildServiceProvider();
 

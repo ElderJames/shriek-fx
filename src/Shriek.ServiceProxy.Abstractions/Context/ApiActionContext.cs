@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示请求Api的上下文
@@ -10,36 +10,36 @@ namespace Shriek.ServiceProxy.Http
         /// <summary>
         /// 获取关联的HttpApiClient
         /// </summary>
-        public HttpApiClient HttpApiClient { get; internal set; }
+        public IServiceClient HttpApiClient { get; set; }
 
         /// <summary>
         /// 中间路由模版
         /// </summary>
-        public RouteAttribute[] RouteAttributes { get; internal set; }
+        public RouteAttribute[] RouteAttributes { get; set; }
 
         /// <summary>
         /// 获取关联的ApiReturnAttribute
         /// </summary>
-        public ApiReturnAttribute ApiReturnAttribute { get; internal set; }
+        public ApiReturnAttribute ApiReturnAttribute { get; set; }
 
         /// <summary>
         /// 获取ApiActionFilterAttribute
         /// </summary>
-        public ApiActionFilterAttribute[] ApiActionFilterAttributes { get; internal set; }
+        public ApiActionFilterAttribute[] ApiActionFilterAttributes { get; set; }
 
         /// <summary>
         /// 获取关联的ApiActionDescriptor
         /// </summary>
-        public ApiActionDescriptor ApiActionDescriptor { get; internal set; }
+        public ApiActionDescriptor ApiActionDescriptor { get; set; }
 
         /// <summary>
         /// 获取关联的HttpRequestMessage
         /// </summary>
-        public HttpRequestMessage RequestMessage { get; internal set; }
+        public HttpRequestMessage RequestMessage { get; set; }
 
         /// <summary>
         /// 获取关联的HttpResponseMessage
         /// </summary>
-        public HttpResponseMessage ResponseMessage { get; internal set; }
+        public HttpResponseMessage ResponseMessage { get; set; }
     }
 }

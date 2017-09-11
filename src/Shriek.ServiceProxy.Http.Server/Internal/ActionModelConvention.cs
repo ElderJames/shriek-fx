@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Shriek.ServiceProxy.Abstractions;
 using HttpGet = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpPost = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPut = Microsoft.AspNetCore.Mvc.HttpPutAttribute;

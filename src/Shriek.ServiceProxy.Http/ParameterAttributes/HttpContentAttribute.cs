@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -26,7 +27,7 @@ namespace Shriek.ServiceProxy.Http
 
             var httpContent = this.GetHttpContent(context, parameter);
             context.RequestMessage.Content = httpContent;
-            await TaskExtensions.CompletedTask;
+            await Task.CompletedTask;
         }
 
         /// <summary>

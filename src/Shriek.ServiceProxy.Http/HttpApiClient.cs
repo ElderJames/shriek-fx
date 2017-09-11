@@ -2,21 +2,28 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {
     /// <summary>
     /// 表示web api请求客户端
     /// </summary>
-    public class HttpApiClient : InterceptorAttribute, IDisposable
+    public class HttpApiClient : InterceptorAttribute, IServiceClient, IDisposable
     {
-        private readonly IHttpClient _httpClient;
+        /// <summary>
+        /// 静态httpClient
+        /// </summary>
+        private static IHttpClient _client;
 
         /// <summary>
         /// 获取或设置http客户端
         /// </summary>
-        public IHttpClient HttpClient => _httpClient;
+        public IHttpClient HttpClient => _client;
 
+        /// <summary>
+        /// 请求服务器地址
+        /// </summary>
         public Uri RequestHost { get; private set; }
 
         /// <summary>
@@ -32,8 +39,8 @@ namespace Shriek.ServiceProxy.Http
         {
             if (!string.IsNullOrEmpty(baseUrl))
                 RequestHost = new Uri(baseUrl);
-            if (_httpClient == null)
-                _httpClient = new HttpClientAdapter(new HttpClient());
+            if (_client == null)
+                _client = new HttpClientAdapter(new HttpClient());
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -42,8 +49,8 @@ namespace Shriek.ServiceProxy.Http
         /// </summary>
         public HttpApiClient()
         {
-            if (_httpClient == null)
-                _httpClient = new HttpClientAdapter(new HttpClient());
+            if (_client == null)
+                _client = new HttpClientAdapter(new HttpClient());
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -54,8 +61,8 @@ namespace Shriek.ServiceProxy.Http
         public HttpApiClient(HttpClient httpClient)
         {
             RequestHost = httpClient.BaseAddress;
-            if (_httpClient == null)
-                _httpClient = new HttpClientAdapter(httpClient);
+            if (_client == null)
+                _client = new HttpClientAdapter(httpClient);
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -98,6 +105,11 @@ namespace Shriek.ServiceProxy.Http
             await next(context);
 
             context.ReturnValue = apiAction.Execute(actionContext);
+        }
+
+        public async Task SendAsync(ApiActionContext context)
+        {
+            context.ResponseMessage = await this.HttpClient.SendAsync(context.RequestMessage);
         }
     }
 }

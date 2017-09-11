@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 默认的json解析工具
     /// </summary>
-    internal class DefaultJsonFormatter : IJsonFormatter
+    public class DefaultJsonFormatter : IJsonFormatter
     {
         /// <summary>
         /// 序列化为json

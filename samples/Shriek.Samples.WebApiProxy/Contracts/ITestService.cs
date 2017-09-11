@@ -1,8 +1,10 @@
 ﻿using Shriek.Samples.WebApiProxy.Models;
+using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {
+    [HttpHost("http://localhost:8080")]
     [Route("route")]
     public interface ITestService
     {
