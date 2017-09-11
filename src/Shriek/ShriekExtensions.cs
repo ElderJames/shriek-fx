@@ -3,6 +3,11 @@ using Shriek.Messages;
 using Shriek.Storage;
 using Shriek.Utils;
 using System;
+using System.Linq;
+using System.Reflection;
+using Shriek.Commands;
+using Shriek.Events;
+using Shriek.Notifications;
 
 namespace Shriek
 {
@@ -19,6 +24,25 @@ namespace Shriek
 
             builder.Services.AddScoped<IEventStorage, InMemoryEventStorage>();
             builder.Services.AddTransient<IMessagePublisher, InProcessMessagePublisher>();
+
+            builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));
+
+            var messages = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes()).Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
+
+            foreach (var msg in messages)
+            {
+                var type = typeof(IMessageSubscriber<>).MakeGenericType(msg);
+                if (typeof(Command).IsAssignableFrom(msg))
+                {
+                    var impl = typeof(CommandMessageSubscriber<>).MakeGenericType(msg);
+                    builder.Services.AddSingleton(type, impl);
+                }
+                if (typeof(Event).IsAssignableFrom(msg))
+                {
+                    var impl = typeof(EventMessageSubscriber<>).MakeGenericType(msg);
+                    builder.Services.AddSingleton(type, impl);
+                }
+            }
 
             if (optionAction != null)
             {

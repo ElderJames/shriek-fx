@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Shriek.Events;
 using Shriek.Exceptions;
 using Shriek.Messages;
@@ -28,7 +29,7 @@ namespace Shriek.Commands
             this.commandContext = commandContext;
             this.eventBus = eventBus;
             this.messageProcessor = messageProcessor;
-            messageProcessor.Subscriber(h => Handle((dynamic)h));
+            //messageProcessor.Subscriber(h => Handle((dynamic)h));
             this.notification = notification;
         }
 
