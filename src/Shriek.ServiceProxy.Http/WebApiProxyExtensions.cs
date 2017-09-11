@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Linq;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {

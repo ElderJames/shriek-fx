@@ -1,6 +1,6 @@
-﻿using System;
-using AspectCore.Configuration;
+﻿using AspectCore.Configuration;
 using AspectCore.DynamicProxy;
+using System;
 
 namespace Shriek.ServiceProxy.Http
 {

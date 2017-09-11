@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Shriek.Samples.WebApiProxy.Models;
-using Shriek.ServiceProxy.Http;
+﻿using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Http;
+using System.Threading.Tasks;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {

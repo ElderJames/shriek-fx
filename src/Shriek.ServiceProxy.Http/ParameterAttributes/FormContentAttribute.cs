@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Abstractions;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {

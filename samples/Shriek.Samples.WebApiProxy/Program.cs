@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Shriek.Samples.WebApiProxy.Contracts;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
+using System;
 
 namespace Shriek.Samples.WebApiProxy
 {

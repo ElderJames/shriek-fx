@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shriek.ServiceProxy.Tcp.Server
+﻿namespace Shriek.ServiceProxy.Tcp.Server
 {
     public class ShriekServerExtensions
     {

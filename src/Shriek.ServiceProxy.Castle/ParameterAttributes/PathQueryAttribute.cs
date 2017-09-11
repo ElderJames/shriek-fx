@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Routing.Internal;
+﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
 
 namespace Shriek.WebApi.Proxy
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Abstractions;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {

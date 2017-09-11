@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Shriek.ServiceProxy.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Shriek.ServiceProxy.Abstractions;
 using Route = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Shriek.ServiceProxy.Http.Server.Internal
@@ -29,8 +29,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
                 if (att is RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
-                    var routeAttribute = Activator.CreateInstance(typeof(Route), template);
-                    controllerAttrs.Add(routeAttribute);
+                    controllerAttrs.Add(Activator.CreateInstance(typeof(Route), template));
                 }
             }
 

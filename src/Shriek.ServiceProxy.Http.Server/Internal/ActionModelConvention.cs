@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Shriek.ServiceProxy.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Shriek.ServiceProxy.Abstractions;
-using HttpGet = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
-using HttpPost = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
-using HttpPut = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using HttpDelete = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
+using HttpGet = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpHead = Microsoft.AspNetCore.Mvc.HttpHeadAttribute;
 using HttpOptions = Microsoft.AspNetCore.Mvc.HttpOptionsAttribute;
+using HttpPost = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
+using HttpPut = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using Route = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Shriek.ServiceProxy.Http.Server.Internal
@@ -50,40 +50,32 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
 
                     if (httpMethod == HttpMethod.Get)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpGet), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpGet), path));
                     }
                     else if (httpMethod == HttpMethod.Post)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpPost), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpPost), path));
                     }
                     else if (httpMethod == HttpMethod.Put)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpPut), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpPut), path));
                     }
                     else if (httpMethod == HttpMethod.Delete)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpDelete), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpDelete), path));
                     }
                     else if (httpMethod == HttpMethod.Head)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpHead), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpHead), path));
                     }
                     else if (httpMethod == HttpMethod.Options)
                     {
-                        var methodAttribute = Activator.CreateInstance(typeof(HttpOptions), path);
-                        actionAttrs.Add(methodAttribute);
+                        actionAttrs.Add(Activator.CreateInstance(typeof(HttpOptions), path));
                     }
                 }
                 if (att is RouteAttribute routeAttr)
                 {
-                    var template = routeAttr.Template;
-                    var routeAttribute = Activator.CreateInstance(typeof(Route), template);
-                    actionAttrs.Add(routeAttribute);
+                    actionAttrs.Add(Activator.CreateInstance(typeof(Route), routeAttr.Template));
                 }
             }
 

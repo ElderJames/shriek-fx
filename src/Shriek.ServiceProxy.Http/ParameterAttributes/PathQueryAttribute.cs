@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Routing.Internal;
+﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
+using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {

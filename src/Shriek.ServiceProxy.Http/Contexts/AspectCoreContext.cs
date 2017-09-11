@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AspectCore.DynamicProxy;
+using Shriek.ServiceProxy.Abstractions;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http
 {
