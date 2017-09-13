@@ -5,7 +5,7 @@ namespace Shriek.ServiceProxy.Abstractions
     /// <summary>
     /// 表示请求Api的上下文
     /// </summary>
-    public class ApiActionContext
+    public abstract class ApiActionContext
     {
         /// <summary>
         /// 获取关联的HttpApiClient
@@ -31,15 +31,5 @@ namespace Shriek.ServiceProxy.Abstractions
         /// 获取关联的ApiActionDescriptor
         /// </summary>
         public ApiActionDescriptor ApiActionDescriptor { get; set; }
-
-        /// <summary>
-        /// 获取关联的HttpRequestMessage
-        /// </summary>
-        public HttpRequestMessage RequestMessage { get; set; }
-
-        /// <summary>
-        /// 获取关联的HttpResponseMessage
-        /// </summary>
-        public HttpResponseMessage ResponseMessage { get; set; }
     }
 }

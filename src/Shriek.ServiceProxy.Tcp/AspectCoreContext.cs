@@ -2,16 +2,15 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using AspectCore.DynamicProxy;
 
 namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
-    /// 表示Castle相关上下文
+    /// 表示相关上下文
     /// </summary>
-    internal class AspectCoreContext
+    public class AspectCoreContext
     {
         /// <summary>
         /// 获取HttpHostAttribute
@@ -70,7 +69,6 @@ namespace Shriek.ServiceProxy.Abstractions
         private static AspectCoreContext GetContextNoCache(AspectContext invocation)
         {
             var method = invocation.ServiceMethod;
-            var host = invocation.Parameters[0] as string;
 
             var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
                                  new RouteAttribute[] { };
@@ -132,14 +130,14 @@ namespace Shriek.ServiceProxy.Abstractions
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
 
-            if (typeof(HttpContent).IsAssignableFrom(parameter.ParameterType))
-            {
-                parameterDescriptor.Attributes = new[] { new HttpContentAttribute() };
-            }
-            else if (!parameterDescriptor.Attributes.Any())
-            {
-                parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
-            }
+            //if (typeof(HttpContent).IsAssignableFrom(parameter.ParameterType))
+            //{
+            //    parameterDescriptor.Attributes = new[] { new HttpContentAttribute() };
+            //}
+            //else if (!parameterDescriptor.Attributes.Any())
+            //{
+            //    parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
+            //}
             return parameterDescriptor;
         }
 

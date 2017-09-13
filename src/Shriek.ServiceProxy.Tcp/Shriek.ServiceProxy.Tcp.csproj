@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.2.0-preview4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
   </ItemGroup>
 

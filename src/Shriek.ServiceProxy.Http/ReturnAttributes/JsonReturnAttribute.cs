@@ -1,6 +1,7 @@
 ﻿using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -17,10 +18,12 @@ namespace Shriek.ServiceProxy.Http
         /// <returns></returns>
         public override async Task<object> GetTaskResult(ApiActionContext context)
         {
-            if (context.ResponseMessage.Content.Headers.ContentType.MediaType != "application/json")
+            if (!(context is HttpApiActionContext httpContext)) return Task.CompletedTask;
+
+            if (httpContext.ResponseMessage.Content.Headers.ContentType.MediaType != "application/json")
                 return null;
 
-            var response = context.ResponseMessage.EnsureSuccessStatusCode();
+            var response = httpContext.ResponseMessage.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
 
             var dataType = context.ApiActionDescriptor.ReturnDataType;

@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -50,11 +51,13 @@ namespace Shriek.ServiceProxy.Http
             {
                 return;
             }
-            var uri = context.RequestMessage.RequestUri;
+            if (!(context is HttpApiActionContext httpContext)) return;
+
+            var uri = httpContext.RequestMessage.RequestUri;
             var baseUrl = uri.Scheme + "://" + uri.Host + (uri.IsDefaultPort ? "" : ":" + uri.Port);
             var pathQuery = GetPathQuery(uri.LocalPath.Trim('/'), parameter);
 
-            context.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);
+            httpContext.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);
             await Task.CompletedTask;
         }
 

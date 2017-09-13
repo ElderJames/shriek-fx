@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -20,11 +21,13 @@ namespace Shriek.ServiceProxy.Http
         /// <returns></returns>
         public override async Task<object> GetTaskResult(ApiActionContext context)
         {
-            if (context.ResponseMessage.Content.Headers.ContentType.MediaType == "application/json" ||
-                context.ResponseMessage.Content.Headers.ContentType.MediaType == "application/xml")
+            if (!(context is HttpApiActionContext httpContext)) return Task.CompletedTask;
+
+            if (httpContext.ResponseMessage.Content.Headers.ContentType.MediaType == "application/json" ||
+                httpContext.ResponseMessage.Content.Headers.ContentType.MediaType == "application/xml")
                 return null;
 
-            var response = context.ResponseMessage;
+            var response = httpContext.ResponseMessage;
             var returnType = context.ApiActionDescriptor.ReturnDataType;
 
             if (returnType == typeof(HttpResponseMessage))

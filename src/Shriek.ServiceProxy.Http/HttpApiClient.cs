@@ -3,6 +3,7 @@ using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -84,7 +85,7 @@ namespace Shriek.ServiceProxy.Http
                 else
                     throw new ArgumentNullException("BaseUrl or HttpHost attribute", "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
-            var actionContext = new ApiActionContext
+            var actionContext = new HttpApiActionContext
             {
                 HttpApiClient = this,
                 RequestMessage = new HttpRequestMessage(),
@@ -109,7 +110,13 @@ namespace Shriek.ServiceProxy.Http
 
         public async Task SendAsync(ApiActionContext context)
         {
-            context.ResponseMessage = await this.HttpClient.SendAsync(context.RequestMessage);
+            if (context is HttpApiActionContext httpContext)
+            {
+                httpContext.ResponseMessage = await this.HttpClient.SendAsync(httpContext.RequestMessage);
+
+                if (!httpContext.ResponseMessage.IsSuccessStatusCode)
+                    throw new HttpRequestException(httpContext.ResponseMessage.ReasonPhrase);
+            }
         }
     }
 }

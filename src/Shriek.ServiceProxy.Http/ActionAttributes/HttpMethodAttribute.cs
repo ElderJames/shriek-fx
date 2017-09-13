@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Abstractions
 {
@@ -44,10 +45,15 @@ namespace Shriek.ServiceProxy.Abstractions
         /// <returns></returns>
         public override Task BeforeRequestAsync(ApiActionContext context)
         {
-            context.RequestMessage.Method = this.Method;
-            var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1).Select(x => x.Template.Trim('/'));
-            context.RequestMessage.RequestUri = new Uri(context.HttpApiClient.RequestHost, string.Join("/", routes) + '/' + this.Path.Trim('/'));
-            return TaskExtensions.CompletedTask;
+            if (context is HttpApiActionContext httpApiActionContext)
+            {
+                httpApiActionContext.RequestMessage.Method = this.Method;
+                var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1)
+                    .Select(x => x.Template.Trim('/'));
+                httpApiActionContext.RequestMessage.RequestUri = new Uri(context.HttpApiClient.RequestHost,
+                    string.Join("/", routes) + '/' + this.Path.Trim('/'));
+            }
+            return Task.CompletedTask;
         }
 
         /// <summary>

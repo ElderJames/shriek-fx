@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -20,13 +21,15 @@ namespace Shriek.ServiceProxy.Http
         /// <returns></returns>
         public sealed override async Task BeforeRequestAsync(ApiActionContext context, ApiParameterDescriptor parameter)
         {
-            if (context.RequestMessage.Method == HttpMethod.Get)
+            if (!(context is HttpApiActionContext httpContext)) return;
+
+            if (httpContext.RequestMessage.Method == HttpMethod.Get)
             {
                 return;
             }
 
             var httpContent = this.GetHttpContent(context, parameter);
-            context.RequestMessage.Content = httpContent;
+            httpContext.RequestMessage.Content = httpContent;
             await Task.CompletedTask;
         }
 

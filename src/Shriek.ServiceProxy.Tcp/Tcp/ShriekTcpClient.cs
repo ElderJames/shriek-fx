@@ -5,19 +5,34 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
+using AspectCore.DynamicProxy;
+using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Tcp
 {
-    public class ShriekTcpClient : IDisposable
+    public class ShriekTcpClient : InterceptorAttribute, IServiceClient, IDisposable
     {
-        public ShriekTcpClient()
+        public ShriekTcpClient(string hostNameOrIpAddress, int port)
         {
+            if (string.IsNullOrEmpty(hostNameOrIpAddress))
+            {
+                throw new ArgumentNullException(nameof(hostNameOrIpAddress));
+            }
+            _TcpClient = new TcpClient();
+            _TcpClient.Connect(hostNameOrIpAddress, port);
+
             StringEncoder = System.Text.Encoding.UTF8;
             ReadLoopIntervalMs = 10;
             Delimiter = 0x13;
+
+            StartRxThread();
         }
 
+        #region client
+
         private Thread _rxThread;
+
         private readonly List<byte> _queuedMsg = new List<byte>();
         public byte Delimiter { get; set; }
         public System.Text.Encoding StringEncoder { get; set; }
@@ -29,21 +44,6 @@ namespace Shriek.ServiceProxy.Tcp
         internal bool QueueStop { get; set; }
         internal int ReadLoopIntervalMs { get; set; }
         public bool AutoTrimStrings { get; set; }
-
-        public ShriekTcpClient Connect(string hostNameOrIpAddress, int port)
-        {
-            if (string.IsNullOrEmpty(hostNameOrIpAddress))
-            {
-                throw new ArgumentNullException(nameof(hostNameOrIpAddress));
-            }
-
-            _TcpClient = new System.Net.Sockets.TcpClient();
-            _TcpClient.Connect(hostNameOrIpAddress, port);
-
-            StartRxThread();
-
-            return this;
-        }
 
         private void StartRxThread()
         {
@@ -61,7 +61,11 @@ namespace Shriek.ServiceProxy.Tcp
             return this;
         }
 
-        public System.Net.Sockets.TcpClient _TcpClient { get; private set; }
+        public TcpClient _TcpClient { get; private set; }
+
+        public IJsonFormatter JsonFormatter => throw new NotImplementedException();
+
+        public Uri RequestHost => throw new NotImplementedException();
 
         private void ListenerLoop(object state)
         {
@@ -122,14 +126,14 @@ namespace Shriek.ServiceProxy.Tcp
             }
         }
 
-        private void NotifyDelimiterMessageRx(System.Net.Sockets.TcpClient client, byte[] msg)
+        private void NotifyDelimiterMessageRx(TcpClient client, byte[] msg)
         {
             if (DelimiterDataReceived == null) return;
             var m = new TcpMessage(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
             DelimiterDataReceived(this, m);
         }
 
-        private void NotifyEndTransmissionRx(System.Net.Sockets.TcpClient client, byte[] msg)
+        private void NotifyEndTransmissionRx(TcpClient client, byte[] msg)
         {
             if (DataReceived == null) return;
             var m = new TcpMessage(msg, client, StringEncoder, Delimiter, AutoTrimStrings);
@@ -178,6 +182,8 @@ namespace Shriek.ServiceProxy.Tcp
             return mReply;
         }
 
+        #endregion client
+
         #region IDisposable Support
 
         private bool _disposedValue; // To detect redundant calls
@@ -218,5 +224,36 @@ namespace Shriek.ServiceProxy.Tcp
         }
 
         #endregion IDisposable Support
+
+        public override async Task Invoke(AspectContext context, AspectDelegate next)
+        {
+            var _context = AspectCoreContext.From(context);
+
+            var actionContext = new TcpActionContext()
+            {
+                HttpApiClient = this,
+                RouteAttributes = _context.RouteAttributes,
+                ApiReturnAttribute = _context.ApiReturnAttribute,
+                ApiActionFilterAttributes = _context.ApiActionFilterAttributes,
+                ApiActionDescriptor = _context.ApiActionDescriptor.Clone() as ApiActionDescriptor
+            };
+
+            var parameters = actionContext.ApiActionDescriptor.Parameters;
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                parameters[i].Value = context.Parameters[i];
+            }
+
+            var apiAction = _context.ApiActionDescriptor;
+
+            await next(context);
+
+            context.ReturnValue = apiAction.Execute(actionContext);
+        }
+
+        public Task SendAsync(ApiActionContext context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

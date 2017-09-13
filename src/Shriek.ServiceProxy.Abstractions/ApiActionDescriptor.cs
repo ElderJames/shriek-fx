@@ -75,10 +75,6 @@ namespace Shriek.ServiceProxy.Abstractions
             }
 
             await context.HttpApiClient.SendAsync(context);
-            //context.ResponseMessage = await httpClient.SendAsync(context.RequestMessage);
-
-            if (!context.ResponseMessage.IsSuccessStatusCode)
-                throw new HttpRequestException(context.ResponseMessage.ReasonPhrase);
 
             foreach (var filter in context.ApiActionFilterAttributes)
             {

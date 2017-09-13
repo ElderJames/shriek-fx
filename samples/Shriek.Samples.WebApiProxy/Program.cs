@@ -24,25 +24,22 @@ namespace Shriek.Samples.WebApiProxy
                 .UseKestrel()
                 .UseUrls("http://*:8080", "http://*:8081")
                 .ConfigureServices(services =>
-            {
-                services.AddMvcCore()
-                .AddJsonFormatters()
-                .AddWebApiProxy();
-
-                //服务里注册代理客户端
-                services.AddShriek()
-                    .AddWebApiProxy(opt =>
-                    {
-                        opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                        opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                    });
-            })
-            .Configure(app =>
                 {
-                    app.UseMvc();
+                    services.AddMvcCore()
+                    .AddJsonFormatters()
+                    .AddWebApiProxy();
+
+                    //服务里注册代理客户端
+                    services.AddShriek()
+                        .AddWebApiProxy(opt =>
+                        {
+                            opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                            opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                        });
                 })
-            .Build()
-            .Start();
+                .Configure(app => app.UseMvc())
+                .Build()
+                .Start();
 
             var provider = new ServiceCollection()
                 .AddShriek()
