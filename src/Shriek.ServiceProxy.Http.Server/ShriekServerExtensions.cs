@@ -74,8 +74,9 @@ namespace Shriek.ServiceProxy.Http.Server
                 mvcBuilder.ConfigureApplicationPartManager(manager =>
                 {
                     var featureProvider = new ServiceControllerFeatureProvider(interfaceTypes);
+                    manager.FeatureProviders.Remove(
+                        manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
                     manager.FeatureProviders.Add(featureProvider);
-                    mvcBuilder.Services.AddSingleton<IApplicationFeatureProvider<ControllerFeature>>(featureProvider);
                 });
                 ;
             }
