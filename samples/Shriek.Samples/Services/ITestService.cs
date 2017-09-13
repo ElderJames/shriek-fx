@@ -1,13 +1,12 @@
-﻿using Shriek.Samples.Models;
-using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.Services
 {
-    [Route("route")]
+    [Route("test")]
     public interface ITestService
     {
-        [HttpGet("test/{id:int}")]
-        Todo Test(int id);
+        [HttpGet("{name}")]
+        string Test(string name);
     }
 }

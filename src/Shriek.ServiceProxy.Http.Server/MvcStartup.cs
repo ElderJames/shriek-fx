@@ -21,8 +21,8 @@ namespace Shriek.ServiceProxy.Http.Server
         {
             services.AddMvcCore()
                 .AddJsonFormatters()
-                .AddFormatterMappings()
-                .AddWebApiProxy();
+                .AddFormatterMappings();
+            //.AddWebApiProxy();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

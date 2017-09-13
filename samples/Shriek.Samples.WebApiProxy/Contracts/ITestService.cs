@@ -4,7 +4,7 @@ using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {
-    [HttpHost("http://localhost:8080")]
+    [HttpHost("http://localhost:8081")]
     [Route("route")]
     public interface ITestService
     {

@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspectCore.Core" Version="0.2.0-preview2" />
+    <PackageReference Include="AspectCore.Core" Version="0.2.0-preview4" />
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.2.0-preview4" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />

@@ -2,6 +2,8 @@
 using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Linq;
+using AspectCore.Extensions.DependencyInjection;
+using AspectCore.Configuration;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -16,10 +18,17 @@ namespace Shriek.ServiceProxy.Http
             {
                 var types = o.GetType().Assembly.GetTypes().Where(x =>
                     x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
-                foreach (var t in types)
+
+                //foreach (var t in types)
+                //{
+                //builder.Services.AddScoped(t, x => ServiceProvider.GetHttpService(t, o.BaseUrl));
+
+                //}
+
+                builder.Services.AddDynamicProxy(config =>
                 {
-                    builder.Services.AddScoped(t, x => ServiceProvider.GetHttpService(t, o.BaseUrl));
-                }
+                    config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { o.BaseUrl }, method => types.Any(t => t.IsAssignableFrom(method.DeclaringType)));
+                });
             }
 
             return builder;

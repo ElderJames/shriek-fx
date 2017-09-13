@@ -6,9 +6,9 @@ namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
     public class TestController : Controller, ITestService
     {
-        public Todo Test(int id)
+        public string Test(string name)
         {
-            return new Todo() { Name = id.ToString() };
+            return "your name is " + name;
         }
     }
 }

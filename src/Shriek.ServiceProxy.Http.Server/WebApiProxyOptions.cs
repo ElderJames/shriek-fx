@@ -8,9 +8,17 @@ namespace Shriek.ServiceProxy.Http.Server
     {
         public ICollection<IWebApiProxy> WebApiProxies { get; set; } = new List<IWebApiProxy>();
 
-        public void AddWebApiProxy<TWebApiProxy>() where TWebApiProxy : WebApiProxy
+        public void AddWebApiProxy<TWebApiProxy>(string url) where TWebApiProxy : WebApiProxy
         {
-            if (Activator.CreateInstance(typeof(TWebApiProxy), "") is WebApiProxy proxy)
+            AddWebApiProxy(typeof(TWebApiProxy), url);
+        }
+
+        public void AddWebApiProxy(Type webApiProxType, string url)
+        {
+            if (!typeof(WebApiProxy).IsAssignableFrom(webApiProxType))
+                throw new Exception("不是WebApiProxy的子类");
+
+            if (Activator.CreateInstance(webApiProxType, url ?? "") is WebApiProxy proxy)
                 WebApiProxies.Add(proxy);
         }
     }
