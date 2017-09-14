@@ -63,9 +63,9 @@ namespace Shriek.ServiceProxy.Tcp
 
         public TcpClient _TcpClient { get; private set; }
 
-        public IJsonFormatter JsonFormatter => throw new NotImplementedException();
+        public IJsonFormatter JsonFormatter => new DefaultJsonFormatter();
 
-        public Uri RequestHost => throw new NotImplementedException();
+        public Uri RequestHost { get; set; }
 
         private void ListenerLoop(object state)
         {
@@ -88,8 +88,7 @@ namespace Shriek.ServiceProxy.Tcp
 
         private void RunLoopStep()
         {
-            if (_TcpClient == null) { return; }
-            if (_TcpClient.Connected == false) { return; }
+            if (_TcpClient == null || _TcpClient.Connected == false) { return; }
 
             var delimiter = this.Delimiter;
             var c = _TcpClient;
@@ -165,7 +164,7 @@ namespace Shriek.ServiceProxy.Tcp
             }
         }
 
-        public TcpMessage WriteLineAndGetReply(string data, TimeSpan timeout)
+        public async Task<TcpMessage> WriteLineAndGetReply(string data, TimeSpan timeout)
         {
             TcpMessage mReply = null;
             DataReceived += (s, e) => { mReply = e; };
@@ -173,13 +172,15 @@ namespace Shriek.ServiceProxy.Tcp
 
             var sw = new Stopwatch();
             sw.Start();
-
-            while (mReply == null && sw.Elapsed < timeout)
+            return await Task.Run(() =>
             {
-                Thread.Sleep(10);
-            }
+                while (mReply == null && sw.Elapsed < timeout)
+                {
+                    Thread.Sleep(10);
+                }
 
-            return mReply;
+                return mReply;
+            });
         }
 
         #endregion client
@@ -251,9 +252,10 @@ namespace Shriek.ServiceProxy.Tcp
             context.ReturnValue = apiAction.Execute(actionContext);
         }
 
-        public Task SendAsync(ApiActionContext context)
+        public async Task SendAsync(ApiActionContext context)
         {
-            throw new NotImplementedException();
+            if (!(context is TcpActionContext tcpContext)) return;
+            tcpContext.ResponseMessage = await WriteLineAndGetReply(tcpContext.RequestMessage.MessageString, TimeSpan.FromSeconds(1));
         }
     }
 }
