@@ -1,16 +1,12 @@
-﻿using TcpServiceCore.Attributes;
-using TcpServiceCore.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Attributes;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
-    class OperationDescription
+    internal class OperationDescription
     {
         public readonly string Name;
         public readonly string TypeQualifiedName;
@@ -33,7 +29,7 @@ namespace TcpServiceCore.Dispatching
 
             this.IsReturnTypeGeneric = this.ReturnType.GetTypeInfo().IsGenericType;
             this.IsVoidTask = this.MethodInfo.ReturnType == typeof(Task);
-            this.IsAwaitable = IsVoidTask || 
+            this.IsAwaitable = IsVoidTask ||
                 (this.IsReturnTypeGeneric && this.ReturnType.GetGenericTypeDefinition() == typeof(Task<>));
             this.ParameterTypes = this.MethodInfo.GetParameters().Select(x => x.ParameterType).ToArray();
             var attr = this.MethodInfo.GetCustomAttribute<OperationContractAttribute>();

@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     internal class InstanceContextFactory<T> : IInstanceContextFactory<T> where T : new()
     {
@@ -19,25 +19,30 @@ namespace TcpServiceCore.Dispatching
         InstanceContext<T> IInstanceContextFactory<T>.Create(Socket socket)
         {
             InstanceContext<T> result = null;
-            if (InstanceContext<T>.InstanceContextMode == InstanceContextMode.Single)
+            switch (InstanceContext<T>.InstanceContextMode)
             {
-                if (Singleton == null)
-                {
-                    lock (_lock)
+                case InstanceContextMode.Single:
+                    if (Singleton == null)
                     {
-                        if (Singleton == null)
-                            Singleton = new InstanceContext<T>();
+                        lock (_lock)
+                        {
+                            if (Singleton == null)
+                                Singleton = new InstanceContext<T>();
+                        }
                     }
-                }
-                result = Singleton;
-            }
-            else if (InstanceContext<T>.InstanceContextMode == InstanceContextMode.PerCall)
-            {
-                result = new InstanceContext<T>();
-            }
-            else if (InstanceContext<T>.InstanceContextMode == InstanceContextMode.PerSession)
-            {
-                result = contexts.AddOrUpdate(socket, new InstanceContext<T>(), (s, d) => d);
+                    result = Singleton;
+                    break;
+
+                case InstanceContextMode.PerCall:
+                    result = new InstanceContext<T>();
+                    break;
+
+                case InstanceContextMode.PerSession:
+                    result = contexts.AddOrUpdate(socket, new InstanceContext<T>(), (s, d) => d);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             return result;
         }

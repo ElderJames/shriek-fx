@@ -1,19 +1,15 @@
-﻿using TcpServiceCore.Attributes;
-using TcpServiceCore.Communication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 using System.Threading.Tasks;
-using TcpServiceCore.Dispatching;
-using System.Net.Sockets;
-using AspectCore.DynamicProxy;
-using AspectCore.Configuration;
+using Shriek.ServiceProxy.Tcp.Communication;
+using Shriek.ServiceProxy.Tcp.Dispatching;
 
-namespace TcpServiceCore.Client
+namespace Shriek.ServiceProxy.Tcp.Client
 {
     public static class ChannelFactory<T>
     {
@@ -46,23 +42,14 @@ namespace TcpServiceCore.Client
             InnerProxy innerProxy = null;
             if (socket == null)
             {
-                innerProxy = new InnerProxy(server, port, channelManager);
+                innerProxy = new InnerProxy(server, port, channelManager, open);
             }
             else
             {
-                innerProxy = new InnerProxy(socket, channelManager);
+                innerProxy = new InnerProxy(socket, channelManager, open);
             }
-            ProxyGeneratorBuilder proxyGeneratorBuilder = new ProxyGeneratorBuilder();
 
-            proxyGeneratorBuilder.Configure(conf =>
-                {
-                    conf.Interceptors.AddTyped<IClientChannel>(new object[] { innerProxy });
-                });
-
-            var proxyGennerator = proxyGeneratorBuilder.Build();
-
-            var proxy = proxyGennerator.CreateInterfaceProxy(typeof(T));
-            //var proxy = Activator.CreateInstance(ProxyType, innerProxy);
+            var proxy = Activator.CreateInstance(ProxyType, innerProxy);
             if (open)
                 await ((IClientChannel)proxy).Open();
 
@@ -78,7 +65,7 @@ namespace TcpServiceCore.Client
                 throw new InvalidOperationException($"{_interfaceType.FullName} is not an interface");
             }
 
-            var an = new AssemblyName("TcpServiceCore_" + _interfaceType.Name);
+            var an = new AssemblyName("Shriek.ServiceProxy.Tcp_" + _interfaceType.Name);
             var asm = AssemblyBuilder.DefineDynamicAssembly(an, AssemblyBuilderAccess.Run);
 
             var moduleName = Path.ChangeExtension(an.Name, "dll");
@@ -87,7 +74,7 @@ namespace TcpServiceCore.Client
             var ns = _interfaceType.Namespace;
             if (!string.IsNullOrEmpty(ns))
                 ns += ".";
-            var builder = module.DefineType(ns + _interfaceType.Name + "_TcpServiceCoreProxy",
+            var builder = module.DefineType(ns + _interfaceType.Name + "_Shriek.ServiceProxy.TcpProxy",
                 TypeAttributes.Class | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit
                 | TypeAttributes.AutoClass | TypeAttributes.NotPublic | TypeAttributes.Sealed);
 

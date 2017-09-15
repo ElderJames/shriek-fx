@@ -1,12 +1,12 @@
 ﻿using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Abstractions.TcpClient;
+using Shriek.ServiceProxy.Tcp.Protocol;
 
 namespace Shriek.ServiceProxy.Tcp
 {
     public class TcpActionContext : ApiActionContext
     {
-        public TcpMessage RequestMessage { get; set; }
+        public Message RequestMessage { get; set; }
 
-        public TcpMessage ResponseMessage { get; set; }
+        public Message ResponseMessage { get; set; }
     }
 }

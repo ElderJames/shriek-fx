@@ -7,7 +7,7 @@
 //using System.Threading.Tasks;
 //using MsAvro = Microsoft.Hadoop.Avro;
 
-//namespace TcpServiceCore.Serialization.Avro
+//namespace Shriek.ServiceProxy.Tcp.Serialization.Avro
 //{
 //    class MsAvroWrapper
 //    {
@@ -18,7 +18,6 @@
 //        {
 //            settings.UseCache = true;
 //        }
-
 
 //        public static MsAvroWrapper GetSerializer(Type type)
 //        {
@@ -44,7 +43,7 @@
 //        MethodInfo deserializeMethod;
 //        private MsAvroWrapper(Type type)
 //        {
-//            var create = typeof(MsAvro.AvroSerializer).GetMethod("Create", 
+//            var create = typeof(MsAvro.AvroSerializer).GetMethod("Create",
 //                             new Type[] { typeof(MsAvro.AvroSerializerSettings) })
 //                            .MakeGenericMethod(type);
 
@@ -52,12 +51,12 @@
 
 //            Type serializerType = this.serializer.GetType();
 
-//            this.serializeMethod = serializerType.GetMethod("Serialize", 
+//            this.serializeMethod = serializerType.GetMethod("Serialize",
 //                                        new Type[] {
 //                                                typeof(Stream),
 //                                                type
 //                                            });
-//            this.deserializeMethod = serializerType.GetMethod("Deserialize", 
+//            this.deserializeMethod = serializerType.GetMethod("Deserialize",
 //                                        new Type[] {
 //                                                typeof(Stream)
 //                                            });

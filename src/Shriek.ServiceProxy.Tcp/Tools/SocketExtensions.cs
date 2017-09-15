@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using TcpServiceCore.Communication;
+﻿using System.Net.Sockets;
+using Shriek.ServiceProxy.Tcp.Communication;
 
-namespace TcpServiceCore.Tools
+namespace Shriek.ServiceProxy.Tcp.Tools
 {
     public static class SocketExtensions
     {
@@ -13,6 +9,7 @@ namespace TcpServiceCore.Tools
         {
             client.Client.Configure(channelConfig);
         }
+
         public static void Configure(this Socket socket, ChannelConfig channelConfig)
         {
             socket.ReceiveTimeout = (int)channelConfig.ReceiveTimeout.TotalMilliseconds;

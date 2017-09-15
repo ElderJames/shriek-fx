@@ -1,8 +1,8 @@
-﻿using ProtoBuf;
-using System;
+﻿using System;
 using System.IO;
+using ProtoBuf;
 
-namespace TcpServiceCore.Serialization.Protobuf
+namespace Shriek.ServiceProxy.Tcp.Serialization.Protobuf
 {
     public class ProtoSerializer : ISerializer
     {

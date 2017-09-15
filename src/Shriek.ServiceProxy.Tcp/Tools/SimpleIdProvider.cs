@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TcpServiceCore.Tools
+namespace Shriek.ServiceProxy.Tcp.Tools
 {
-    class SimpleIdProvider : IMsgIdProvider
+    internal class SimpleIdProvider : IMsgIdProvider
     {
-        ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
-        string id;
+        private ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
+        private string id;
+
         public SimpleIdProvider(string id = null)
         {
             this.id = string.IsNullOrEmpty(id) ? Environment.TickCount.ToString() : id;
@@ -19,6 +16,7 @@ namespace TcpServiceCore.Tools
                 queue.Enqueue(i.ToString());
             }
         }
+
         public string NewId()
         {
             string next;

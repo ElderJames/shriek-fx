@@ -1,20 +1,17 @@
-﻿using TcpServiceCore.Communication;
-using TcpServiceCore.Protocol;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using TcpServiceCore.Tools;
-using TcpServiceCore.Dispatching;
 using AspectCore.DynamicProxy;
+using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Tcp.Communication;
+using Shriek.ServiceProxy.Tcp.Dispatching;
+using Shriek.ServiceProxy.Tcp.Protocol;
+using Shriek.ServiceProxy.Tcp.Tools;
 
-namespace TcpServiceCore.Client
+namespace Shriek.ServiceProxy.Tcp.Client
 {
-    public class InnerProxy : CommunicationObject, IClientChannel
+    public class InnerProxy : CommunicationObject, IInterceptor, IClientChannel, IServiceClient
     {
         private readonly string server;
         private readonly int port;
@@ -25,12 +22,16 @@ namespace TcpServiceCore.Client
         private readonly string contract;
         private readonly bool isNew;
 
-        public bool AllowMultiple => throw new NotImplementedException();
+        public bool AllowMultiple => false;
 
-        public bool Inherited { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Order { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Inherited { get; set; }
+        public int Order { get; set; }
 
-        internal InnerProxy(Socket socket, ChannelManager channelManager)
+        public IJsonFormatter JsonFormatter => new DefaultJsonFormatter();
+
+        public Uri RequestHost { get; set; }
+
+        internal InnerProxy(Socket socket, ChannelManager channelManager, bool open)
         {
             this.idProvider = Global.IdProvider;
 
@@ -45,10 +46,13 @@ namespace TcpServiceCore.Client
             this.socket.Configure(this.channelManager.Config);
 
             this.streamHandler = new AsyncStreamHandler(this.socket, this.channelManager.BufferManager);
+
+            if (open)
+                Open().Wait();
         }
 
-        public InnerProxy(string server, int port, ChannelManager channelManager)
-            : this(null, channelManager)
+        public InnerProxy(string server, int port, ChannelManager channelManager, bool open)
+            : this(null, channelManager, open)
         {
             this.server = server;
             this.port = port;
@@ -96,9 +100,42 @@ namespace TcpServiceCore.Client
             return new Message(MessageType.Request, id, this.contract, method, msg);
         }
 
-        public Task Invoke(AspectContext context, AspectDelegate next)
+        public async Task Invoke(AspectContext context, AspectDelegate next)
         {
-            throw new NotImplementedException();
+            var _context = AspectCoreContext.From(context);
+
+            var actionContext = new TcpActionContext()
+            {
+                HttpApiClient = this,
+                RequestMessage = this.CreateRequest(_context.ApiActionDescriptor.Name),
+                RouteAttributes = _context.RouteAttributes,
+                ApiReturnAttribute = _context.ApiReturnAttribute,
+                ApiActionFilterAttributes = _context.ApiActionFilterAttributes,
+                ApiActionDescriptor = _context.ApiActionDescriptor.Clone() as ApiActionDescriptor
+            };
+
+            var parameters = actionContext.ApiActionDescriptor.Parameters;
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                parameters[i].Value = context.Parameters[i];
+            }
+
+            var apiAction = _context.ApiActionDescriptor;
+
+            await next(context);
+
+            context.ReturnValue = apiAction.Execute(actionContext);
+        }
+
+        public async Task SendAsync(ApiActionContext context)
+        {
+            if (!(context is TcpActionContext tcpContext)) return;
+
+            var request = this.CreateRequest(tcpContext.ApiActionDescriptor.Name, tcpContext.ApiActionDescriptor.Parameters.Select(x => x.Value));
+            tcpContext.ResponseMessage = await this.streamHandler.WriteRequest(request, this.socket.ReceiveTimeout);
+            //if (tcpContext.ResponseMessage.MessageType == MessageType.Error)
+            //    throw new Exception(Global.Serializer.Deserialize<string>(response.Parameters[0]));
+            //var result = Global.Serializer.Deserialize(tcpContext.ApiActionDescriptor.ReturnDataType, response.Parameters[0]);
         }
     }
 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TcpServiceCore.Protocol
+﻿namespace Shriek.ServiceProxy.Tcp.Protocol
 {
-    static class ProtocolConstants
+    internal static class ProtocolConstants
     {
         public const string ProxyInitOperation = "-ProxyInit";
         public const string ProxyCloseOperation = "-ProxyClose";

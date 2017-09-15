@@ -1,13 +1,13 @@
-﻿using TcpServiceCore.Protocol;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Reflection;
-using TcpServiceCore.Attributes;
+using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Attributes;
+using Shriek.ServiceProxy.Tcp.Protocol;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     internal class InstanceContext<T> where T : new()
     {

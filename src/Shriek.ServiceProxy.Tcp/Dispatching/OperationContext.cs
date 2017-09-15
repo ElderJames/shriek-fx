@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using TcpServiceCore.Client;
-using TcpServiceCore.Protocol;
+using Shriek.ServiceProxy.Tcp.Protocol;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     public sealed class OperationContext
     {
-        static ThreadLocal<OperationContext> _Current = new ThreadLocal<OperationContext>();
+        private static ThreadLocal<OperationContext> _Current = new ThreadLocal<OperationContext>();
 
-        static readonly Type ByteArrayType;
+        private static readonly Type ByteArrayType;
 
         static OperationContext()
         {
@@ -27,9 +24,9 @@ namespace TcpServiceCore.Dispatching
 
         public readonly Socket Socket;
 
-        readonly object Service;
-        readonly ChannelManager ChannelManager;
-        readonly OperationDescription Operation;
+        private readonly object Service;
+        private readonly ChannelManager ChannelManager;
+        private readonly OperationDescription Operation;
 
         internal OperationContext(object service, ChannelManager channelManager, Socket socket, OperationDescription operation)
         {
@@ -40,17 +37,7 @@ namespace TcpServiceCore.Dispatching
             _Current.Value = this;
         }
 
-        public async Task<T> CreateCallbackChannel<T>()
-        {
-            if (typeof(T) != this.ChannelManager.Contract.CallbackType)
-            {
-                throw new Exception($"{this.ChannelManager.Contract.ContractType.FullName} does not define " +
-                    $"callback of type {typeof(T).FullName}");
-            }
-            return await ChannelFactory<T>.CreateProxy(this.Socket, this.ChannelManager.Config, false);
-        }
-
-        async Task<object> Execute(Message request)
+        private async Task<object> Execute(Message request)
         {
             object[] parameters = null;
             var paramTypes = this.Operation.ParameterTypes;
@@ -70,11 +57,11 @@ namespace TcpServiceCore.Dispatching
             object result = null;
             if (this.Operation.IsVoidTask)
             {
-                await(dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
+                await (dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
             }
             else
             {
-                result = await(dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
+                result = await (dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
             }
             return result;
         }

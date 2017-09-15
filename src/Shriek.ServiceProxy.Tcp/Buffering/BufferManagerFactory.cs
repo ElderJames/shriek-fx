@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
-namespace TcpServiceCore.Buffering
+namespace Shriek.ServiceProxy.Tcp.Buffering
 {
     public class BufferManagerFactory
     {
-        ConcurrentDictionary<string, IBufferManager> _bufferManagers = 
+        private ConcurrentDictionary<string, IBufferManager> _bufferManagers =
             new ConcurrentDictionary<string, IBufferManager>();
 
         public virtual IBufferManager CreateBufferManager(string contract, int maxBufferSize, int maxBufferPoolSize)

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TcpServiceCore.Protocol
+﻿namespace Shriek.ServiceProxy.Tcp.Protocol
 {
-    enum MessageType : byte
+    public enum MessageType : byte
     {
         Request,
         Response,
