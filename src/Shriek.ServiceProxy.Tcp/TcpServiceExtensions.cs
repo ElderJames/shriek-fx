@@ -23,7 +23,7 @@ namespace Shriek.ServiceProxy.Tcp
                 {
                     var channelManager = new ChannelManager(o.Contract, o.config);
 
-                    config.Interceptors.AddTyped(typeof(InnerProxy),
+                    config.Interceptors.AddTyped(typeof(TcpServiceClient),
                         o.socket == null
                             ? new object[] { o.server, o.port, channelManager, o.open }
                             : new object[] { o.socket, channelManager, o.open },

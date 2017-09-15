@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Client\ChannelFactory.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.2.0-preview4" />
     <PackageReference Include="protobuf-net" Version="2.3.2" />
   </ItemGroup>
@@ -16,5 +12,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
   </ItemGroup>
-
 </Project>

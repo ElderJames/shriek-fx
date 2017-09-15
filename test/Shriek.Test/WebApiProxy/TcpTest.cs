@@ -36,7 +36,7 @@ namespace Shriek.Test.WebApiProxy
             var services = new ServiceCollection();
             services.AddShriek().AddTcpServiceProxy(option =>
             {
-                option.AddTcpProxy<ITestService>("localhost", 9091, config, true);
+                option.AddTcpProxy<ITestService>("localhost", 9091, config);
             });
 
             var provider = services.BuildAspectCoreServiceProvider();
