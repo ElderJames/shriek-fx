@@ -16,11 +16,6 @@ namespace Shriek.ServiceProxy.Tcp
             var result = Global.Serializer.Deserialize(tcpContext.ApiActionDescriptor.ReturnDataType, tcpContext.ResponseMessage.Parameters[0]);
 
             return Task.FromResult(result);
-            //if (!(context is TcpActionContext tcpContext)) return Task.FromResult<object>(0);
-
-            //var dataType = context.ApiActionDescriptor.ReturnDataType;
-
-            //return Task.FromResult(context.HttpApiClient.JsonFormatter.Deserialize(tcpContext.ResponseMessage., dataType));
         }
     }
 }

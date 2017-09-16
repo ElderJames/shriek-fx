@@ -11,14 +11,14 @@ namespace Shriek.ServiceProxy.Tcp.Server
 {
     public class ServiceHost<T> : CommunicationObject where T : new()
     {
-        private Type type;
-        private TcpListener listener;
+        private readonly Type type;
+        private readonly TcpListener listener;
 
         public event Action<T> ServiceInstantiated;
 
-        private IInstanceContextFactory<T> InstanceContextFactory = new InstanceContextFactory<T>();
+        private readonly IInstanceContextFactory<T> instanceContextFactory = new InstanceContextFactory<T>();
 
-        private Dictionary<string, ChannelManager> ChannelManagers = new Dictionary<string, ChannelManager>();
+        private readonly Dictionary<string, ChannelManager> channelManagers = new Dictionary<string, ChannelManager>();
 
         public ServiceHost(int port)
         {
@@ -36,12 +36,12 @@ namespace Shriek.ServiceProxy.Tcp.Server
 
             var cm = new ChannelManager(contract, config);
 
-            this.ChannelManagers.Add(contract.ContractName, cm);
+            this.channelManagers.Add(contract.ContractName, cm);
         }
 
         protected override Task OnOpen()
         {
-            this.InstanceContextFactory.ServiceInstantiated += this.ServiceInstantiated;
+            this.instanceContextFactory.ServiceInstantiated += this.ServiceInstantiated;
             this.listener.Start(3000);
             Task.Run(async () =>
             {
@@ -50,7 +50,7 @@ namespace Shriek.ServiceProxy.Tcp.Server
                     try
                     {
                         var socket = await this.listener.AcceptSocketAsync();
-                        var handler = new ServerRequestHandler<T>(socket, this.ChannelManagers, this.InstanceContextFactory);
+                        var handler = new ServerRequestHandler<T>(socket, this.channelManagers, this.instanceContextFactory);
                         await handler.Open();
                     }
                     catch (Exception ex)

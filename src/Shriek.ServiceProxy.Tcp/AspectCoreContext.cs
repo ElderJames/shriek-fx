@@ -56,9 +56,9 @@ namespace Shriek.ServiceProxy.Abstractions
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        public static AspectCoreContext From(AspectContext context)
+        public static AspectCoreContext From(AspectContext invocation)
         {
-            return cache.GetOrAdd(context, GetContextNoCache);
+            return cache.GetOrAdd(invocation, GetContextNoCache);
         }
 
         /// <summary>

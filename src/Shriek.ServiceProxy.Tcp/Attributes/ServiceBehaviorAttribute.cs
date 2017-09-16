@@ -3,7 +3,7 @@ using Shriek.ServiceProxy.Tcp.Dispatching;
 
 namespace Shriek.ServiceProxy.Tcp.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class ServiceBehaviorAttribute : Attribute
     {
         public InstanceContextMode InstanceContextMode { get; set; }

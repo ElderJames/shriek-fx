@@ -50,13 +50,16 @@ namespace Shriek.ServiceProxy.Tcp.Buffering
             if (buffer == null || buffer.Length != this.BufferSize)
                 return;
 
-            if (this.buffers.Count < this.MaxBuffersCount)
+            lock (this.buffers)
             {
-                lock (this.buffers)
+                if (this.buffers.Count < this.MaxBuffersCount)
                 {
-                    if (this.buffers.Count < this.MaxBuffersCount)
+                    lock (this.buffers)
                     {
-                        this.buffers.Enqueue(buffer);
+                        if (this.buffers.Count < this.MaxBuffersCount)
+                        {
+                            this.buffers.Enqueue(buffer);
+                        }
                     }
                 }
             }

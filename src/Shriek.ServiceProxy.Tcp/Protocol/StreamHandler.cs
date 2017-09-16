@@ -13,13 +13,13 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
 {
     internal abstract class StreamHandler : CommunicationObject
     {
-        private ConcurrentDictionary<int, ResponseEvent> mapper = new ConcurrentDictionary<int, ResponseEvent>();
+        private readonly ConcurrentDictionary<int, ResponseEvent> mapper = new ConcurrentDictionary<int, ResponseEvent>();
 
         protected readonly Socket Socket;
 
         protected IBufferManager BufferManager { get; set; }
 
-        public StreamHandler(Socket socket, IBufferManager bufferManager)
+        protected StreamHandler(Socket socket, IBufferManager bufferManager)
         {
             this.Socket = socket;
             this.BufferManager = bufferManager;
@@ -139,9 +139,7 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
         {
             this.ThrowIfNotOpened();
 
-            var data = new List<byte>();
-
-            data.Add((byte)request.MessageType);
+            var data = new List<byte> { (byte)request.MessageType };
 
             data.AddRange(BitConverter.GetBytes(request.Id));
 
@@ -218,32 +216,32 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
 
         private class ResponseEvent
         {
-            private Message _response;
+            private Message response;
             private bool IsSuccess { get; set; }
             private bool IsCompleted { get; set; }
 
-            private readonly ManualResetEvent _evt;
+            private readonly ManualResetEvent evt;
 
             public ResponseEvent()
             {
-                this._evt = new ManualResetEvent(false);
+                this.evt = new ManualResetEvent(false);
             }
 
             public void SetResponse(Message response)
             {
                 this.IsSuccess = true;
-                this._response = response;
-                this._evt.Set();
+                this.response = response;
+                this.evt.Set();
             }
 
             public Message GetResponse(int timeout)
             {
-                this._evt.WaitOne(timeout);
+                this.evt.WaitOne(timeout);
                 this.IsCompleted = true;
 
                 if (this.IsSuccess == false)
                     throw new Exception("Receivetimeout reached without getting response");
-                return _response;
+                return response;
             }
         }
     }

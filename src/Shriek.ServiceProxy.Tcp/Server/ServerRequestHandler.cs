@@ -11,9 +11,9 @@ namespace Shriek.ServiceProxy.Tcp.Server
 {
     internal class ServerRequestHandler<T> : AsyncStreamHandler where T : new()
     {
-        private IInstanceContextFactory<T> instanceContextFactory;
+        private readonly IInstanceContextFactory<T> instanceContextFactory;
 
-        private Dictionary<string, ChannelManager> channelManagers = new Dictionary<string, ChannelManager>();
+        private readonly Dictionary<string, ChannelManager> channelManagers;
 
         private ChannelManager channelManager;
 

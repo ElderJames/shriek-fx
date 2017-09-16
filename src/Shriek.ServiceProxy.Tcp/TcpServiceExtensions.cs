@@ -21,12 +21,12 @@ namespace Shriek.ServiceProxy.Tcp
             {
                 builder.Services.AddDynamicProxy(config =>
                 {
-                    var channelManager = new ChannelManager(o.Contract, o.config);
+                    var channelManager = new ChannelManager(o.Contract, o.Config);
 
                     config.Interceptors.AddTyped(typeof(TcpServiceClient),
                         o.socket == null
-                            ? new object[] { o.server, o.port, channelManager, o.open }
-                            : new object[] { o.socket, channelManager, o.open },
+                            ? new object[] { o.Server, o.Port, channelManager, o.Open }
+                            : new object[] { o.socket, channelManager, o.Open },
                         x => o.InterfaceType.IsAssignableFrom(x.DeclaringType));
                 });
             }
@@ -53,10 +53,10 @@ namespace Shriek.ServiceProxy.Tcp
                 TcpProxys.Add(new TcpProxy()
                 {
                     socket = socket,
-                    config = config,
-                    open = open,
-                    server = server,
-                    port = port,
+                    Config = config,
+                    Open = open,
+                    Server = server,
+                    Port = port,
                     Contract = ContractDescription<TService>.Create(),
                     InterfaceType = typeof(TService)
                 });
@@ -67,13 +67,13 @@ namespace Shriek.ServiceProxy.Tcp
         {
             public Socket socket { get; set; }
 
-            public string server { get; set; }
+            public string Server { get; set; }
 
-            public int port { get; set; }
+            public int Port { get; set; }
 
-            public ChannelConfig config { get; set; }
+            public ChannelConfig Config { get; set; }
 
-            public bool open { get; set; } = true;
+            public bool Open { get; set; } = true;
 
             public ContractDescription Contract { get; set; }
 

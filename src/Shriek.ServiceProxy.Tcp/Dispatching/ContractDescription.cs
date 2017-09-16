@@ -47,8 +47,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
         {
             this.type = type;
             this.typeInfo = type.GetTypeInfo();
-            Type callback;
-            this.Operations = ValidateContract(this.typeInfo, out callback);
+            this.Operations = ValidateContract(this.typeInfo, out var callback);
             this.ContractType = this.type;
             this.ContractName = this.type.FullName;
             this.CallbackType = callback;

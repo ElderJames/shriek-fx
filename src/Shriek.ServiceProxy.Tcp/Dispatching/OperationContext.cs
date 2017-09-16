@@ -8,7 +8,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     public sealed class OperationContext
     {
-        private static ThreadLocal<OperationContext> _Current = new ThreadLocal<OperationContext>();
+        private static readonly ThreadLocal<OperationContext> _current = new ThreadLocal<OperationContext>();
 
         private static readonly Type ByteArrayType;
 
@@ -17,30 +17,27 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
             ByteArrayType = typeof(byte[]);
         }
 
-        public static OperationContext Current
-        {
-            get { return _Current.Value; }
-        }
+        public static OperationContext Current => _current.Value;
 
         public readonly Socket Socket;
 
-        private readonly object Service;
-        private readonly ChannelManager ChannelManager;
-        private readonly OperationDescription Operation;
+        private readonly object service;
+        private readonly ChannelManager channelManager;
+        private readonly OperationDescription operation;
 
         internal OperationContext(object service, ChannelManager channelManager, Socket socket, OperationDescription operation)
         {
-            this.Service = service;
-            this.ChannelManager = channelManager;
+            this.service = service;
+            this.channelManager = channelManager;
             this.Socket = socket;
-            this.Operation = operation;
-            _Current.Value = this;
+            this.operation = operation;
+            _current.Value = this;
         }
 
         private async Task<object> Execute(Message request)
         {
             object[] parameters = null;
-            var paramTypes = this.Operation.ParameterTypes;
+            var paramTypes = this.operation.ParameterTypes;
             if (paramTypes != null)
             {
                 var length = paramTypes.Length;
@@ -55,13 +52,13 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
                 }
             }
             object result = null;
-            if (this.Operation.IsVoidTask)
+            if (this.operation.IsVoidTask)
             {
-                await (dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
+                await (dynamic)this.operation.MethodInfo.Invoke(this.service, parameters);
             }
             else
             {
-                result = await (dynamic)this.Operation.MethodInfo.Invoke(this.Service, parameters);
+                result = await (dynamic)this.operation.MethodInfo.Invoke(this.service, parameters);
             }
             return result;
         }
@@ -70,7 +67,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
         {
             Message response = null;
 
-            if (this.Operation.IsOneWay)
+            if (this.operation.IsOneWay)
             {
                 await this.Execute(request);
             }
@@ -79,7 +76,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
                 try
                 {
                     var result = await this.Execute(request);
-                    if (this.Operation.IsVoidTask)
+                    if (this.operation.IsVoidTask)
                     {
                         response = new Message(MessageType.Response, request.Id, (byte)1);
                     }

@@ -8,23 +8,23 @@ namespace Shriek.ServiceProxy.Tcp.Communication
     {
         public event Action<ICommunicationObject, CommunicationState> StateChanged;
 
-        private CommunicationState _State;
+        private CommunicationState state;
 
         public CommunicationState State
         {
-            get { return _State; }
+            get => state;
             private set
             {
-                var changed = _State != value;
-                _State = value;
+                var changed = state != value;
+                state = value;
                 if (changed)
-                    StateChanged?.Invoke(this, _State);
+                    StateChanged?.Invoke(this, state);
             }
         }
 
         protected SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
 
-        public CommunicationObject()
+        protected CommunicationObject()
         {
             this.State = CommunicationState.Created;
         }

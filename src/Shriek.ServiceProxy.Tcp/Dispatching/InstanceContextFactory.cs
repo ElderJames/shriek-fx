@@ -9,7 +9,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
         public event Action<T> ServiceInstantiated;
 
         //Create instace context, no static so we can have two hosts in one application
-        private ConcurrentDictionary<Socket, InstanceContext<T>> contexts =
+        private readonly ConcurrentDictionary<Socket, InstanceContext<T>> contexts =
             new ConcurrentDictionary<Socket, InstanceContext<T>>();
 
         private object _lock = new object();
