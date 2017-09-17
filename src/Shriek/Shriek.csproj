@@ -3,7 +3,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Scrutor" Version="2.1.0" />
+        <PackageReference Include="Scrutor" Version="2.1.2" />
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
     </ItemGroup>
 </Project>
