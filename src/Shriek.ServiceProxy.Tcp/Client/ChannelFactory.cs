@@ -43,7 +43,6 @@ namespace TcpServiceCore.Client
                 ProxyType = CreateProxyType();
 
             var channelManager = new ChannelManager(Contract, config);
-
             InnerProxy innerProxy = null;
             if (socket == null)
             {
@@ -53,8 +52,17 @@ namespace TcpServiceCore.Client
             {
                 innerProxy = new InnerProxy(socket, channelManager);
             }
+            ProxyGeneratorBuilder proxyGeneratorBuilder = new ProxyGeneratorBuilder();
 
-            var proxy = Activator.CreateInstance(ProxyType, innerProxy);
+            proxyGeneratorBuilder.Configure(conf =>
+                {
+                    conf.Interceptors.AddTyped<IClientChannel>(new object[] { innerProxy });
+                });
+
+            var proxyGennerator = proxyGeneratorBuilder.Build();
+
+            var proxy = proxyGennerator.CreateInterfaceProxy(typeof(T));
+            //var proxy = Activator.CreateInstance(ProxyType, innerProxy);
             if (open)
                 await ((IClientChannel)proxy).Open();
 
