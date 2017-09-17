@@ -1,23 +1,15 @@
-﻿using TcpServiceCore.Communication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
-using TcpServiceCore.Buffering;
-using System.Diagnostics;
-using System.Collections.Concurrent;
-using System.Threading;
+using Shriek.ServiceProxy.Tcp.Buffering;
 
-namespace TcpServiceCore.Protocol
+namespace Shriek.ServiceProxy.Tcp.Protocol
 {
-    class AsyncStreamHandler : StreamHandler
+    internal class AsyncStreamHandler : StreamHandler
     {
         public AsyncStreamHandler(Socket socket, IBufferManager bufferManager)
             : base(socket, bufferManager)
         {
-            
         }
 
         protected override async Task OnOpen()

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
-using TcpServiceCore.Attributes;
-using TcpServiceCore.Communication;
-using TcpServiceCore.Buffering;
+using Shriek.ServiceProxy.Tcp.Attributes;
+using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Communication;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     public class ContractDescription<T> : ContractDescription
     {
-        static readonly object _lock = new object();
+        private static readonly object _lock = new object();
         public static ContractDescription<T> Instance;
 
         public static ContractDescription<T> Create()
@@ -30,7 +29,6 @@ namespace TcpServiceCore.Dispatching
         protected ContractDescription()
             : base(typeof(T))
         {
-
         }
     }
 
@@ -42,8 +40,9 @@ namespace TcpServiceCore.Dispatching
         public readonly bool HasCallback;
         internal readonly IEnumerable<OperationDescription> Operations;
 
-        readonly Type type;
-        readonly TypeInfo typeInfo;
+        private readonly Type type;
+        private readonly TypeInfo typeInfo;
+
         protected ContractDescription(Type type)
         {
             this.type = type;
@@ -83,7 +82,7 @@ namespace TcpServiceCore.Dispatching
         internal static IEnumerable<OperationDescription> ValidateContract(TypeInfo contractType, out Type callbackType)
         {
             //validate contract
-            if(!IsContract(contractType))
+            if (!IsContract(contractType))
                 throw new Exception($"{contractType} must be Interface and attributed with {nameof(ServiceContractAttribute)}");
 
             //validate callback
@@ -98,7 +97,7 @@ namespace TcpServiceCore.Dispatching
             var operations = contractType.GetMethods()
                                 .Where(x => x.GetCustomAttribute<OperationContractAttribute>() != null)
                                 .Select(x => new OperationDescription(x));
-            
+
             foreach (var op in operations)
             {
                 op.ValidateOperationContract();

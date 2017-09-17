@@ -1,14 +1,8 @@
-﻿using TcpServiceCore.Communication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
+﻿using Shriek.ServiceProxy.Tcp.Communication;
 
-namespace TcpServiceCore.Client
+namespace Shriek.ServiceProxy.Tcp.Client
 {
-    public interface IClientChannel : IInterceptor, ICommunicationObject
+    public interface IClientChannel : ICommunicationObject
     {
     }
 }

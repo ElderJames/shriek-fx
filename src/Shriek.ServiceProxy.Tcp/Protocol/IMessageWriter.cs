@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TcpServiceCore.Communication;
-
-namespace TcpServiceCore.Protocol
+﻿namespace Shriek.ServiceProxy.Tcp.Protocol
 {
     //interface IMessageWriter
     //{

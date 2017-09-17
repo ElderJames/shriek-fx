@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TcpServiceCore.Buffering
+namespace Shriek.ServiceProxy.Tcp.Buffering
 {
     public class BufferPool
     {
-        Queue<byte[]> buffers = new Queue<byte[]>();
+        private Queue<byte[]> buffers = new Queue<byte[]>();
 
         public readonly int BufferSize;
         public readonly int PoolSize;
@@ -64,6 +61,5 @@ namespace TcpServiceCore.Buffering
                 }
             }
         }
-
     }
 }

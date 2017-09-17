@@ -1,19 +1,19 @@
-﻿using TcpServiceCore.Communication;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using TcpServiceCore.Buffering;
 using System.Threading;
-using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Communication;
 
-namespace TcpServiceCore.Protocol
+namespace Shriek.ServiceProxy.Tcp.Protocol
 {
-    abstract class StreamHandler : CommunicationObject
+    internal abstract class StreamHandler : CommunicationObject
     {
-        ConcurrentDictionary<int, ResponseEvent> mapper = new ConcurrentDictionary<int, ResponseEvent>();
+        private ConcurrentDictionary<int, ResponseEvent> mapper = new ConcurrentDictionary<int, ResponseEvent>();
 
         protected readonly Socket Socket;
 
@@ -31,9 +31,13 @@ namespace TcpServiceCore.Protocol
         }
 
         protected abstract Task _Write(ArraySegment<byte> buffer);
+
         protected abstract Task<int> _Read(ArraySegment<byte> buffer);
 
-        protected virtual Task _OnRequestReceived(Message request) { return Task.CompletedTask; }
+        protected virtual Task _OnRequestReceived(Message request)
+        {
+            return Task.CompletedTask;
+        }
 
         protected override Task OnOpen()
         {
@@ -75,7 +79,7 @@ namespace TcpServiceCore.Protocol
             var poolBuffer = this.BufferManager.GetFitBuffer(size);
 
             var buffer = new ArraySegment<byte>(poolBuffer, 0, size);
-            
+
             var index = 0;
 
             var segment = await this.ReadBytes(buffer);
@@ -175,7 +179,7 @@ namespace TcpServiceCore.Protocol
             await this._Write(buffer);
         }
 
-        async Task<int> GetMessageSize()
+        private async Task<int> GetMessageSize()
         {
             var size = 4;
             var poolBuffer = this.BufferManager.GetFitBuffer(size);
@@ -186,7 +190,7 @@ namespace TcpServiceCore.Protocol
             return result;
         }
 
-        async Task<ArraySegment<byte>> ReadBytes(ArraySegment<byte> buffer)
+        private async Task<ArraySegment<byte>> ReadBytes(ArraySegment<byte> buffer)
         {
             var read = 0;
             var length = buffer.Count;
@@ -215,11 +219,11 @@ namespace TcpServiceCore.Protocol
 
         private class ResponseEvent
         {
-            Message _response;
+            private Message _response;
             public bool IsSuccess { get; set; }
             public bool IsCompleted { get; private set; }
 
-            ManualResetEvent Evt;
+            private ManualResetEvent Evt;
 
             public ResponseEvent()
             {

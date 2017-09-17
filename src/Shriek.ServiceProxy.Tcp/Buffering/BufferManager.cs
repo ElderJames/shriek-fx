@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TcpServiceCore.Buffering
+namespace Shriek.ServiceProxy.Tcp.Buffering
 {
     public class BufferManager : IBufferManager
     {
         public readonly int MaxBufferSize;
         public readonly int MaxBufferPoolSize;
 
-        const int MIN_BUFFER_SIZE = 64000;
-        static int Base2Index;
+        private const int MIN_BUFFER_SIZE = 64000;
+        private static int Base2Index;
 
         static BufferManager()
         {
             Base2Index = (int)Math.Log(MIN_BUFFER_SIZE, 2);
         }
 
-        List<BufferPool> pools = new List<BufferPool>();
-        
+        private List<BufferPool> pools = new List<BufferPool>();
+
         public BufferManager(int maxBufferSize, int maxBufferPoolSize)
         {
             var bsn = nameof(maxBufferSize);

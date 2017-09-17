@@ -12,5 +12,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
   </ItemGroup>
-
 </Project>

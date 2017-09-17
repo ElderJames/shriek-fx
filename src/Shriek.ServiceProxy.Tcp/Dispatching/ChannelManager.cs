@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TcpServiceCore.Buffering;
-using TcpServiceCore.Communication;
+﻿using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Communication;
 
-namespace TcpServiceCore.Dispatching
+namespace Shriek.ServiceProxy.Tcp.Dispatching
 {
     public class ChannelManager
     {

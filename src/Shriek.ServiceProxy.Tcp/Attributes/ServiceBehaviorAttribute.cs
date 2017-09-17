@@ -1,11 +1,7 @@
-﻿using TcpServiceCore.Dispatching;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Shriek.ServiceProxy.Tcp.Dispatching;
 
-namespace TcpServiceCore.Attributes
+namespace Shriek.ServiceProxy.Tcp.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class ServiceBehaviorAttribute : Attribute

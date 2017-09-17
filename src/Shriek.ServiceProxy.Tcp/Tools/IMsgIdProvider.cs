@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TcpServiceCore.Tools
+﻿namespace Shriek.ServiceProxy.Tcp.Tools
 {
     public interface IMsgIdProvider
     {

@@ -1,10 +1,10 @@
-﻿using TcpServiceCore.Exceptions;
-using TcpServiceCore.Serialization;
-using TcpServiceCore.Serialization.Protobuf;
-using TcpServiceCore.Tools;
-using TcpServiceCore.Buffering;
+﻿using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Exceptions;
+using Shriek.ServiceProxy.Tcp.Serialization;
+using Shriek.ServiceProxy.Tcp.Serialization.Protobuf;
+using Shriek.ServiceProxy.Tcp.Tools;
 
-namespace TcpServiceCore
+namespace Shriek.ServiceProxy.Tcp
 {
     public static class Global
     {

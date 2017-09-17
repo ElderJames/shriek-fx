@@ -1,4 +1,4 @@
-﻿//using TcpServiceCore.Protocol;
+﻿//using Shriek.ServiceProxy.Tcp.Protocol;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
@@ -6,7 +6,7 @@
 //using System.Threading.Tasks;
 //using MsAvro = Microsoft.Hadoop.Avro;
 
-//namespace TcpServiceCore.Serialization.Avro
+//namespace Shriek.ServiceProxy.Tcp.Serialization.Avro
 //{
 //    public class AvroSerializer : ISerializer
 //    {

@@ -1,13 +1,13 @@
-﻿using TcpServiceCore.Communication;
-using TcpServiceCore.Dispatching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Communication;
+using Shriek.ServiceProxy.Tcp.Dispatching;
 
-namespace TcpServiceCore.Server
+namespace Shriek.ServiceProxy.Tcp.Server
 {
     public class ServiceHost<T> : CommunicationObject where T : new()
     {

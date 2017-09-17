@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TcpServiceCore.Communication
+namespace Shriek.ServiceProxy.Tcp.Communication
 {
     public class ChannelConfig
     {
         //Buffers
         public int MaxBufferSize { get; set; }
+
         public int MaxBufferPoolSize { get; set; }
 
         //Socket
         public TimeSpan ReceiveTimeout { get; set; }
+
         public TimeSpan SendTimeout { get; set; }
         public bool NoDelay { get; set; }
         public int ReceiveBufferSize { get; set; }

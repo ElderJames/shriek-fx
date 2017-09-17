@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TcpServiceCore.Communication
+namespace Shriek.ServiceProxy.Tcp.Communication
 {
     public abstract class CommunicationObject : ICommunicationObject
     {
         public event Action<ICommunicationObject, CommunicationState> StateChanged;
 
-        CommunicationState _State;
+        private CommunicationState _State;
+
         public CommunicationState State
         {
             get { return _State; }
@@ -33,8 +30,8 @@ namespace TcpServiceCore.Communication
         }
 
         protected abstract Task OnOpen();
-        protected abstract Task OnClose();
 
+        protected abstract Task OnClose();
 
         public async Task Open()
         {

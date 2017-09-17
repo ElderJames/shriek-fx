@@ -1,13 +1,13 @@
-﻿using Shriek.ServiceProxy.Abstractions.TcpClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
-using AspectCore.DynamicProxy;
 using System.Threading.Tasks;
+using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.TcpClient;
 
 namespace Shriek.ServiceProxy.Tcp
 {
@@ -255,7 +255,7 @@ namespace Shriek.ServiceProxy.Tcp
         public async Task SendAsync(ApiActionContext context)
         {
             if (!(context is TcpActionContext tcpContext)) return;
-            tcpContext.ResponseMessage = await WriteLineAndGetReply(tcpContext.RequestMessage.MessageString, TimeSpan.FromSeconds(1));
+            //  tcpContext.ResponseMessage = await WriteLineAndGetReply(tcpContext.RequestMessage.MessageString, TimeSpan.FromSeconds(1));
         }
     }
 }

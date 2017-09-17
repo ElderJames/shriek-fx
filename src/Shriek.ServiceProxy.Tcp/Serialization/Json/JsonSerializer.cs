@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace TcpServiceCore.Serialization.Json
+namespace Shriek.ServiceProxy.Tcp.Serialization.Json
 {
     public class JsonSerializer : ISerializer
     {

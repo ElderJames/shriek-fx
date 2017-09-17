@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
-using TcpServiceCore.Buffering;
-using TcpServiceCore.Communication;
-using TcpServiceCore.Dispatching;
-using TcpServiceCore.Protocol;
-using TcpServiceCore.Tools;
+using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Dispatching;
+using Shriek.ServiceProxy.Tcp.Protocol;
+using Shriek.ServiceProxy.Tcp.Tools;
 
-namespace TcpServiceCore.Server
+namespace Shriek.ServiceProxy.Tcp.Server
 {
-    class ServerRequestHandler<T> : AsyncStreamHandler where T : new()
+    internal class ServerRequestHandler<T> : AsyncStreamHandler where T : new()
     {
-        IInstanceContextFactory<T> instanceContextFactory;
+        private IInstanceContextFactory<T> instanceContextFactory;
 
-        Dictionary<string, ChannelManager> channelManagers = new Dictionary<string, ChannelManager>();
+        private Dictionary<string, ChannelManager> channelManagers = new Dictionary<string, ChannelManager>();
 
-        ChannelManager channelManager;
+        private ChannelManager channelManager;
 
         public ServerRequestHandler(Socket socket,
             Dictionary<string, ChannelManager> channelManagers,
@@ -63,7 +60,6 @@ namespace TcpServiceCore.Server
                         }
                         catch
                         {
-
                         }
                         throw new Exception(error);
                     }
@@ -72,7 +68,7 @@ namespace TcpServiceCore.Server
             }
         }
 
-        async Task DoHandleRequest(Message request)
+        private async Task DoHandleRequest(Message request)
         {
             var context = this.instanceContextFactory.Create(this.Socket);
             var response = await context.HandleRequest(this.Socket, this.channelManager, request);
