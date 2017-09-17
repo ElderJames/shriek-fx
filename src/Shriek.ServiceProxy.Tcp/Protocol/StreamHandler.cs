@@ -220,26 +220,26 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
         private class ResponseEvent
         {
             private Message _response;
-            public bool IsSuccess { get; set; }
-            public bool IsCompleted { get; private set; }
+            private bool IsSuccess { get; set; }
+            private bool IsCompleted { get; set; }
 
-            private ManualResetEvent Evt;
+            private readonly ManualResetEvent _evt;
 
             public ResponseEvent()
             {
-                this.Evt = new ManualResetEvent(false);
+                this._evt = new ManualResetEvent(false);
             }
 
             public void SetResponse(Message response)
             {
                 this.IsSuccess = true;
                 this._response = response;
-                this.Evt.Set();
+                this._evt.Set();
             }
 
             public Message GetResponse(int timeout)
             {
-                this.Evt.WaitOne(timeout);
+                this._evt.WaitOne(timeout);
                 this.IsCompleted = true;
 
                 if (this.IsSuccess == false)

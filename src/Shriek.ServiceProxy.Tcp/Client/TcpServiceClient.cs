@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
+using AspectCore.DynamicProxy.Parameters;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Dispatching;
@@ -15,6 +16,7 @@ namespace Shriek.ServiceProxy.Tcp.Client
     {
         private readonly string server;
         private readonly int port;
+        private bool open { get; } = false;
         private readonly Socket socket;
         private readonly AsyncStreamHandler streamHandler;
         private readonly ChannelManager channelManager;
@@ -47,8 +49,7 @@ namespace Shriek.ServiceProxy.Tcp.Client
 
             this.streamHandler = new AsyncStreamHandler(this.socket, this.channelManager.BufferManager);
 
-            if (open)
-                Open().Wait();
+            this.open = open;
         }
 
         public TcpServiceClient(string server, int port, ChannelManager channelManager, bool open)
@@ -103,6 +104,9 @@ namespace Shriek.ServiceProxy.Tcp.Client
         public async Task Invoke(AspectContext context, AspectDelegate next)
         {
             var _context = AspectCoreContext.From(context);
+
+            if (open)
+                await Open();
 
             var actionContext = new TcpActionContext()
             {
