@@ -52,8 +52,7 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
                     var msg = await this.ReadMessage();
                     if (msg.MessageType == MessageType.Response || msg.MessageType == MessageType.Error)
                     {
-                        ResponseEvent responseEvent;
-                        this.mapper.TryRemove(msg.Id, out responseEvent);
+                        this.mapper.TryRemove(msg.Id, out var responseEvent);
                         responseEvent.SetResponse(msg);
                     }
                     else if (msg.MessageType == MessageType.Request)

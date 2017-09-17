@@ -75,8 +75,7 @@ namespace Shriek.ServiceProxy.Tcp.Dispatching
 
         internal static IEnumerable<OperationDescription> ValidateContract(TypeInfo contractType)
         {
-            Type callback;
-            return ValidateContract(contractType, out callback);
+            return ValidateContract(contractType, out var callback);
         }
 
         internal static IEnumerable<OperationDescription> ValidateContract(TypeInfo contractType, out Type callbackType)
