@@ -62,7 +62,6 @@ namespace Shriek.Samples.WebApiProxy
             host.Open().Wait();
 
             var provider = new ServiceCollection()
-                .AddScoped<ITcpTestService, TcpTestService>()
                 .AddShriek()
                 .AddWebApiProxy(opt =>
                 {
