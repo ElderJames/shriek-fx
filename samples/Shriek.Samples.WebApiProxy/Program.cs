@@ -7,6 +7,10 @@ using Shriek.ServiceProxy.Http.Server;
 using System;
 using AspectCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Shriek.Samples.WebApiProxy.Services;
+using Shriek.ServiceProxy.Tcp;
+using Shriek.ServiceProxy.Tcp.Communication;
+using Shriek.ServiceProxy.Tcp.Server;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -41,19 +45,41 @@ namespace Shriek.Samples.WebApiProxy
                 .Build()
                 .Start();
 
+            var config = new ChannelConfig
+            {
+                ReceiveTimeout = TimeSpan.FromSeconds(20),
+                SendTimeout = TimeSpan.FromSeconds(20)
+            };
+            var host = new ServiceHost<TcpTestService>(9091);
+
+            host.AddContract<ITcpTestService>(config);
+
+            host.ServiceInstantiated += s =>
+            {
+                //construct the created instance
+            };
+
+            host.Open().Wait();
+
             var provider = new ServiceCollection()
+                .AddScoped<ITcpTestService, TcpTestService>()
                 .AddShriek()
                 .AddWebApiProxy(opt =>
                 {
                     opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                     opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                 })
+                .AddTcpServiceProxy(opt =>
+                {
+                    opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
+                })
                 .Services
                 .BuildAspectCoreServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
-            var aampleTestService = provider.GetService<Samples.Services.ITestService>();
+            var sampleTestService = provider.GetService<Samples.Services.ITestService>();
+            var tcpService = provider.GetService<ITcpTestService>();
 
             Console.ReadKey();
 
@@ -67,8 +93,14 @@ namespace Shriek.Samples.WebApiProxy
             var result2 = testService.Test(11);
             Console.WriteLine(JsonConvert.SerializeObject(result2));
 
-            var result3 = aampleTestService.Test("elderjames");
+            var result3 = sampleTestService.Test("elderjames");
             Console.WriteLine(JsonConvert.SerializeObject(result3));
+
+            Console.WriteLine("press any key to tcp testing...");
+            Console.ReadKey();
+
+            var result4 = tcpService.Test("hahaha").Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result4));
 
             Console.ReadKey();
         }

@@ -50,20 +50,17 @@ namespace Shriek.ServiceProxy.Tcp.Server
                 }
                 catch
                 {
-                    if (this.channelManager == null)
+                    if (this.channelManager != null) throw;
+                    var error = $"Wrong socket initialization, contract {contract} is missing";
+                    try
                     {
-                        var error = $"Wrong socket initialization, contract {contract} is missing";
-                        try
-                        {
-                            var response = new Message(MessageType.Error, request.Id, error);
-                            await this.WriteMessage(response);
-                        }
-                        catch
-                        {
-                        }
-                        throw new Exception(error);
+                        var response = new Message(MessageType.Error, request.Id, error);
+                        await this.WriteMessage(response);
                     }
-                    throw;
+                    catch
+                    {
+                    }
+                    throw new Exception(error);
                 }
             }
         }
