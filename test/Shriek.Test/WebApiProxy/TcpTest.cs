@@ -52,20 +52,20 @@ namespace Shriek.Test.WebApiProxy
 
             Assert.AreEqual("elderjaems", result);
         }
+    }
 
-        [ServiceContract]
-        public interface ITestService
-        {
-            [OperationContract]
-            Task<string> GetName(string name);
-        }
+    [ServiceContract]
+    public interface ITestService
+    {
+        [OperationContract]
+        Task<string> GetName(string name);
+    }
 
-        public class TestService : ITestService
+    public class TestService : ITestService
+    {
+        public Task<string> GetName(string name)
         {
-            public Task<string> GetName(string name)
-            {
-                return Task.FromResult(name);
-            }
+            return Task.FromResult(name);
         }
     }
 }

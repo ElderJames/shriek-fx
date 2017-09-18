@@ -102,7 +102,7 @@ namespace Shriek.ServiceProxy.Abstractions
 
             var descriptor = new ApiActionDescriptor
             {
-                Name = invocation.ServiceMethod.DeclaringType.Name + "." + method.Name,
+                Name = $"{method.DeclaringType.Name}.{method.Name}",
                 ReturnTaskType = method.ReturnType,
                 ReturnDataType = method.ReturnType.IsGenericType ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
                 Attributes = method.GetCustomAttributes<ApiActionAttribute>(true).ToArray(),
