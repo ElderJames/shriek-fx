@@ -1,8 +1,8 @@
 ﻿using Shriek.Messages;
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Shriek.Commands;
 
 namespace Shriek.Events
 {
@@ -23,11 +23,13 @@ namespace Shriek.Events
             messageProcessor.Dispose();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Publish<T>(T @event) where T : Event
         {
             if (@event == null) return;
 
             commandQueue.Enqueue(@event);
+
             if (task == null || task.IsCompleted)
                 task = Task.Run(() =>
                 {

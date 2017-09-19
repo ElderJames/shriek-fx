@@ -1,5 +1,4 @@
 ﻿using Shriek.Messages;
-using System.Runtime.CompilerServices;
 
 namespace Shriek.Commands
 {
@@ -20,7 +19,6 @@ namespace Shriek.Commands
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="command"></param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Send<TCommand>(TCommand command) where TCommand : Command
         {
             if (command == null)
