@@ -36,6 +36,7 @@ namespace Shriek.Messages
                 catch (DomainException ex)
                 {
                     eventBus.Publish(new DomainNotification(ex.Message, JsonConvert.SerializeObject(command)));
+                    throw;
                 }
             }
             else

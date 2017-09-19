@@ -1,7 +1,5 @@
-﻿using System.Collections.Concurrent;
-using Shriek.Messages;
+﻿using Shriek.Messages;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Shriek.Commands
 {
@@ -10,11 +8,7 @@ namespace Shriek.Commands
     /// </summary>
     public class CommandBus : ICommandBus
     {
-        private IMessagePublisher messageProcessor;
-
-        private readonly ConcurrentQueue<Command> commandQueue = new ConcurrentQueue<Command>();
-
-        private static Task task;
+        private readonly IMessagePublisher messageProcessor;
 
         public CommandBus(IMessagePublisher messageProcessor)
         {
@@ -32,14 +26,7 @@ namespace Shriek.Commands
             if (command == null)
                 return;
 
-            commandQueue.Enqueue(command);
-
-            if (task == null || task.IsCompleted)
-                task = Task.Run(() =>
-                 {
-                     while (!commandQueue.IsEmpty && commandQueue.TryDequeue(out var cmd))
-                         messageProcessor.Send(cmd);
-                 });
+            messageProcessor.Send(command);
         }
     }
 }

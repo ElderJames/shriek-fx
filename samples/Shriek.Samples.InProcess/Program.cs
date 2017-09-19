@@ -77,12 +77,19 @@ namespace Shriek.Samples.InProcess
             {
                 Console.ReadKey();
 
-                bus.Send(new ChangeTodoCommand(id)
+                try
                 {
-                    Name = $"{++i}. drive car",
-                    Desception = "be careful!",
-                    FinishTime = DateTime.Now.AddDays(1)
-                });
+                    bus.Send(new ChangeTodoCommand(id)
+                    {
+                        Name = $"{++i}. drive car",
+                        Desception = "be careful!",
+                        FinishTime = DateTime.Now.AddDays(1)
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception:" + ex.Message);
+                }
                 Console.WriteLine($"{i} {nameof(ChangeTodoCommand)} sended!");
             }
 
