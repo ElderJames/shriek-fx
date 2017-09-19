@@ -98,8 +98,8 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine("press any key to tcp testing...");
             Console.ReadKey();
 
-            var result4 = tcpService.Test("hahaha").Result;
-            Console.WriteLine(JsonConvert.SerializeObject(result4));
+            var result4 = tcpService.Test("hahaha");
+            Console.WriteLine(JsonConvert.SerializeObject(result4.Result));
 
             Console.ReadKey();
         }

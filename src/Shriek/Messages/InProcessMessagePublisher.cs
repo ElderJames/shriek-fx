@@ -27,10 +27,12 @@ namespace Shriek.Messages
             var subscribers = container.GetServices(typeof(IMessageSubscriber<>).MakeGenericType(message.GetType()));
             if (!subscribers.Any()) return;
 
-            foreach (var sub in subscribers)
-            {
-                ((dynamic)sub).Execute((dynamic)message);
-            }
+            subscribers.AsParallel().ForAll(sub => ((dynamic)sub).Execute((dynamic)message));
+
+            //foreach (var sub in subscribers)
+            //{
+            //    ((dynamic)sub).Execute((dynamic)message);
+            //}
         }
     }
 }

@@ -13,24 +13,11 @@ namespace Shriek.Commands
     /// </summary>
     public class CommandBus : ICommandBus
     {
-        private IServiceProvider Container;
-
-        private ICommandContext commandContext;
-
-        private IEventBus eventBus;
-
         private IMessagePublisher messageProcessor;
 
-        private IDomainNotificationHandler<DomainNotification> notification;
-
-        public CommandBus(IServiceProvider Container, ICommandContext commandContext, IEventBus eventBus, IMessagePublisher messageProcessor, IDomainNotificationHandler<DomainNotification> notification)
+        public CommandBus(IMessagePublisher messageProcessor)
         {
-            this.Container = Container;
-            this.commandContext = commandContext;
-            this.eventBus = eventBus;
             this.messageProcessor = messageProcessor;
-            //messageProcessor.Subscriber(h => Handle((dynamic)h));
-            this.notification = notification;
         }
 
         /// <summary>
@@ -42,31 +29,8 @@ namespace Shriek.Commands
         {
             if (command == null)
                 return;
-            messageProcessor.Send(command);
-        }
 
-        private void Handle<TCommand>(TCommand command) where TCommand : Command
-        {
-            if (Container == null) return;
-
-            var handler = Container.GetService(typeof(ICommandHandler<TCommand>));
-
-            if (handler != null)
-            {
-                try
-                {
-                    ((ICommandHandler<TCommand>)handler).Execute(commandContext, command);
-                    ((ICommandContextSave)commandContext).Save();
-                }
-                catch (DomainException ex)
-                {
-                    eventBus.Publish(new DomainNotification(ex.Message, JsonConvert.SerializeObject(command)));
-                }
-            }
-            else
-            {
-                throw new Exception($"找不到命令{nameof(command)}的处理类，或者IOC未注册。");
-            }
+            Task.Run(() => messageProcessor.Send(command));
         }
     }
 }
