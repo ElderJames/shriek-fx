@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Shriek.Messages
 {
     public class InProcessMessagePublisher : IMessagePublisher
     {
-        private Task queueTask;
-
         private IServiceProvider container;
 
         public InProcessMessagePublisher(IServiceProvider container)
@@ -18,21 +14,16 @@ namespace Shriek.Messages
 
         public void Dispose()
         {
-            if (queueTask != null && queueTask.IsCompleted)
-                queueTask?.Dispose();
         }
 
         public void Send<TMessage>(TMessage message) where TMessage : Message
         {
             var subscribers = container.GetServices(typeof(IMessageSubscriber<>).MakeGenericType(message.GetType()));
-            if (!subscribers.Any()) return;
 
-            subscribers.AsParallel().ForAll(sub => ((dynamic)sub).Execute((dynamic)message));
-
-            //foreach (var sub in subscribers)
-            //{
-            //    ((dynamic)sub).Execute((dynamic)message);
-            //}
+            foreach (var sub in subscribers)
+            {
+                ((dynamic)sub).Execute((dynamic)message);
+            }
         }
     }
 }

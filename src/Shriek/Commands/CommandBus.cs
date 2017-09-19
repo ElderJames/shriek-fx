@@ -1,10 +1,7 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Shriek.Events;
-using Shriek.Exceptions;
+﻿using System.Collections.Concurrent;
 using Shriek.Messages;
-using Shriek.Notifications;
-using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Shriek.Commands
 {
@@ -14,6 +11,10 @@ namespace Shriek.Commands
     public class CommandBus : ICommandBus
     {
         private IMessagePublisher messageProcessor;
+
+        private readonly ConcurrentQueue<Command> commandQueue = new ConcurrentQueue<Command>();
+
+        private static Task task;
 
         public CommandBus(IMessagePublisher messageProcessor)
         {
@@ -25,12 +26,20 @@ namespace Shriek.Commands
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="command"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Send<TCommand>(TCommand command) where TCommand : Command
         {
             if (command == null)
                 return;
 
-            Task.Run(() => messageProcessor.Send(command));
+            commandQueue.Enqueue(command);
+
+            if (task == null || task.IsCompleted)
+                task = Task.Run(() =>
+                 {
+                     while (!commandQueue.IsEmpty && commandQueue.TryDequeue(out var cmd))
+                         messageProcessor.Send(cmd);
+                 });
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Events;
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -15,7 +15,6 @@ namespace Shriek.Messages
             this.container = container;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Execute(TEvent @event)
         {
             var handlers = container.GetServices<IEventHandler<TEvent>>();

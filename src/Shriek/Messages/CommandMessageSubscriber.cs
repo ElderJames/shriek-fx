@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Shriek.Commands;
 using Shriek.Events;
 using Shriek.Exceptions;
 using Shriek.Notifications;
+using System;
 
 namespace Shriek.Messages
 {
     public class CommandMessageSubscriber<TCommand> : IMessageSubscriber<TCommand> where TCommand : Command
     {
-        private IServiceProvider Container;
-        private ICommandContext commandContext;
-        private IEventBus eventBus;
+        private readonly IServiceProvider container;
+        private readonly ICommandContext commandContext;
+        private readonly IEventBus eventBus;
 
         public CommandMessageSubscriber(IServiceProvider container, ICommandContext context, IEventBus eventBus)
         {
-            this.Container = container;
+            this.container = container;
             this.commandContext = context;
             this.eventBus = eventBus;
         }
 
         public void Execute(TCommand command)
         {
-            if (Container == null) return;
+            if (container == null) return;
 
-            var handler = Container.GetService(typeof(ICommandHandler<TCommand>));
+            var handler = container.GetService(typeof(ICommandHandler<TCommand>));
 
             if (handler != null)
             {

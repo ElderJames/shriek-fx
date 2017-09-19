@@ -23,53 +23,68 @@ namespace Shriek.Samples.InProcess
 
             bus.Send(new CreateTodoCommand(id)
             {
-                Name = "get up",
+                Name = "1. get up",
                 Desception = "good day",
                 FinishTime = DateTime.Now.AddDays(1)
             });
 
             Console.WriteLine($"{nameof(CreateTodoCommand)} sended!");
 
-            bus.Send(new ChangeTodoCommand(id)
-            {
-                Name = "eat breakfast",
-                Desception = "yummy!",
-                FinishTime = DateTime.Now.AddDays(1)
-            });
+            //bus.Send(new ChangeTodoCommand(id)
+            //{
+            //    Name = "2. eat breakfast",
+            //    Desception = "yummy!",
+            //    FinishTime = DateTime.Now.AddDays(1)
+            //});
 
-            Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+            //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
-            bus.Send(new ChangeTodoCommand(id)
-            {
-                Name = "go to work",
-                Desception = "fighting!",
-                FinishTime = DateTime.Now.AddDays(1)
-            });
-            Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+            //bus.Send(new ChangeTodoCommand(id)
+            //{
+            //    Name = "3. go to work",
+            //    Desception = "fighting!",
+            //    FinishTime = DateTime.Now.AddDays(1)
+            //});
+            //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
-            bus.Send(new ChangeTodoCommand(id)
-            {
-                Name = "call boss",
-                Desception = "haha!",
-                FinishTime = DateTime.Now.AddDays(1)
-            });
-            Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+            //bus.Send(new ChangeTodoCommand(id)
+            //{
+            //    Name = "4. call boss",
+            //    Desception = "haha!",
+            //    FinishTime = DateTime.Now.AddDays(1)
+            //});
+            //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
-            bus.Send(new ChangeTodoCommand(id)
-            {
-                Name = "coding",
-                Desception = "great!",
-                FinishTime = DateTime.Now.AddDays(1)
-            });
-            Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+            //bus.Send(new ChangeTodoCommand(id)
+            //{
+            //    Name = "5. coding",
+            //    Desception = "great!",
+            //    FinishTime = DateTime.Now.AddDays(1)
+            //});
+            //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
-            bus.Send(new ChangeTodoCommand(id)
+            //bus.Send(new ChangeTodoCommand(id)
+            //{
+            //    Name = "6. drive car",
+            //    Desception = "be careful!",
+            //    FinishTime = DateTime.Now.AddDays(-1)
+            //});
+            //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+
+            var i = 0;
+
+            while (true)
             {
-                Name = "drive car",
-                Desception = "be careful!",
-                FinishTime = DateTime.Now.AddDays(-1)
-            });
-            Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
+                Console.ReadKey();
+
+                bus.Send(new ChangeTodoCommand(id)
+                {
+                    Name = $"{++i}. drive car",
+                    Desception = "be careful!",
+                    FinishTime = DateTime.Now.AddDays(1)
+                });
+                Console.WriteLine($"{i} {nameof(ChangeTodoCommand)} sended!");
+            }
 
             Console.ReadKey();
         }

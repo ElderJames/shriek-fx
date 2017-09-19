@@ -11,15 +11,13 @@ namespace Shriek.Commands
 {
     public class DefaultCommandContext : ICommandContext, ICommandContextSave
     {
-        private IServiceProvider Container;
-        private ConcurrentQueue<AggregateRoot> aggregates = null;
-        private static object _lock = new object();
-        private IEventBus eventBus;
-        private IEventStorage eventStorage;
+        private readonly ConcurrentQueue<AggregateRoot> aggregates;
+        private static readonly object _lock = new object();
+        private readonly IEventBus eventBus;
+        private readonly IEventStorage eventStorage;
 
         public DefaultCommandContext(IServiceProvider Container)
         {
-            this.Container = Container;
             eventStorage = Container.GetService<IEventStorage>();
             eventBus = Container.GetService<IEventBus>();
             aggregates = new ConcurrentQueue<AggregateRoot>();

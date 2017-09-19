@@ -1,6 +1,5 @@
 ﻿using Shriek.Messages;
 using System;
-using System.Threading.Tasks;
 
 namespace Shriek.Events
 {
@@ -20,7 +19,7 @@ namespace Shriek.Events
 
         public void Publish<T>(T @event) where T : Event
         {
-            Task.Run(() => messageProcessor.Send(@event));
+            messageProcessor.Send(@event);
         }
     }
 }
