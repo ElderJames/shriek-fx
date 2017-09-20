@@ -81,7 +81,7 @@ namespace Shriek.Samples.InProcess
                 {
                     bus.Send(new ChangeTodoCommand(id)
                     {
-                        Name = $"{++i}. drive car",
+                        Name = $"command no.{++i}",
                         Desception = "be careful!",
                         FinishTime = DateTime.Now.AddDays(1)
                     });

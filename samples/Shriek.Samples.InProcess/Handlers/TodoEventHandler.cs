@@ -20,4 +20,14 @@ namespace Shriek.Samples.InProcess.Handlers
             System.Console.WriteLine($"{e.Name} finished!");
         }
     }
+
+    public class TodoEventHandler2 : IEventHandler<TodoChangedEvent>
+    {
+        public void Handle(TodoChangedEvent e)
+        {
+            System.Console.WriteLine($"2 here is {nameof(TodoChangedEvent)}:" + e.Name);
+            Thread.Sleep(1000);
+            System.Console.WriteLine($"2 {e.Name} finished!");
+        }
+    }
 }

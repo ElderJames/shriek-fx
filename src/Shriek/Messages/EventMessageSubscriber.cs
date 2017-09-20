@@ -2,7 +2,6 @@
 using Shriek.Events;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Shriek.Messages
 {
@@ -19,11 +18,7 @@ namespace Shriek.Messages
         {
             var handlers = container.GetServices<IEventHandler<TEvent>>();
 
-            if (handlers != null && handlers.Any())
-                foreach (var eventHandler in handlers)
-                {
-                    eventHandler.Handle(@event);
-                }
+            handlers.AsParallel().ForAll(eventHandler => eventHandler.Handle(@event));
         }
     }
 }
