@@ -12,7 +12,7 @@ namespace Shriek.Events
         private readonly ConcurrentDictionary<Guid, ConcurrentQueue<Event>> commandDict = new ConcurrentDictionary<Guid, ConcurrentQueue<Event>>();
         private readonly ConcurrentDictionary<Guid, Task> taskDict = new ConcurrentDictionary<Guid, Task>();
 
-        private static Task task;
+        private static Task _task;
 
         public InMemoryEventBus(IMessagePublisher messageProcessor)
         {
@@ -32,14 +32,16 @@ namespace Shriek.Events
             var commandQueue = commandDict.GetOrAdd(@event.AggregateId, new ConcurrentQueue<Event>());
             commandQueue.Enqueue(@event);
 
-            var task = taskDict.GetOrAdd(@event.AggregateId, Task.CompletedTask);
+            if (!taskDict.TryGetValue(@event.AggregateId, out var task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
+            {
+                task?.Dispose();
 
-            if (task.Status != TaskStatus.Running)
-                task = Task.Run(() =>
-                   {
-                       while (!commandQueue.IsEmpty && commandQueue.TryDequeue(out var evt))
-                           messageProcessor.Send(evt);
-                   });
+                taskDict[@event.AggregateId] = Task.Run(() =>
+                {
+                    while (!commandQueue.IsEmpty && commandQueue.TryDequeue(out var evt))
+                        messageProcessor.Send(evt);
+                });
+            }
         }
     }
 }
