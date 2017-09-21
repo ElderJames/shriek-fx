@@ -3,6 +3,7 @@ using Shriek.Commands;
 using Shriek.Samples.Commands;
 using Shriek.Storage;
 using System;
+using Shriek.Samples.InProcess.Commands;
 
 namespace Shriek.Samples.InProcess
 {
@@ -19,16 +20,8 @@ namespace Shriek.Samples.InProcess
             var bus = container.GetService<ICommandBus>();
             var eventStorage = container.GetService<IEventStorage>();
 
-            var id = Guid.NewGuid();
-
-            bus.Send(new CreateTodoCommand(id)
-            {
-                Name = "1. get up",
-                Desception = "good day",
-                FinishTime = DateTime.Now.AddDays(1)
-            });
-
-            Console.WriteLine($"{nameof(CreateTodoCommand)} sended!");
+            var id1 = Guid.NewGuid();
+            var id2 = Guid.NewGuid();
 
             //bus.Send(new ChangeTodoCommand(id)
             //{
@@ -75,25 +68,47 @@ namespace Shriek.Samples.InProcess
 
             while (true)
             {
-                Console.ReadKey();
+                var key = Console.ReadKey();
 
-                try
+                if (key.Key == ConsoleKey.D1)
                 {
-                    bus.Send(new ChangeTodoCommand(id)
+                    try
                     {
-                        Name = $"command no.{++i}",
-                        Desception = "be careful!",
-                        FinishTime = DateTime.Now.AddDays(1)
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Exception:" + ex.Message);
-                }
-                Console.WriteLine($"{i} {nameof(ChangeTodoCommand)} sended!");
-            }
+                        bus.Send(new SampleCommand(id1)
+                        {
+                            No = 1,
+                            Delay = TimeSpan.FromMilliseconds(5000)
+                        });
 
-            Console.ReadKey();
+                        Console.WriteLine($"id-1: command {i} sended!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception:" + ex.Message);
+                    }
+                }
+                else if (key.Key == ConsoleKey.D2)
+                {
+                    try
+                    {
+                        bus.Send(new SampleCommand(id2)
+                        {
+                            No = 2,
+                            Delay = TimeSpan.FromMilliseconds(2000)
+                        });
+
+                        Console.WriteLine($"id-2: command {i} sended!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception:" + ex.Message);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 }
