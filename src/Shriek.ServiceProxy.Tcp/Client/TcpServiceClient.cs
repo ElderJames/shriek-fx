@@ -134,7 +134,7 @@ namespace Shriek.ServiceProxy.Tcp.Client
         {
             if (!(context is TcpActionContext tcpContext)) return;
 
-            var request = this.CreateRequest(tcpContext.ApiActionDescriptor.Name, tcpContext.ApiActionDescriptor.Parameters.Select(x => x.Value));
+            var request = this.CreateRequest(tcpContext.ApiActionDescriptor.Name, tcpContext.ApiActionDescriptor.Parameters.Select(x => x.Value).ToArray());
             tcpContext.ResponseMessage = await this.streamHandler.WriteRequest(request, this.socket.ReceiveTimeout);
         }
     }

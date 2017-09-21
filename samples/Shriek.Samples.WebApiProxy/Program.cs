@@ -18,12 +18,6 @@ namespace Shriek.Samples.WebApiProxy
     {
         public static void Main(string[] args)
         {
-            //new WebHostBuilder()
-            //.UseKestrel()
-            //.UseShriekStartup("http://localhost:8080")
-            //.Build()
-            //.Start();
-
             new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls("http://*:8080", "http://*:8081")
@@ -47,8 +41,8 @@ namespace Shriek.Samples.WebApiProxy
 
             var config = new ChannelConfig
             {
-                ReceiveTimeout = TimeSpan.FromSeconds(20),
-                SendTimeout = TimeSpan.FromSeconds(20)
+                ReceiveTimeout = TimeSpan.FromSeconds(60),
+                SendTimeout = TimeSpan.FromSeconds(60)
             };
             var host = new ServiceHost<TcpTestService>(9091);
 
@@ -98,8 +92,8 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine("press any key to tcp testing...");
             Console.ReadKey();
 
-            var result4 = tcpService.Test("hahaha");
-            Console.WriteLine(JsonConvert.SerializeObject(result4.Result));
+            var result4 = tcpService.Test("hahaha").Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result4));
 
             Console.ReadKey();
         }
