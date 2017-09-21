@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspectCore.Abstractions" Version="0.2.0-preview5" />
+    <PackageReference Include="AspectCore.Abstractions" Version="0.2.0-preview6" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
