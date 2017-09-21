@@ -65,6 +65,7 @@ namespace Shriek.Samples.InProcess
             //Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
             var i = 0;
+            var j = 0;
 
             while (true)
             {
@@ -80,7 +81,7 @@ namespace Shriek.Samples.InProcess
                             Delay = TimeSpan.FromMilliseconds(5000)
                         });
 
-                        Console.WriteLine($"id-1: command {i} sended!");
+                        Console.WriteLine($"\tid-1: \tcommand {i++} sended!");
                     }
                     catch (Exception ex)
                     {
@@ -97,7 +98,7 @@ namespace Shriek.Samples.InProcess
                             Delay = TimeSpan.FromMilliseconds(2000)
                         });
 
-                        Console.WriteLine($"id-2: command {i} sended!");
+                        Console.WriteLine($"\tid-2: \tcommand {j++} sended!");
                     }
                     catch (Exception ex)
                     {
