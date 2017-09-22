@@ -25,10 +25,7 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
             this.BufferManager = bufferManager;
         }
 
-        public virtual bool Connected
-        {
-            get { return this.Socket.Connected; }
-        }
+        public virtual bool Connected => this.Socket.Connected;
 
         protected abstract Task _Write(ArraySegment<byte> buffer);
 
@@ -50,14 +47,20 @@ namespace Shriek.ServiceProxy.Tcp.Protocol
                 while (this.State == CommunicationState.Opened)
                 {
                     var msg = await this.ReadMessage();
-                    if (msg.MessageType == MessageType.Response || msg.MessageType == MessageType.Error)
+                    switch (msg.MessageType)
                     {
-                        this.mapper.TryRemove(msg.Id, out var responseEvent);
-                        responseEvent.SetResponse(msg);
-                    }
-                    else if (msg.MessageType == MessageType.Request)
-                    {
-                        await this._OnRequestReceived(msg);
+                        case MessageType.Response:
+                        case MessageType.Error:
+                            this.mapper.TryRemove(msg.Id, out var responseEvent);
+                            responseEvent.SetResponse(msg);
+                            break;
+
+                        case MessageType.Request:
+                            await this._OnRequestReceived(msg);
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(msg.MessageType));
                     }
                 }
             });

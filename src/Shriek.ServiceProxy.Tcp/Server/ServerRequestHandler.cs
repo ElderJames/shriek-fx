@@ -48,19 +48,23 @@ namespace Shriek.ServiceProxy.Tcp.Server
 
                     await DoHandleRequest(request);
                 }
-                catch
+                catch (Exception ex)
                 {
                     if (this.channelManager != null) throw;
                     var error = $"Wrong socket initialization, contract {contract} is missing";
+
+                    var exception = new Exception(error, ex);
+
                     try
                     {
                         var response = new Message(MessageType.Error, request.Id, error);
                         await this.WriteMessage(response);
                     }
-                    catch
+                    catch (Exception ex2)
                     {
+                        throw new Exception(ex2.Message, exception);
                     }
-                    throw new Exception(error);
+                    throw exception;
                 }
             }
         }
