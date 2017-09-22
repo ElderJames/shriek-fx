@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Shriek.Samples.Models;
 using Shriek.Samples.Services;
 
@@ -6,9 +7,9 @@ namespace Shriek.Samples.CQRS.EFCore.Controllers
 {
     public class TestController : Controller, ITestService
     {
-        public string Test(string name)
+        public Task<string> Test(string name)
         {
-            return "your name is " + name;
+            return Task.FromResult("your name is " + name);
         }
     }
 }

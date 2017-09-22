@@ -1,9 +1,6 @@
 ﻿using System;
 using Shriek.Events;
-using Shriek.Samples.Events;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Net.Http.Headers;
 using Shriek.Commands;
 using Shriek.Samples.InProcess.Commands;
 

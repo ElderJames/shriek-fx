@@ -18,27 +18,6 @@ namespace Shriek.Samples.WebApiProxy
     {
         public static void Main(string[] args)
         {
-            new WebHostBuilder()
-                .UseKestrel()
-                .UseUrls("http://*:8080", "http://*:8081")
-                .ConfigureServices(services =>
-                {
-                    services.AddMvcCore()
-                    .AddJsonFormatters()
-                    .AddWebApiProxy();
-
-                    //服务里注册代理客户端
-                    services.AddShriek()
-                        .AddWebApiProxy(opt =>
-                        {
-                            opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                            opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                        });
-                })
-                .Configure(app => app.UseMvc())
-                .Build()
-                .Start();
-
             var config = new ChannelConfig
             {
                 ReceiveTimeout = TimeSpan.FromSeconds(60),
@@ -54,6 +33,30 @@ namespace Shriek.Samples.WebApiProxy
             };
 
             host.Open().Wait();
+
+            new WebHostBuilder()
+                .UseKestrel()
+                .UseUrls("http://*:8080", "http://*:8081")
+                .ConfigureServices(services =>
+                {
+                    services.AddMvcCore()
+                    .AddJsonFormatters()
+                    .AddWebApiProxy();
+
+                    //服务里注册代理客户端
+                    services.AddShriek()
+                        .AddWebApiProxy(opt =>
+                        {
+                            opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                            opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                        }).AddTcpServiceProxy(opt =>
+                        {
+                            opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
+                        });
+                })
+                .Configure(app => app.UseMvc())
+                .Build()
+                .Start();
 
             var provider = new ServiceCollection()
                 .AddShriek()

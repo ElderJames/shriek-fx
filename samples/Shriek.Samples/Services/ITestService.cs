@@ -1,4 +1,5 @@
-﻿using Shriek.ServiceProxy.Abstractions;
+﻿using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http;
 
 namespace Shriek.Samples.Services
@@ -7,6 +8,6 @@ namespace Shriek.Samples.Services
     public interface ITestService
     {
         [HttpGet("{name}")]
-        string Test(string name);
+        Task<string> Test(string name);
     }
 }
