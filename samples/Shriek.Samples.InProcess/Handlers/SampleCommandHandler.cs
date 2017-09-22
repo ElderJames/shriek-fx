@@ -22,9 +22,9 @@ namespace Shriek.Samples.InProcess.Handlers
     {
         public void Handle(SampleEvent e)
         {
-            Console.WriteLine(e.No + " trrigled v" + e.Version);
+            Console.WriteLine($"\tid-{e.No}\ttrrigled\tv{ e.Version}");
             Thread.Sleep(e.Delay);
-            Console.WriteLine(e.No + " event finished. v" + e.Version);
+            Console.WriteLine($"\tid-{e.No}\tevent finished. \tv{e.Version}");
         }
     }
 }
