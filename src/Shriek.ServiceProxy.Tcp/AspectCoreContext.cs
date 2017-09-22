@@ -40,14 +40,14 @@ namespace Shriek.ServiceProxy.Abstractions
         /// <summary>
         /// 缓存字典
         /// </summary>
-        private static readonly ConcurrentDictionary<AspectContext, AspectCoreContext> cache;
+        private static readonly ConcurrentDictionary<MethodInfo, AspectCoreContext> cache;
 
         /// <summary>
         /// Castle相关上下文
         /// </summary>
         static AspectCoreContext()
         {
-            cache = new ConcurrentDictionary<AspectContext, AspectCoreContext>(new IInvocationComparer());
+            cache = new ConcurrentDictionary<MethodInfo, AspectCoreContext>(new IInvocationComparer());
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Shriek.ServiceProxy.Abstractions
         /// <returns></returns>
         public static AspectCoreContext From(AspectContext invocation)
         {
-            return cache.GetOrAdd(invocation, GetContextNoCache);
+            return cache.GetOrAdd(invocation.ServiceMethod, GetContextNoCache(invocation));
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace Shriek.ServiceProxy.Abstractions
         /// <summary>
         /// IInvocation对象的比较器
         /// </summary>
-        private class IInvocationComparer : IEqualityComparer<AspectContext>
+        private class IInvocationComparer : IEqualityComparer<MethodInfo>
         {
             /// <summary>
             /// 是否相等
@@ -266,9 +266,9 @@ namespace Shriek.ServiceProxy.Abstractions
             /// <param name="x"></param>
             /// <param name="y"></param>
             /// <returns></returns>
-            public bool Equals(AspectContext x, AspectContext y)
+            public bool Equals(MethodInfo x, MethodInfo y)
             {
-                return x.ProxyMethod.GetHashCode() == y.ProxyMethod.GetHashCode();
+                return x.GetHashCode() == y.GetHashCode();
             }
 
             /// <summary>
@@ -276,9 +276,9 @@ namespace Shriek.ServiceProxy.Abstractions
             /// </summary>
             /// <param name="obj"></param>
             /// <returns></returns>
-            public int GetHashCode(AspectContext obj)
+            public int GetHashCode(MethodInfo obj)
             {
-                return obj.ProxyMethod.GetHashCode();
+                return obj.GetHashCode();
             }
         }
     }
