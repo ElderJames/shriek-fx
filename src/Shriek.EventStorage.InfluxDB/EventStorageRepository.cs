@@ -27,8 +27,8 @@ namespace Shriek.EventStorage.InfluxDB
 
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            var result = _dbContext.Client.QueryAsync(_dbContext.Options.DatabaseName,
-                $"SELECT * FROM {_tableName} WHERE AggregateId={aggregateId} AND Version>={afterVersion};").Result;
+            var query = $"SELECT * FROM {_tableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
+            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName).Result;
 
             foreach (var item in result)
                 yield return SerieToStoredEvent(item);
@@ -36,11 +36,11 @@ namespace Shriek.EventStorage.InfluxDB
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            var result = _dbContext.Client.QueryAsync(_dbContext.Options.DatabaseName,
-                    $"SELECT * FROM {_tableName} WHERE AggregateId = {aggregateId};")
+            var query = $"SELECT * FROM {_tableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC limit 1";
+            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName)
                     .Result.FirstOrDefault();
 
-            return SerieToStoredEvent(result);
+            return result == null ? null : SerieToStoredEvent(result);
         }
 
         public void Store(StoredEvent theEvent)
@@ -62,22 +62,22 @@ namespace Shriek.EventStorage.InfluxDB
                 },
                 Timestamp = theEvent.Timestamp
             };
-            var result = _dbContext.Client.WriteAsync(point).Result;
+            var result = _dbContext.Client.WriteAsync(point, _dbContext.Options.DatabaseName).Result;
 
             if (!result.Success)
                 throw new InfluxDataException("事件插入失败");
         }
 
-        private StoredEvent SerieToStoredEvent(Serie serie)
+        private static StoredEvent SerieToStoredEvent(Serie serie)
         {
             return new StoredEvent
             {
-                AggregateId = Guid.Parse(serie.Tags["AggregateId"]),
-                Version = int.Parse(serie.Tags["Version"]),
-                Data = serie.Values[serie.Columns.IndexOf("Data")].ToString(),
-                User = serie.Values[serie.Columns.IndexOf("User")].ToString(),
-                EventType = serie.Values[serie.Columns.IndexOf("EventType")].ToString(),
-                Timestamp = DateTime.Parse(serie.Values[serie.Columns.IndexOf("CreateDate")].ToString()),
+                AggregateId = Guid.Parse(serie.Values[0][serie.Columns.IndexOf("AggregateId")].ToString()),
+                Version = int.Parse(serie.Values[0][serie.Columns.IndexOf("Version")].ToString()),
+                Data = serie.Values[0][serie.Columns.IndexOf("Data")].ToString().Replace(@"\", ""),
+                User = serie.Values[0][serie.Columns.IndexOf("User")].ToString(),
+                EventType = serie.Values[0][serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", ""),
+                Timestamp = DateTime.Parse(serie.Values[0][0].ToString()),
             };
         }
     }

@@ -39,7 +39,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
     - NoSQL实现
 		- [x] LiteDB
 		- [x] Cosmos DB （MongoDB API）
-	- [ ] Influx DB (时序数据库)
+	- [ ] InfluxDB (时序数据库)
     - [ ] Redis
   - [ ] 消息队列（MQ）
   - [ ] Saga

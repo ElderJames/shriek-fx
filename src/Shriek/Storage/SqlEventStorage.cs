@@ -12,14 +12,14 @@ namespace Shriek.Storage
 {
     public class SqlEventStorage : IEventStorage
     {
-        private readonly IEventStorageRepository eventStoreRepository;
-        private readonly IMementoRepository mementoRepository;
+        private readonly IEventStorageRepository _eventStoreRepository;
+        private readonly IMementoRepository _mementoRepository;
         private ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
 
         public SqlEventStorage(IEventStorageRepository eventStoreRepository, IMementoRepository mementoRepository)
         {
-            this.eventStoreRepository = eventStoreRepository;
-            this.mementoRepository = mementoRepository;
+            this._eventStoreRepository = eventStoreRepository;
+            this._mementoRepository = mementoRepository;
 
             _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
         }
@@ -28,7 +28,7 @@ namespace Shriek.Storage
         {
             return _eventsDict.GetOrAdd(aggregateId, x =>
             {
-                var storeEvents = eventStoreRepository.GetEvents(aggregateId, afterVersion);
+                var storeEvents = _eventStoreRepository.GetEvents(aggregateId, afterVersion);
                 var eventlist = new ConcurrentBag<Event>();
                 foreach (var e in storeEvents)
                 {
@@ -60,7 +60,7 @@ namespace Shriek.Storage
                 ""
                 );
 
-            eventStoreRepository.Store(storedEvent);
+            _eventStoreRepository.Store(storedEvent);
         }
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot, IEventProvider
@@ -78,7 +78,7 @@ namespace Shriek.Storage
                         var originator = (IOriginator)aggregate;
                         var memento = originator.GetMemento();
                         memento.Version = version;
-                        mementoRepository.SaveMemento(memento);
+                        _mementoRepository.SaveMemento(memento);
                     }
                 }
                 @event.Version = version;
@@ -95,7 +95,7 @@ namespace Shriek.Storage
             if (obj is IOriginator)
             {
                 //获取该记录的更改快照
-                memento = mementoRepository.GetMemento(aggregateId);
+                memento = _mementoRepository.GetMemento(aggregateId);
             }
 
             if (memento != null)
