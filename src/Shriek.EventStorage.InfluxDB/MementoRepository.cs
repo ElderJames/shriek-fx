@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using InfluxData.Net.Common.Infrastructure;
-using InfluxData.Net.InfluxDb.Helpers;
 using InfluxData.Net.InfluxDb.Models;
 using Shriek.EventSourcing;
 using Shriek.Storage.Mementos;
@@ -13,7 +12,7 @@ namespace Shriek.EventStorage.InfluxDB
     {
         private readonly InfluxDbContext _dbContext;
 
-        private readonly string _tableName = "memento";
+        private const string TableName = "memento";
 
         public MementoRepository(InfluxDbContext dbContext)
         {
@@ -22,18 +21,16 @@ namespace Shriek.EventStorage.InfluxDB
 
         public Memento GetMemento(Guid aggregateId)
         {
-            var query = $"SELECT * FROM {_tableName} WHERE AggregateId = '{aggregateId}'";
+            var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
             var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName)
                 .Result.FirstOrDefault();
-            if (result == null)
-                return null;
 
-            return new Memento()
+            return result == null ? null : new Memento()
             {
                 aggregateId = Guid.Parse(result.Values[0][result.Columns.IndexOf("AggregateId")].ToString()),
                 Version = int.Parse(result.Values[0][result.Columns.IndexOf("Version")].ToString()),
                 Data = result.Values[0][result.Columns.IndexOf("Data")].ToString().Replace("\\", ""),
-                Timestamp = DateTime.Parse(result.Values[0][result.Columns.IndexOf("time")].ToString())
+                Timestamp = DateTime.Parse(result.Values[0][0].ToString())
             };
         }
 
@@ -41,15 +38,15 @@ namespace Shriek.EventStorage.InfluxDB
         {
             var point = new Point()
             {
-                Name = _tableName,
+                Name = TableName,
                 Tags = new Dictionary<string, object>()
                 {
-                    {"AggregateId",memento.aggregateId },
-                    {"Version",memento.Version }
+                    {"AggregateId",memento.aggregateId }
                 },
                 Fields = new Dictionary<string, object>()
                 {
-                    {"Data",memento.Data }
+                    {"Data",memento.Data },
+                    {"Version",memento.Version }
                 },
                 Timestamp = memento.Timestamp
             };

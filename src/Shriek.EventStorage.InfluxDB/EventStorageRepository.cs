@@ -14,7 +14,7 @@ namespace Shriek.EventStorage.InfluxDB
     {
         private readonly InfluxDbContext _dbContext;
 
-        private readonly string _tableName = "events";
+        private const string TableName = "events";
 
         public EventStorageRepository(InfluxDbContext dbContext)
         {
@@ -27,58 +27,57 @@ namespace Shriek.EventStorage.InfluxDB
 
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            var query = $"SELECT * FROM {_tableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
-            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName).Result;
+            var query = $"SELECT * FROM {TableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
+            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName).Result.FirstOrDefault();
 
-            foreach (var item in result)
-                yield return SerieToStoredEvent(item);
+            return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            var query = $"SELECT * FROM {_tableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC limit 1";
+            var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
             var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName)
-                    .Result.FirstOrDefault();
+                .Result.FirstOrDefault();
 
-            return result == null ? null : SerieToStoredEvent(result);
+            return result == null ? null : SerieToStoredEvent(result).FirstOrDefault();
         }
 
         public void Store(StoredEvent theEvent)
         {
             var point = new Point()
             {
-                Name = _tableName,
+                Name = TableName,
                 Tags = new Dictionary<string, object>()
                 {
-                    { "AggregateId", theEvent.AggregateId },
-                    { "Version",theEvent.Version }
+                    {"AggregateId", theEvent.AggregateId}
                 },
                 Fields = new Dictionary<string, object>()
                 {
-                    {"Data", theEvent.Data },
-                    {"EventType", theEvent.EventType },
-                    {"User",theEvent.User },
-                    {"CreateDate",theEvent.Timestamp }
+                    {"Data", theEvent.Data},
+                    {"EventType", theEvent.EventType},
+                    {"User", theEvent.User},
+                    {"Version", theEvent.Version}
                 },
                 Timestamp = theEvent.Timestamp
             };
+
             var result = _dbContext.Client.WriteAsync(point, _dbContext.Options.DatabaseName).Result;
 
             if (!result.Success)
                 throw new InfluxDataException("事件插入失败");
         }
 
-        private static StoredEvent SerieToStoredEvent(Serie serie)
+        private static IEnumerable<StoredEvent> SerieToStoredEvent(Serie serie)
         {
-            return new StoredEvent
+            return serie.Values.Select(item => new StoredEvent
             {
-                AggregateId = Guid.Parse(serie.Values[0][serie.Columns.IndexOf("AggregateId")].ToString()),
-                Version = int.Parse(serie.Values[0][serie.Columns.IndexOf("Version")].ToString()),
-                Data = serie.Values[0][serie.Columns.IndexOf("Data")].ToString().Replace(@"\", ""),
-                User = serie.Values[0][serie.Columns.IndexOf("User")].ToString(),
-                EventType = serie.Values[0][serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", ""),
-                Timestamp = DateTime.Parse(serie.Values[0][0].ToString()),
-            };
+                AggregateId = Guid.Parse(item[serie.Columns.IndexOf("AggregateId")].ToString()),
+                Version = int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
+                Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", ""),
+                User = item[serie.Columns.IndexOf("User")].ToString(),
+                EventType = item[serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", ""),
+                Timestamp = DateTime.Parse(item[0].ToString())
+            });
         }
     }
 }
