@@ -15,8 +15,8 @@ namespace Shriek.Events
 
         public int Version { get; set; }
 
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; set; }
 
-        public string EventType { get; protected set; }
+        public string EventType { get; set; }
     }
 }

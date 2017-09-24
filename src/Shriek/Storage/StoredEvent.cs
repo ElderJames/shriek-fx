@@ -15,13 +15,13 @@ namespace Shriek.Storage
         }
 
         // EF Constructor
-        protected StoredEvent() { }
+        public StoredEvent() { }
 
         [Key]
-        public int Id { get; set; }
+        public int Id { get; protected set; }
 
-        public string Data { get; private set; }
+        public string Data { get; set; }
 
-        public string User { get; private set; }
+        public string User { get; set; }
     }
 }

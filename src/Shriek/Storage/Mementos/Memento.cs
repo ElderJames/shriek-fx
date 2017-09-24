@@ -14,6 +14,6 @@ namespace Shriek.Storage.Mementos
 
         public string Data { get; set; }
 
-        public DateTime Timestamp { get; protected set; } = DateTime.Now;
+        public DateTime Timestamp { get; set; } = DateTime.Now;
     }
 }

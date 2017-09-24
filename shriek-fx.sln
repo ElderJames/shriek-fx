@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -57,7 +57,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Http", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Http.Server", "src\Shriek.ServiceProxy.Http.Server\Shriek.ServiceProxy.Http.Server.csproj", "{8352D42D-4971-4331-BF1D-429924910D28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.ServiceProxy.Tcp.Server", "src\Shriek.ServiceProxy.Tcp.Server\Shriek.ServiceProxy.Tcp.Server.csproj", "{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Tcp.Server", "src\Shriek.ServiceProxy.Tcp.Server\Shriek.ServiceProxy.Tcp.Server.csproj", "{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.InfluxDB", "src\Shriek.EventStorage.InfluxDB\Shriek.EventStorage.InfluxDB.csproj", "{362E5466-284E-432C-AD66-5DFCFC47BDB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Extensions.InfluxDB", "src\Shriek.Extensions.InfluxDB\Shriek.Extensions.InfluxDB.csproj", "{86B92704-B257-4402-9B07-2DB0B8F12DB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +149,14 @@ Global
 		{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362E5466-284E-432C-AD66-5DFCFC47BDB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362E5466-284E-432C-AD66-5DFCFC47BDB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362E5466-284E-432C-AD66-5DFCFC47BDB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362E5466-284E-432C-AD66-5DFCFC47BDB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B92704-B257-4402-9B07-2DB0B8F12DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B92704-B257-4402-9B07-2DB0B8F12DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B92704-B257-4402-9B07-2DB0B8F12DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B92704-B257-4402-9B07-2DB0B8F12DB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +184,8 @@ Global
 		{3A976908-6482-4A42-BB5A-9E7B063A6B96} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{8352D42D-4971-4331-BF1D-429924910D28} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
+		{362E5466-284E-432C-AD66-5DFCFC47BDB0} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
+		{86B92704-B257-4402-9B07-2DB0B8F12DB1} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
