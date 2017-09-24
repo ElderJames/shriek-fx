@@ -14,7 +14,7 @@ namespace Shriek.Storage
     {
         private readonly IEventStorageRepository _eventStoreRepository;
         private readonly IMementoRepository _mementoRepository;
-        private ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
+        private readonly ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
 
         public SqlEventStorage(IEventStorageRepository eventStoreRepository, IMementoRepository mementoRepository)
         {

@@ -10,41 +10,41 @@ namespace Shriek.EventStorage.LiteDB
 {
     public class EventStorageRepository : IEventStorageRepository, IMementoRepository
     {
-        private EventStorageLiteDatabase liteDatabase;
+        private readonly EventStorageLiteDatabase _liteDatabase;
 
         public EventStorageRepository(EventStorageLiteDatabase liteDatabase)
         {
-            this.liteDatabase = liteDatabase;
+            this._liteDatabase = liteDatabase;
         }
 
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
+            return this._liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
         }
 
         public void Dispose()
         {
-            this.liteDatabase.Dispose();
+            this._liteDatabase.Dispose();
         }
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
+            return this._liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
         public Memento GetMemento(Guid aggregateId)
         {
-            return this.liteDatabase.GetCollection<Memento>().Find(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return this._liteDatabase.GetCollection<Memento>().Find(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
         }
 
         public void SaveMemento(Memento memento)
         {
-            this.liteDatabase.GetCollection<Memento>().Insert(memento);
+            this._liteDatabase.GetCollection<Memento>().Insert(memento);
         }
 
         public void Store(StoredEvent theEvent)
         {
-            this.liteDatabase.GetCollection<StoredEvent>().Insert(theEvent);
+            this._liteDatabase.GetCollection<StoredEvent>().Insert(theEvent);
         }
     }
 }
