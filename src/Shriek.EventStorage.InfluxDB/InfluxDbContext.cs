@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using InfluxData.Net.Common.Enums;
+using InfluxData.Net.Common.Infrastructure;
 using InfluxData.Net.InfluxDb;
 using InfluxData.Net.InfluxDb.ClientModules;
+using InfluxData.Net.InfluxDb.Models;
+using InfluxData.Net.InfluxDb.Models.Responses;
 
 namespace Shriek.EventStorage.InfluxDB
 {
@@ -31,6 +35,16 @@ namespace Shriek.EventStorage.InfluxDB
             {
                 await Database.CreateDatabaseAsync(Options.DatabaseName);
             }
+        }
+
+        public async Task<IEnumerable<Serie>> QueryAsync(string query)
+        {
+            return await Client.QueryAsync(query, Options.DatabaseName);
+        }
+
+        public async Task<IInfluxDataApiResponse> WriteAsync(Point point)
+        {
+            return await Client.WriteAsync(point, Options.DatabaseName);
         }
     }
 }

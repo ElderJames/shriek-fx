@@ -28,7 +28,7 @@ namespace Shriek.EventStorage.InfluxDB
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
-            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName).Result.FirstOrDefault();
+            var result = _dbContext.QueryAsync(query).Result.FirstOrDefault();
 
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
@@ -36,7 +36,7 @@ namespace Shriek.EventStorage.InfluxDB
         public Event GetLastEvent(Guid aggregateId)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
-            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName)
+            var result = _dbContext.QueryAsync(query)
                 .Result.FirstOrDefault();
 
             return result == null ? null : SerieToStoredEvent(result).FirstOrDefault();
@@ -61,7 +61,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Timestamp = theEvent.Timestamp
             };
 
-            var result = _dbContext.Client.WriteAsync(point, _dbContext.Options.DatabaseName).Result;
+            var result = _dbContext.WriteAsync(point).Result;
 
             if (!result.Success)
                 throw new InfluxDataException("事件插入失败");

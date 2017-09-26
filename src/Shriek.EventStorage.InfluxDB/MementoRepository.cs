@@ -22,14 +22,14 @@ namespace Shriek.EventStorage.InfluxDB
         public Memento GetMemento(Guid aggregateId)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
-            var result = _dbContext.Client.QueryAsync(query, _dbContext.Options.DatabaseName)
+            var result = _dbContext.QueryAsync(query)
                 .Result.FirstOrDefault();
 
             return result == null ? null : new Memento()
             {
                 aggregateId = Guid.Parse(result.Values[0][result.Columns.IndexOf("AggregateId")].ToString()),
                 Version = int.Parse(result.Values[0][result.Columns.IndexOf("Version")].ToString()),
-                Data = result.Values[0][result.Columns.IndexOf("Data")].ToString().Replace("\\", ""),
+                Data = result.Values[0][result.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 Timestamp = DateTime.Parse(result.Values[0][0].ToString())
             };
         }
@@ -51,7 +51,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Timestamp = memento.Timestamp
             };
 
-            var result = _dbContext.Client.WriteAsync(point, _dbContext.Options.DatabaseName).Result;
+            var result = _dbContext.WriteAsync(point).Result;
 
             if (!result.Success)
                 throw new InfluxDataException("事件插入失败");
