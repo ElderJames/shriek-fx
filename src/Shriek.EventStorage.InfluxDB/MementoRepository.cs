@@ -22,8 +22,7 @@ namespace Shriek.EventStorage.InfluxDB
         public Memento GetMemento(Guid aggregateId)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
-            var result = _dbContext.QueryAsync(query)
-                .Result.FirstOrDefault();
+            var result = _dbContext.QueryAsync(query).Result;
 
             return result == null ? null : new Memento()
             {
