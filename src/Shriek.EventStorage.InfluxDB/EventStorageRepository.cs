@@ -47,16 +47,16 @@ namespace Shriek.EventStorage.InfluxDB
             {
                 Name = TableName,
                 Tags = new Dictionary<string, object>()
-                {
-                    {"AggregateId", theEvent.AggregateId}
-                },
+            {
+                {"AggregateId", theEvent.AggregateId}
+            },
                 Fields = new Dictionary<string, object>()
-                {
-                    {"Data", theEvent.Data},
-                    {"EventType", theEvent.EventType},
-                    {"User", theEvent.User},
-                    {"Version", theEvent.Version}
-                },
+            {
+                {"Data", theEvent.Data},
+                {"MessageType", theEvent.MessageType},
+                {"User", theEvent.User},
+                {"Version", theEvent.Version}
+            },
                 Timestamp = theEvent.Timestamp
             };
 
@@ -74,7 +74,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Version = int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
                 Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 User = item[serie.Columns.IndexOf("User")].ToString(),
-                EventType = item[serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", string.Empty),
+                MessageType = item[serie.Columns.IndexOf("MessageType")].ToString().Replace(@"\", string.Empty),
                 Timestamp = DateTime.Parse(item[0].ToString())
             });
         }

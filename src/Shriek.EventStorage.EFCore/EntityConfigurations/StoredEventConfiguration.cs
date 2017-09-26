@@ -14,7 +14,7 @@ namespace Shriek.EventStorage.EFCore.EntityConfigurations
             builder.Property(c => c.Timestamp)
                 .HasColumnName("CreationDate");
 
-            builder.Property(c => c.EventType)
+            builder.Property(c => c.MessageType)
                 .HasColumnName("Action")
                 .HasColumnType("varchar(100)");
 

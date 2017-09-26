@@ -8,7 +8,6 @@ namespace Shriek.Storage
         public StoredEvent(Event @event, string data, string user)
         {
             AggregateId = @event.AggregateId;
-            EventType = @event.GetType().AssemblyQualifiedName;
             Data = data;
             User = user;
             Version = @event.Version;
