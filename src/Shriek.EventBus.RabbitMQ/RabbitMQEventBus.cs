@@ -1,21 +1,24 @@
-﻿using System;
+﻿using Shriek.Events;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shriek.Messages;
 
 namespace Shriek.EventBus.RabbitMQ
 {
-    public class RabbitMQMessageProducer : IMessagePublisher
+    public class RabbitMQEventBus : IEventBus, IDisposable
     {
-        private IModel channel;
         private IServiceProvider container;
+        private IModel channel;
 
-        public RabbitMQMessageProducer(IModel channel, IServiceProvider container)
+        public RabbitMQEventBus(IServiceProvider container, IModel channel)
         {
+            this.container = container;
             this.channel = channel;
 
             //事件基本消费者
@@ -25,8 +28,8 @@ namespace Shriek.EventBus.RabbitMQ
             consumer.Received += (ch, ea) =>
             {
                 var json = Encoding.UTF8.GetString(ea.Body);
-                var msg = JsonConvert.DeserializeObject<Message>(json);
-                var message = JsonConvert.DeserializeObject(json, Type.GetType(msg.MessageType));
+                var o = JObject.Parse(json);
+                var message = o.ToObject(Type.GetType(o["MessageType"].Value<string>()));
 
                 var subscribers = container.GetServices(typeof(IMessageSubscriber<>).MakeGenericType(message.GetType()));
 
@@ -49,9 +52,9 @@ namespace Shriek.EventBus.RabbitMQ
             channel.Dispose();
         }
 
-        public void Send<TMessage>(TMessage message) where TMessage : Message
+        public void Publish<T>(T @event) where T : Event
         {
-            var msg = JsonConvert.SerializeObject(message);
+            var msg = JsonConvert.SerializeObject(@event);
             var sendBytes = Encoding.UTF8.GetBytes(msg);
 
             channel.BasicPublish("", "eventQueue", null, sendBytes);

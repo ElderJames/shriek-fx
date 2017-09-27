@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shriek;
+using Shriek.Events;
 using Shriek.Messages;
 
 namespace Shriek.EventBus.RabbitMQ
@@ -27,7 +28,7 @@ namespace Shriek.EventBus.RabbitMQ
             //声明一个队列
             channel.QueueDeclare("eventQueue", false, false, false, null);
 
-            builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessageProducer>();
+            builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
 
             return builder;
         }
