@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Shriek.Events;
 using System;
 using System.Linq;
+using Shriek.Messages;
 
-namespace Shriek.Messages
+namespace Shriek.Events
 {
     public class EventMessageSubscriber<TEvent> : IMessageSubscriber<TEvent> where TEvent : Event
     {

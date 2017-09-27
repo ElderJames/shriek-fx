@@ -9,7 +9,7 @@ namespace Shriek.Events
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private readonly IMessagePublisher messageProcessor;
-        private readonly ConcurrentDictionary<Guid, ConcurrentQueue<Event>> commandDict = new ConcurrentDictionary<Guid, ConcurrentQueue<Event>>();
+        private readonly ConcurrentDictionary<Guid, ConcurrentQueue<Event>> eventQueueDict = new ConcurrentDictionary<Guid, ConcurrentQueue<Event>>();
         private readonly ConcurrentDictionary<Guid, Task> taskDict = new ConcurrentDictionary<Guid, Task>();
 
         private static Task _task;
@@ -29,8 +29,8 @@ namespace Shriek.Events
         {
             if (@event == null) return;
 
-            var commandQueue = commandDict.GetOrAdd(@event.AggregateId, new ConcurrentQueue<Event>());
-            commandQueue.Enqueue(@event);
+            var eventQueue = eventQueueDict.GetOrAdd(@event.AggregateId, new ConcurrentQueue<Event>());
+            eventQueue.Enqueue(@event);
 
             if (!taskDict.TryGetValue(@event.AggregateId, out var task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
             {
@@ -38,7 +38,7 @@ namespace Shriek.Events
 
                 taskDict[@event.AggregateId] = Task.Run(() =>
                 {
-                    while (!commandQueue.IsEmpty && commandQueue.TryDequeue(out var evt))
+                    while (!eventQueue.IsEmpty && eventQueue.TryDequeue(out var evt))
                         messageProcessor.Send(evt);
                 });
             }

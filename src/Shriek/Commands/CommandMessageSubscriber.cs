@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Shriek.Commands;
 using Shriek.Events;
 using Shriek.Exceptions;
 using Shriek.Notifications;
 using System;
+using Shriek.Messages;
 
-namespace Shriek.Messages
+namespace Shriek.Commands
 {
     public class CommandMessageSubscriber<TCommand> : IMessageSubscriber<TCommand> where TCommand : Command
     {
