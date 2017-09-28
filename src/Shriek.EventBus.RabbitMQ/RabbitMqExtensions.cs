@@ -18,7 +18,7 @@ namespace Shriek.Messages.RabbitMQ
 
             AddRabbitMq(builder, option);
 
-            builder.Services.AddScoped<IEventBus, RabbitMqEventBus>();
+            builder.Services.AddTransient<IEventBus, RabbitMqEventBus>();
 
             return builder;
         }
@@ -30,12 +30,12 @@ namespace Shriek.Messages.RabbitMQ
 
             AddRabbitMq(builder, option);
 
-            builder.Services.AddScoped<ICommandBus, RabbitMqCommandBus>();
+            builder.Services.AddTransient<ICommandBus, RabbitMqCommandBus>();
 
             return builder;
         }
 
-        private static IShriekBuilder AddRabbitMq(IShriekBuilder builder, RabbitMqOptions option)
+        private static void AddRabbitMq(IShriekBuilder builder, RabbitMqOptions option)
         {
             var factory = new ConnectionFactory()
             {
@@ -49,14 +49,13 @@ namespace Shriek.Messages.RabbitMQ
             //创建通道
             var channel = connection.CreateModel();
 
-            builder.Services.AddSingleton(x => channel);
-
             //声明一个队列
             channel.QueueDeclare(option.QueueName, false, false, false, null);
 
             if (!string.IsNullOrEmpty(option.ExchangeName))
             {
-                channel.ExchangeDeclare(option.ExchangeName, ExchangeType.Topic, false, false, null);
+                channel.ExchangeDeclare(option.ExchangeName, option.ExchangeType, false, false, null);
+
                 //将队列绑定到交换机
                 channel.QueueBind(option.QueueName, option.ExchangeName, option.RouteKey, null);
             }
@@ -73,18 +72,23 @@ namespace Shriek.Messages.RabbitMQ
                 var o = JObject.Parse(json);
                 var message = o.ToObject(Type.GetType(o[nameof(Message.MessageType)].Value<string>()));
 
-                option.MessagePublisher.Send((dynamic)message);
+                try
+                {
+                    option.MessagePublisher.Send((dynamic)message);
 
-                //确认该消息已被消费
-                channel.BasicAck(args.DeliveryTag, false);
+                    //确认该消息已被消费
+                    channel.BasicAck(args.DeliveryTag, false);
+                }
+                catch (Exception ex)
+                {
+                    // ignored
+                }
             };
 
             //启动消费者 设置为手动应答消息
             channel.BasicConsume(option.QueueName, false, consumer);
 
             builder.Services.AddSingleton(option.GetType(), x => option);
-
-            return builder;
         }
     }
 }
