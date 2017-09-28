@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Shriek.EventBus.RabbitMQ\Shriek.Messages.RabbitMQ.csproj" />
         <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
         <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
     </ItemGroup>
