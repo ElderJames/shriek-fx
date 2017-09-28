@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.InfluxD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.InfluxDB", "samples\Shriek.Samples.EventStorage.InfluxDB\Shriek.Samples.EventStorage.InfluxDB.csproj", "{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventBus.RabbitMQ", "src\Shriek.EventBus.RabbitMQ\Shriek.EventBus.RabbitMQ.csproj", "{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Messages.RabbitMQ", "src\Shriek.EventBus.RabbitMQ\Shriek.Messages.RabbitMQ.csproj", "{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

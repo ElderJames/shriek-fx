@@ -23,7 +23,7 @@ namespace Shriek
             .WithScopedLifetime());
 
             builder.Services.AddScoped<IEventStorage, InMemoryEventStorage>();
-            builder.Services.AddTransient<IMessagePublisher, InProcessMessagePublisher>();
+            builder.Services.AddScoped<IMessagePublisher, InProcessMessagePublisher>();
 
             builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));
 

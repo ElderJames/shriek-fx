@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
-using Shriek.Events;
+using RabbitMQ.Client.Events;
+using Shriek.Commands;
 
 namespace Shriek.Messages.RabbitMQ
 {
-    public class RabbitMqEventBus : IEventBus, IDisposable
+    public class RabbitMqCommandBus : ICommandBus, IDisposable
     {
         private IModel channel;
-        private EventBusRabbitMqOptions options;
+        private CommandBusRabbitMqOptions options;
 
-        public RabbitMqEventBus(IMessagePublisher messagePublisher, EventBusRabbitMqOptions options)
+        public RabbitMqCommandBus(IMessagePublisher messagePublisher, CommandBusRabbitMqOptions options)
         {
             this.channel = options.Channel;
             this.options = options;
@@ -24,12 +28,12 @@ namespace Shriek.Messages.RabbitMQ
             channel.Dispose();
         }
 
-        public void Publish<T>(T @event) where T : Event
+        public void Send<TCommand>(TCommand command) where TCommand : Command
         {
-            if (@event == null)
+            if (command == null)
                 return;
 
-            var msg = JsonConvert.SerializeObject(@event);
+            var msg = JsonConvert.SerializeObject(command);
             var sendBytes = Encoding.UTF8.GetBytes(msg);
 
             channel.BasicPublish(options.ExchangeName, options.RouteKey, null, sendBytes);

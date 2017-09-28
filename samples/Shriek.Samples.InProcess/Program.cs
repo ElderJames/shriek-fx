@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
-using Shriek.Samples.Commands;
 using Shriek.Storage;
 using System;
-using Shriek.EventBus.RabbitMQ;
+using Shriek.Messages.RabbitMQ;
 using Shriek.Samples.InProcess.Commands;
 
 namespace Shriek.Samples.InProcess
@@ -14,11 +13,23 @@ namespace Shriek.Samples.InProcess
         {
             var services = new ServiceCollection();
 
-            services.AddShriek().AddRabbitMqEventBus(factory =>
+            services.AddShriek().AddRabbitMqEventBus(options =>
             {
-                factory.HostName = "localhost";
-                factory.UserName = "admin";
-                factory.Password = "admin";
+                options.HostName = "localhost";
+                options.UserName = "admin";
+                options.Password = "admin";
+                options.QueueName = "eventBus";
+                options.ExchangeName = "sampleEventBus";
+                options.RouteKey = "eventBus.*";
+            })
+            .AddRabbitMqCommandBus(options =>
+            {
+                options.HostName = "localhost";
+                options.UserName = "admin";
+                options.Password = "admin";
+                options.QueueName = "commandBus";
+                options.ExchangeName = "sampleCommandBus";
+                options.RouteKey = "commandBus.*";
             });
 
             var container = services.BuildServiceProvider();
