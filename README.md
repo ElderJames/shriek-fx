@@ -13,11 +13,14 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 
 ### 特性：
 
-1. 领域驱动（DDD）
+1. 领域驱动设计（DDD）
 2. 命令查询职责分离（CQRS）
-3. 事件回溯 （ES）
-4. 最终一致性 （Eventually Consistent）
-5. Server/Client 动态代理 (提供接口自动实现客户端和服务端)
+3. 事件驱动架构 (EDA)
+4. 事件回溯 （ES）
+5. 最终一致性 （Eventually Consistent）
+6. Server/Client 动态代理 (提供接口自动实现客户端和服务端)
+7. 每个组件都有基础实现，只用一个核心类库就能跑起来
+8. 组件适配多种第三方组件实现，从单体到面向服务按需扩展
 
 ### 开发环境
 
@@ -39,9 +42,10 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
     - NoSQL实现
 		- [x] LiteDB
 		- [x] Cosmos DB （MongoDB API）
-	- [ ] InfluxDB (时序数据库)
+	- [x] InfluxDB (时序数据库)
     - [ ] Redis
-  - [ ] 消息队列（MQ）
+  - 消息队列（MQ）
+	- [x] RabbitMQ
   - [ ] Saga
 - Q端 + Real DB 
   - [x] EF Core
@@ -56,10 +60,15 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
       - [ ] TCP  / RPC
   - [ ] GraphSQL
 - 定时任务
-  - [ ] Hangfire   
-- 示例
+  - [ ] Hangfire
+- 基础设施
+  - [ ] 日志
+  - [ ] 序列化器
+- 示例 （Samples）
   - [x] 内存事件仓储
   - [x] EFCore事件仓储
   - [x] NoSQL事件仓储
+  - [x] InfluxDB事件仓储
+  - [x] RabbitMQ总线
   - [x] WebApi代理
   - [ ] CQRS 整体示例
