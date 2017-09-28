@@ -61,7 +61,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Tcp.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.InfluxDB", "src\Shriek.EventStorage.InfluxDB\Shriek.EventStorage.InfluxDB.csproj", "{362E5466-284E-432C-AD66-5DFCFC47BDB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.EventStorage.InfluxDB", "samples\Shriek.Samples.EventStorage.InfluxDB\Shriek.Samples.EventStorage.InfluxDB.csproj", "{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.InfluxDB", "samples\Shriek.Samples.EventStorage.InfluxDB\Shriek.Samples.EventStorage.InfluxDB.csproj", "{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventBus.RabbitMQ", "src\Shriek.EventBus.RabbitMQ\Shriek.EventBus.RabbitMQ.csproj", "{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +159,10 @@ Global
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{6FF0DDB6-DADE-4307-89C0-DBF4E06A7470} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{362E5466-284E-432C-AD66-5DFCFC47BDB0} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}

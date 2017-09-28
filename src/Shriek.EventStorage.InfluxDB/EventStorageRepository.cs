@@ -28,7 +28,7 @@ namespace Shriek.EventStorage.InfluxDB
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
-            var result = _dbContext.QueryAsync(query).Result.FirstOrDefault();
+            var result = _dbContext.QueryAsync(query).Result;
 
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
@@ -36,8 +36,7 @@ namespace Shriek.EventStorage.InfluxDB
         public Event GetLastEvent(Guid aggregateId)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
-            var result = _dbContext.QueryAsync(query)
-                .Result.FirstOrDefault();
+            var result = _dbContext.QueryAsync(query).Result;
 
             return result == null ? null : SerieToStoredEvent(result).FirstOrDefault();
         }
@@ -48,16 +47,16 @@ namespace Shriek.EventStorage.InfluxDB
             {
                 Name = TableName,
                 Tags = new Dictionary<string, object>()
-                {
-                    {"AggregateId", theEvent.AggregateId}
-                },
+            {
+                {"AggregateId", theEvent.AggregateId}
+            },
                 Fields = new Dictionary<string, object>()
-                {
-                    {"Data", theEvent.Data},
-                    {"EventType", theEvent.EventType},
-                    {"User", theEvent.User},
-                    {"Version", theEvent.Version}
-                },
+            {
+                {"Data", theEvent.Data},
+                {"MessageType", theEvent.MessageType},
+                {"User", theEvent.User},
+                {"Version", theEvent.Version}
+            },
                 Timestamp = theEvent.Timestamp
             };
 
@@ -73,9 +72,9 @@ namespace Shriek.EventStorage.InfluxDB
             {
                 AggregateId = Guid.Parse(item[serie.Columns.IndexOf("AggregateId")].ToString()),
                 Version = int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
-                Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", ""),
+                Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 User = item[serie.Columns.IndexOf("User")].ToString(),
-                EventType = item[serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", ""),
+                MessageType = item[serie.Columns.IndexOf("MessageType")].ToString().Replace(@"\", string.Empty),
                 Timestamp = DateTime.Parse(item[0].ToString())
             });
         }

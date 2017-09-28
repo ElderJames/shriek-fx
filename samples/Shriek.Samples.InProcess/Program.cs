@@ -3,6 +3,7 @@ using Shriek.Commands;
 using Shriek.Samples.Commands;
 using Shriek.Storage;
 using System;
+using Shriek.EventBus.RabbitMQ;
 using Shriek.Samples.InProcess.Commands;
 
 namespace Shriek.Samples.InProcess
@@ -13,7 +14,12 @@ namespace Shriek.Samples.InProcess
         {
             var services = new ServiceCollection();
 
-            services.AddShriek();
+            services.AddShriek().AddRabbitMqEventBus(factory =>
+            {
+                factory.HostName = "localhost";
+                factory.UserName = "admin";
+                factory.Password = "admin";
+            });
 
             var container = services.BuildServiceProvider();
 

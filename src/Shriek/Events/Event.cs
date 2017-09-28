@@ -7,7 +7,6 @@ namespace Shriek.Events
     {
         public Event()
         {
-            this.EventType = GetType().FullName;
             this.Timestamp = DateTime.Now;
         }
 
@@ -16,7 +15,5 @@ namespace Shriek.Events
         public int Version { get; set; }
 
         public DateTime Timestamp { get; set; }
-
-        public string EventType { get; set; }
     }
 }

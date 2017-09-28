@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using InfluxData.Net.Common.Enums;
 using InfluxData.Net.Common.Infrastructure;
@@ -15,9 +14,9 @@ namespace Shriek.EventStorage.InfluxDB
         public InfluxDbContext(InfluxDBOptions options)
         {
             Options = options;
-            var _client = new InfluxDbClient(options.Host, options.UserName, options.Password, InfluxDbVersion.v_1_0_0);
-            this.Client = _client.Client;
-            this.Database = _client.Database;
+            var client = new InfluxDbClient(options.Host, options.UserName, options.Password, InfluxDbVersion.v_1_0_0);
+            this.Client = client.Client;
+            this.Database = client.Database;
             Ensure().Wait();
         }
 
@@ -32,16 +31,25 @@ namespace Shriek.EventStorage.InfluxDB
             var dbs = await Database.GetDatabasesAsync();
 
             if (dbs.All(x => x.Name != Options.DatabaseName))
-            {
                 await Database.CreateDatabaseAsync(Options.DatabaseName);
-            }
         }
 
-        public async Task<IEnumerable<Serie>> QueryAsync(string query)
+        /// <summary>
+        /// 查询一个Serie
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public async Task<Serie> QueryAsync(string query)
         {
-            return await Client.QueryAsync(query, Options.DatabaseName);
+            var result = await Client.QueryAsync(query, Options.DatabaseName);
+            return result?.FirstOrDefault();
         }
 
+        /// <summary>
+        /// 写入一个Point
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public async Task<IInfluxDataApiResponse> WriteAsync(Point point)
         {
             return await Client.WriteAsync(point, Options.DatabaseName);
