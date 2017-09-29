@@ -49,8 +49,8 @@ namespace Shriek.Messages.RabbitMQ
             //创建通道
             var channel = connection.CreateModel();
 
-            //声明一个队列
-            channel.QueueDeclare(option.QueueName, false, false, false, null);
+            //声明一个队列 (durable=true 持久化消息）
+            channel.QueueDeclare(option.QueueName, true, false, false, null);
 
             if (!string.IsNullOrEmpty(option.ExchangeName))
             {
@@ -70,11 +70,11 @@ namespace Shriek.Messages.RabbitMQ
             {
                 var json = Encoding.UTF8.GetString(args.Body);
                 var o = JObject.Parse(json);
-                var message = o.ToObject(Type.GetType(o[nameof(Message.MessageType)].Value<string>()));
+                dynamic message = o.ToObject(Type.GetType(o[nameof(Message.MessageType)].Value<string>()));
 
                 try
                 {
-                    option.MessagePublisher.Send((dynamic)message);
+                    option.MessagePublisher.Send(message);
 
                     //确认该消息已被消费
                     channel.BasicAck(args.DeliveryTag, false);

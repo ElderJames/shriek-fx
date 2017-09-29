@@ -24,7 +24,7 @@ namespace Shriek.Messages.RabbitMQ
             channel.Dispose();
         }
 
-        public void Publish<T>(T @event) where T : Event
+        public void Publish<TEvent>(TEvent @event) where TEvent : Event
         {
             if (@event == null)
                 return;

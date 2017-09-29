@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using Shriek.Commands;
 
 namespace Shriek.Messages.RabbitMQ
@@ -36,7 +32,10 @@ namespace Shriek.Messages.RabbitMQ
             var msg = JsonConvert.SerializeObject(command);
             var sendBytes = Encoding.UTF8.GetBytes(msg);
 
-            channel.BasicPublish(options.ExchangeName, options.RouteKey, null, sendBytes);
+            var properties = channel.CreateBasicProperties();
+            properties.Persistent = true;
+
+            channel.BasicPublish(options.ExchangeName, options.RouteKey, properties, sendBytes);
         }
     }
 }
