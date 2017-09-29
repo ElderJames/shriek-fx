@@ -8,8 +8,8 @@ namespace Shriek.Storage
     /// </summary>
     public interface IEventOriginator
     {
-        Memento GetMemento(Guid aggregateId);
+        Memento<TKey> GetMemento<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>;
 
-        void SaveMemento(Memento memento);
+        void SaveMemento<TKey>(Memento<TKey> memento) where TKey : IEquatable<TKey>;
     }
 }

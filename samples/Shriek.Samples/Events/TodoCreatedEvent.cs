@@ -3,7 +3,7 @@ using System;
 
 namespace Shriek.Samples.Events
 {
-    public class TodoCreatedEvent : Event
+    public class TodoCreatedEvent : Event<Guid>
     {
         public string Name { get; set; }
 

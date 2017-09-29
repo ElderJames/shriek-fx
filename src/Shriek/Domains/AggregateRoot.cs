@@ -9,31 +9,31 @@ using System.Linq;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot : IAggregateRoot, IEventProvider, IOriginator
+    public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>, IEventProvider<TKey>, IOriginator<TKey> where TKey : IEquatable<TKey>
     {
-        private readonly List<Event> _changes;
+        private readonly List<IEvent<TKey>> _changes;
 
         [Key]
         public int Id { get; protected set; }
 
-        public Guid AggregateId { get; protected set; }
+        public TKey AggregateId { get; protected set; }
 
         public int Version { get; protected set; } = -1;
         public int EventVersion { get; protected set; }
 
-        public AggregateRoot() : this(Guid.Empty)
+        protected AggregateRoot() : this(default(TKey))
         {
         }
 
-        public AggregateRoot(Guid aggregateId)
+        protected AggregateRoot(TKey aggregateId)
         {
-            _changes = new List<Event>();
+            _changes = new List<IEvent<TKey>>();
             AggregateId = aggregateId;
         }
 
         public override bool Equals(object obj)
         {
-            var compareTo = obj as AggregateRoot;
+            var compareTo = obj as AggregateRoot<TKey>;
 
             if (ReferenceEquals(this, compareTo)) return true;
             if (ReferenceEquals(null, compareTo)) return false;
@@ -41,7 +41,7 @@ namespace Shriek.Domains
             return AggregateId.Equals(compareTo.AggregateId);
         }
 
-        public static bool operator ==(AggregateRoot a, AggregateRoot b)
+        public static bool operator ==(AggregateRoot<TKey> a, AggregateRoot<TKey> b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -52,7 +52,7 @@ namespace Shriek.Domains
             return a.Equals(b);
         }
 
-        public static bool operator !=(AggregateRoot a, AggregateRoot b)
+        public static bool operator !=(AggregateRoot<TKey> a, AggregateRoot<TKey> b)
         {
             return !(a == b);
         }
@@ -72,7 +72,7 @@ namespace Shriek.Domains
             _changes.Clear();
         }
 
-        public void LoadsFromHistory(IEnumerable<Event> history)
+        public void LoadsFromHistory(IEnumerable<IEvent<TKey>> history)
         {
             foreach (var e in history)
             {
@@ -82,12 +82,12 @@ namespace Shriek.Domains
             EventVersion = Version;
         }
 
-        protected void ApplyChange(Event @event)
+        protected void ApplyChange(IEvent<TKey> @event)
         {
             ApplyChange(@event, true);
         }
 
-        protected void ApplyChange(Event @event, bool isNew)
+        protected void ApplyChange(IEvent<TKey> @event, bool isNew)
         {
             dynamic d = this;
             d.Handle((dynamic)@event);
@@ -97,17 +97,17 @@ namespace Shriek.Domains
             }
         }
 
-        public IEnumerable<Event> GetUncommittedChanges()
+        public IEnumerable<IEvent<TKey>> GetUncommittedChanges()
         {
             return _changes;
         }
 
-        public Memento GetMemento()
+        public Memento<TKey> GetMemento()
         {
-            return new Memento() { aggregateId = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
+            return new Memento<TKey>() { AggregateId = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
         }
 
-        public void SetMemento(Memento memento)
+        public void SetMemento(Memento<TKey> memento)
         {
             var data = JObject.Parse(memento.Data);
             foreach (var t in data)

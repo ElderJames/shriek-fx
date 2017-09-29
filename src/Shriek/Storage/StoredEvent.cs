@@ -1,11 +1,12 @@
-﻿using Shriek.Events;
+﻿using System;
+using Shriek.Events;
 using System.ComponentModel.DataAnnotations;
 
 namespace Shriek.Storage
 {
-    public class StoredEvent : Event
+    public class StoredEvent<TKey> : Event<TKey> where TKey : IEquatable<TKey>
     {
-        public StoredEvent(Event @event, string data, string user)
+        public StoredEvent(Event<TKey> @event, string data, string user)
         {
             AggregateId = @event.AggregateId;
             Data = data;

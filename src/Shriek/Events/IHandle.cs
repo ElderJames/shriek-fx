@@ -1,6 +1,8 @@
-﻿namespace Shriek.Events
+﻿using System;
+
+namespace Shriek.Events
 {
-    public interface IHandle<TEvent> where TEvent : Event
+    public interface IHandle<in TEvent> where TEvent : IEvent
     {
         void Handle(TEvent e);
     }

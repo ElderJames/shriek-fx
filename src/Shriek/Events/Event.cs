@@ -3,14 +3,14 @@ using System;
 
 namespace Shriek.Events
 {
-    public class Event : Message, IEvent<Guid>
+    public class Event<TKey> : Message, IEvent<TKey> where TKey : IEquatable<TKey>
     {
         public Event()
         {
             this.Timestamp = DateTime.Now;
         }
 
-        public Guid AggregateId { get; set; }
+        public TKey AggregateId { get; set; }
 
         public int Version { get; set; }
 

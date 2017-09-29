@@ -24,7 +24,7 @@ namespace Shriek.Samples.InProcess.Commands
         public TimeSpan Delay { get; set; }
     }
 
-    public class SampleAggregateRoot : AggregateRoot,
+    public class SampleAggregateRoot : AggregateRoot<Guid>,
         IHandle<SampleEvent>
     {
         public int No { get; set; }

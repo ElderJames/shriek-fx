@@ -113,7 +113,7 @@ namespace Shriek.Samples.RabbitMQ
 
     #region aggregateRoot
 
-    public class SampleAggregateRoot : AggregateRoot,
+    public class SampleAggregateRoot : AggregateRoot<Guid>,
         IHandle<SampleEvent>
     {
         public int No { get; set; }

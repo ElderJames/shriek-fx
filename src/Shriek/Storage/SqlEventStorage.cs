@@ -14,17 +14,17 @@ namespace Shriek.Storage
     {
         private readonly IEventStorageRepository _eventStoreRepository;
         private readonly IMementoRepository _mementoRepository;
-        private readonly ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
+        private readonly ConcurrentDictionary<Guid, ConcurrentBag<IEvent>> _eventsDict;
 
         public SqlEventStorage(IEventStorageRepository eventStoreRepository, IMementoRepository mementoRepository)
         {
             this._eventStoreRepository = eventStoreRepository;
             this._mementoRepository = mementoRepository;
 
-            _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
+            _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<IEvent>>();
         }
 
-        public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
+        public IEnumerable<IEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
         {
             return _eventsDict.GetOrAdd(aggregateId, x =>
             {

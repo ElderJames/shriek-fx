@@ -1,7 +1,16 @@
-﻿namespace Shriek.Events
+﻿using System;
+
+namespace Shriek.Events
 {
-    internal interface IEvent<TAggregateId>
+    public interface IEvent<TKey> : IEvent where TKey : IEquatable<TKey>
+
     {
-        TAggregateId AggregateId { get; }
+        TKey AggregateId { get; }
+
+        int Version { get; set; }
+    }
+
+    public interface IEvent
+    {
     }
 }

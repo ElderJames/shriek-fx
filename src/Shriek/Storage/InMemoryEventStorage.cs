@@ -9,29 +9,33 @@ namespace Shriek.Storage
 {
     public class InMemoryEventStorage : IEventStorage, IEventOriginator
     {
-        private List<Event> _events;
-        private List<Memento> _mementoes;
+        private List<IEvent> _events;
+        private List<IMemento> _mementoes;
 
         public InMemoryEventStorage()
         {
-            _events = new List<Event>();
-            _mementoes = new List<Memento>();
+            _events = new List<IEvent>();
+            _mementoes = new List<IMemento>();
         }
 
-        public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
+        public IEnumerable<IEvent<TKey>> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
         {
-            var events = _events.Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
+            var list = _events.Select(x => x as IEvent<TKey>);
+
+            var events = list.Where(e => e.AggregateId.Equals(aggregateId) && e.Version >= afterVersion);
 
             return events;
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
         {
-            return _events.Where(e => e.AggregateId == aggregateId)
+            var list = _events.Select(x => x as IEvent<TKey>);
+
+            return list.Where(e => e.AggregateId.Equals(aggregateId))
                 .OrderBy(e => e.Version).LastOrDefault();
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IEventProvider, IAggregateRoot
+        public void SaveAggregateRoot<TAggregateRoot, TKey>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot<TKey> where TKey : IEquatable<TKey>
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -52,16 +56,6 @@ namespace Shriek.Storage
                 @event.Version = version;
                 Save(@event);
             }
-        }
-
-        public Memento GetMemento(Guid aggregateId)
-        {
-            var memento = _mementoes.Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
-            if (memento != null)
-            {
-                return memento;
-            }
-            return null;
         }
 
         public void SaveMemento(Memento memento)

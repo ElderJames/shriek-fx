@@ -2,9 +2,9 @@
 
 namespace Shriek.Domains
 {
-    public interface IAggregateRoot
+    public interface IAggregateRoot<out TKey> where TKey : IEquatable<TKey>
     {
-        Guid AggregateId { get; }
+        TKey AggregateId { get; }
 
         int Version { get; }
 

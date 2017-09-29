@@ -7,7 +7,7 @@ using System;
 
 namespace Shriek.Samples.Aggregates
 {
-    public class TodoAggregateRoot : AggregateRoot, IHandle<TodoCreatedEvent>, IHandle<TodoChangedEvent>
+    public class TodoAggregateRoot : AggregateRoot<Guid>, IHandle<TodoCreatedEvent>, IHandle<TodoChangedEvent>
     {
         public TodoAggregateRoot() : this(Guid.Empty)
         {
