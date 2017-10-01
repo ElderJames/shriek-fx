@@ -18,7 +18,11 @@ namespace Shriek.EventStorage.Redis
 
             if (builder.Services.All(x => x.ServiceType != typeof(IDistributedCache)))
             {
-                builder.Services.AddSingleton<ICacheService>(x => new RedisCacheService(new RedisCache(option.RedisCacheOptions)));
+                builder.Services.AddSingleton<ICacheService>(x => new RedisCacheService(new RedisCache(new RedisCacheOptions
+                {
+                    Configuration = option.Configuration,
+                    InstanceName = option.InstanceName
+                })));
             }
             else
             {
