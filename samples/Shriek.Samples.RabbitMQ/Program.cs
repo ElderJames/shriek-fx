@@ -14,8 +14,9 @@ namespace Shriek.Samples.RabbitMQ
         {
             var services = new ServiceCollection();
 
-            services.AddShriek()
-                .AddRabbitMqEventBus(options =>
+            services.AddShriek(option =>
+            {
+                option.UseRabbitMqEventBus(options =>
                 {
                     options.HostName = "localhost";
                     options.UserName = "admin";
@@ -23,8 +24,8 @@ namespace Shriek.Samples.RabbitMQ
                     options.QueueName = "eventBus";
                     options.ExchangeName = "sampleEventBus";
                     options.RouteKey = "sampleEventBus.*";
-                })
-                .AddRabbitMqCommandBus(options =>
+                });
+                option.AddRabbitMqCommandBus(options =>
                 {
                     options.HostName = "localhost";
                     options.UserName = "admin";
@@ -33,6 +34,7 @@ namespace Shriek.Samples.RabbitMQ
                     options.ExchangeName = "sampleCommandBus";
                     options.RouteKey = "sampleCommandBus";
                 });
+            });
 
             var container = services.BuildServiceProvider();
 

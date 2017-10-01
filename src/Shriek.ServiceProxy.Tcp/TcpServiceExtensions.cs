@@ -11,7 +11,7 @@ namespace Shriek.ServiceProxy.Tcp
 {
     public static class TcpServiceExtensions
     {
-        public static IShriekBuilder AddTcpServiceProxy(this IShriekBuilder builder, Action<TcpServiceProxyOptions> optionAction)
+        public static void UseTcpServiceProxy(this ShriekOptionBuilder builder, Action<TcpServiceProxyOptions> optionAction)
         {
             var option = new TcpServiceProxyOptions();
 
@@ -30,8 +30,6 @@ namespace Shriek.ServiceProxy.Tcp
                         x => o.InterfaceType.IsAssignableFrom(x.DeclaringType));
                 });
             }
-
-            return builder;
         }
 
         public class TcpServiceProxyOptions

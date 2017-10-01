@@ -18,14 +18,13 @@ namespace Shriek.Samples.EventStorage.InfluxDB
 
             var services = new ServiceCollection();
 
-            services.AddShriek()
-                .AddInfluxDbEventStorage(options =>
-                {
-                    options.Host = configuration.GetSection("InfluxDBConnection:Host").Value;
-                    options.Password = configuration.GetSection("InfluxDBConnection:Password").Value;
-                    options.UserName = configuration.GetSection("InfluxDBConnection:UserName").Value;
-                    options.DatabaseName = configuration.GetSection("InfluxDBConnection:DatabaseName").Value;
-                });
+            services.AddShriek(option => option.UseInfluxDbEventStorage(options =>
+                  {
+                      options.Host = configuration.GetSection("InfluxDBConnection:Host").Value;
+                      options.Password = configuration.GetSection("InfluxDBConnection:Password").Value;
+                      options.UserName = configuration.GetSection("InfluxDBConnection:UserName").Value;
+                      options.DatabaseName = configuration.GetSection("InfluxDBConnection:DatabaseName").Value;
+                  }));
 
             var container = services.BuildServiceProvider();
 

@@ -44,30 +44,35 @@ namespace Shriek.Samples.WebApiProxy
                     .AddWebApiProxy();
 
                     //服务里注册代理客户端
-                    services.AddShriek()
-                        .AddWebApiProxy(opt =>
-                        {
-                            opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                            opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                        }).AddTcpServiceProxy(opt =>
-                        {
-                            opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
-                        });
+                    services.AddShriek(option =>
+                    {
+                        option.AddWebApiProxy(opt =>
+                            {
+                                opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                            });
+                        option.UseTcpServiceProxy(opt =>
+                            {
+                                opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
+                            });
+                    });
                 })
                 .Configure(app => app.UseMvc())
                 .Build()
                 .Start();
 
             var provider = new ServiceCollection()
-                .AddShriek()
-                .AddWebApiProxy(opt =>
+                .AddShriek(option =>
                 {
-                    opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                    opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                })
-                .AddTcpServiceProxy(opt =>
-                {
-                    opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
+                    option.AddWebApiProxy(opt =>
+                    {
+                        opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                        opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                    });
+                    option.UseTcpServiceProxy(opt =>
+                    {
+                        opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
+                    });
                 })
                 .Services
                 .BuildAspectCoreServiceProvider();

@@ -11,7 +11,7 @@ namespace Shriek.Messages.RabbitMQ
 {
     public static class RabbitMqExtensions
     {
-        public static IShriekBuilder AddRabbitMqEventBus(this IShriekBuilder builder, Action<RabbitMqOptions> optionAction)
+        public static void UseRabbitMqEventBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
             var option = new EventBusRabbitMqOptions();
             optionAction(option);
@@ -19,11 +19,9 @@ namespace Shriek.Messages.RabbitMQ
             AddRabbitMq(builder, option);
 
             builder.Services.AddTransient<IEventBus, RabbitMqEventBus>();
-
-            return builder;
         }
 
-        public static IShriekBuilder AddRabbitMqCommandBus(this IShriekBuilder builder, Action<RabbitMqOptions> optionAction)
+        public static void AddRabbitMqCommandBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
             var option = new CommandBusRabbitMqOptions();
             optionAction(option);
@@ -31,11 +29,9 @@ namespace Shriek.Messages.RabbitMQ
             AddRabbitMq(builder, option);
 
             builder.Services.AddTransient<ICommandBus, RabbitMqCommandBus>();
-
-            return builder;
         }
 
-        private static void AddRabbitMq(IShriekBuilder builder, RabbitMqOptions option)
+        private static void AddRabbitMq(ShriekOptionBuilder builder, RabbitMqOptions option)
         {
             var factory = new ConnectionFactory()
             {

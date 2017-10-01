@@ -28,10 +28,11 @@ namespace Shriek.Samples.CQRS.EFCore
         {
             services.AddMvc().AddWebApiProxy();
 
-            services.AddShriek()
-            //事件存储
-            .AddEFCoreEventStorage(options =>
-                options.UseSqlite(new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.event.db" }.ToString()));
+            services.AddShriek(options =>
+            {
+                //事件存储
+                options.UseEFCoreEventStorage(option => option.UseSqlite(new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.event.db" }.ToString()));
+            });
 
             //真实数据库
             services.AddDbContext<TodoDbContext>(options =>

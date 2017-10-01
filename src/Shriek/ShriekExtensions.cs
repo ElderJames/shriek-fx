@@ -13,7 +13,7 @@ namespace Shriek
 {
     public static class ShriekExtensions
     {
-        public static IShriekBuilder AddShriek(this IServiceCollection services, Action<ShriekOption> optionAction = null)
+        public static IShriekBuilder AddShriek(this IServiceCollection services, Action<ShriekOptionBuilder> optionAction = null)
         {
             var builder = new ShriekBuilder(services);
 
@@ -46,7 +46,7 @@ namespace Shriek
 
             if (optionAction != null)
             {
-                var options = new ShriekOption();
+                var options = new ShriekOptionBuilder(services);
                 optionAction(options);
             }
 

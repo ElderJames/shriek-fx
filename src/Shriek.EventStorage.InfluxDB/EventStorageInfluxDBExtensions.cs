@@ -9,8 +9,7 @@ namespace Shriek.EventStorage.InfluxDB
 {
     public static class EventStorageInfluxDBExtensions
     {
-        public static IShriekBuilder AddInfluxDbEventStorage(this IShriekBuilder builder,
-            Action<InfluxDBOptions> optionAction)
+        public static void UseInfluxDbEventStorage(this ShriekOptionBuilder builder, Action<InfluxDBOptions> optionAction)
         {
             var options = new InfluxDBOptions();
             optionAction(options);
@@ -20,8 +19,6 @@ namespace Shriek.EventStorage.InfluxDB
             builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             builder.Services.AddScoped<IMementoRepository, MementoRepository>();
             builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
-
-            return builder;
         }
     }
 }

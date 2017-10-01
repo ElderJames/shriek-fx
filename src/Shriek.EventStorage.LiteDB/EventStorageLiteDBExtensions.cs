@@ -7,7 +7,7 @@ namespace Shriek.EventStorage.LiteDB
 {
     public static class EventStorageLiteDBExtensions
     {
-        public static IShriekBuilder AddLiteDbEventStorage(this IShriekBuilder builder, Action<LiteDBOptions> optionAction)
+        public static void UseLiteDbEventStorage(this ShriekOptionBuilder builder, Action<LiteDBOptions> optionAction)
         {
             var options = new LiteDBOptions();
             optionAction(options);
@@ -16,8 +16,6 @@ namespace Shriek.EventStorage.LiteDB
             builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             builder.Services.AddScoped<IMementoRepository, EventStorageRepository>();
             builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
-
-            return builder;
         }
     }
 }

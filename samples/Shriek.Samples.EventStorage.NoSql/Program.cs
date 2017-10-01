@@ -12,11 +12,10 @@ namespace Shriek.Samples.EventStorage.NoSql
         {
             var services = new ServiceCollection();
 
-            services.AddShriek()
-                .AddLiteDbEventStorage(optinos =>
-            {
-                optinos.ConnectionString = "event.db";
-            });
+            services.AddShriek(option => option.UseLiteDbEventStorage(optinos =>
+              {
+                  optinos.ConnectionString = "event.db";
+              }));
 
             var container = services.BuildServiceProvider();
 
