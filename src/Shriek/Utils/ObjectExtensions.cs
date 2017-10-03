@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Shriek.Utils
+namespace Shriek
 {
     public static class ObjectExtensions
     {

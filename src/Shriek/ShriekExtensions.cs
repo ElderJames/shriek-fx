@@ -17,7 +17,7 @@ namespace Shriek
         {
             var builder = new ShriekBuilder(services);
 
-            builder.Services.Scan(scan => scan.FromAssemblies(Reflection.CurrentAssembiles)
+            builder.Services.Scan(scan => scan.FromAssemblies(Utils.Reflection.ExcutingAssembiles)
             .AddClasses()
             .AsImplementedInterfaces()
             .WithScopedLifetime());
@@ -27,7 +27,7 @@ namespace Shriek
 
             builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));
 
-            var messages = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes()).Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
+            var messages = Utils.Reflection.ExcutingAssembiles.SelectMany(x => x.GetTypes()).Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
 
             foreach (var msg in messages)
             {

@@ -84,7 +84,7 @@ namespace Shriek.ServiceProxy.Abstractions
             if (context.ApiReturnAttribute != null)
                 return await context.ApiReturnAttribute.GetTaskResult(context);
 
-            foreach (var attr in Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes())
+            foreach (var attr in Utils.Reflection.ExcutingAssembiles.SelectMany(x => x.GetTypes())
                 .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
             {
                 if (attr == null) continue;

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Shriek.Reflection;
 
 namespace Shriek.Utils
 {
@@ -11,16 +12,16 @@ namespace Shriek.Utils
     /// </summary>
     public static class Reflection
     {
-        private static IEnumerable<Assembly> _currentAssemblies;
+        private static IEnumerable<Assembly> _excutingAssembiles;
 
-        public static IEnumerable<Assembly> CurrentAssembiles
+        public static IEnumerable<Assembly> ExcutingAssembiles
         {
             get
             {
-                if (_currentAssemblies == null || !_currentAssemblies.Any())
-                    _currentAssemblies = GetAssemblies();
+                if (_excutingAssembiles == null || !_excutingAssembiles.Any())
+                    _excutingAssembiles = ReflectionUtil.GetAssemblies(new AssemblyFilter(AppDomain.CurrentDomain.GetActualDomainPath()));
 
-                return _currentAssemblies;
+                return _excutingAssembiles;
             }
         }
 
