@@ -36,7 +36,7 @@ namespace Shriek.ServiceProxy.Http.Server
 
         public static IMvcCoreBuilder AddWebApiProxy(this IMvcCoreBuilder mvcBuilder)
         {
-            var webApiProxyTypes = Utils.Reflection.ExcutingAssembiles.SelectMany(x => x.GetTypes())
+            var webApiProxyTypes = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
                 .Where(x => !x.IsAbstract && typeof(WebApiProxy).IsAssignableFrom(x));
 
             mvcBuilder.AddWebApiProxy(opt =>

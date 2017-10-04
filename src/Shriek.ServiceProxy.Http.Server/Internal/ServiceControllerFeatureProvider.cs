@@ -22,7 +22,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
         public void PopulateFeature(IEnumerable<ApplicationPart> parts,
             ControllerFeature feature)
         {
-            foreach (var type in Utils.Reflection.ExcutingAssembiles.SelectMany(o => o.DefinedTypes))
+            foreach (var type in AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(o => o.DefinedTypes))
             {
                 if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)) && !feature.Controllers.Contains(type))
                 {
