@@ -21,7 +21,7 @@ namespace Shriek.Messages.RabbitMQ
             builder.Services.AddTransient<IEventBus, RabbitMqEventBus>();
         }
 
-        public static void AddRabbitMqCommandBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
+        public static void UseRabbitMqCommandBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
             var option = new CommandBusRabbitMqOptions();
             optionAction(option);
@@ -75,7 +75,7 @@ namespace Shriek.Messages.RabbitMQ
                     //确认该消息已被消费
                     channel.BasicAck(args.DeliveryTag, false);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // ignored
                 }
