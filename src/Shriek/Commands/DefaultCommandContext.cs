@@ -12,7 +12,7 @@ namespace Shriek.Commands
     public class DefaultCommandContext : ICommandContext, ICommandContextSave
     {
         private readonly ConcurrentQueue<AggregateRoot> aggregates;
-        private static readonly object _lock = new object();
+        private static readonly object locker = new object();
         private readonly IEventBus eventBus;
         private readonly IEventStorage eventStorage;
 
@@ -34,9 +34,7 @@ namespace Shriek.Commands
         /// <returns></returns>
         TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository)
         {
-            var obj = GetById<TAggregateRoot>(key);
-            if (obj == null)
-                obj = initFromRepository();
+            var obj = GetById<TAggregateRoot>(key) ?? initFromRepository();
 
             if (obj != null)
                 aggregates.Enqueue(obj);
@@ -65,7 +63,7 @@ namespace Shriek.Commands
             if (aggregate.GetUncommittedChanges().Any())
             {
                 //在锁内程序执行过程中，会有多次对该聚合根的更改请求
-                lock (_lock)
+                lock (locker)
                 {
                     //如果不是新增事件
                     if (aggregate.Version != -1)

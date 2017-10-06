@@ -9,25 +9,25 @@ namespace Shriek.Storage
 {
     public class InMemoryEventStorage : IEventStorage, IEventOriginator
     {
-        private List<Event> _events;
-        private List<Memento> _mementoes;
+        private readonly List<Event> eventCache;
+        private readonly List<Memento> mementoCache;
 
         public InMemoryEventStorage()
         {
-            _events = new List<Event>();
-            _mementoes = new List<Memento>();
+            eventCache = new List<Event>();
+            mementoCache = new List<Memento>();
         }
 
         public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            var events = _events.Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
+            var events = this.eventCache.Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
 
             return events;
         }
 
         public Event GetLastEvent(Guid aggregateId)
         {
-            return _events.Where(e => e.AggregateId == aggregateId)
+            return eventCache.Where(e => e.AggregateId == aggregateId)
                 .OrderBy(e => e.Version).LastOrDefault();
         }
 
@@ -56,22 +56,18 @@ namespace Shriek.Storage
 
         public Memento GetMemento(Guid aggregateId)
         {
-            var memento = _mementoes.Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
-            if (memento != null)
-            {
-                return memento;
-            }
-            return null;
+            var memento = mementoCache.Where(m => m.AggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return memento;
         }
 
         public void SaveMemento(Memento memento)
         {
-            _mementoes.Add(memento);
+            mementoCache.Add(memento);
         }
 
         public void Save<T>(T @event) where T : Event
         {
-            _events.Add(@event);
+            eventCache.Add(@event);
         }
 
         public TAggregateRoot Source<TAggregateRoot>(Guid aggregateId) where TAggregateRoot : IAggregateRoot, IEventProvider, new()

@@ -5,9 +5,9 @@ namespace Shriek.Notifications
 {
     public class DomainNotification : Event
     {
-        public Guid DomainNotificationId { get; private set; }
-        public string Key { get; private set; }
-        public string Value { get; private set; }
+        public Guid DomainNotificationId { get; }
+        public string Key { get; }
+        public string Value { get; }
 
         public DomainNotification(string key, string value)
         {

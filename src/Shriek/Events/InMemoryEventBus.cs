@@ -12,8 +12,6 @@ namespace Shriek.Events
         private readonly ConcurrentDictionary<Guid, ConcurrentQueue<Event>> eventQueueDict = new ConcurrentDictionary<Guid, ConcurrentQueue<Event>>();
         private readonly ConcurrentDictionary<Guid, Task> taskDict = new ConcurrentDictionary<Guid, Task>();
 
-        private static Task _task;
-
         public InMemoryEventBus(IMessagePublisher messageProcessor)
         {
             this.messageProcessor = messageProcessor;

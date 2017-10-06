@@ -5,7 +5,7 @@ namespace Shriek.Messages
 {
     public class InProcessMessagePublisher : IMessagePublisher
     {
-        private IServiceProvider container;
+        private readonly IServiceProvider container;
 
         public InProcessMessagePublisher(IServiceProvider container)
         {

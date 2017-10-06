@@ -36,7 +36,7 @@ namespace Shriek.EventStorage.MongoDB
 
         public Memento GetMemento(Guid aggregateId)
         {
-            return mementStore.Find(m => m.aggregateId == aggregateId).SortByDescending(m => m.Version).FirstOrDefault();
+            return mementStore.Find(m => m.AggregateId == aggregateId).SortByDescending(m => m.Version).FirstOrDefault();
         }
 
         public void SaveMemento(Memento memento)

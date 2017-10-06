@@ -1,7 +1,7 @@
 ﻿namespace Shriek.Events
 {
-    internal interface IEvent<TAggregateId>
+    internal interface IEvent<out TKey>
     {
-        TAggregateId AggregateId { get; }
+        TKey AggregateId { get; }
     }
 }

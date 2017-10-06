@@ -3,8 +3,8 @@
     /// <summary>
     /// 聚合根命令
     /// </summary>
-    /// <typeparam name="TAggregateRootId">聚合根标识</typeparam>
-    public interface IAggregateCommand<TAggregateRootId> : ICommand
+    /// <typeparam name="TKey">聚合根标识</typeparam>
+    public interface IAggregateCommand<out TKey> : ICommand
     {
         /// <summary>
         /// 版本号
@@ -14,6 +14,6 @@
         /// <summary>
         /// 聚合根标认识
         /// </summary>
-        TAggregateRootId AggregateId { get; }
+        TKey AggregateId { get; }
     }
 }

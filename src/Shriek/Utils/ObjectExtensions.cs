@@ -16,19 +16,19 @@ namespace Shriek.Utils
             var map = new Dictionary<string, object>();
             foreach (var p in o.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (p.CanRead)
+                if (!p.CanRead)
+                    continue;
+
+                var value = p.GetValue(o);
+                if (value == null)
+                    continue;
+
+                if (p.PropertyType.IsClass && !p.PropertyType.AssemblyQualifiedName.Contains("System"))
                 {
-                    var value = p.GetValue(o);
-                    if (value != null)
-                    {
-                        if (p.PropertyType.IsClass && !p.PropertyType.AssemblyQualifiedName.Contains("System"))
-                        {
-                            map.Add(p.Name, value.ToMap());
-                        }
-                        else
-                            map.Add(p.Name, value);
-                    }
+                    map.Add(p.Name, value.ToMap());
                 }
+                else
+                    map.Add(p.Name, value);
             }
             return map;
         }
@@ -45,16 +45,16 @@ namespace Shriek.Utils
             foreach (var d in dic)
             {
                 var prop = md.GetType().GetProperty(d.Key);
-                if (prop != null && prop.CanWrite)
+                if (prop == null || !prop.CanWrite)
+                    continue;
+
+                if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
                 {
-                    if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
-                    {
-                        if (d.Value is Dictionary<string, object> dict)
-                            prop.SetValue(md, dict.ToObject(prop.PropertyType));
-                    }
-                    else
-                        prop.SetValue(md, d.Value);
+                    if (d.Value is Dictionary<string, object> dict)
+                        prop.SetValue(md, dict.ToObject(prop.PropertyType));
                 }
+                else
+                    prop.SetValue(md, d.Value);
             }
             return md;
         }
@@ -66,16 +66,16 @@ namespace Shriek.Utils
             foreach (var d in dic)
             {
                 var prop = md.GetType().GetProperty(d.Key);
-                if (prop != null && prop.CanWrite)
+                if (prop == null || !prop.CanWrite)
+                    continue;
+
+                if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
                 {
-                    if (prop.PropertyType.IsClass && !prop.PropertyType.AssemblyQualifiedName.Contains("System"))
-                    {
-                        if (d.Value is Dictionary<string, object> dict)
-                            prop.SetValue(md, dict.ToObject(prop.PropertyType));
-                    }
-                    else
-                        prop.SetValue(md, d.Value);
+                    if (d.Value is Dictionary<string, object> dict)
+                        prop.SetValue(md, dict.ToObject(prop.PropertyType));
                 }
+                else
+                    prop.SetValue(md, d.Value);
             }
             return md;
         }

@@ -40,7 +40,7 @@ namespace Shriek.EventStorage.EFCore
 
         public Memento GetMemento(Guid aggregateId)
         {
-            return context.Set<Memento>().Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return context.Set<Memento>().Where(m => m.AggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
         }
 
         public void SaveMemento(Memento memento)

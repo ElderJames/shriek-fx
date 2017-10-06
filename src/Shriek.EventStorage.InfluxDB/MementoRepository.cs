@@ -26,7 +26,7 @@ namespace Shriek.EventStorage.InfluxDB
 
             return result == null ? null : new Memento()
             {
-                aggregateId = Guid.Parse(result.Values[0][result.Columns.IndexOf("AggregateId")].ToString()),
+                AggregateId = Guid.Parse(result.Values[0][result.Columns.IndexOf("AggregateId")].ToString()),
                 Version = int.Parse(result.Values[0][result.Columns.IndexOf("Version")].ToString()),
                 Data = result.Values[0][result.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 Timestamp = DateTime.Parse(result.Values[0][0].ToString())
@@ -40,7 +40,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Name = TableName,
                 Tags = new Dictionary<string, object>()
                 {
-                    {"AggregateId",memento.aggregateId }
+                    {"AggregateId",memento.AggregateId }
                 },
                 Fields = new Dictionary<string, object>()
                 {

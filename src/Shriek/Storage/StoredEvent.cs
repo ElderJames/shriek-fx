@@ -13,8 +13,9 @@ namespace Shriek.Storage
             Version = @event.Version;
         }
 
-        // EF Constructor
-        public StoredEvent() { }
+        public StoredEvent()
+        {
+        }
 
         [Key]
         public int Id { get; protected set; }

@@ -5,31 +5,23 @@ namespace Shriek.Notifications
 {
     public class DomainNotificationHandler : IDomainNotificationHandler<DomainNotification>
     {
-        private List<DomainNotification> _notifications;
-
         public DomainNotificationHandler()
         {
-            _notifications = new List<DomainNotification>();
+            Notifications = new List<DomainNotification>();
         }
 
         public void Handle(DomainNotification message)
         {
-            _notifications.Add(message);
+            Notifications.Add(message);
         }
 
-        public List<DomainNotification> Notifications
-        {
-            get => _notifications;
-        }
+        public List<DomainNotification> Notifications { get; private set; }
 
-        public bool NotEmpty
-        {
-            get => Notifications.Any();
-        }
+        public bool NotEmpty => Notifications.Any();
 
         public void Dispose()
         {
-            _notifications = new List<DomainNotification>();
+            Notifications = new List<DomainNotification>();
         }
     }
 }

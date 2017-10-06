@@ -21,8 +21,7 @@ namespace Shriek.Converter.Converts
         /// <returns>如果不支持转换，则返回false</returns>
         public virtual bool Convert(Converter converter, object value, Type targetType, out object result)
         {
-            var dic = value as IDictionary<string, object>;
-            if (dic == null)
+            if (!(value is IDictionary<string, object> dic))
             {
                 result = null;
                 return false;
@@ -34,11 +33,10 @@ namespace Shriek.Converter.Converts
             foreach (var set in setters)
             {
                 var key = dic.Keys.FirstOrDefault(k => string.Equals(k, set.Name, StringComparison.OrdinalIgnoreCase));
-                if (key != null)
-                {
-                    var targetValue = converter.Convert(dic[key], set.Type);
-                    set.SetValue(instance, targetValue);
-                }
+                if (key == null) continue;
+
+                var targetValue = converter.Convert(dic[key], set.Type);
+                set.SetValue(instance, targetValue);
             }
 
             result = instance;

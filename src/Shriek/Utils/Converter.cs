@@ -10,7 +10,7 @@ namespace Shriek.Utils
             {
                 return null;
             }
-            return new Action<object>(o => myActionT((T)o));
+            return o => myActionT((T)o);
         }
 
         public static dynamic ChangeTo(dynamic source, Type dest)

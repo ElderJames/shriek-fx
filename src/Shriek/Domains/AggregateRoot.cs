@@ -11,23 +11,23 @@ namespace Shriek.Domains
 {
     public abstract class AggregateRoot : IAggregateRoot, IEventProvider, IOriginator
     {
-        private readonly List<Event> _changes;
+        private readonly List<Event> changes;
 
         [Key]
         public int Id { get; protected set; }
 
-        public Guid AggregateId { get; protected set; }
+        public Guid AggregateId { get; }
 
         public int Version { get; protected set; } = -1;
         public int EventVersion { get; protected set; }
 
-        public AggregateRoot() : this(Guid.Empty)
+        protected AggregateRoot() : this(Guid.Empty)
         {
         }
 
-        public AggregateRoot(Guid aggregateId)
+        protected AggregateRoot(Guid aggregateId)
         {
-            _changes = new List<Event>();
+            changes = new List<Event>();
             AggregateId = aggregateId;
         }
 
@@ -64,12 +64,12 @@ namespace Shriek.Domains
 
         public override string ToString()
         {
-            return GetType().Name + " [Id=" + AggregateId.ToString() + "]";
+            return GetType().Name + " [Id=" + AggregateId + "]";
         }
 
         public void MarkChangesAsCommitted()
         {
-            _changes.Clear();
+            changes.Clear();
         }
 
         public void LoadsFromHistory(IEnumerable<Event> history)
@@ -93,18 +93,23 @@ namespace Shriek.Domains
             d.Handle((dynamic)@event);
             if (isNew)
             {
-                _changes.Add(@event);
+                changes.Add(@event);
             }
         }
 
         public IEnumerable<Event> GetUncommittedChanges()
         {
-            return _changes;
+            return changes;
         }
 
         public Memento GetMemento()
         {
-            return new Memento() { aggregateId = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
+            return new Memento()
+            {
+                AggregateId = AggregateId,
+                Data = JsonConvert.SerializeObject(this),
+                Version = 0
+            };
         }
 
         public void SetMemento(Memento memento)
@@ -113,14 +118,14 @@ namespace Shriek.Domains
             foreach (var t in data)
             {
                 var prop = GetType().GetProperty(t.Key);
-                if (prop != null && prop.CanWrite)
-                {
-                    var value = t.Value.ToObject(prop.PropertyType);
-                    prop.SetValue(this, value);
-                }
+                if (prop == null || !prop.CanWrite)
+                    continue;
+
+                var value = t.Value.ToObject(prop.PropertyType);
+                prop.SetValue(this, value);
             }
         }
 
-        public bool CanCommit => _changes.Any();
+        public bool CanCommit => changes.Any();
     }
 }

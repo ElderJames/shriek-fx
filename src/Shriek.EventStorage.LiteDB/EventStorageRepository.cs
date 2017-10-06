@@ -34,7 +34,7 @@ namespace Shriek.EventStorage.LiteDB
 
         public Memento GetMemento(Guid aggregateId)
         {
-            return this._liteDatabase.GetCollection<Memento>().Find(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return this._liteDatabase.GetCollection<Memento>().Find(m => m.AggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
         }
 
         public void SaveMemento(Memento memento)

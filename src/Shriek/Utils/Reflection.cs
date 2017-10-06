@@ -32,7 +32,7 @@ namespace Shriek.Utils
             type = type ?? typeof(Reflection);
 
             var libs = DependencyContext.Default.CompileLibraries;
-            foreach (CompilationLibrary lib in libs)
+            foreach (var lib in libs)
             {
                 //if (lib.Name.StartsWith("Microsoft") || lib.Name.StartsWith("System") || lib.Name.Contains(".System.") || lib.Name.StartsWith("NuGet") || lib.Name.StartsWith("AutoMapper")) continue;
                 if (lib.Serviceable) continue;

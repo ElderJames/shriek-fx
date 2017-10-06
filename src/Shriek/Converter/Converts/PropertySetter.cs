@@ -1,5 +1,4 @@
-﻿using Shriek.Converter.Core;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
@@ -23,29 +22,26 @@ namespace Shriek.Converter.Converts
         /// <returns></returns>
         public static PropertySetter[] GetPropertySetters(Type type)
         {
-            Func<Type, PropertySetter[]> func = (t) =>
-                t.GetProperties()
-                .Where(p => p.CanWrite)
-                .Select(p => new PropertySetter(p))
-                .ToArray();
-
-            return PropertySetter.cached.GetOrAdd(type, func);
+            return cached.GetOrAdd(type, t => t.GetProperties()
+                 .Where(p => p.CanWrite)
+                 .Select(p => new PropertySetter(p))
+                 .ToArray());
         }
 
         /// <summary>
         /// Api行为的方法成员调用委托
         /// </summary>
-        private Func<object, object[], object> methodInvoker;
+        private readonly Func<object, object[], object> methodInvoker;
 
         /// <summary>
         /// 获取属性的名称
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 获取属性的类型
         /// </summary>
-        public Type Type { get; private set; }
+        public Type Type { get; }
 
         /// <summary>
         /// 属性的Setter
@@ -66,7 +62,7 @@ namespace Shriek.Converter.Converts
         /// <returns></returns>
         public void SetValue(object instance, object value)
         {
-            this.methodInvoker.Invoke(instance, new object[] { value });
+            this.methodInvoker.Invoke(instance, new[] { value });
         }
 
         /// <summary>

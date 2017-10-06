@@ -8,7 +8,7 @@ namespace Shriek.Storage.Mementos
         [Key]
         public int Id { get; set; }
 
-        public Guid aggregateId { get; set; }
+        public Guid AggregateId { get; set; }
 
         public int Version { get; set; }
 
