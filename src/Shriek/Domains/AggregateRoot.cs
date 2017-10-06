@@ -16,7 +16,7 @@ namespace Shriek.Domains
         [Key]
         public int Id { get; protected set; }
 
-        public Guid AggregateId { get; }
+        public Guid AggregateId { get; set; }
 
         public int Version { get; protected set; } = -1;
         public int EventVersion { get; protected set; }
