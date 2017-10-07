@@ -1,5 +1,4 @@
-﻿using Shriek.Events;
-using Shriek.Storage;
+﻿using Shriek.Storage;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +8,7 @@ namespace Shriek.EventSourcing
     {
         void Store(StoredEvent theEvent);
 
-        Event GetLastEvent(Guid aggregateId);
+        StoredEvent GetLastEvent(Guid aggregateId);
 
         IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0);
     }

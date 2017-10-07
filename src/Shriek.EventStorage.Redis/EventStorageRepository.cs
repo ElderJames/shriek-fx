@@ -1,5 +1,4 @@
-﻿using Shriek.Events;
-using Shriek.EventSourcing;
+﻿using Shriek.EventSourcing;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
 using System;
@@ -26,7 +25,7 @@ namespace Shriek.EventStorage.Redis
         {
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public StoredEvent GetLastEvent(Guid aggregateId)
         {
             return cacheService.Get<IEnumerable<StoredEvent>>(aggregateId.ToString())?.OrderByDescending(e => e.Timestamp).FirstOrDefault();
         }

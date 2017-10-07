@@ -1,7 +1,6 @@
 ﻿using InfluxData.Net.Common.Infrastructure;
 using InfluxData.Net.InfluxDb.Models;
 using InfluxData.Net.InfluxDb.Models.Responses;
-using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
 using System;
@@ -33,7 +32,7 @@ namespace Shriek.EventStorage.InfluxDB
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public StoredEvent GetLastEvent(Guid aggregateId)
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
             var result = _dbContext.QueryAsync(query).Result;

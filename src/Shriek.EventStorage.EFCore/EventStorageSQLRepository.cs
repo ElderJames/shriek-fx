@@ -1,5 +1,4 @@
-﻿using Shriek.Events;
-using Shriek.EventSourcing;
+﻿using Shriek.EventSourcing;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
 using System;
@@ -27,7 +26,7 @@ namespace Shriek.EventStorage.EFCore
             context.Dispose();
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public StoredEvent GetLastEvent(Guid aggregateId)
         {
             return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
         }
