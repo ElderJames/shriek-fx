@@ -65,7 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Messages.RabbitMQ", "src\Shriek.EventBus.RabbitMQ\Shriek.Messages.RabbitMQ.csproj", "{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.RabbitMQ", "samples\Shriek.Samples.RabbitMQ\Shriek.Samples.RabbitMQ.csproj", "{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.RabbitMQ", "samples\Shriek.Samples.RabbitMQ\Shriek.Samples.RabbitMQ.csproj", "{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.Redis", "src\Shriek.EventStorage.Redis\Shriek.EventStorage.Redis.csproj", "{F2298722-338B-4399-A769-76F05558C95A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +171,10 @@ Global
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,6 +206,7 @@ Global
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{F2298722-338B-4399-A769-76F05558C95A} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
