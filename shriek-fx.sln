@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -67,9 +67,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Messages.RabbitMQ", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.RabbitMQ", "samples\Shriek.Samples.RabbitMQ\Shriek.Samples.RabbitMQ.csproj", "{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.Redis", "src\Shriek.EventStorage.Redis\Shriek.EventStorage.Redis.csproj", "{F2298722-338B-4399-A769-76F05558C95A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Redis", "src\Shriek.EventStorage.Redis\Shriek.EventStorage.Redis.csproj", "{F2298722-338B-4399-A769-76F05558C95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.EventStorage.Redis", "samples\Shriek.Samples.EventStorage.Redis\Shriek.Samples.EventStorage.Redis.csproj", "{FE58D7FB-9FDA-4B22-990C-2B134320EC68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.Redis", "samples\Shriek.Samples.EventStorage.Redis\Shriek.Samples.EventStorage.Redis.csproj", "{FE58D7FB-9FDA-4B22-990C-2B134320EC68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.Dapper", "src\Shriek.EventStorage.Dapper\Shriek.EventStorage.Dapper.csproj", "{6A84F582-882B-41E9-B57F-98582AFA8EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +183,10 @@ Global
 		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +220,7 @@ Global
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{F2298722-338B-4399-A769-76F05558C95A} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{FE58D7FB-9FDA-4B22-990C-2B134320EC68} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
