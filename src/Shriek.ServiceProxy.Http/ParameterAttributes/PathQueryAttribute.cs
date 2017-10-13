@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Http.Contexts;
 using System;
 using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http
 {

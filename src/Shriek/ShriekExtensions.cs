@@ -4,7 +4,6 @@ using Shriek.Events;
 using Shriek.Messages;
 using Shriek.Notifications;
 using Shriek.Storage;
-using Shriek.Utils;
 using System;
 using System.Linq;
 using System.Reflection;

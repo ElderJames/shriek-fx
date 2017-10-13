@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Shriek.Commands;
 using Shriek.Events;
-using System.Threading;
-using Shriek.Commands;
 using Shriek.Samples.InProcess.Commands;
+using System;
+using System.Threading;
 
 namespace Shriek.Samples.InProcess.Handlers
 {

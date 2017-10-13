@@ -1,8 +1,8 @@
-﻿using Shriek.ServiceProxy.Abstractions;
+﻿using AspectCore.Configuration;
+using AspectCore.Extensions.DependencyInjection;
+using Shriek.ServiceProxy.Abstractions;
 using System;
 using System.Linq;
-using AspectCore.Extensions.DependencyInjection;
-using AspectCore.Configuration;
 
 namespace Shriek.ServiceProxy.Http
 {

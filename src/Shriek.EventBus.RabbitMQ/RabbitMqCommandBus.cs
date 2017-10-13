@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using Shriek.Commands;
+using System;
+using System.Text;
 
 namespace Shriek.Messages.RabbitMQ
 {

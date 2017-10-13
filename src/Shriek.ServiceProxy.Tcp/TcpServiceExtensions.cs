@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using AspectCore.Configuration;
+﻿using AspectCore.Configuration;
 using AspectCore.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Tcp.Client;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Dispatching;
+using System;
+using System.Collections.Generic;
+using System.Net.Sockets;
 
 namespace Shriek.ServiceProxy.Tcp
 {
