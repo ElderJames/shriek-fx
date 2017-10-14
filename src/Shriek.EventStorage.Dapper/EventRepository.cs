@@ -21,10 +21,15 @@ namespace Shriek.EventStorage.Dapper
         private void DapperExecute(Action<IDbConnection> sqlAction)
         {
             var options = container.GetService<DapperOptions>();
-            using (var conn = options.DbConnection)
+            var conn = options.DbConnection;
+
+            try
             {
                 conn.Open();
                 sqlAction(conn);
+            }
+            finally
+            {
                 conn.Close();
             }
         }
@@ -38,7 +43,7 @@ namespace Shriek.EventStorage.Dapper
             IEnumerable<dynamic> result = new dynamic[0];
             DapperExecute(conn =>
             {
-                result = conn.Query($"SELECT * FROM event_store WHERE AggregateId = '{aggregateId}' AND Version >={afterVersion}");
+                result = conn.Query($"SELECT * FROM event_store WHERE 'AggregateId' = '{aggregateId}' AND 'Version' >={afterVersion}");
             });
 
             return result.Select(x => new StoredEvent()
@@ -57,7 +62,7 @@ namespace Shriek.EventStorage.Dapper
             StoredEvent result = null;
             DapperExecute(conn =>
             {
-                result = conn.QueryFirstOrDefault<StoredEvent>($"SELECT * FROM event_store WHERE AggregateId = '{aggregateId}' ORDER BY Timestamp DESC");
+                result = conn.QueryFirstOrDefault<StoredEvent>($"SELECT * FROM event_store WHERE 'AggregateId' = '{aggregateId}' ORDER BY 'Timestamp' DESC");
             });
 
             return result;
@@ -68,7 +73,7 @@ namespace Shriek.EventStorage.Dapper
             DapperExecute(conn =>
             {
                 conn.Execute(
-                    $@"INSERT INTO event_store (AggregateId,Data,MessageType,Timestamp,Version,User) VLAUES (@AggregateId,@Data,@MessageType,@Timestamp,@Version,@User)",
+                    $@"INSERT INTO event_store ('AggregateId','Data','MessageType','Timestamp','Version','User') VALUES (@AggregateId,@Data,@MessageType,@Timestamp,@Version,@User)",
                     theEvent);
             });
         }

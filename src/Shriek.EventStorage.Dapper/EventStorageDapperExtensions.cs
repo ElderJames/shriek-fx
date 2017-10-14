@@ -12,7 +12,7 @@ namespace Shriek.EventStorage.Dapper
             var options = new DapperOptions();
             optionsAction?.Invoke(options);
 
-            builder.Services.AddTransient(x => options);
+            builder.Services.AddScoped(x => options);
             builder.Services.AddScoped<IEventStorageRepository, EventRepository>();
             builder.Services.AddScoped<IMementoRepository, MementoRepository>();
             builder.Services.AddScoped<IEventStorage, SqlEventStorage>();

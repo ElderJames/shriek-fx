@@ -19,10 +19,15 @@ namespace Shriek.EventStorage.Dapper
         private void DapperExecute(Action<IDbConnection> sqlAction)
         {
             var options = container.GetService<DapperOptions>();
-            using (var conn = options.DbConnection)
+            var conn = options.DbConnection;
+
+            try
             {
                 conn.Open();
                 sqlAction(conn);
+            }
+            finally
+            {
                 conn.Close();
             }
         }
@@ -32,7 +37,7 @@ namespace Shriek.EventStorage.Dapper
             Memento result = null;
             DapperExecute(conn =>
             {
-                result = conn.QueryFirstOrDefault<Memento>($"SELECT * FROM memento_store WHERE AggregateId = '{aggregateId}' ORDER BY Timestamp DESC");
+                result = conn.QueryFirstOrDefault<Memento>($@"SELECT * FROM memento_store WHERE 'AggregateId' = '{aggregateId}' ORDER BY 'Timestamp' DESC");
             });
 
             return result;
@@ -43,7 +48,7 @@ namespace Shriek.EventStorage.Dapper
             DapperExecute(conn =>
             {
                 conn.Execute(
-                    $@"INSERT INTO memento_store (AggregateId,Data,Timestamp,Version) VLAUES (@AggregateId,@Data,@Timestamp,@Version)",
+                    $@"INSERT INTO memento_store ('AggregateId','Data','Timestamp','Version') VALUES (@AggregateId,@Data,@Timestamp,@Version)",
                     memento);
             });
         }
