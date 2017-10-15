@@ -2,9 +2,9 @@
 using System.Threading;
 using Shriek.Commands;
 using Shriek.Events;
-using Shriek.Samples.InProcess.Commands;
+using Shriek.Samples.Dapper.Commands;
 
-namespace Shriek.Samples.InProcess.Handlers
+namespace Shriek.Samples.Dapper.Handlers
 {
     public class SampleCommandHandler : ICommandHandler<SampleCommand>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Shriek.Notifications;
 
-namespace Shriek.Samples.InProcess.Handlers
+namespace Shriek.Samples.Dapper.Handlers
 {
     public class DomainNotificationHandler : IDomainNotificationHandler<DomainNotification>
     {

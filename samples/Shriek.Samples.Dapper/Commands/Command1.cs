@@ -1,9 +1,9 @@
-﻿using System;
-using Shriek.Commands;
+﻿using Shriek.Commands;
 using Shriek.Domains;
 using Shriek.Events;
+using System;
 
-namespace Shriek.Samples.InProcess.Commands
+namespace Shriek.Samples.Dapper.Commands
 {
     public class SampleCommand : Command<Guid>
     {

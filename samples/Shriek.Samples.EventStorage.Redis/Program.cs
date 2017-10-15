@@ -74,8 +74,9 @@ namespace Shriek.Samples.EventStorage.Redis
                     FinishTime = DateTime.Now.AddDays(-1)
                 });
             }
-            catch (Exception ex)
+            catch
             {
+                // ignored
             }
             Console.WriteLine($"{nameof(ChangeTodoCommand)} sended!");
 
