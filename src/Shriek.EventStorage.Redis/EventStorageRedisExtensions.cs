@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using System;
+using System.Linq;
 
 namespace Shriek.EventStorage.Redis
 {

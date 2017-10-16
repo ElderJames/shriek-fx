@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AspectCore.Extensions.DependencyInjection;
+﻿using AspectCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shriek.ServiceProxy.Tcp;
 using Shriek.ServiceProxy.Tcp.Attributes;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Server;
+using System;
+using System.Threading.Tasks;
 
 namespace Shriek.Test.WebApiProxy
 {

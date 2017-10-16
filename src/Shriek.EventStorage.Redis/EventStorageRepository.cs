@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Shriek.Events;
+﻿using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Shriek.EventStorage.Redis
 {

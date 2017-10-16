@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Tcp.Attributes;
+using Shriek.ServiceProxy.Tcp.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Tasks;
-using Shriek.ServiceProxy.Tcp.Attributes;
-using Shriek.ServiceProxy.Tcp.Protocol;
 
 namespace Shriek.ServiceProxy.Tcp.Dispatching
 {

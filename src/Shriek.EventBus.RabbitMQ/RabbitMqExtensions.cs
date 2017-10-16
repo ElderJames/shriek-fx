@@ -1,11 +1,11 @@
-﻿using System;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shriek.Commands;
 using Shriek.Events;
+using System;
+using System.Text;
 
 namespace Shriek.Messages.RabbitMQ
 {

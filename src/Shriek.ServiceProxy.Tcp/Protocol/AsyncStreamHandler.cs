@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Tcp.Buffering;
+using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Shriek.ServiceProxy.Tcp.Buffering;
 
 namespace Shriek.ServiceProxy.Tcp.Protocol
 {

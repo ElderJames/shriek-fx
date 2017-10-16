@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using AspectCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Shriek.Samples.WebApiProxy.Contracts;
+using Shriek.Samples.WebApiProxy.Services;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
-using System;
-using AspectCore.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Shriek.Samples.WebApiProxy.Services;
 using Shriek.ServiceProxy.Tcp;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Server;
+using System;
 
 namespace Shriek.Samples.WebApiProxy
 {

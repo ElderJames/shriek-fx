@@ -1,9 +1,9 @@
-﻿using Shriek.Samples.Commands;
-using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.EventStorage.InfluxDB;
+using Shriek.Samples.Commands;
+using System;
 
 namespace Shriek.Samples.EventStorage.InfluxDB
 {

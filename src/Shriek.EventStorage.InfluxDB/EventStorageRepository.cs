@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using InfluxData.Net.Common.Infrastructure;
+﻿using InfluxData.Net.Common.Infrastructure;
 using InfluxData.Net.InfluxDb.Models;
 using InfluxData.Net.InfluxDb.Models.Responses;
 using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Shriek.EventStorage.InfluxDB
 {
