@@ -25,7 +25,7 @@ namespace Shriek.Samples.RabbitMQ
                     options.ExchangeName = "sampleEventBus";
                     options.RouteKey = "sampleEventBus.*";
                 });
-                option.AddRabbitMqCommandBus(options =>
+                option.UseRabbitMqCommandBus(options =>
                 {
                     options.HostName = "localhost";
                     options.UserName = "admin";
