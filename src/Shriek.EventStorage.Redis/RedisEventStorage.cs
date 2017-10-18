@@ -1,43 +1,54 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using Shriek.Domains;
 using Shriek.Events;
 using Shriek.EventSourcing;
+using Shriek.Storage;
 using Shriek.Storage.Mementos;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Shriek.Storage
+namespace Shriek.EventStorage.Redis
 {
-    public class SqlEventStorage : IEventStorage
+    public class RedisEventStorage : IEventStorage
     {
+        private readonly ICacheService cacheService;
         private readonly IEventStorageRepository eventStorageRepository;
         private readonly IMementoRepository mementoRepository;
-        private readonly ConcurrentDictionary<Guid, ConcurrentBag<Event>> _eventsDict;
+        private const string EventCachePrefix = "event_cache_";
+        private readonly object locker = new object();
 
-        public SqlEventStorage(IEventStorageRepository eventStoreRepository, IMementoRepository mementoRepository)
+        public RedisEventStorage(ICacheService cacheService, IEventStorageRepository eventStorageRepository, IMementoRepository mementoRepository)
         {
-            this.eventStorageRepository = eventStoreRepository;
+            this.cacheService = cacheService;
+            this.eventStorageRepository = eventStorageRepository;
             this.mementoRepository = mementoRepository;
-
-            _eventsDict = new ConcurrentDictionary<Guid, ConcurrentBag<Event>>();
         }
 
         public IEnumerable<Event> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return _eventsDict.GetOrAdd(aggregateId, x =>
+            lock (locker)
             {
-                var storeEvents = eventStorageRepository.GetEvents(aggregateId, afterVersion);
-                var eventlist = new ConcurrentBag<Event>();
-                foreach (var e in storeEvents)
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + aggregateId) ?? new Event[0];
+                if (!events.Any())
                 {
-                    var eventType = Type.GetType(e.MessageType);
-                    eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
+                    var storeEvents = eventStorageRepository.GetEvents(aggregateId, afterVersion);
+                    var eventlist = new List<Event>();
+                    foreach (var e in storeEvents)
+                    {
+                        var eventType = Type.GetType(e.MessageType);
+                        eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
+                    }
+
+                    if (eventlist.Any())
+                    {
+                        cacheService.Store(EventCachePrefix + aggregateId, eventlist);
+                        events = eventlist;
+                    }
                 }
-                return eventlist;
-            })
-            .Where(e => e.Version >= afterVersion).OrderBy(e => e.Timestamp);
+
+                return events.Where(e => e.Version >= afterVersion).OrderBy(e => e.Timestamp);
+            }
         }
 
         public Event GetLastEvent(Guid aggregateId)
@@ -45,23 +56,32 @@ namespace Shriek.Storage
             return GetEvents(aggregateId).LastOrDefault();
         }
 
-        public void Save<T>(T theEvent) where T : Event
+        public void Save<T>(T @event) where T : Event
         {
-            _eventsDict.AddOrUpdate(theEvent.AggregateId, new ConcurrentBag<Event> { theEvent }, (key, list) =>
+            lock (locker)
             {
-                list.Add(theEvent);
-                return list;
-            });
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + @event.AggregateId) ?? new Event[0];
+                if (!events.Any())
+                {
+                    events = new[] { @event };
+                    cacheService.Store(EventCachePrefix + @event.AggregateId, events);
+                }
+                else
+                {
+                    events = events.Concat(new[] { @event });
+                    cacheService.Store(EventCachePrefix + @event.AggregateId, events);
+                }
 
-            var serializedData = JsonConvert.SerializeObject(theEvent);
+                var serializedData = JsonConvert.SerializeObject(@event);
 
-            var storedEvent = new StoredEvent(
-                theEvent,
-                serializedData,
-                ""
+                var storedEvent = new StoredEvent(
+                    @event,
+                    serializedData,
+                    ""
                 );
 
-            eventStorageRepository.Store(storedEvent);
+                eventStorageRepository.Store(storedEvent);
+            }
         }
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot, IEventProvider

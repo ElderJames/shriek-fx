@@ -71,9 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Redis",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.Redis", "samples\Shriek.Samples.EventStorage.Redis\Shriek.Samples.EventStorage.Redis.csproj", "{FE58D7FB-9FDA-4B22-990C-2B134320EC68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.EventStorage.Dapper", "src\Shriek.EventStorage.Dapper\Shriek.EventStorage.Dapper.csproj", "{6A84F582-882B-41E9-B57F-98582AFA8EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Dapper", "src\Shriek.EventStorage.Dapper\Shriek.EventStorage.Dapper.csproj", "{6A84F582-882B-41E9-B57F-98582AFA8EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.Dapper", "samples\Shriek.Samples.Dapper\Shriek.Samples.Dapper.csproj", "{CB140925-FF8C-4444-9F69-52FD3F0C88E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.Dapper", "samples\Shriek.Samples.Dapper\Shriek.Samples.Dapper.csproj", "{CB140925-FF8C-4444-9F69-52FD3F0C88E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

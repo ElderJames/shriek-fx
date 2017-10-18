@@ -10,6 +10,8 @@ namespace Shriek.EventStorage.Redis
     public class EventStorageRepository : IEventStorageRepository, IMementoRepository
     {
         private readonly ICacheService cacheService;
+        private const string eventStorePrefix = "event_store_";
+        private const string mementoStorePrefix = "memento_store_";
 
         public EventStorageRepository(ICacheService cacheService)
         {
@@ -18,7 +20,7 @@ namespace Shriek.EventStorage.Redis
 
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
         {
-            return cacheService.Get<IEnumerable<StoredEvent>>(aggregateId.ToString())?.Where(x => x.Version >= afterVersion) ?? new StoredEvent[0];
+            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.Where(x => x.Version >= afterVersion) ?? new StoredEvent[0];
         }
 
         public void Dispose()
@@ -27,26 +29,26 @@ namespace Shriek.EventStorage.Redis
 
         public StoredEvent GetLastEvent(Guid aggregateId)
         {
-            return cacheService.Get<IEnumerable<StoredEvent>>(aggregateId.ToString())?.OrderByDescending(e => e.Timestamp).FirstOrDefault();
-        }
-
-        public Memento GetMemento(Guid aggregateId)
-        {
-            return cacheService.Get<IEnumerable<Memento>>(aggregateId.ToString())?.OrderByDescending(e => e.Version).FirstOrDefault();
-        }
-
-        public void SaveMemento(Memento memento)
-        {
-            var mementos = cacheService.Get<IEnumerable<Memento>>(memento.AggregateId.ToString()) ?? new Memento[0];
-
-            cacheService.Store(memento.AggregateId.ToString(), mementos.Concat(new[] { memento }));
+            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.OrderByDescending(e => e.Timestamp).FirstOrDefault();
         }
 
         public void Store(StoredEvent theEvent)
         {
-            var events = cacheService.Get<IEnumerable<StoredEvent>>(theEvent.AggregateId.ToString()) ?? new StoredEvent[0];
+            var events = cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + theEvent.AggregateId) ?? new StoredEvent[0];
 
             cacheService.Store(theEvent.AggregateId.ToString(), events.Concat(new[] { theEvent }));
+        }
+
+        public Memento GetMemento(Guid aggregateId)
+        {
+            return cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + aggregateId)?.OrderByDescending(e => e.Version).FirstOrDefault();
+        }
+
+        public void SaveMemento(Memento memento)
+        {
+            var mementos = cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + memento.AggregateId) ?? new Memento[0];
+
+            cacheService.Store(memento.AggregateId.ToString(), mementos.Concat(new[] { memento }));
         }
     }
 }
