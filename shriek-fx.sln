@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -65,7 +65,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Messages.RabbitMQ", "src\Shriek.EventBus.RabbitMQ\Shriek.Messages.RabbitMQ.csproj", "{3E0809E9-98E7-458E-A6CD-1F7A555E39D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Samples.RabbitMQ", "samples\Shriek.Samples.RabbitMQ\Shriek.Samples.RabbitMQ.csproj", "{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.RabbitMQ", "samples\Shriek.Samples.RabbitMQ\Shriek.Samples.RabbitMQ.csproj", "{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Redis", "src\Shriek.EventStorage.Redis\Shriek.EventStorage.Redis.csproj", "{F2298722-338B-4399-A769-76F05558C95A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.EventStorage.Redis", "samples\Shriek.Samples.EventStorage.Redis\Shriek.Samples.EventStorage.Redis.csproj", "{FE58D7FB-9FDA-4B22-990C-2B134320EC68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Dapper", "src\Shriek.EventStorage.Dapper\Shriek.EventStorage.Dapper.csproj", "{6A84F582-882B-41E9-B57F-98582AFA8EF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.Dapper", "samples\Shriek.Samples.Dapper\Shriek.Samples.Dapper.csproj", "{CB140925-FF8C-4444-9F69-52FD3F0C88E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +177,22 @@ Global
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2298722-338B-4399-A769-76F05558C95A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE58D7FB-9FDA-4B22-990C-2B134320EC68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,6 +224,10 @@ Global
 		{1B420E5F-1748-43A6-A15D-0A80E8C7F4D5} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{3E0809E9-98E7-458E-A6CD-1F7A555E39D6} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{ECF7DDB4-52A7-421F-A063-7F2252A3BE3C} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{F2298722-338B-4399-A769-76F05558C95A} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
+		{FE58D7FB-9FDA-4B22-990C-2B134320EC68} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{6A84F582-882B-41E9-B57F-98582AFA8EF7} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
+		{CB140925-FF8C-4444-9F69-52FD3F0C88E7} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}

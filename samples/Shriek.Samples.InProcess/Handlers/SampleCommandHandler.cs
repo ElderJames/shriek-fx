@@ -1,7 +1,7 @@
 ﻿using System;
-using Shriek.Events;
 using System.Threading;
 using Shriek.Commands;
+using Shriek.Events;
 using Shriek.Samples.InProcess.Commands;
 
 namespace Shriek.Samples.InProcess.Handlers

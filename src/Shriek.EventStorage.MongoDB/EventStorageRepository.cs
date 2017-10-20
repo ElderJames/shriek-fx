@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
@@ -30,7 +29,7 @@ namespace Shriek.EventStorage.MongoDB
         {
         }
 
-        public Event GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
             where TKey : IEquatable<TKey>
         {
             return EventStore.Find(e => e.AggregateId == aggregateId.ToString()).SortByDescending(e => e.Timestamp).FirstOrDefault();

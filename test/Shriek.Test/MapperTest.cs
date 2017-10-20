@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shriek.Utils;
 
 namespace Shriek.Test
 {

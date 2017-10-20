@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using AspectCore.Configuration;
+﻿using AspectCore.Configuration;
 using AspectCore.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Tcp.Client;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Dispatching;
+using System;
+using System.Collections.Generic;
+using System.Net.Sockets;
 
 namespace Shriek.ServiceProxy.Tcp
 {
     public static class TcpServiceExtensions
     {
-        public static IShriekBuilder AddTcpServiceProxy(this IShriekBuilder builder, Action<TcpServiceProxyOptions> optionAction)
+        public static void UseTcpServiceProxy(this ShriekOptionBuilder builder, Action<TcpServiceProxyOptions> optionAction)
         {
             var option = new TcpServiceProxyOptions();
 
@@ -30,8 +30,6 @@ namespace Shriek.ServiceProxy.Tcp
                         x => o.InterfaceType.IsAssignableFrom(x.DeclaringType));
                 });
             }
-
-            return builder;
         }
 
         public class TcpServiceProxyOptions

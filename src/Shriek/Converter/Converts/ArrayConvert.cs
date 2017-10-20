@@ -36,8 +36,7 @@ namespace Shriek.Converter.Converts
             }
 
             var length = 0;
-            var list = items as IList;
-            if (list != null)
+            if (items is IList list)
             {
                 length = list.Count;
             }

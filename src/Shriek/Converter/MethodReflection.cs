@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Shriek.Converter.Core
+namespace Shriek.Converter
 {
     /// <summary>
     /// 方法反射调用

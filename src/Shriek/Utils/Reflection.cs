@@ -11,40 +11,17 @@ namespace Shriek.Utils
     /// </summary>
     public static class Reflection
     {
-        private static IEnumerable<Assembly> _currentAssemblies;
-
-        public static IEnumerable<Assembly> CurrentAssembiles
-        {
-            get
-            {
-                if (_currentAssemblies == null || !_currentAssemblies.Any())
-                    _currentAssemblies = GetAssemblies();
-
-                return _currentAssemblies;
-            }
-        }
-
         public static IEnumerable<Assembly> GetAssemblies(string filter = null, Type type = null)
         {
             List<Assembly> assemblies = new List<Assembly>();
 
-            //以下2行，总是认为所有的个人程序集都依赖于core
             type = type ?? typeof(Reflection);
 
             var libs = DependencyContext.Default.CompileLibraries;
-            foreach (CompilationLibrary lib in libs)
+            foreach (var lib in libs.Where(lib => !lib.Serviceable && lib.Type != "package" && (string.IsNullOrEmpty(filter) || lib.Name.ToLower().Contains(filter.ToLower()))))
             {
-                //if (lib.Name.StartsWith("Microsoft") || lib.Name.StartsWith("System") || lib.Name.Contains(".System.") || lib.Name.StartsWith("NuGet") || lib.Name.StartsWith("AutoMapper")) continue;
-                if (lib.Serviceable) continue;
-                if (lib.Type == "package") continue;
-                if (!string.IsNullOrEmpty(filter) && !lib.Name.ToLower().Contains(filter.ToLower())) continue;
-
                 var assembly = Assembly.Load(new AssemblyName(lib.Name));
-                // assemblies.Add(assembly);
 
-                //以下，总是认为所有的个人程序集都依赖于core
-
-                ////过滤掉“动态生成的”
                 if (assembly.IsDynamic) continue;
 
                 //匹配tyoe所在程序集

@@ -1,9 +1,9 @@
-﻿using Shriek.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shriek.Notifications;
 
-namespace Shriek.Samples.InProcess.Notifications
+namespace Shriek.Samples.InProcess.Handlers
 {
     public class DomainNotificationHandler : IDomainNotificationHandler<DomainNotification>
     {

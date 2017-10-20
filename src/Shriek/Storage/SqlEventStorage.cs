@@ -61,8 +61,7 @@ namespace Shriek.Storage
                 ((dynamic)theEvent).AggregateId.ToString(),
                 serializedData,
                 theEvent.Version,
-                "",
-                0
+                ""
                 );
 
             eventStoreRepository.Store(storedEvent);

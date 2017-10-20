@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Tcp.Protocol;
+using System;
+using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp
 {

@@ -55,7 +55,7 @@ namespace Shriek.Domains
 
         public override string ToString()
         {
-            return GetType().Name + " [Id=" + AggregateId.ToString() + "]";
+            return GetType().Name + " [Id=" + AggregateId + "]";
         }
 
         public override void LoadsFromHistory(IEnumerable<Event> history)
@@ -122,11 +122,11 @@ namespace Shriek.Domains
             foreach (var t in data)
             {
                 var prop = GetType().GetProperty(t.Key);
-                if (prop != null && prop.CanWrite)
-                {
-                    var value = t.Value.ToObject(prop.PropertyType);
-                    prop.SetValue(this, value);
-                }
+                if (prop == null || !prop.CanWrite)
+                    continue;
+
+                var value = t.Value.ToObject(prop.PropertyType);
+                prop.SetValue(this, value);
             }
         }
 

@@ -26,7 +26,7 @@ namespace Shriek.Converter.Converts
                 return false;
             }
 
-            if (targetType.GetTypeInfo().IsValueType == true)
+            if (targetType.GetTypeInfo().IsValueType)
             {
                 if (targetType.GetTypeInfo().IsGenericType == false || targetType.GetGenericTypeDefinition() != typeof(Nullable<>))
                 {

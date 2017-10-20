@@ -22,10 +22,7 @@ namespace Shriek.Notifications
             get => notifications;
         }
 
-        public bool NotEmpty
-        {
-            get => Notifications.Any();
-        }
+        public bool NotEmpty => Notifications.Any();
 
         public void Dispose()
         {

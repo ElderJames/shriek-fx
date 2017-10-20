@@ -21,8 +21,7 @@ namespace Shriek.Converter.Converts
         /// <returns>如果不支持转换，则返回false</returns>
         public virtual bool Convert(Converter converter, object value, Type targetType, out object result)
         {
-            var dynamicObject = value as DynamicObject;
-            if (dynamicObject == null)
+            if (!(value is DynamicObject dynamicObject))
             {
                 result = null;
                 return false;
@@ -33,12 +32,11 @@ namespace Shriek.Converter.Converts
 
             foreach (var set in setters)
             {
-                object targetValue;
-                if (this.TryGetValue(dynamicObject, set.Name, out targetValue) == true)
-                {
-                    targetValue = converter.Convert(targetValue, set.Type);
-                    set.SetValue(instance, targetValue);
-                }
+                if (!TryGetValue(dynamicObject, set.Name, out var targetValue))
+                    continue;
+
+                targetValue = converter.Convert(targetValue, set.Type);
+                set.SetValue(instance, targetValue);
             }
 
             result = instance;
@@ -52,7 +50,7 @@ namespace Shriek.Converter.Converts
         /// <param name="key">键名</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        private bool TryGetValue(DynamicObject dynamicObject, string key, out object value)
+        private static bool TryGetValue(DynamicObject dynamicObject, string key, out object value)
         {
             var keys = dynamicObject.GetDynamicMemberNames();
             key = keys.FirstOrDefault(item => string.Equals(item, key, StringComparison.OrdinalIgnoreCase));

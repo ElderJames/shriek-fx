@@ -1,7 +1,5 @@
-﻿using Shriek.Utils;
-using System;
+﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Abstractions
@@ -84,7 +82,7 @@ namespace Shriek.ServiceProxy.Abstractions
             if (context.ApiReturnAttribute != null)
                 return await context.ApiReturnAttribute.GetTaskResult(context);
 
-            foreach (var attr in Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes())
+            foreach (var attr in AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
                 .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
             {
                 if (attr == null) continue;

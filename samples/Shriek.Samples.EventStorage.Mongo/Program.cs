@@ -19,12 +19,11 @@ namespace Shriek.Samples.EventStorage.Mongo
 
             var services = new ServiceCollection();
 
-            services.AddShriek()
-                .AddMongoDBEventStorage(options =>
-                {
-                    options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                    options.DatabaseName = Configuration.GetSection("MongoConnection:DatabaseName").Value;
-                });
+            services.AddShriek(option => option.UseMongoDBEventStorage(options =>
+                  {
+                      options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                      options.DatabaseName = Configuration.GetSection("MongoConnection:DatabaseName").Value;
+                  }));
 
             var container = services.BuildServiceProvider();
 

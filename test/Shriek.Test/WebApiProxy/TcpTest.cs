@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AspectCore.Extensions.DependencyInjection;
+﻿using AspectCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shriek.ServiceProxy.Tcp;
 using Shriek.ServiceProxy.Tcp.Attributes;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Server;
+using System;
+using System.Threading.Tasks;
 
 namespace Shriek.Test.WebApiProxy
 {
@@ -37,9 +37,12 @@ namespace Shriek.Test.WebApiProxy
 
             //  services.AddScoped<ITestService, TestService>();
 
-            services.AddShriek().AddTcpServiceProxy(option =>
+            services.AddShriek(option =>
             {
-                option.AddTcpProxy<ITestService>("localhost", 9091, config);
+                option.UseTcpServiceProxy(options =>
+                {
+                    options.AddTcpProxy<ITestService>("localhost", 9091, config);
+                });
             });
 
             var provider = services.BuildAspectCoreServiceProvider();

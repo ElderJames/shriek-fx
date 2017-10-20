@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Shriek.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
         public void PopulateFeature(IEnumerable<ApplicationPart> parts,
             ControllerFeature feature)
         {
-            foreach (var type in Reflection.CurrentAssembiles.SelectMany(o => o.DefinedTypes))
+            foreach (var type in AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(o => o.DefinedTypes))
             {
                 if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)) && !feature.Controllers.Contains(type))
                 {

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Server.Internal;
-using Shriek.Utils;
 using System;
 using System.Linq;
 
@@ -36,7 +34,7 @@ namespace Shriek.ServiceProxy.Http.Server
 
         public static IMvcCoreBuilder AddWebApiProxy(this IMvcCoreBuilder mvcBuilder)
         {
-            var webApiProxyTypes = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes())
+            var webApiProxyTypes = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
                 .Where(x => !x.IsAbstract && typeof(WebApiProxy).IsAssignableFrom(x));
 
             mvcBuilder.AddWebApiProxy(opt =>

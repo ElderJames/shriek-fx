@@ -22,14 +22,13 @@ namespace Shriek.Converter.Converts
         public virtual bool Convert(Converter converter, object value, Type targetType, out object result)
         {
             var valueString = value.ToString();
-            if (targetType.GetTypeInfo().IsEnum == true)
+            if (targetType.GetTypeInfo().IsEnum)
             {
                 result = Enum.Parse(targetType, valueString, true);
                 return true;
             }
 
-            var convertible = value as IConvertible;
-            if (convertible != null && typeof(IConvertible).GetTypeInfo().IsAssignableFrom(targetType) == true)
+            if (value is IConvertible convertible && typeof(IConvertible).GetTypeInfo().IsAssignableFrom(targetType))
             {
                 result = convertible.ToType(targetType, null);
                 return true;
@@ -40,7 +39,7 @@ namespace Shriek.Converter.Converts
                 result = Guid.Parse(valueString);
                 return true;
             }
-            else if (typeof(string) == targetType)
+            if (typeof(string) == targetType)
             {
                 result = valueString;
                 return true;

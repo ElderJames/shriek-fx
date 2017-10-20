@@ -4,7 +4,6 @@ using Shriek.Events;
 using Shriek.Messages;
 using Shriek.Notifications;
 using Shriek.Storage;
-using Shriek.Utils;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -13,11 +12,11 @@ namespace Shriek
 {
     public static class ShriekExtensions
     {
-        public static IShriekBuilder AddShriek(this IServiceCollection services, Action<ShriekOption> optionAction = null)
+        public static IShriekBuilder AddShriek(this IServiceCollection services, Action<ShriekOptionBuilder> optionAction = null)
         {
             var builder = new ShriekBuilder(services);
 
-            builder.Services.Scan(scan => scan.FromAssemblies(Reflection.CurrentAssembiles)
+            builder.Services.Scan(scan => scan.FromAssemblies(AppDomain.CurrentDomain.GetExcutingAssembiles())
             .AddClasses()
             .AsImplementedInterfaces()
             .WithScopedLifetime());
@@ -27,7 +26,7 @@ namespace Shriek
 
             builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));
 
-            var messages = Reflection.CurrentAssembiles.SelectMany(x => x.GetTypes()).Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
+            var messages = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes()).Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
 
             foreach (var msg in messages)
             {
@@ -46,7 +45,7 @@ namespace Shriek
 
             if (optionAction != null)
             {
-                var options = new ShriekOption();
+                var options = new ShriekOptionBuilder(services);
                 optionAction(options);
             }
 

@@ -28,7 +28,7 @@ namespace Shriek.Converter
         /// <returns></returns>
         public static T Cast<T>(object value)
         {
-            return Converter.Instance.Convert<T>(value);
+            return Instance.Convert<T>(value);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Shriek.Converter
         /// <returns></returns>
         public static object Cast(object value, Type targetType)
         {
-            return Converter.Instance.Convert(value, targetType);
+            return Instance.Convert(value, targetType);
         }
 
         /// <summary>
@@ -95,10 +95,9 @@ namespace Shriek.Converter
                 throw new ArgumentNullException("targetType");
             }
 
-            object result;
             foreach (IConvert item in this.Items)
             {
-                if (item.Convert(this, value, targetType, out result) == true)
+                if (item.Convert(this, value, targetType, out var result))
                 {
                     return result;
                 }
@@ -126,11 +125,11 @@ namespace Shriek.Converter
             /// <param name="index">索引</param>
             private void Insert<T>(int index) where T : IConvert
             {
-                if (this.converts.Any(item => item.GetType() == typeof(T)) == false)
-                {
-                    var convert = Activator.CreateInstance<T>();
-                    this.converts.Insert(index, convert);
-                }
+                if (this.converts.Any(item => item.GetType() == typeof(T)))
+                    return;
+
+                var convert = Activator.CreateInstance<T>();
+                this.converts.Insert(index, convert);
             }
 
             /// <summary>
@@ -187,11 +186,11 @@ namespace Shriek.Converter
             /// <returns></returns>
             public ContertItems AddLast<T>() where T : IConvert
             {
-                if (this.converts.Any(item => item.GetType() == typeof(T)) == false)
-                {
-                    var convert = Activator.CreateInstance<T>();
-                    this.converts.Add(convert);
-                }
+                if (this.converts.Any(item => item.GetType() == typeof(T)))
+                    return this;
+
+                var convert = Activator.CreateInstance<T>();
+                this.converts.Add(convert);
                 return this;
             }
 
@@ -221,11 +220,11 @@ namespace Shriek.Converter
                 where TDest : IConvert
             {
                 var index = this.converts.FindIndex(item => item.GetType() == typeof(TSource));
-                if (index > -1 && this.converts.Any(item => item.GetType() == typeof(TDest)) == false)
-                {
-                    var convert = Activator.CreateInstance<TDest>();
-                    this.converts[index] = convert;
-                }
+                if (index <= -1 || this.converts.Any(item => item.GetType() == typeof(TDest)))
+                    return this;
+
+                var convert = Activator.CreateInstance<TDest>();
+                this.converts[index] = convert;
                 return this;
             }
 
@@ -248,7 +247,7 @@ namespace Shriek.Converter
                 /// <summary>
                 /// 查看的对象
                 /// </summary>
-                private ContertItems view;
+                private readonly ContertItems view;
 
                 /// <summary>
                 /// 调试视图
@@ -263,13 +262,7 @@ namespace Shriek.Converter
                 /// 查看的内容
                 /// </summary>
                 [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-                public IConvert[] Values
-                {
-                    get
-                    {
-                        return view.converts.ToArray();
-                    }
-                }
+                public IConvert[] Values => view.converts.ToArray();
             }
 
             #endregion DebugView

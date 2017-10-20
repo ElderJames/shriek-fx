@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-//namespace Shriek.ServiceProxy.Http
+﻿//namespace Shriek.ServiceProxy.Http
 //{
 /// <summary>
 /// 表示请求Api过滤器特性

@@ -15,8 +15,7 @@ namespace Shriek.Samples.EventStorage.EFCore
             var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "shriek.event.db" };
             var connectionString = connectionStringBuilder.ToString();
 
-            services.AddShriek()
-                .AddEFCoreEventStorage(options => options.UseSqlite(connectionString));
+            services.AddShriek(option => option.UseEFCoreEventStorage(options => options.UseSqlite(connectionString)));
 
             var container = services.BuildServiceProvider();
 

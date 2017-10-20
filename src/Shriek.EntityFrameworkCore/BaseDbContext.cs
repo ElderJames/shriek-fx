@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shriek.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +34,7 @@ namespace Shriek.EntityFrameworkCore
             //if (!entities.Any())
             //    return new Type[] { };
 
-            var types = Reflection.GetAssemblies().SelectMany(ass => ass.GetTypes())
+            var types = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(ass => ass.GetTypes())
                  .Where(x =>
                  {
                      //获取IEntityTypeConfiguration<>的实现类

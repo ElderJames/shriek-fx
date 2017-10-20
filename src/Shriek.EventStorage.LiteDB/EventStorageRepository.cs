@@ -1,5 +1,4 @@
-﻿using Shriek.Events;
-using Shriek.EventSourcing;
+﻿using Shriek.EventSourcing;
 using Shriek.Storage;
 using Shriek.Storage.Mementos;
 using System;
@@ -27,7 +26,7 @@ namespace Shriek.EventStorage.LiteDB
             this.liteDatabase.Dispose();
         }
 
-        public Event GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
+        public StoredEvent GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
         {
             return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
         }

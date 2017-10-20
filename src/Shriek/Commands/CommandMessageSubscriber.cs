@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Shriek.Events;
 using Shriek.Exceptions;
+using Shriek.Messages;
 using Shriek.Notifications;
 using System;
-using Shriek.Messages;
 
 namespace Shriek.Commands
 {

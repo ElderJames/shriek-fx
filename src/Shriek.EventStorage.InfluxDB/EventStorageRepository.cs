@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using InfluxData.Net.Common.Infrastructure;
+﻿using InfluxData.Net.Common.Infrastructure;
 using InfluxData.Net.InfluxDb.Models;
 using InfluxData.Net.InfluxDb.Models.Responses;
-using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Shriek.EventStorage.InfluxDB
 {
@@ -34,7 +33,7 @@ namespace Shriek.EventStorage.InfluxDB
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
 
-        public Event GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
             where TKey : IEquatable<TKey>
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
