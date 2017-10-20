@@ -1,8 +1,8 @@
-﻿using Shriek.Events;
+﻿using System.Threading;
+using Shriek.Events;
 using Shriek.Samples.Events;
-using System.Threading;
 
-namespace Shriek.Sample.EventStorage.EFCore.Handlers
+namespace Shriek.Samples.EventStorage.EFCore.Handlers
 {
     public class TodoEventHandler : IEventHandler<TodoCreatedEvent>, IEventHandler<TodoChangedEvent>
     {

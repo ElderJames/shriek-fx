@@ -1,28 +1,28 @@
-﻿using Shriek.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shriek.Notifications;
 
-namespace Shriek.Sample.EventStorage.EFCore.Notifications
+namespace Shriek.Samples.EventStorage.EFCore.Handlers
 {
     public class DomainNotificationHandler : IDomainNotificationHandler<DomainNotification>
     {
-        private List<DomainNotification> _notifications;
+        private List<DomainNotification> notifications;
 
         public DomainNotificationHandler()
         {
-            _notifications = new List<DomainNotification>();
+            notifications = new List<DomainNotification>();
         }
 
         public void Handle(DomainNotification message)
         {
             Console.WriteLine("exception:" + message.Key + ":" + message.Value);
-            _notifications.Add(message);
+            notifications.Add(message);
         }
 
         public List<DomainNotification> Notifications
         {
-            get => _notifications;
+            get => notifications;
         }
 
         public bool NotEmpty
@@ -32,7 +32,7 @@ namespace Shriek.Sample.EventStorage.EFCore.Notifications
 
         public void Dispose()
         {
-            _notifications = new List<DomainNotification>();
+            notifications = new List<DomainNotification>();
         }
     }
 }

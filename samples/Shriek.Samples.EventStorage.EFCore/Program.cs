@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.EventStorage.EFCore;
 using Shriek.Samples.Commands;
-using System;
 
-namespace Shriek.Sample.EventStorage.EFCore
+namespace Shriek.Samples.EventStorage.EFCore
 {
     internal class Program
     {

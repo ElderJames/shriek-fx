@@ -29,14 +29,14 @@ namespace Shriek.Events
         {
             if (@event == null) return;
 
-            var eventQueue = (ConcurrentQueue<Event>)eventQueueDict.GetOrAdd(((dynamic)@event).AggregateId, new ConcurrentQueue<Event>());
+            var eventQueue = (ConcurrentQueue<Event>)eventQueueDict.GetOrAdd(((dynamic)@event).AggregateId.ToString(), new ConcurrentQueue<Event>());
             eventQueue.Enqueue(@event);
 
-            if (!taskDict.TryGetValue(((dynamic)@event).AggregateId, out Task task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
+            if (!taskDict.TryGetValue(((dynamic)@event).AggregateId.ToString(), out Task task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
             {
                 task?.Dispose();
 
-                taskDict[((dynamic)@event).AggregateId] = Task.Run(() =>
+                taskDict[((dynamic)@event).AggregateId.ToString()] = Task.Run(() =>
                 {
                     while (!eventQueue.IsEmpty && eventQueue.TryDequeue(out var evt))
                         messageProcessor.Send(evt);
