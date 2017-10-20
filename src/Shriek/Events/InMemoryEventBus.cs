@@ -9,14 +9,14 @@ namespace Shriek.Events
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private readonly IMessagePublisher messageProcessor;
-        private readonly ConcurrentDictionary<Guid, ConcurrentQueue<Event>> eventQueueDict = new ConcurrentDictionary<Guid, ConcurrentQueue<Event>>();
-        private readonly ConcurrentDictionary<Guid, Task> taskDict = new ConcurrentDictionary<Guid, Task>();
-
-        private static Task _task;
+        private readonly ConcurrentDictionary<string, ConcurrentQueue<Event>> eventQueueDict;
+        private readonly ConcurrentDictionary<string, Task> taskDict;
 
         public InMemoryEventBus(IMessagePublisher messageProcessor)
         {
             this.messageProcessor = messageProcessor;
+            eventQueueDict = new ConcurrentDictionary<string, ConcurrentQueue<Event>>();
+            taskDict = new ConcurrentDictionary<string, Task>();
         }
 
         public void Dispose()
@@ -29,14 +29,14 @@ namespace Shriek.Events
         {
             if (@event == null) return;
 
-            var eventQueue = eventQueueDict.GetOrAdd(@event.AggregateId, new ConcurrentQueue<Event>());
+            var eventQueue = (ConcurrentQueue<Event>)eventQueueDict.GetOrAdd(((dynamic)@event).AggregateId, new ConcurrentQueue<Event>());
             eventQueue.Enqueue(@event);
 
-            if (!taskDict.TryGetValue(@event.AggregateId, out var task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
+            if (!taskDict.TryGetValue(((dynamic)@event).AggregateId, out Task task) || task.IsCompleted || task.IsCanceled || task.IsFaulted)
             {
                 task?.Dispose();
 
-                taskDict[@event.AggregateId] = Task.Run(() =>
+                taskDict[((dynamic)@event).AggregateId] = Task.Run(() =>
                 {
                     while (!eventQueue.IsEmpty && eventQueue.TryDequeue(out var evt))
                         messageProcessor.Send(evt);

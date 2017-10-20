@@ -12,14 +12,14 @@ namespace Shriek.Commands
     public class DefaultCommandContext : ICommandContext, ICommandContextSave
     {
         private readonly ConcurrentQueue<AggregateRoot> aggregates;
-        private static readonly object _lock = new object();
+        private static readonly object Lock = new object();
         private readonly IEventBus eventBus;
         private readonly IEventStorage eventStorage;
 
-        public DefaultCommandContext(IServiceProvider Container)
+        public DefaultCommandContext(IServiceProvider container)
         {
-            eventStorage = Container.GetService<IEventStorage>();
-            eventBus = Container.GetService<IEventBus>();
+            eventStorage = container.GetService<IEventStorage>();
+            eventBus = container.GetService<IEventBus>();
             aggregates = new ConcurrentQueue<AggregateRoot>();
         }
 
@@ -29,12 +29,15 @@ namespace Shriek.Commands
         /// 从内存获取聚合，获取不到则使用委托从数据库获取
         /// </summary>
         /// <typeparam name="TAggregateRoot"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <param name="initFromRepository"></param>
         /// <returns></returns>
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key, Func<TAggregateRoot> initFromRepository)
+        public TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key, Func<TAggregateRoot> initFromRepository)
+             where TAggregateRoot : AggregateRoot, new()
+             where TKey : IEquatable<TKey>
         {
-            var obj = GetById<TAggregateRoot>(key);
+            var obj = GetById<TAggregateRoot, TKey>(key);
             if (obj == null)
                 obj = initFromRepository();
 
@@ -44,33 +47,36 @@ namespace Shriek.Commands
             return obj;
         }
 
-        private TAggregateRoot GetById<TAggregateRoot>(Guid Id) where TAggregateRoot : AggregateRoot, new()
+        private TAggregateRoot GetById<TAggregateRoot, TKey>(TKey id)
+            where TAggregateRoot : AggregateRoot, new()
+            where TKey : IEquatable<TKey>
         {
-            return eventStorage.Source<TAggregateRoot>(Id);
+            return eventStorage.Source<TAggregateRoot, TKey>(id);
         }
 
         public void Save()
         {
             for (var i = 0; i < aggregates.Count; i++)
             {
-                if (aggregates.TryDequeue(out AggregateRoot root) && root.CanCommit)
+                if (aggregates.TryDequeue(out var root) && root.CanCommit)
                 {
                     SaveAggregateRoot(root);
                 }
             }
         }
 
-        private void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot, IAggregateRoot
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate)
+            where TAggregateRoot : AggregateRoot
         {
             if (aggregate.GetUncommittedChanges().Any())
             {
                 //在锁内程序执行过程中，会有多次对该聚合根的更改请求
-                lock (_lock)
+                lock (Lock)
                 {
                     //如果不是新增事件
                     if (aggregate.Version != -1)
                     {
-                        var lastestEvent = eventStorage.GetLastEvent(aggregate.AggregateId);
+                        var lastestEvent = eventStorage.GetLastEvent(((dynamic)aggregate).AggregateId);
                         if (lastestEvent != null && lastestEvent.Version != aggregate.Version)
                         {
                             throw new Exception("事件库中该聚合的状态版本与当前传入聚合状态版本不同，可能已被更新");
@@ -88,9 +94,11 @@ namespace Shriek.Commands
             }
         }
 
-        TAggregateRoot ICommandContext.GetAggregateRoot<TAggregateRoot>(Guid key)
+        public TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key)
+            where TAggregateRoot : AggregateRoot, new()
+            where TKey : IEquatable<TKey>
         {
-            var obj = GetById<TAggregateRoot>(key);
+            var obj = GetById<TAggregateRoot, TKey>(key);
             if (obj != null)
                 aggregates.Enqueue(obj);
 

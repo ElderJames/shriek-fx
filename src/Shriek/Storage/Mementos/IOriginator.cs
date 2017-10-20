@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace Shriek.Storage.Mementos
+﻿namespace Shriek.Storage.Mementos
 {
     /// <summary>
     /// 备忘录模式接口
     /// </summary>
-    public interface IOriginator<TKey> where TKey : IEquatable<TKey>
+    public interface IOriginator
     {
-        Memento<TKey> GetMemento();
+        Memento GetMemento();
 
-        void SetMemento(Memento<TKey> memento);
+        void SetMemento(Memento memento);
     }
 }

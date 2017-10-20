@@ -9,18 +9,18 @@ namespace Shriek.Storage
 {
     public class InMemoryEventStorage : IEventStorage, IEventOriginator
     {
-        private List<IEvent> _events;
-        private List<IMemento> _mementoes;
+        private readonly List<Event> events;
+        private readonly List<Memento> mementoes;
 
         public InMemoryEventStorage()
         {
-            _events = new List<IEvent>();
-            _mementoes = new List<IMemento>();
+            events = new List<Event>();
+            mementoes = new List<Memento>();
         }
 
-        public IEnumerable<IEvent<TKey>> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
+        public IEnumerable<Event> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
         {
-            var list = _events.Select(x => x as IEvent<TKey>);
+            var list = this.events.Select(x => x as Event<TKey>).Where(x => x.AggregateId.Equals(aggregateId));
 
             var events = list.Where(e => e.AggregateId.Equals(aggregateId) && e.Version >= afterVersion);
 
@@ -29,13 +29,13 @@ namespace Shriek.Storage
 
         public IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
         {
-            var list = _events.Select(x => x as IEvent<TKey>);
+            var list = events.Select(x => x as IEvent<TKey>);
 
             return list.Where(e => e.AggregateId.Equals(aggregateId))
                 .OrderBy(e => e.Version).LastOrDefault();
         }
 
-        public void SaveAggregateRoot<TAggregateRoot, TKey>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot<TKey> where TKey : IEquatable<TKey>
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -60,26 +60,32 @@ namespace Shriek.Storage
 
         public void SaveMemento(Memento memento)
         {
-            _mementoes.Add(memento);
+            mementoes.Add(memento);
         }
 
-        public void Save<T>(T @event) where T : Event
+        public void Save(Event @event)
         {
-            _events.Add(@event);
+            events.Add(@event);
         }
 
-        public TAggregateRoot Source<TAggregateRoot>(Guid aggregateId) where TAggregateRoot : IAggregateRoot, IEventProvider, new()
+        public Memento GetMemento<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
+        {
+            return this.mementoes.Where(x => x.AggregateId == aggregateId.ToString())
+                .OrderBy(x => x.Timestamp)
+                .LastOrDefault();
+        }
+
+        public TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
+            where TAggregateRoot : AggregateRoot, new()
+            where TKey : IEquatable<TKey>
         {
             //获取该记录的所有缓存事件
             IEnumerable<Event> events;
             Memento memento = null;
             var obj = new TAggregateRoot();
 
-            if (obj is IOriginator)
-            {
-                //获取该记录的更改快照
-                memento = GetMemento(aggregateId);
-            }
+            //获取该记录的更改快照
+            memento = GetMemento(aggregateId);
 
             if (memento != null)
             {

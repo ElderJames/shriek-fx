@@ -17,7 +17,7 @@ namespace Shriek.Samples.InProcess.Commands
         public TimeSpan Delay { get; set; }
     }
 
-    public class SampleEvent : Event
+    public class SampleEvent : Event<Guid>
     {
         public int No { get; set; }
 

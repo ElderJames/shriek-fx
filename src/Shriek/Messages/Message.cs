@@ -1,4 +1,6 @@
-﻿namespace Shriek.Messages
+﻿using System;
+
+namespace Shriek.Messages
 {
     public class Message
     {
@@ -8,5 +10,7 @@
         }
 
         public string MessageType { get; set; }
+
+        public DateTime Timestamp { get; set; }
     }
 }

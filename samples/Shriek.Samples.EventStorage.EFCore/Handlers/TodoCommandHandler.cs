@@ -1,8 +1,9 @@
-﻿using Shriek.Commands;
+﻿using System;
+using Shriek.Commands;
 using Shriek.Samples.Aggregates;
 using Shriek.Samples.Commands;
 
-namespace Shriek.Sample.EventStorage.EFCore.Handlers
+namespace Shriek.Samples.EventStorage.EFCore.Handlers
 {
     public class TodoCommandHandler : ICommandHandler<CreateTodoCommand>,
         ICommandHandler<ChangeTodoCommand>
@@ -18,7 +19,7 @@ namespace Shriek.Sample.EventStorage.EFCore.Handlers
 
         public void Execute(ICommandContext context, ChangeTodoCommand command)
         {
-            var root = context.GetAggregateRoot<TodoAggregateRoot>(command.AggregateId);
+            var root = context.GetAggregateRoot<Guid, TodoAggregateRoot>(command.AggregateId);
             if (root == null) return;
             root.Change(command);
         }

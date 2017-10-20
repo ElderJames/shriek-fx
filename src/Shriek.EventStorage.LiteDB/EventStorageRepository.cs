@@ -10,41 +10,41 @@ namespace Shriek.EventStorage.LiteDB
 {
     public class EventStorageRepository : IEventStorageRepository, IMementoRepository
     {
-        private readonly EventStorageLiteDatabase _liteDatabase;
+        private readonly EventStorageLiteDatabase liteDatabase;
 
         public EventStorageRepository(EventStorageLiteDatabase liteDatabase)
         {
-            this._liteDatabase = liteDatabase;
+            this.liteDatabase = liteDatabase;
         }
 
-        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
         {
-            return this._liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId.ToString() && e.Version >= afterVersion);
         }
 
         public void Dispose()
         {
-            this._liteDatabase.Dispose();
+            this.liteDatabase.Dispose();
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public Event GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
         {
-            return this._liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
-        public Memento GetMemento(Guid aggregateId)
+        public Memento GetMemento<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
         {
-            return this._liteDatabase.GetCollection<Memento>().Find(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return this.liteDatabase.GetCollection<Memento>().Find(m => m.AggregateId == aggregateId.ToString()).OrderBy(m => m.Version).LastOrDefault();
         }
 
         public void SaveMemento(Memento memento)
         {
-            this._liteDatabase.GetCollection<Memento>().Insert(memento);
+            this.liteDatabase.GetCollection<Memento>().Insert(memento);
         }
 
         public void Store(StoredEvent theEvent)
         {
-            this._liteDatabase.GetCollection<StoredEvent>().Insert(theEvent);
+            this.liteDatabase.GetCollection<StoredEvent>().Insert(theEvent);
         }
     }
 }

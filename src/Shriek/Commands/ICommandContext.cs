@@ -9,11 +9,11 @@ namespace Shriek.Commands
         IDictionary<string, object> Items { get; }
 
         TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key, Func<TAggregateRoot> initFromRepository)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
+            where TAggregateRoot : AggregateRoot, new()
             where TKey : IEquatable<TKey>;
 
         TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
+            where TAggregateRoot : AggregateRoot, new()
             where TKey : IEquatable<TKey>;
     }
 }

@@ -4,21 +4,33 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shriek.Storage
 {
-    public class StoredEvent<TKey> : Event<TKey> where TKey : IEquatable<TKey>
+    public sealed class StoredEvent<TKey> : StoredEvent where TKey : IEquatable<TKey>
     {
-        public StoredEvent(Event<TKey> @event, string data, string user)
+        public StoredEvent(IEvent<TKey> @event, string data, string user, int id)
+            : base(@event.AggregateId.ToString(), data, @event.Version, user, id)
         {
-            AggregateId = @event.AggregateId;
-            Data = data;
-            User = user;
-            Version = @event.Version;
+        }
+    }
+
+    public class StoredEvent : Event
+    {
+        public StoredEvent()
+        {
         }
 
-        // EF Constructor
-        public StoredEvent() { }
+        public StoredEvent(string aggregateId, string data, int version, string user, int id)
+        {
+            AggregateId = aggregateId;
+            Data = data;
+            User = user;
+            Id = id;
+            this.Version = version;
+        }
 
         [Key]
         public int Id { get; protected set; }
+
+        public string AggregateId { get; set; }
 
         public string Data { get; set; }
 

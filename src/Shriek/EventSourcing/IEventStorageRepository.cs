@@ -9,8 +9,8 @@ namespace Shriek.EventSourcing
     {
         void Store(StoredEvent theEvent);
 
-        Event GetLastEvent(Guid aggregateId);
+        Event GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>;
 
-        IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0);
+        IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>;
     }
 }

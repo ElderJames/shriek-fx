@@ -17,9 +17,10 @@ namespace Shriek.EventStorage.EFCore
             this.context = context;
         }
 
-        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+            where TKey : IEquatable<TKey>
         {
-            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId && e.Version >= afterVersion);
+            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId.ToString() && e.Version >= afterVersion);
         }
 
         public void Dispose()
@@ -27,9 +28,10 @@ namespace Shriek.EventStorage.EFCore
             context.Dispose();
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public Event GetLastEvent<TKey>(TKey aggregateId)
+            where TKey : IEquatable<TKey>
         {
-            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId).OrderBy(e => e.Timestamp).LastOrDefault();
+            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
         public void Store(StoredEvent theEvent)
@@ -38,9 +40,10 @@ namespace Shriek.EventStorage.EFCore
             context.SaveChanges();
         }
 
-        public Memento GetMemento(Guid aggregateId)
+        public Memento GetMemento<TKey>(TKey aggregateId)
+            where TKey : IEquatable<TKey>
         {
-            return context.Set<Memento>().Where(m => m.aggregateId == aggregateId).OrderBy(m => m.Version).LastOrDefault();
+            return context.Set<Memento>().Where(m => m.AggregateId == aggregateId.ToString()).OrderBy(m => m.Version).LastOrDefault();
         }
 
         public void SaveMemento(Memento memento)

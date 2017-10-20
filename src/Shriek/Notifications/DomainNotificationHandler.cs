@@ -5,21 +5,21 @@ namespace Shriek.Notifications
 {
     public class DomainNotificationHandler : IDomainNotificationHandler<DomainNotification>
     {
-        private List<DomainNotification> _notifications;
+        private List<DomainNotification> notifications;
 
         public DomainNotificationHandler()
         {
-            _notifications = new List<DomainNotification>();
+            notifications = new List<DomainNotification>();
         }
 
         public void Handle(DomainNotification message)
         {
-            _notifications.Add(message);
+            notifications.Add(message);
         }
 
         public List<DomainNotification> Notifications
         {
-            get => _notifications;
+            get => notifications;
         }
 
         public bool NotEmpty
@@ -29,7 +29,7 @@ namespace Shriek.Notifications
 
         public void Dispose()
         {
-            _notifications = new List<DomainNotification>();
+            notifications = new List<DomainNotification>();
         }
     }
 }

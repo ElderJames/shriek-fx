@@ -79,7 +79,7 @@ namespace Shriek.Messages.RabbitMQ
                     //确认该消息已被消费
                     channel.BasicAck(args.DeliveryTag, false);
                 }
-                catch (Exception ex)
+                catch
                 {
                     // ignored
                 }

@@ -12,31 +12,33 @@ namespace Shriek.EventStorage.InfluxDB
 {
     public class EventStorageRepository : IEventStorageRepository
     {
-        private readonly InfluxDbContext _dbContext;
+        private readonly InfluxDbContext dbContext;
 
         private const string TableName = "events";
 
         public EventStorageRepository(InfluxDbContext dbContext)
         {
-            this._dbContext = dbContext;
+            this.dbContext = dbContext;
         }
 
         public void Dispose()
         {
         }
 
-        public IEnumerable<StoredEvent> GetEvents(Guid aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+            where TKey : IEquatable<TKey>
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
-            var result = _dbContext.QueryAsync(query).Result;
+            var result = dbContext.QueryAsync(query).Result;
 
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
 
-        public Event GetLastEvent(Guid aggregateId)
+        public Event GetLastEvent<TKey>(TKey aggregateId)
+            where TKey : IEquatable<TKey>
         {
             var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
-            var result = _dbContext.QueryAsync(query).Result;
+            var result = dbContext.QueryAsync(query).Result;
 
             return result == null ? null : SerieToStoredEvent(result).FirstOrDefault();
         }
@@ -60,7 +62,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Timestamp = theEvent.Timestamp
             };
 
-            var result = _dbContext.WriteAsync(point).Result;
+            var result = dbContext.WriteAsync(point).Result;
 
             if (!result.Success)
                 throw new InfluxDataException("事件插入失败");
@@ -70,7 +72,7 @@ namespace Shriek.EventStorage.InfluxDB
         {
             return serie.Values.Select(item => new StoredEvent
             {
-                AggregateId = Guid.Parse(item[serie.Columns.IndexOf("AggregateId")].ToString()),
+                AggregateId = item[serie.Columns.IndexOf("AggregateId")].ToString(),
                 Version = int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
                 Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 User = item[serie.Columns.IndexOf("User")].ToString(),

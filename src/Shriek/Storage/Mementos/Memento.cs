@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shriek.Storage.Mementos
 {
-    public class Memento<TKey> : IMemento<TKey> where TKey : IEquatable<TKey>
+    public class Memento : IMemento
     {
         [Key]
         public int Id { get; set; }
 
-        public TKey AggregateId { get; set; }
+        public string AggregateId { get; set; }
 
         public int Version { get; set; }
 
@@ -19,10 +19,5 @@ namespace Shriek.Storage.Mementos
 
     public interface IMemento
     {
-    }
-
-    public interface IMemento<TKey> : IMemento where TKey : IEquatable<TKey>
-    {
-        TKey AggregateId { get; set; }
     }
 }

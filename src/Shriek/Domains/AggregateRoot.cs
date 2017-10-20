@@ -9,17 +9,9 @@ using System.Linq;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>, IEventProvider<TKey>, IOriginator<TKey> where TKey : IEquatable<TKey>
+    public abstract class AggregateRoot<TKey> : AggregateRoot, IAggregateRoot<TKey> where TKey : IEquatable<TKey>
     {
-        private readonly List<IEvent<TKey>> _changes;
-
-        [Key]
-        public int Id { get; protected set; }
-
         public TKey AggregateId { get; protected set; }
-
-        public int Version { get; protected set; } = -1;
-        public int EventVersion { get; protected set; }
 
         protected AggregateRoot() : this(default(TKey))
         {
@@ -27,7 +19,6 @@ namespace Shriek.Domains
 
         protected AggregateRoot(TKey aggregateId)
         {
-            _changes = new List<IEvent<TKey>>();
             AggregateId = aggregateId;
         }
 
@@ -67,47 +58,65 @@ namespace Shriek.Domains
             return GetType().Name + " [Id=" + AggregateId.ToString() + "]";
         }
 
-        public void MarkChangesAsCommitted()
-        {
-            _changes.Clear();
-        }
-
-        public void LoadsFromHistory(IEnumerable<IEvent<TKey>> history)
+        public override void LoadsFromHistory(IEnumerable<Event> history)
         {
             foreach (var e in history)
             {
                 ApplyChange(e, false);
             }
             Version = history.LastOrDefault()?.Version ?? -1;
-            EventVersion = Version;
         }
 
-        protected void ApplyChange(IEvent<TKey> @event)
+        protected void ApplyChange(Event @event)
         {
             ApplyChange(@event, true);
         }
 
-        protected void ApplyChange(IEvent<TKey> @event, bool isNew)
+        protected void ApplyChange(Event @event, bool isNew)
         {
             dynamic d = this;
             d.Handle((dynamic)@event);
             if (isNew)
             {
-                _changes.Add(@event);
+                this.Changes.Add(@event);
             }
         }
 
-        public IEnumerable<IEvent<TKey>> GetUncommittedChanges()
+        public override Memento GetMemento()
         {
-            return _changes;
+            return new Memento() { AggregateId = AggregateId.ToString(), Data = JsonConvert.SerializeObject(this), Version = 0 };
+        }
+    }
+
+    public abstract class AggregateRoot : IOriginator, IEventProvider
+    {
+        [Key]
+        public int Id { get; protected set; }
+
+        public int Version { get; protected set; } = -1;
+
+        protected List<Event> Changes { get; }
+
+        protected AggregateRoot()
+        {
+            this.Changes = new List<Event>();
         }
 
-        public Memento<TKey> GetMemento()
+        public abstract Memento GetMemento();
+
+        public abstract void LoadsFromHistory(IEnumerable<Event> history);
+
+        public IEnumerable<Event> GetUncommittedChanges()
         {
-            return new Memento<TKey>() { AggregateId = AggregateId, Data = JsonConvert.SerializeObject(this), Version = 0 };
+            return Changes;
         }
 
-        public void SetMemento(Memento<TKey> memento)
+        public void MarkChangesAsCommitted()
+        {
+            Changes.Clear();
+        }
+
+        public void SetMemento(Memento memento)
         {
             var data = JObject.Parse(memento.Data);
             foreach (var t in data)
@@ -121,6 +130,6 @@ namespace Shriek.Domains
             }
         }
 
-        public bool CanCommit => _changes.Any();
+        public bool CanCommit => this.Changes.Any();
     }
 }
