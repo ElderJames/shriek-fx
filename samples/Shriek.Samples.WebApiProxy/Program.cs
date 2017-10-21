@@ -46,7 +46,7 @@ namespace Shriek.Samples.WebApiProxy
                     //服务里注册代理客户端
                     services.AddShriek(option =>
                     {
-                        option.AddWebApiProxy(opt =>
+                        option.UseWebApiProxy(opt =>
                             {
                                 opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                                 opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
@@ -64,7 +64,7 @@ namespace Shriek.Samples.WebApiProxy
             var provider = new ServiceCollection()
                 .AddShriek(option =>
                 {
-                    option.AddWebApiProxy(opt =>
+                    option.UseWebApiProxy(opt =>
                     {
                         opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                         opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");

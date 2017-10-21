@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -107,7 +108,7 @@ namespace Shriek.ServiceProxy.Http
             {
                 Name = method.Name,
                 ReturnTaskType = method.ReturnType,
-                ReturnDataType = method.ReturnType.IsGenericType ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
+                ReturnDataType = method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition().IsAssignableFrom(typeof(Task<>)) ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
                 Attributes = method.GetCustomAttributes<ApiActionAttribute>(true).ToArray(),
                 Parameters = method.GetParameters().Select(GetParameterDescriptor).ToArray()
             };

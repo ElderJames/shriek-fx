@@ -5,7 +5,9 @@ namespace Shriek.ServiceProxy.Abstractions
 {
     public class WebApiProxyOptions
     {
-        public ICollection<IWebApiProxy> WebApiProxies { get; set; } = new List<IWebApiProxy>();
+        public ICollection<IWebApiProxy> WebApiProxies { get; } = new List<IWebApiProxy>();
+
+        public ICollection<KeyValuePair<string, Type>> RegisteredServices { get; } = new KeyValuePair<string, Type>[0];
 
         /// <summary>
         /// 注册Http请求服务
@@ -16,6 +18,14 @@ namespace Shriek.ServiceProxy.Abstractions
         {
             if (Activator.CreateInstance(typeof(TWebApiProxy), baseUrl) is WebApiProxy proxy)
                 WebApiProxies.Add(proxy);
+        }
+
+        public void AddService<TService>(string baseUrl = "")
+        {
+            if (!typeof(TService).IsInterface)
+                throw new ArgumentOutOfRangeException($"{typeof(TService).Name} is not a interface.");
+
+            RegisteredServices.Add(new KeyValuePair<string, Type>(baseUrl, typeof(TService)));
         }
     }
 }
