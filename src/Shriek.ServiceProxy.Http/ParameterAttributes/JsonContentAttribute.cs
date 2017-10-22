@@ -11,7 +11,10 @@ namespace Shriek.ServiceProxy.Http
     [AttributeUsage(AttributeTargets.Parameter)]
     public class JsonContentAttribute : HttpContentAttribute
     {
+        public override string MediaType => "application/json";
+
         /// <summary>
+
         /// 获取http请求内容
         /// </summary>
         /// <param name="context">上下文</param>

@@ -13,6 +13,8 @@ namespace Shriek.ServiceProxy.Http
     [AttributeUsage(AttributeTargets.Parameter)]
     public class XmlContentAttribute : HttpContentAttribute
     {
+        public override string MediaType => "application/xml";
+
         /// <summary>
         /// 获取http请求内容
         /// </summary>

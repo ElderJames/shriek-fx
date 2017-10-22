@@ -13,6 +13,8 @@ namespace Shriek.ServiceProxy.Http
     [AttributeUsage(AttributeTargets.Parameter)]
     public class FormContentAttribute : HttpContentAttribute
     {
+        public override string MediaType => "application/x-www-form-urlencoded";
+
         /// <summary>
         /// 获取http请求内容
         /// </summary>

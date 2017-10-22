@@ -110,7 +110,7 @@ namespace Shriek.ServiceProxy.Http
                 ReturnTaskType = method.ReturnType,
                 ReturnDataType = method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition().IsAssignableFrom(typeof(Task<>)) ? method.ReturnType.GetGenericArguments().FirstOrDefault() : method.ReturnType,
                 Attributes = method.GetCustomAttributes<ApiActionAttribute>(true).ToArray(),
-                Parameters = method.GetParameters().Select(GetParameterDescriptor).ToArray()
+                Parameters = method.GetParameters().Select((param, index) => GetParameterDescriptor(param, index, method)).ToArray()
             };
 
             return descriptor;
@@ -122,7 +122,7 @@ namespace Shriek.ServiceProxy.Http
         /// <param name="parameter">参数信息</param>
         /// <param name="index">参数索引</param>
         /// <returns></returns>
-        private static ApiParameterDescriptor GetParameterDescriptor(ParameterInfo parameter, int index)
+        private static ApiParameterDescriptor GetParameterDescriptor(ParameterInfo parameter, int index, MethodInfo method)
         {
             var parameterDescriptor = new ApiParameterDescriptor
             {
@@ -134,13 +134,18 @@ namespace Shriek.ServiceProxy.Http
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
 
-            if (typeof(HttpContent).IsAssignableFrom(parameter.ParameterType))
+            var methodAttr = method.GetCustomAttributes<ApiActionAttribute>(true);
+
+            if (!parameterDescriptor.Attributes.Any())
             {
-                parameterDescriptor.Attributes = new[] { new HttpContentAttribute() };
-            }
-            else if (!parameterDescriptor.Attributes.Any())
-            {
-                parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
+                if (methodAttr.Any(x => x is HttpGetAttribute) && !parameterDescriptor.Attributes.Any())
+                {
+                    parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
+                }
+                else /*if (typeof(HttpContent).IsAssignableFrom(parameter.ParameterType))*/
+                {
+                    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
+                }
             }
             return parameterDescriptor;
         }

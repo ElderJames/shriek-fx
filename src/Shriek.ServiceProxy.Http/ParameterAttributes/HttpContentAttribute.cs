@@ -11,8 +11,10 @@ namespace Shriek.ServiceProxy.Http
     /// 此特性不需要显示声明
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter)]
-    public class HttpContentAttribute : ApiParameterAttribute
+    public abstract class HttpContentAttribute : ApiParameterAttribute
     {
+        public abstract string MediaType { get; }
+
         /// <summary>
         /// http请求之前
         /// </summary>

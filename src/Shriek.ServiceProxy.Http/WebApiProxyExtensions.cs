@@ -10,11 +10,21 @@ namespace Shriek.ServiceProxy.Http
 {
     public static class WebApiProxyExtensions
     {
+        /// <summary>
+        /// 使用WebApi动态代理客户端
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="optionAction">配置</param>
         public static void UseWebApiProxy(this ShriekOptionBuilder builder, Action<WebApiProxyOptions> optionAction)
         {
             builder.Services.AddWebApiProxy(optionAction);
         }
 
+        /// <summary>
+        /// 使用WebApi动态代理客户端
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="optionAction"></param>
         public static void AddWebApiProxy(this IServiceCollection service, Action<WebApiProxyOptions> optionAction)
         {
             var option = new WebApiProxyOptions();
