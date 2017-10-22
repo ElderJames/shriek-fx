@@ -40,8 +40,17 @@ namespace Shriek.ServiceProxy.Http
         {
             if (!string.IsNullOrEmpty(baseUrl))
                 RequestHost = new Uri(baseUrl);
+
             if (_client == null)
-                _client = new HttpClientAdapter(new HttpClient());
+            {
+                var httpClient = new HttpClient
+                {
+                    Timeout = new TimeSpan(0, 0, 10)
+                };
+                httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
+
+                _client = new HttpClientAdapter(httpClient);
+            }
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -51,7 +60,15 @@ namespace Shriek.ServiceProxy.Http
         public HttpApiClient()
         {
             if (_client == null)
-                _client = new HttpClientAdapter(new HttpClient());
+            {
+                var httpClient = new HttpClient
+                {
+                    Timeout = new TimeSpan(0, 0, 10)
+                };
+                httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
+
+                _client = new HttpClientAdapter(httpClient);
+            }
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -63,7 +80,11 @@ namespace Shriek.ServiceProxy.Http
         {
             RequestHost = httpClient.BaseAddress;
             if (_client == null)
+            {
+                httpClient.Timeout = new TimeSpan(0, 0, 10);
+                httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
                 _client = new HttpClientAdapter(httpClient);
+            }
             this.JsonFormatter = new DefaultJsonFormatter();
         }
 
@@ -77,11 +98,11 @@ namespace Shriek.ServiceProxy.Http
 
         public override async Task Invoke(AspectContext context, AspectDelegate next)
         {
-            var _context = AspectCoreContext.From(context);
+            var httpContext = AspectCoreContext.From(context);
 
             if (RequestHost == null || string.IsNullOrEmpty(RequestHost.OriginalString))
-                if (_context.HostAttribute.Host != null && !string.IsNullOrEmpty(_context.HostAttribute.Host.OriginalString))
-                    RequestHost = _context.HostAttribute.Host;
+                if (httpContext.HostAttribute.Host != null && !string.IsNullOrEmpty(httpContext.HostAttribute.Host.OriginalString))
+                    RequestHost = httpContext.HostAttribute.Host;
                 else
                     throw new ArgumentNullException("BaseUrl or HttpHost attribute", "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
@@ -89,10 +110,10 @@ namespace Shriek.ServiceProxy.Http
             {
                 HttpApiClient = this,
                 RequestMessage = new HttpRequestMessage(),
-                RouteAttributes = _context.RouteAttributes,
-                ApiReturnAttribute = _context.ApiReturnAttribute,
-                ApiActionFilterAttributes = _context.ApiActionFilterAttributes,
-                ApiActionDescriptor = _context.ApiActionDescriptor.Clone() as ApiActionDescriptor
+                RouteAttributes = httpContext.RouteAttributes,
+                ApiReturnAttribute = httpContext.ApiReturnAttribute,
+                ApiActionFilterAttributes = httpContext.ApiActionFilterAttributes,
+                ApiActionDescriptor = httpContext.ApiActionDescriptor.Clone() as ApiActionDescriptor
             };
 
             var parameters = actionContext.ApiActionDescriptor.Parameters;
@@ -101,7 +122,7 @@ namespace Shriek.ServiceProxy.Http
                 parameters[i].Value = context.Parameters[i];
             }
 
-            var apiAction = _context.ApiActionDescriptor;
+            var apiAction = httpContext.ApiActionDescriptor;
 
             await next(context);
 
