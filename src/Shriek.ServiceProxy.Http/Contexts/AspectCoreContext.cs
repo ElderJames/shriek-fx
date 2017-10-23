@@ -1,14 +1,13 @@
-﻿using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using AspectCore.DynamicProxy;
+using Shriek.ServiceProxy.Abstractions;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.Contexts
 {
     /// <summary>
     /// 表示Castle相关上下文
@@ -121,6 +120,7 @@ namespace Shriek.ServiceProxy.Http
         /// </summary>
         /// <param name="parameter">参数信息</param>
         /// <param name="index">参数索引</param>
+        /// <param name="method"></param>
         /// <returns></returns>
         private static ApiParameterDescriptor GetParameterDescriptor(ParameterInfo parameter, int index, MethodInfo method)
         {
@@ -134,17 +134,17 @@ namespace Shriek.ServiceProxy.Http
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
 
-            var methodAttr = method.GetCustomAttributes<ApiActionAttribute>(true);
+            var methodAttrs = method.GetCustomAttributes<ApiActionAttribute>(true);
 
             if (!parameterDescriptor.Attributes.Any())
             {
-                if (methodAttr.Any(x => x is HttpGetAttribute) && !parameterDescriptor.Attributes.Any())
+                if (methodAttrs.Any(x => x is HttpGetAttribute))
                 {
                     parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
                 }
-                else /*if (typeof(HttpContent).IsAssignableFrom(parameter.ParameterType))*/
+                else
                 {
-                    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
+                    parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
                 }
             }
             return parameterDescriptor;

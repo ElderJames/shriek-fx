@@ -41,7 +41,7 @@ namespace Shriek.ServiceProxy.Http
 
                 proxyGeneratorBuilder.Configure(config =>
                 {
-                    config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { o.BaseUrl });
+                    config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { o.BaseUrl ?? option.ProxyHost });
                 });
 
                 proxyService.AddRange(types);
@@ -54,7 +54,7 @@ namespace Shriek.ServiceProxy.Http
                 {
                     proxyGeneratorBuilder.Configure(config =>
                     {
-                        config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { type.Key });
+                        config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { type.Key ?? option.ProxyHost });
                     });
 
                     proxyService.Add(type.Value);
