@@ -125,8 +125,14 @@ namespace Shriek.ServiceProxy.Http
             var apiAction = httpContext.ApiActionDescriptor;
 
             await next(context);
-
-            context.ReturnValue = apiAction.Execute(actionContext);
+            try
+            {
+                context.ReturnValue = apiAction.Execute(actionContext);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"请求远程服务{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{ex.Message}", ex);
+            }
         }
 
         public async Task SendAsync(ApiActionContext context)
