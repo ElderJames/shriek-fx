@@ -206,8 +206,11 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 return true;
             }
 
-            return parameterType == typeof(DateTime) ||
-                   parameterType == typeof(Guid);
+            return parameterType == typeof(string)
+                   || parameterType == typeof(decimal)
+                   || parameterType == typeof(DateTime)
+                   || parameterType == typeof(Guid)
+                   || parameterType == typeof(Uri);
         }
 
         /// <summary>
