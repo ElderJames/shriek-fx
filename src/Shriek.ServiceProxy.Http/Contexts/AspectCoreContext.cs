@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Http.ParameterAttributes;
 
 namespace Shriek.ServiceProxy.Http.Contexts
 {

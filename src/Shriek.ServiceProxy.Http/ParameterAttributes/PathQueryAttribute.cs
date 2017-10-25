@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿using System;
+using System.Globalization;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Contexts;
-using System;
-using System.Globalization;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {
     /// <summary>
     /// 表示Url路径参数或query参数的特性
@@ -80,6 +80,10 @@ namespace Shriek.ServiceProxy.Http
                 {
                     _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", item));
                 }
+            }
+            else if (parameter.ParameterType.IsEnum)
+            {
+                _params.Add(parameter.Name, parameter.Value);
             }
             else
             {
