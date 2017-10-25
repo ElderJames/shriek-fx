@@ -4,6 +4,8 @@ using Shriek.ServiceProxy.Http.Contexts;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
 
 namespace Shriek.ServiceProxy.Http
 {

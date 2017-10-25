@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Context;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Abstractions.Attributes
 {
     /// <summary>
     /// 表示请求Api过滤器特性

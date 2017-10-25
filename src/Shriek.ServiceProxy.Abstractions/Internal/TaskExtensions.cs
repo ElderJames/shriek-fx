@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Abstractions.Internal
 {
     /// <summary>
     /// 提供Taskof(Object)类型转换强类型

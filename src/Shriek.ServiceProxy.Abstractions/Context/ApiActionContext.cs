@@ -1,4 +1,6 @@
-﻿namespace Shriek.ServiceProxy.Abstractions
+﻿using Shriek.ServiceProxy.Abstractions.Attributes;
+
+namespace Shriek.ServiceProxy.Abstractions.Context
 {
     /// <summary>
     /// 表示请求Api的上下文

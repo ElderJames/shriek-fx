@@ -1,10 +1,12 @@
-﻿using Shriek.ServiceProxy.Http.Contexts;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Http.Contexts;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Http.ActionAttributes
 {
     /// <summary>
     /// 表示http请求方法描述特性

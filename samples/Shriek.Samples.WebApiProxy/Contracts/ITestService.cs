@@ -1,6 +1,6 @@
 ﻿using Shriek.Samples.WebApiProxy.Models;
-using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Http;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Http.ActionAttributes;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {

@@ -1,6 +1,6 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Http.ActionAttributes;
 
 namespace Shriek.Samples.Services
 {

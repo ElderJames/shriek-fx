@@ -1,8 +1,8 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Net.Http;
+using Shriek.ServiceProxy.Abstractions;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ActionAttributes
 {
     /// <summary>
     /// 表示Delete请求

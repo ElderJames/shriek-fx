@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
 
 namespace Shriek.ServiceProxy.Abstractions
 {

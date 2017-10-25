@@ -1,8 +1,7 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Net.Http;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ActionAttributes
 {
     /// <summary>
     /// 表示Put请求

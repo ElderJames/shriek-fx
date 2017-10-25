@@ -1,11 +1,14 @@
-﻿using AspectCore.DynamicProxy;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AspectCore.DynamicProxy;
+using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Tcp
 {
     /// <summary>
     /// 表示相关上下文
@@ -125,7 +128,6 @@ namespace Shriek.ServiceProxy.Abstractions
                 Name = parameter.Name,
                 Index = index,
                 ParameterType = parameter.ParameterType,
-                IsSimpleType = IsSimple(parameter.ParameterType),
                 IsUriParameterType = IsUriParameterType(parameter.ParameterType),
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
@@ -171,30 +173,6 @@ namespace Shriek.ServiceProxy.Abstractions
             if (attribute != null) attributes = attributes.Concat(new[] { attribute });
 
             return attributes.ToArray();
-        }
-
-        /// <summary>
-        /// 获取是否为简单类型
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <returns></returns>
-        private static bool IsSimple(Type type)
-        {
-            if (type.IsGenericType)
-            {
-                type = type.GetGenericArguments().FirstOrDefault();
-            }
-
-            if (type.IsPrimitive || type.IsEnum)
-            {
-                return true;
-            }
-
-            return type == typeof(string)
-                   || type == typeof(decimal)
-                   || type == typeof(DateTime)
-                   || type == typeof(Guid)
-                   || type == typeof(Uri);
         }
 
         private static bool IsUriParameterType(Type parameterType)

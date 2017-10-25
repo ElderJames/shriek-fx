@@ -1,11 +1,13 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Http.Contexts;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Http.Contexts;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ReturnAttributes
 {
     /// <summary>
     /// 表示将回复的Xml结果作反序化为指定类型

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Abstractions.Attributes
 {
     /// <summary>
     /// 表示请求服务根路径

@@ -1,10 +1,11 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Http.Contexts;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Http.Contexts;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {
     /// <summary>
     /// 表示参数为HttpContent或派生类型的特性

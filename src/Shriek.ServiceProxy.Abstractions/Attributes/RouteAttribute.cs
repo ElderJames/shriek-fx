@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Abstractions.Attributes
 {
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class RouteAttribute : Attribute

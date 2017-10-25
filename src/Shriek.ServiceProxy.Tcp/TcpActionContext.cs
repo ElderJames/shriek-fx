@@ -1,4 +1,4 @@
-﻿using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Tcp.Protocol;
 
 namespace Shriek.ServiceProxy.Tcp

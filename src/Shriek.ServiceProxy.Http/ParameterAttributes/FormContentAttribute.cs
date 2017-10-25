@@ -1,11 +1,13 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {
     /// <summary>
     /// 表示将参数体作为x-www-form-urlencoded请求
@@ -37,7 +39,7 @@ namespace Shriek.ServiceProxy.Http
         /// <returns></returns>
         protected virtual string GetFormContent(ApiParameterDescriptor parameter, Encoding encoding)
         {
-            if (parameter.IsSimpleType)
+            if (parameter.IsUriParameterType)
             {
                 return this.GetContentSimple(parameter.Name, parameter.Value, encoding);
             }

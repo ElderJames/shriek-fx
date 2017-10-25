@@ -1,9 +1,10 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
+using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Context;
 
-namespace Shriek.ServiceProxy.Http
+namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {
     /// <summary>
     /// 表示将参数体作为application/json请求

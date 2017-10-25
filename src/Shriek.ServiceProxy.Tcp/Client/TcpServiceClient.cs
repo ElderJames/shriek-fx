@@ -8,6 +8,8 @@ using System;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
 
 namespace Shriek.ServiceProxy.Tcp.Client
 {

@@ -6,6 +6,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Http.ActionAttributes;
 using Shriek.ServiceProxy.Http.ParameterAttributes;
 
 namespace Shriek.ServiceProxy.Http.Contexts
@@ -130,7 +133,6 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 Name = parameter.Name,
                 Index = index,
                 ParameterType = parameter.ParameterType,
-                IsSimpleType = IsSimple(parameter.ParameterType),
                 IsUriParameterType = IsUriParameterType(parameter.ParameterType),
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
@@ -143,9 +145,13 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 {
                     parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
                 }
-                else
+                else if (parameterDescriptor.IsUriParameterType)
                 {
                     parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
+                }
+                else
+                {
+                    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
                 }
             }
             return parameterDescriptor;
@@ -184,58 +190,24 @@ namespace Shriek.ServiceProxy.Http.Contexts
         }
 
         /// <summary>
-        /// 获取是否为简单类型
+        /// 判断是否为Uri参数类型
         /// </summary>
-        /// <param name="type">类型</param>
+        /// <param name="parameterType"></param>
         /// <returns></returns>
-        private static bool IsSimple(Type type)
+        private static bool IsUriParameterType(Type parameterType)
         {
-            if (type.IsGenericType)
+            if (parameterType.IsGenericType)
             {
-                type = type.GetGenericArguments().FirstOrDefault();
+                parameterType = parameterType.GetGenericArguments().FirstOrDefault();
             }
 
-            if (type.IsPrimitive || type.IsEnum)
+            if (parameterType.IsPrimitive || parameterType.IsEnum)
             {
                 return true;
             }
 
-            return type == typeof(string)
-                   || type == typeof(decimal)
-                   || type == typeof(DateTime)
-                   || type == typeof(Guid)
-                   || type == typeof(Uri);
-        }
-
-        private static bool IsUriParameterType(Type parameterType)
-        {
-            return parameterType == typeof(string) ||
-                   parameterType == typeof(int) ||
-                   parameterType == typeof(int?) ||
-                   parameterType == typeof(byte) ||
-                   parameterType == typeof(byte?) ||
-                   parameterType == typeof(char) ||
-                   parameterType == typeof(char?) ||
-                   parameterType == typeof(short) ||
-                   parameterType == typeof(short?) ||
-                   parameterType == typeof(ushort) ||
-                   parameterType == typeof(ushort?) ||
-                   parameterType == typeof(uint) ||
-                   parameterType == typeof(uint?) ||
-                   parameterType == typeof(long) ||
-                   parameterType == typeof(long?) ||
-                   parameterType == typeof(ulong) ||
-                   parameterType == typeof(ulong?) ||
-                   parameterType == typeof(decimal) ||
-                   parameterType == typeof(decimal?) ||
-                   parameterType == typeof(float) ||
-                   parameterType == typeof(float?) ||
-                   parameterType == typeof(double) ||
-                   parameterType == typeof(double?) ||
-                   parameterType == typeof(DateTime) ||
-                   parameterType == typeof(DateTime?) ||
-                   parameterType == typeof(Guid) ||
-                   parameterType == typeof(Guid?);
+            return parameterType == typeof(DateTime) ||
+                   parameterType == typeof(Guid);
         }
 
         /// <summary>

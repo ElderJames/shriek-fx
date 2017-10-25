@@ -1,6 +1,7 @@
 ﻿using System;
+using Shriek.ServiceProxy.Abstractions.Attributes;
 
-namespace Shriek.ServiceProxy.Abstractions
+namespace Shriek.ServiceProxy.Abstractions.Context
 {
     /// <summary>
     /// 表示请求Api的参数描述
@@ -26,11 +27,6 @@ namespace Shriek.ServiceProxy.Abstractions
         /// 获取参数值
         /// </summary>
         public object Value { get; set; }
-
-        /// <summary>
-        /// 获取参数类型是否为简单类型
-        /// </summary>
-        public bool IsSimpleType { get; set; }
 
         /// <summary>
         /// 获取关联的参数特性
@@ -61,7 +57,6 @@ namespace Shriek.ServiceProxy.Abstractions
             {
                 Attributes = this.Attributes,
                 Index = this.Index,
-                IsSimpleType = this.IsSimpleType,
                 IsUriParameterType = this.IsUriParameterType,
                 Name = this.Name,
                 ParameterType = this.ParameterType,

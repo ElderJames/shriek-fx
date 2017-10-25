@@ -5,6 +5,7 @@ using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Server.Internal;
 using System;
 using System.Linq;
+using Shriek.ServiceProxy.Abstractions.Attributes;
 
 namespace Shriek.ServiceProxy.Http.Server
 {
