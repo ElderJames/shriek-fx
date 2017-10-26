@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shriek.Events
+﻿namespace Shriek.Events
 {
     public interface IHandle<in TEvent> where TEvent : IEvent
     {

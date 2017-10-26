@@ -1,6 +1,6 @@
-﻿using Shriek.ServiceProxy.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http.Server
 {

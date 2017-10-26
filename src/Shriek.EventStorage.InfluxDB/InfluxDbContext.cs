@@ -1,11 +1,11 @@
-﻿using InfluxData.Net.Common.Enums;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using InfluxData.Net.Common.Enums;
 using InfluxData.Net.Common.Infrastructure;
 using InfluxData.Net.InfluxDb;
 using InfluxData.Net.InfluxDb.ClientModules;
 using InfluxData.Net.InfluxDb.Models;
 using InfluxData.Net.InfluxDb.Models.Responses;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shriek.EventStorage.InfluxDB
 {

@@ -1,8 +1,8 @@
-﻿using Shriek.ServiceProxy.Tcp.Attributes;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Attributes;
 
 namespace Shriek.ServiceProxy.Tcp.Dispatching
 {

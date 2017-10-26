@@ -1,6 +1,6 @@
 ﻿using System;
-using Shriek.Events;
 using System.ComponentModel.DataAnnotations;
+using Shriek.Events;
 
 namespace Shriek.Storage
 {

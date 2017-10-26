@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
-using Shriek.ServiceProxy.Http.Server.Internal;
-using System;
-using System.Linq;
 using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Http.Server.Internal;
 
 namespace Shriek.ServiceProxy.Http.Server
 {

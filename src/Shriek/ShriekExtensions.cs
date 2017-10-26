@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.Events;
 using Shriek.Messages;
 using Shriek.Notifications;
 using Shriek.Storage;
-using System;
-using System.Linq;
-using System.Reflection;
 
 namespace Shriek
 {

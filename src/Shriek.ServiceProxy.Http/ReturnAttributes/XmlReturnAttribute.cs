@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Http.Contexts;

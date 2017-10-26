@@ -1,5 +1,5 @@
-﻿using LiteDB;
-using System;
+﻿using System;
+using LiteDB;
 
 namespace Shriek.EventStorage.LiteDB
 {

@@ -1,5 +1,4 @@
-﻿using Shriek.ServiceProxy.Abstractions.TcpClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Shriek.ServiceProxy.Abstractions.TcpClient;
 
 namespace Shriek.ServiceProxy.Tcp.Server
 {

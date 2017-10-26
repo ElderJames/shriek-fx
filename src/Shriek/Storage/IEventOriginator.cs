@@ -1,5 +1,5 @@
-﻿using Shriek.Storage.Mementos;
-using System;
+﻿using System;
+using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
 {

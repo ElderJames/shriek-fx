@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Shriek.Notifications;
-using System.Threading.Tasks;
 
 namespace Shriek.Samples.CQRS.EFCore.ViewComponents
 {

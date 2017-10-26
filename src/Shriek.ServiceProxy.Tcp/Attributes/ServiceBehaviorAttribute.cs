@@ -1,5 +1,5 @@
-﻿using Shriek.ServiceProxy.Tcp.Dispatching;
-using System;
+﻿using System;
+using Shriek.ServiceProxy.Tcp.Dispatching;
 
 namespace Shriek.ServiceProxy.Tcp.Attributes
 {

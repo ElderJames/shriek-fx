@@ -1,5 +1,5 @@
-﻿using Shriek.ServiceProxy.Tcp.Communication;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
+using Shriek.ServiceProxy.Tcp.Communication;
 
 namespace Shriek.ServiceProxy.Tcp.Tools
 {

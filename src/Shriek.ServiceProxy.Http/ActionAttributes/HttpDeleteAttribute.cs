@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Http.ActionAttributes
 {

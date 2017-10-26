@@ -1,5 +1,5 @@
-﻿using Shriek.Samples.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shriek.Samples.Models;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Http.ActionAttributes;
 using Shriek.ServiceProxy.Http.ParameterAttributes;

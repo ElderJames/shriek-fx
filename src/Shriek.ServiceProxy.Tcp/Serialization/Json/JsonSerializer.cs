@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Shriek.ServiceProxy.Tcp.Serialization.Json
 {

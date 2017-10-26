@@ -1,9 +1,9 @@
-﻿using Shriek.Converter.Converts;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Shriek.Converter.Converts;
 
 namespace Shriek.Converter
 {

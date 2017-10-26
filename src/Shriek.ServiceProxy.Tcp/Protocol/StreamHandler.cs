@@ -1,6 +1,4 @@
-﻿using Shriek.ServiceProxy.Tcp.Buffering;
-using Shriek.ServiceProxy.Tcp.Communication;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +6,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Buffering;
+using Shriek.ServiceProxy.Tcp.Communication;
 
 namespace Shriek.ServiceProxy.Tcp.Protocol
 {

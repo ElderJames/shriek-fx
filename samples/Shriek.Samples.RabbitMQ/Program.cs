@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.Domains;
 using Shriek.Events;
 using Shriek.Messages.RabbitMQ;
-using System;
-using System.Threading;
 
 namespace Shriek.Samples.RabbitMQ
 {

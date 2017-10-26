@@ -1,7 +1,7 @@
-﻿using Shriek.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shriek.Notifications;
 
 namespace Shriek.Samples.EventStorage.Redis.Handlers
 {

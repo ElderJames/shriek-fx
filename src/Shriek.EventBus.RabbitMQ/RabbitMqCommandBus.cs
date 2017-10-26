@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Text;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using Shriek.Commands;
-using System;
-using System.Text;
 
 namespace Shriek.Messages.RabbitMQ
 {
     public class RabbitMqCommandBus : ICommandBus, IDisposable
     {
-        private IModel channel;
-        private CommandBusRabbitMqOptions options;
+        private readonly IModel channel;
+        private readonly CommandBusRabbitMqOptions options;
 
         public RabbitMqCommandBus(IMessagePublisher messagePublisher, CommandBusRabbitMqOptions options)
         {

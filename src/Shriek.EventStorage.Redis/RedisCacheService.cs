@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Text;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace Shriek.EventStorage.Redis
 {

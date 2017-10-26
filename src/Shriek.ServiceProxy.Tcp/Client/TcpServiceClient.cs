@@ -1,15 +1,15 @@
-﻿using AspectCore.DynamicProxy;
+﻿using System;
+using System.Linq;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
 using Shriek.ServiceProxy.Tcp.Communication;
 using Shriek.ServiceProxy.Tcp.Dispatching;
 using Shriek.ServiceProxy.Tcp.Protocol;
 using Shriek.ServiceProxy.Tcp.Tools;
-using System;
-using System.Linq;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using Shriek.ServiceProxy.Abstractions.Context;
-using Shriek.ServiceProxy.Abstractions.Internal;
 
 namespace Shriek.ServiceProxy.Tcp.Client
 {

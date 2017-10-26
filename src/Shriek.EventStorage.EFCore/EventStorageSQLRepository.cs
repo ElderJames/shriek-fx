@@ -1,9 +1,9 @@
-﻿using Shriek.EventSourcing;
-using Shriek.Storage;
-using Shriek.Storage.Mementos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shriek.EventSourcing;
+using Shriek.Storage;
+using Shriek.Storage.Mementos;
 
 namespace Shriek.EventStorage.EFCore
 {

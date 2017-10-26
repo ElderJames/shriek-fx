@@ -1,8 +1,8 @@
-﻿using Shriek.Messages;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Shriek.Messages;
 
 namespace Shriek.Events
 {

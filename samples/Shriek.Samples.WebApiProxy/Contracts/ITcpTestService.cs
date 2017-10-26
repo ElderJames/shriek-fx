@@ -1,5 +1,5 @@
-﻿using Shriek.ServiceProxy.Tcp.Attributes;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shriek.ServiceProxy.Tcp.Attributes;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {

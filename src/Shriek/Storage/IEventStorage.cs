@@ -1,7 +1,7 @@
-﻿using Shriek.Domains;
-using Shriek.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Shriek.Domains;
+using Shriek.Events;
 
 namespace Shriek.Storage
 {

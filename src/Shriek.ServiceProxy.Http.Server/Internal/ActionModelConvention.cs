@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using Shriek.ServiceProxy.Http.ActionAttributes;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Http.ActionAttributes;
 using HttpDelete = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGet = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpHead = Microsoft.AspNetCore.Mvc.HttpHeadAttribute;
