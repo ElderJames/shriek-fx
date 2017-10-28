@@ -5,12 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Shriek.Samples.WebApiProxy.Contracts;
-using Shriek.Samples.WebApiProxy.Services;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
-using Shriek.ServiceProxy.Tcp;
-using Shriek.ServiceProxy.Tcp.Communication;
-using Shriek.ServiceProxy.Tcp.Server;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -18,22 +14,6 @@ namespace Shriek.Samples.WebApiProxy
     {
         public static void Main(string[] args)
         {
-            var config = new ChannelConfig
-            {
-                ReceiveTimeout = TimeSpan.FromSeconds(60),
-                SendTimeout = TimeSpan.FromSeconds(60)
-            };
-            var host = new ServiceHost<TcpTestService>(9091);
-
-            host.AddContract<ITcpTestService>(config);
-
-            host.ServiceInstantiated += s =>
-            {
-                //construct the created instance
-            };
-
-            host.Open().Wait();
-
             new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls("http://*:8080", "http://*:8081")
@@ -51,10 +31,6 @@ namespace Shriek.Samples.WebApiProxy
                                 opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                                 opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                             });
-                        option.UseTcpServiceProxy(opt =>
-                            {
-                                opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
-                            });
                     });
                 })
                 .Configure(app => app.UseMvc())
@@ -68,10 +44,6 @@ namespace Shriek.Samples.WebApiProxy
                     {
                         opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                         opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                    });
-                    option.UseTcpServiceProxy(opt =>
-                    {
-                        opt.AddTcpProxy<ITcpTestService>("localhost", 9091, config);
                     });
                 })
                 .Services
