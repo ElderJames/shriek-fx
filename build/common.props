@@ -1,0 +1,20 @@
+<Project>
+  <Import Project="sign.props" />
+  <Import Project="version.props" />
+  <PropertyGroup>
+    <Authors>ElderJames</Authors>
+    <Product>Shriek Framework</Product>
+    <!-- <PackageIconUrl></PackageIconUrl> -->
+    <PackageProjectUrl>https://github.com/ElderJames/shriek-fx</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/ElderJames/shriek-fx/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ElderJames/shriek-fx</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>  
+    <NETStandardImplicitPackageVersion>2.0.0</NETStandardImplicitPackageVersion>
+    <NETStandardLibraryNETFrameworkVersion>2.0.0</NETStandardLibraryNETFrameworkVersion>
+  </PropertyGroup>
+</Project>
