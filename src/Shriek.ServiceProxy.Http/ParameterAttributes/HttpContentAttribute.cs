@@ -42,9 +42,6 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
         /// <param name="context">上下文</param>
         /// <param name="parameter">特性关联的属性</param>
         /// <returns></returns>
-        protected virtual HttpContent GetHttpContent(ApiActionContext context, ApiParameterDescriptor parameter)
-        {
-            return parameter.Value as HttpContent;
-        }
+        protected abstract HttpContent GetHttpContent(ApiActionContext context, ApiParameterDescriptor parameter);
     }
 }

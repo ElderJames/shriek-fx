@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
@@ -56,10 +59,9 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
             if (!(context is HttpApiActionContext httpContext)) return;
 
             var uri = httpContext.RequestMessage.RequestUri;
-            var baseUrl = uri.Scheme + "://" + uri.Host + (uri.IsDefaultPort ? "" : ":" + uri.Port);
-            var pathQuery = GetPathQuery(uri.LocalPath.Trim('/'), parameter);
+            var pathQuery = GetPathQuery(uri, parameter);
+            httpContext.RequestMessage.RequestUri = new Uri(uri, pathQuery);
 
-            httpContext.RequestMessage.RequestUri = new Uri(new Uri(baseUrl), pathQuery);
             await Task.CompletedTask;
         }
 
@@ -69,9 +71,27 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
         /// <param name="template">路由模版</param>
         /// <param name="parameter">参数</param>
         /// <returns></returns>
-        private string GetPathQuery(string template, ApiParameterDescriptor parameter)
+        private string GetPathQuery(Uri uri, ApiParameterDescriptor parameter)
         {
             var _params = new RouteValueDictionary();
+
+            var template = uri.LocalPath.Trim('/');
+            var queryString = HttpUtility.UrlDecode(uri.Query).TrimStart('?');
+
+            if (!string.IsNullOrEmpty(queryString))
+            {
+                var keyValues = queryString.Split('&').Select(group =>
+                {
+                    var keyvalue = group.Split('=');
+                    return new { key = keyvalue[0], value = keyvalue[1] };
+                });
+
+                foreach (var kv in keyValues)
+                {
+                    _params.Add(kv.key, kv.value);
+                }
+            }
+
             if (parameter.IsUriParameterType)
             {
                 _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));

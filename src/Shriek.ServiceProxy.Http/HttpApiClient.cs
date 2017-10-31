@@ -106,7 +106,7 @@ namespace Shriek.ServiceProxy.Http
                 if (httpContext.HostAttribute.Host != null && !string.IsNullOrEmpty(httpContext.HostAttribute.Host.OriginalString))
                     RequestHost = httpContext.HostAttribute.Host;
                 else
-                    throw new ArgumentNullException("BaseUrl or HttpHost attribute", "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
+                    throw new ArgumentNullException(nameof(context), "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
             var actionContext = new HttpApiActionContext
             {

@@ -50,8 +50,10 @@ namespace Shriek.ServiceProxy.Http.ActionAttributes
             if (context is HttpApiActionContext httpApiActionContext)
             {
                 httpApiActionContext.RequestMessage.Method = this.Method;
+
                 var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1)
                     .Select(x => x.Template.Trim('/'));
+
                 httpApiActionContext.RequestMessage.RequestUri = new Uri(context.HttpApiClient.RequestHost,
                     string.Join("/", routes) + '/' + this.Path.Trim('/'));
             }

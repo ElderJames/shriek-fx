@@ -21,7 +21,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 5. 最终一致性 （Eventually Consistent）
 6. Server/Client 动态代理 (提供接口自动实现客户端和服务端)
 7. 框架中每个组件都有基础实现，只需一个核心类库就能跑起来
-8. 框架组件适配多种第三方组件实现，从单体到面向服务按需扩展
+8. 遵循端口与适配器模式，框架组件适配多种第三方组件实现，从单体到面向服务按需扩展
 
 ### 安装Nuget包
 
