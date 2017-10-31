@@ -63,12 +63,13 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
   - Bus / 消息队列（MQ）
 	- [x] RabbitMQ
 	- [ ] Orleans
+  - [ ] Actor
   - [ ] Saga
 - Q端 + Real DB 
   - [x] EF Core
   - [ ] Dapper
   - [ ] 查询基类
-- Service层
+- 应用服务层
   - WebApi 接口动态代理
 	- [x] Http / MVC
 	- [ ] TCP  / RPC (DotNetty)
