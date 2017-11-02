@@ -44,7 +44,7 @@ namespace Shriek.ServiceProxy.Abstractions.Context
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} = {1}", this.Name, this.Value);
+            return $"{this.Name} = {this.Value}";
         }
 
         /// <summary>

@@ -94,7 +94,7 @@ namespace Shriek.ServiceProxy.Abstractions
                     return result;
             }
 
-            var message = string.Format("不支持的类型{0}的解析", context.ApiActionDescriptor.ReturnDataType);
+            var message = $"不支持的类型{context.ApiActionDescriptor.ReturnDataType}的解析";
             throw new NotSupportedException(message);
         }
 
