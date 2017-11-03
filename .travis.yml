@@ -7,4 +7,4 @@ branches:
     - master
 script:
  - dotnet restore 
- - dotnet build
+ - dotnet build -r linux-x64
