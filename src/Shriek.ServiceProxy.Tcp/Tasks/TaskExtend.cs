@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Tasks
@@ -17,7 +14,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// 表示已完成的task
         /// </summary>
         public static readonly Task CompletedTask = Task.FromResult<object>(null);
-
 
         /// <summary>
         /// 转换为TaskOf(TResult)类型
@@ -48,7 +44,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// </summary>
         /// <param name="objectTask">源Task</param>
         /// <param name="targetResultType">目标Task的Result的类型</param>
-        /// <param name="sourceTaskType">源Task的类型</param>    
+        /// <param name="sourceTaskType">源Task的类型</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public static Task Cast(this Task<object> objectTask, Type targetResultType)
@@ -93,7 +89,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// </summary>
         /// <param name="sourceTask">源Task</param>
         /// <param name="targetResultType">目标Task的Result的类型</param>
-        /// <param name="sourceTaskType">源Task的类型</param>    
+        /// <param name="sourceTaskType">源Task的类型</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public static Task Cast(this Task sourceTask, Type targetResultType, Type sourceTaskType)
@@ -122,11 +118,10 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
             return taskSource.Task;
         }
 
-
         /// <summary>
         /// 提供获取task的Result
         /// </summary>
-        static class TaskResult
+        private static class TaskResult
         {
             /// <summary>
             /// 安全字典
@@ -189,7 +184,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// <summary>
         /// 提供任务的创建
         /// </summary>
-        class TaskCompletionSource
+        private class TaskCompletionSource
         {
             /// <summary>
             /// 提供任务的创建接口
@@ -266,7 +261,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 /// <returns></returns>
                 bool SetException(Exception ex);
             }
-
 
             /// <summary>
             /// 提供Task结果设置

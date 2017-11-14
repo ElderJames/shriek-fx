@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Abstractions.Internal;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web;
-using Shriek.ServiceProxy.Abstractions.Context;
-using Shriek.ServiceProxy.Abstractions.Internal;
 
 namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {

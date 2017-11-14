@@ -2,15 +2,9 @@
 using Shriek.ServiceProxy.Tcp.Exceptions;
 using Shriek.ServiceProxy.Tcp.Tasks;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Fast

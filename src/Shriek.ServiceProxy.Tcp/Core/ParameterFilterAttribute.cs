@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -21,7 +17,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// 绑定参数
         /// </summary>
         /// <param name="index">参数索引</param>
-        internal ParameterFilterAttribute InitWith(int index )
+        internal ParameterFilterAttribute InitWith(int index)
         {
             this.index = index;
             return this;
@@ -33,7 +29,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <param name="filterContext"></param>
         protected sealed override void OnExecuting(IActionContext filterContext)
         {
-            this.OnExecuting(filterContext.Action,  filterContext.Action.Parameters[this.index]);
+            this.OnExecuting(filterContext.Action, filterContext.Action.Parameters[this.index]);
         }
 
         /// <summary>

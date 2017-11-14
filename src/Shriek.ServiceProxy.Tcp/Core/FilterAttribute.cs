@@ -1,10 +1,7 @@
 ﻿using Shriek.ServiceProxy.Tcp.Tasks;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -22,7 +19,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <summary>
         /// 执行顺序
         /// 最小的值优先执行
-        /// </summary>        
+        /// </summary>
         public int Order { get; protected set; }
 
         /// <summary>
@@ -50,19 +47,17 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <returns></returns>
         private static bool IsAllowMultiple(Type attributeType)
         {
-            return multiuseAttributeCache.GetOrAdd(attributeType, type => type                
+            return multiuseAttributeCache.GetOrAdd(attributeType, type => type
                 .GetCustomAttributes(typeof(AttributeUsageAttribute), true)
                 .Cast<AttributeUsageAttribute>()
                 .First()
                 .AllowMultiple);
         }
 
-
-
         /// <summary>
-        /// 在执行Api行为前触发       
+        /// 在执行Api行为前触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>       
+        /// <param name="filterContext">上下文</param>
         /// <returns></returns>
         void IFilter.OnExecuting(IActionContext filterContext)
         {
@@ -72,7 +67,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <summary>
         /// 在执行Api行为后触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>      
+        /// <param name="filterContext">上下文</param>
         void IFilter.OnExecuted(IActionContext filterContext)
         {
             Dispatcher.Wait(() => this.OnExecuted(filterContext));
@@ -88,16 +83,16 @@ namespace Shriek.ServiceProxy.Tcp.Core
         }
 
         /// <summary>
-        /// 在执行Api行为前触发       
+        /// 在执行Api行为前触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>       
+        /// <param name="filterContext">上下文</param>
         /// <returns></returns>
         protected abstract void OnExecuting(IActionContext filterContext);
 
         /// <summary>
         /// 在执行Api行为后触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>      
+        /// <param name="filterContext">上下文</param>
         protected abstract void OnExecuted(IActionContext filterContext);
 
         /// <summary>

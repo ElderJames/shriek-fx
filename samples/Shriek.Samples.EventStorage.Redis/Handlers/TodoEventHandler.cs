@@ -1,6 +1,6 @@
-﻿using System.Threading;
-using Shriek.Events;
+﻿using Shriek.Events;
 using Shriek.Samples.Events;
+using System.Threading;
 
 namespace Shriek.Samples.EventStorage.Redis.Handlers
 {

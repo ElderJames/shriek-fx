@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Shriek.ServiceProxy.Abstractions.Attributes;
 using Route = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Shriek.ServiceProxy.Http.Server.Internal

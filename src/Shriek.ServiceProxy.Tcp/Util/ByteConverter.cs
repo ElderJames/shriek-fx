@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Shriek.ServiceProxy.Tcp.Util
+﻿namespace Shriek.ServiceProxy.Tcp.Util
 {
     /// <summary>
     /// 表示byte类型转换工具类

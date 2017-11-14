@@ -1,12 +1,4 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Tasks
@@ -23,8 +15,8 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
 
         /// <summary>
         /// 设置任务的行为结果
-        /// </summary>     
-        /// <param name="value">数据值</param>   
+        /// </summary>
+        /// <param name="value">数据值</param>
         /// <returns></returns>
         bool SetResult(object value);
 
@@ -44,8 +36,8 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
     {
         /// <summary>
         /// 设置任务的行为结果
-        /// </summary>     
-        /// <param name="value">数据值</param>   
+        /// </summary>
+        /// <param name="value">数据值</param>
         /// <returns></returns>
         bool SetResult(TResult value);
 
@@ -68,7 +60,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// <param name="timeout">超时时间</param>
         /// <returns></returns>
         ITaskSetter<TResult> TimeoutAfter(TimeSpan timeout);
-
 
         /// <summary>
         /// 设置超时时间

@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp
 {
     /// <summary>
     /// 表示Tcp会话对象管理器
     /// 线程安全类型
-    /// </summary>   
+    /// </summary>
     [DebuggerDisplay("Count = {Count}")]
     [DebuggerTypeProxy(typeof(SessionCollectionDebugView))]
     internal class TcpSessionManager : ISessionManager, IEnumerable<TcpSessionBase>, IDisposable
@@ -26,9 +25,9 @@ namespace Shriek.ServiceProxy.Tcp
         /// 工作中的会话
         /// </summary>
         private readonly ConcurrentDictionary<Guid, TcpSessionBase> workSessions = new ConcurrentDictionary<Guid, TcpSessionBase>();
-        
+
         /// <summary>
-        /// 获取元素数量 
+        /// 获取元素数量
         /// </summary>
         public int Count
         {
@@ -72,7 +71,7 @@ namespace Shriek.ServiceProxy.Tcp
         }
 
         /// <summary>
-        /// 移除一个会话    
+        /// 移除一个会话
         /// </summary>
         /// <param name="session">会话对象</param>
         /// <returns></returns>
@@ -130,7 +129,6 @@ namespace Shriek.ServiceProxy.Tcp
             return this.workSessions.Values.GetEnumerator();
         }
 
-
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -148,7 +146,6 @@ namespace Shriek.ServiceProxy.Tcp
                 session.Dispose();
             }
         }
-
 
         /// <summary>
         /// 调试视图
@@ -182,5 +179,4 @@ namespace Shriek.ServiceProxy.Tcp
             }
         }
     }
-
 }

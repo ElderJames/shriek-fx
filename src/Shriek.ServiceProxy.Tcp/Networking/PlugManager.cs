@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp
 {
@@ -113,7 +110,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// 服务异常后触发
         /// </summary>
         /// <param name="sender">发生者</param>
-        /// <param name="exception">异常</param> 
+        /// <param name="exception">异常</param>
         public void RaiseException(object sender, Exception exception)
         {
             foreach (var item in this.plugs)

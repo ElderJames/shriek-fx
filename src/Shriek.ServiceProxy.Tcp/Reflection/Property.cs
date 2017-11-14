@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -53,8 +52,6 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
             }
         }
 
-
-
         /// <summary>
         /// 获取属性的值
         /// </summary>
@@ -84,7 +81,6 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
             }
             this.seter.Invoke(instance, value);
         }
-
 
         /// <summary>
         /// 类型属性的Setter缓存

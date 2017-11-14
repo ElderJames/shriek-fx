@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using System;
 
 namespace Shriek.EventStorage.InfluxDB
 {

@@ -1,13 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
     /// <summary>
-    /// 定义对象的化进制序列化与反序列化的接口    
+    /// 定义对象的化进制序列化与反序列化的接口
     /// </summary>
     public interface ISerializer
     {

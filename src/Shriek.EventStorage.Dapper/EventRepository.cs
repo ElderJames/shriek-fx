@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Dapper;
+﻿using Dapper;
 using Shriek.EventSourcing;
 using Shriek.IoC;
 using Shriek.Storage;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Shriek.EventStorage.Dapper
 {

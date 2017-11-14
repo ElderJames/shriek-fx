@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Net;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 namespace Shriek.ServiceProxy.Tcp.Util
 {

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp
 {
@@ -31,7 +28,7 @@ namespace Shriek.ServiceProxy.Tcp
         void UseSSL(X509Certificate cer);
 
         /// <summary>
-        /// 开始启动监听        
+        /// 开始启动监听
         /// </summary>
         /// <param name="localEndPoint">本机ip和端口</param>
         /// <param name="backlog">挂起连接队列的最大长度</param>

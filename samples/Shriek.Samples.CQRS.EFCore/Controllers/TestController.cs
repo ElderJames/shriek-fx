@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shriek.Samples.Services;
+using System.Threading.Tasks;
 
 namespace Shriek.Samples.CQRS.EFCore.Controllers
 {

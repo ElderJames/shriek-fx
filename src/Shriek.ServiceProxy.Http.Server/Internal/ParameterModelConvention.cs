@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Shriek.ServiceProxy.Http.ParameterAttributes;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Shriek.ServiceProxy.Http.Server.Internal
 {

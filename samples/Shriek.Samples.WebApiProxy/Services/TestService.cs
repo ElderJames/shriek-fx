@@ -1,6 +1,6 @@
-﻿using System;
-using Shriek.Samples.WebApiProxy.Contracts;
+﻿using Shriek.Samples.WebApiProxy.Contracts;
 using Shriek.Samples.WebApiProxy.Models;
+using System;
 
 namespace Shriek.Samples.WebApiProxy.Services
 {

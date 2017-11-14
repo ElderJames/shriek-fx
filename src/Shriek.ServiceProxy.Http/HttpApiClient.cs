@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
+﻿using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Abstractions.Internal;
 using Shriek.ServiceProxy.Http.Contexts;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Http
 {

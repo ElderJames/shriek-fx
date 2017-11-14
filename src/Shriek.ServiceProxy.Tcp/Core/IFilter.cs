@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Shriek.ServiceProxy.Tcp.Core
+﻿namespace Shriek.ServiceProxy.Tcp.Core
 {
     /// <summary>
     /// 定义滤过器的接口
     /// </summary>
-    public interface IFilter 
+    public interface IFilter
     {
         /// <summary>
         /// 执行顺序
@@ -21,18 +16,17 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// </summary>
         bool AllowMultiple { get; }
 
-
         /// <summary>
-        /// 在执行Api行为前触发       
+        /// 在执行Api行为前触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>       
+        /// <param name="filterContext">上下文</param>
         /// <returns></returns>
         void OnExecuting(IActionContext filterContext);
 
         /// <summary>
         /// 在执行Api行为后触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>      
+        /// <param name="filterContext">上下文</param>
         void OnExecuted(IActionContext filterContext);
 
         /// <summary>

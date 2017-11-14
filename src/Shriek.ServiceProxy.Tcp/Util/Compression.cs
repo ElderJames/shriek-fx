@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Util
 {
@@ -16,7 +11,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// Gzip压缩
         /// </summary>
-        /// <param name="buffer">数据</param>        
+        /// <param name="buffer">数据</param>
         /// <returns></returns>
         public static byte[] GZipCompress(byte[] buffer)
         {

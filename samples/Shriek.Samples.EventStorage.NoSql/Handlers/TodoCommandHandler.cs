@@ -1,7 +1,7 @@
-﻿using System;
-using Shriek.Commands;
+﻿using Shriek.Commands;
 using Shriek.Samples.Aggregates;
 using Shriek.Samples.Commands;
+using System;
 
 namespace Shriek.Samples.EventStorage.NoSql.Handlers
 {

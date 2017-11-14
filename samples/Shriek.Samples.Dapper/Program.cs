@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Shriek.Commands;
 using Shriek.EventStorage.Dapper;
 using Shriek.Samples.Dapper.Commands;
 using Shriek.Storage;
+using System;
 
 namespace Shriek.Samples.Dapper
 {

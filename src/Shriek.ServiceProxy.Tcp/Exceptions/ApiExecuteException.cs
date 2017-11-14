@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Exceptions
 {
@@ -12,7 +9,7 @@ namespace Shriek.ServiceProxy.Tcp.Exceptions
     {
         /// <summary>
         /// Api执行异常
-        /// </summary>       
+        /// </summary>
         /// <param name="innerException">内部异常</param>
         public ApiExecuteException(Exception innerException)
             : base(innerException.Message, innerException)

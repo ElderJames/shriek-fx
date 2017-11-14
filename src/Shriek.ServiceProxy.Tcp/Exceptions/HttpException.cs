@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Exceptions
 {
@@ -23,7 +20,7 @@ namespace Shriek.ServiceProxy.Tcp.Exceptions
         /// <param name="message">提示消息</param>
         public HttpException(int status, string message)
             : base(message)
-        { 
+        {
             this.Status = status;
         }
 

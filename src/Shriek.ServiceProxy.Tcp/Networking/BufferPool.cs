@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp
 {
@@ -17,11 +15,9 @@ namespace Shriek.ServiceProxy.Tcp
         public static readonly int BlockSize = 8 * 1024;
 
         /// <summary>
-        /// 获取每个缓冲区SocketAsyncEventArgs的数量(256) 
+        /// 获取每个缓冲区SocketAsyncEventArgs的数量(256)
         /// </summary>
         public static readonly int BlockCount = 256;
-
-
 
         /// <summary>
         /// 同步锁
@@ -65,7 +61,7 @@ namespace Shriek.ServiceProxy.Tcp
 
         /// <summary>
         /// 设置SocketAsyncEventArgs缓存区
-        /// </summary>        
+        /// </summary>
         /// <param name="arg">SocketAsyncEventArgs对象</param>
         public static void SetBuffer(SocketAsyncEventArgs arg)
         {
@@ -95,7 +91,6 @@ namespace Shriek.ServiceProxy.Tcp
             /// 有效数据的位置
             /// </summary>
             private int position = 0;
-
 
             public bool CanAlloc
             {

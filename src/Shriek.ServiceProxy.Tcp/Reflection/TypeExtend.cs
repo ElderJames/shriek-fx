@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Reflection
 {
@@ -39,7 +36,7 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
         }
 
         /// <summary>
-        /// 是否为复杂类型        
+        /// 是否为复杂类型
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
@@ -47,6 +44,7 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
         {
             return type.GetInfoEx().IsComplexClass;
         }
+
         /// <summary>
         /// 获取类型信息
         /// </summary>
@@ -73,7 +71,7 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
             public bool IsArrayOrList { get; private set; }
 
             /// <summary>
-            /// 是否为复杂类型  
+            /// 是否为复杂类型
             /// </summary>
             public bool IsComplexClass { get; private set; }
 

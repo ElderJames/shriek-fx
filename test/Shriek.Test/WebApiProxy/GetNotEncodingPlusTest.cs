@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Castle.DynamicProxy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Shriek.WebApi.Proxy;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Shriek.WebApi.Proxy;
 
 namespace Shriek.Test.WebApiProxy
 {

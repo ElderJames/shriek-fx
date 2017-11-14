@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Shriek.Domains;
+using System;
 using System.Collections.Generic;
-using Shriek.Domains;
 
 namespace Shriek.Commands
 {

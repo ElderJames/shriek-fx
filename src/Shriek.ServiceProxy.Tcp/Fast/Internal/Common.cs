@@ -4,10 +4,8 @@ using Shriek.ServiceProxy.Tcp.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Fast
 {
@@ -61,9 +59,8 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             }
         }
 
-
         /// <summary>
-        /// 设置Api行为返回的任务异常        
+        /// 设置Api行为返回的任务异常
         /// </summary>
         /// <param name="taskSetActionTable">任务行为表</param>
         /// <param name="requestContext">请求上下文</param>
@@ -82,11 +79,11 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             return taskSetAction.SetException(exception);
         }
 
-        /// <summary>       
+        /// <summary>
         /// 发送异常信息到远程端
         /// </summary>
-        /// <param name="sessionWrapper">会话对象</param>       
-        /// <param name="exceptionContext">上下文</param>  
+        /// <param name="sessionWrapper">会话对象</param>
+        /// <param name="exceptionContext">上下文</param>
         /// <returns></returns>
         public static bool SendRemoteException(IWrapper sessionWrapper, ExceptionContext exceptionContext)
         {
@@ -105,16 +102,16 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// 调用远程端的Api     
+        /// 调用远程端的Api
         /// 并返回结果数据任务
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="session">会话对象</param>
         /// <param name="taskSetActionTable">任务行为表</param>
-        /// <param name="serializer">序列化工具</param>      
-        /// <param name="packet">封包</param>      
+        /// <param name="serializer">序列化工具</param>
+        /// <param name="packet">封包</param>
         /// <param name="timeout">超时时间</param>
-        /// <exception cref="SocketException"></exception>   
+        /// <exception cref="SocketException"></exception>
         /// <returns></returns>
         public static ApiResult<T> InvokeApi<T>(ISession session, TaskSetterTable<long> taskSetActionTable, ISerializer serializer, FastPacket packet, TimeSpan timeout)
         {

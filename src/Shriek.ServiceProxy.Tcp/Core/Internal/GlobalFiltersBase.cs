@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -66,7 +65,6 @@ namespace Shriek.ServiceProxy.Tcp.Core
             this.fiters.Add(filter);
             this.fiters.Sort(new FilterComparer());
         }
-
 
         /// <summary>
         /// 移除某类型的过滤器实例

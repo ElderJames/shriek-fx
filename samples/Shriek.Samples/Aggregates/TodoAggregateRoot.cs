@@ -1,9 +1,9 @@
-﻿using System;
-using Shriek.Domains;
+﻿using Shriek.Domains;
 using Shriek.Events;
 using Shriek.Exceptions;
 using Shriek.Samples.Commands;
 using Shriek.Samples.Events;
+using System;
 
 namespace Shriek.Samples.Aggregates
 {

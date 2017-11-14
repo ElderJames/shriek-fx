@@ -1,5 +1,5 @@
-﻿using System;
-using Shriek.Events;
+﻿using Shriek.Events;
+using System;
 
 namespace Shriek.Notifications
 {
