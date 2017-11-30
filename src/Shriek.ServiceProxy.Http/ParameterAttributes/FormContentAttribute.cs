@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Abstractions.Internal;
 

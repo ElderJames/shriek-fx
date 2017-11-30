@@ -13,8 +13,8 @@ namespace Shriek.Samples.WebApiProxy.Contracts
         [HttpPost("todo")]
         Task<Todo> Create([JsonContent] Todo todo);
 
-        [Route("route/{id:int}")]
-        [HttpGet("route2/{id:int}")]
+        //[Route("route/{id:int}")]
+        //[HttpGet("route2/{id:int}")]
         Task<Todo> Get(int id);
 
         [HttpGet("{name}")]

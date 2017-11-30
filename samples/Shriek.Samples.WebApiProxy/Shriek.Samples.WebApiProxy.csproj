@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\HomeController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
@@ -23,5 +19,4 @@
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Tcp\Shriek.ServiceProxy.Tcp.csproj" />
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>
-
 </Project>

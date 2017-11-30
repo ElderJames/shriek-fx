@@ -48,7 +48,7 @@ namespace Shriek.ServiceProxy.Http
             {
                 var httpClient = new HttpClient
                 {
-                    Timeout = new TimeSpan(0, 0, 10)
+                    Timeout = TimeSpan.FromSeconds(10)
                 };
                 httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
 
@@ -66,7 +66,7 @@ namespace Shriek.ServiceProxy.Http
             {
                 var httpClient = new HttpClient
                 {
-                    Timeout = new TimeSpan(0, 0, 10)
+                    Timeout = TimeSpan.FromSeconds(10)
                 };
                 httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
 
@@ -84,7 +84,7 @@ namespace Shriek.ServiceProxy.Http
             RequestHost = httpClient.BaseAddress;
             if (_client == null)
             {
-                httpClient.Timeout = new TimeSpan(0, 0, 10);
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
                 httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
                 _client = new HttpClientAdapter(httpClient);
             }
@@ -134,7 +134,14 @@ namespace Shriek.ServiceProxy.Http
             }
             catch (Exception ex)
             {
-                throw new Exception($"请求远程服务{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{ex.Message}", ex);
+                var errMsg = ex.Message;
+
+                while (ex.InnerException != null)
+                {
+                    errMsg += "--->" + ex.InnerException.Message;
+                    ex = ex.InnerException;
+                }
+                throw new Exception($"请求远程服务{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{errMsg}", ex);
             }
         }
 

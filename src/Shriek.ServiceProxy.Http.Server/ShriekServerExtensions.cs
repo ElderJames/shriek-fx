@@ -21,24 +21,24 @@ namespace Shriek.ServiceProxy.Http.Server
             return builder.UseStartup<TStartup>().UseUrls(urls);
         }
 
-        public static IMvcBuilder AddWebApiProxy(this IMvcBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
+        public static IMvcBuilder AddWebApiProxyServer(this IMvcBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
         {
-            mvcBuilder.Services.AddMvcCore().AddWebApiProxy(optionAction);
+            mvcBuilder.Services.AddMvcCore().AddWebApiProxyServer(optionAction);
             return mvcBuilder;
         }
 
-        public static IMvcBuilder AddWebApiProxy(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddWebApiProxyServer(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.Services.AddMvcCore().AddWebApiProxy();
+            mvcBuilder.Services.AddMvcCore().AddWebApiProxyServer();
             return mvcBuilder;
         }
 
-        public static IMvcCoreBuilder AddWebApiProxy(this IMvcCoreBuilder mvcBuilder)
+        public static IMvcCoreBuilder AddWebApiProxyServer(this IMvcCoreBuilder mvcBuilder)
         {
             var webApiProxyTypes = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
                 .Where(x => !x.IsAbstract && typeof(WebApiProxy).IsAssignableFrom(x));
 
-            mvcBuilder.AddWebApiProxy(opt =>
+            mvcBuilder.AddWebApiProxyServer(opt =>
             {
                 foreach (var type in webApiProxyTypes)
                 {
@@ -49,7 +49,7 @@ namespace Shriek.ServiceProxy.Http.Server
             return mvcBuilder;
         }
 
-        public static IMvcCoreBuilder AddWebApiProxy(this IMvcCoreBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
+        public static IMvcCoreBuilder AddWebApiProxyServer(this IMvcCoreBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
         {
             var option = new WebApiProxyOptions();
             optionAction(option);
@@ -57,8 +57,7 @@ namespace Shriek.ServiceProxy.Http.Server
             foreach (var o in option.WebApiProxies)
             {
                 var interfaceTypes = o.GetType().Assembly.GetTypes()
-                    .Where(x => x.IsInterface && x.GetMethods()
-                                    .SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
+                    .Where(x => x.IsInterface /*&& x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any()*/);
 
                 foreach (var t in interfaceTypes)
                 {

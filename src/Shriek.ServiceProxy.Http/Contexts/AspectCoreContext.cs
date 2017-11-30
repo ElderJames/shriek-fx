@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AspectCore.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
-using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Http.ActionAttributes;
 using Shriek.ServiceProxy.Http.ParameterAttributes;
 
@@ -76,14 +75,14 @@ namespace Shriek.ServiceProxy.Http.Contexts
         {
             var method = invocation.ServiceMethod;
 
-            var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
-                                 new RouteAttribute[] { };
+            var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ?? new RouteAttribute[0];
 
             var hostAttribute = GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ?? new HttpHostAttribute("");
 
             var returnAttribute = GetAttributeFromMethodOrInterface<ApiReturnAttribute>(method, true);
 
             var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
+
             var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var filterAttributes = methodFilters.Concat(interfaceFilters).Distinct(new ApiActionFilterAttributeComparer()).ToArray();
 
@@ -115,6 +114,11 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 Parameters = method.GetParameters().Select((param, index) => GetParameterDescriptor(param, index, method)).ToArray()
             };
 
+            if (!descriptor.Attributes.Any(x => x is HttpMethodAttribute))
+            {
+                descriptor.Attributes = descriptor.Attributes.Concat(new[] { new HttpPostAttribute($"method/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.Name))}") }).ToArray();
+            }
+
             return descriptor;
         }
 
@@ -132,7 +136,7 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 Name = parameter.Name,
                 Index = index,
                 ParameterType = parameter.ParameterType,
-                IsUriParameterType = IsUriParameterType(parameter.ParameterType),
+                IsUriParameterType = parameter.ParameterType.IsUriParameterType(),
                 Attributes = parameter.GetCustomAttributes<ApiParameterAttribute>(true).ToArray()
             };
 
@@ -186,30 +190,6 @@ namespace Shriek.ServiceProxy.Http.Contexts
             if (attribute != null) attributes = attributes.Concat(new[] { attribute });
 
             return attributes.ToArray();
-        }
-
-        /// <summary>
-        /// 判断是否为Uri参数类型
-        /// </summary>
-        /// <param name="parameterType"></param>
-        /// <returns></returns>
-        private static bool IsUriParameterType(Type parameterType)
-        {
-            if (parameterType.IsGenericType)
-            {
-                parameterType = parameterType.GetGenericArguments().FirstOrDefault();
-            }
-
-            if (parameterType.IsPrimitive || parameterType.IsEnum)
-            {
-                return true;
-            }
-
-            return parameterType == typeof(string)
-                   || parameterType == typeof(decimal)
-                   || parameterType == typeof(DateTime)
-                   || parameterType == typeof(Guid)
-                   || parameterType == typeof(Uri);
         }
 
         /// <summary>

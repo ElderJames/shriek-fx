@@ -36,9 +36,13 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
             if (theParam == null) return;
 
             var attrs = theParam.GetCustomAttributes();
-            var paramAttrs = attrs.OfType<JsonContentAttribute>().Select(att => Activator.CreateInstance(typeof(FromBodyAttribute)));
+            var paramAttrs = attrs.OfType<JsonContentAttribute>().Select(att => new FromBodyAttribute());
 
-            if (!paramAttrs.Any()) return;
+            if (!paramAttrs.Any())
+                if (!theParam.ParameterType.IsUriParameterType())
+                    paramAttrs = new[] { new FromBodyAttribute() };
+                else
+                    return;
 
             parameter.BindingInfo = BindingInfo.GetBindingInfo(paramAttrs);
         }

@@ -29,7 +29,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
                 if (att is RouteAttribute routeAttr)
                 {
                     var template = routeAttr.Template;
-                    controllerAttrs.Add(Activator.CreateInstance(typeof(Route), template));
+                    controllerAttrs.Add(new Route(template));
                 }
             }
 

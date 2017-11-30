@@ -1,7 +1,7 @@
 ﻿using System;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 
-namespace Shriek.ServiceProxy.Abstractions.Context
+namespace Shriek.ServiceProxy.Abstractions
 {
     /// <summary>
     /// 表示请求Api的参数描述

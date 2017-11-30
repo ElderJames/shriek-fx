@@ -17,12 +17,12 @@ namespace Shriek.ServiceProxy.Http.ActionAttributes
         /// <summary>
         /// 获取请求方法
         /// </summary>
-        public HttpMethod Method { get; private set; }
+        public HttpMethod Method { get; }
 
         /// <summary>
         /// 获取请求相对路径
         /// </summary>
-        public string Path { get; private set; }
+        public string Path { get; }
 
         /// <summary>
         /// http请求方法描述特性

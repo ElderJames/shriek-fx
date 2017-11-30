@@ -26,7 +26,7 @@ namespace Shriek.ServiceProxy.Http
         /// </summary>
         /// <param name="service"></param>
         /// <param name="optionAction"></param>
-        public static void AddWebApiProxy(this IServiceCollection service, Action<WebApiProxyOptions> optionAction)
+        public static IServiceCollection AddWebApiProxy(this IServiceCollection service, Action<WebApiProxyOptions> optionAction)
         {
             var option = new WebApiProxyOptions();
             optionAction(option);
@@ -69,6 +69,8 @@ namespace Shriek.ServiceProxy.Http
                 var proxy = proxyGenerator.CreateInterfaceProxy(type);
                 service.AddSingleton(type, x => proxy);
             }
+
+            return service;
         }
     }
 }

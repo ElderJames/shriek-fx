@@ -20,17 +20,17 @@ namespace Shriek.Samples.WebApiProxy
                 .ConfigureServices(services =>
                 {
                     services.AddMvcCore()
-                    .AddJsonFormatters()
-                    .AddWebApiProxy();
-
-                    //服务里注册代理客户端
-                    services.AddShriek(option =>
-                    {
-                        option.UseWebApiProxy(opt =>
+                        .AddJsonFormatters()
+                        .AddWebApiProxyServer(opt =>
                             {
                                 opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                             });
+
+                    //服务里注册代理客户端
+                    services.AddWebApiProxy(opt =>
+                    {
+                        opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                        //opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                     });
                 })
                 .Configure(app => app.UseMvc())
@@ -38,20 +38,16 @@ namespace Shriek.Samples.WebApiProxy
                 .Start();
 
             var provider = new ServiceCollection()
-                .AddShriek(option =>
+                .AddWebApiProxy(opt =>
                 {
-                    option.UseWebApiProxy(opt =>
-                    {
-                        opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                        opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                    });
+                    opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                    //opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                 })
-                .Services
                 .BuildAspectCoreServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
-            var sampleTestService = provider.GetService<Samples.Services.ITestService>();
+            //  var sampleTestService = provider.GetService<Samples.Services.ITestService>();
             var tcpService = provider.GetService<ITcpTestService>();
 
             Console.ReadKey();
@@ -63,11 +59,11 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine(JsonConvert.SerializeObject(result));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务
-            var result2 = testService.Test(11);
-            Console.WriteLine(JsonConvert.SerializeObject(result2));
+            //var result2 = testService.Test(11);
+            //Console.WriteLine(JsonConvert.SerializeObject(result2));
 
-            var result3 = sampleTestService.Test("elderjames");
-            Console.WriteLine(JsonConvert.SerializeObject(result3));
+            //var result3 = sampleTestService.Test("elderjames");
+            //Console.WriteLine(JsonConvert.SerializeObject(result3));
 
             Console.WriteLine("press any key to tcp testing...");
             Console.ReadKey();
