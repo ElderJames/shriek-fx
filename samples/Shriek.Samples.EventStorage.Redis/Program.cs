@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.EventStorage.Redis;
 using Shriek.Samples.Commands;
+using System;
 
 namespace Shriek.Samples.EventStorage.Redis
 {

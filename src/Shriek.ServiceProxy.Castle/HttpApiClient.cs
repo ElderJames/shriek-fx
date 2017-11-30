@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Castle.DynamicProxy;
+using System;
 using System.Linq;
 using System.Net.Http;
-using Castle.DynamicProxy;
 
 namespace Shriek.WebApi.Proxy
 {

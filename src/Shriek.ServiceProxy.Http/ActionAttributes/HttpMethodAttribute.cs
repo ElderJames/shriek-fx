@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Abstractions.Context;
+using Shriek.ServiceProxy.Http.Contexts;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Shriek.ServiceProxy.Abstractions.Attributes;
-using Shriek.ServiceProxy.Abstractions.Context;
-using Shriek.ServiceProxy.Http.Contexts;
 
 namespace Shriek.ServiceProxy.Http.ActionAttributes
 {

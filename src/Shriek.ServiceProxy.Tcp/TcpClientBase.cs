@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Threading;
-using System.Net.Security;
-using System.Security.Authentication;
-using Shriek.ServiceProxy.Tcp.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp
 {

@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -17,7 +16,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         private static readonly ConcurrentDictionary<ApiAction, IFilter[]> filtersCached = new ConcurrentDictionary<ApiAction, IFilter[]>(new ApiActionComparer());
 
         /// <summary>
-        /// 获取Api行为的特性过滤器     
+        /// 获取Api行为的特性过滤器
         /// </summary>
         /// <param name="apiAction">Api行为</param>
         /// <returns></returns>
@@ -27,7 +26,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         }
 
         /// <summary>
-        /// 获取Api行为的特性过滤器     
+        /// 获取Api行为的特性过滤器
         /// </summary>
         /// <param name="apiAction">Api行为</param>
         /// <param name="cached">是否使用缓存</param>
@@ -42,7 +41,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         }
 
         /// <summary>
-        /// 获取Api行为的特性过滤器     
+        /// 获取Api行为的特性过滤器
         /// </summary>
         /// <param name="apiAction">Api行为</param>
         /// <returns></returns>
@@ -63,7 +62,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         }
 
         /// <summary>
-        /// 获取Api行为的特性过滤器     
+        /// 获取Api行为的特性过滤器
         /// </summary>
         /// <param name="apiAction">Api行为</param>
         /// <returns></returns>

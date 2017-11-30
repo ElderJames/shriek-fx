@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Shriek.Samples.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Shriek.Samples.Models;
 
 namespace Shriek.Samples.Queries
 {

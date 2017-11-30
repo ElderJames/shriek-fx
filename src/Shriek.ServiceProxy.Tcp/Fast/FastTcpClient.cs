@@ -2,13 +2,9 @@
 using Shriek.ServiceProxy.Tcp.Exceptions;
 using Shriek.ServiceProxy.Tcp.Tasks;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Fast
@@ -33,7 +29,6 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         /// </summary>
         private TaskSetterTable<long> taskSetterTable;
 
-
         /// <summary>
         /// 获取或设置序列化工具
         /// 默认是Json序列化
@@ -41,7 +36,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         public ISerializer Serializer { get; set; }
 
         /// <summary>
-        /// 获取或设置请求等待超时时间(毫秒) 
+        /// 获取或设置请求等待超时时间(毫秒)
         /// 默认30秒
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -68,7 +63,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
 
         /// <summary>
         /// SSL支持的Fast协议的tcp客户端
-        /// </summary>  
+        /// </summary>
         /// <param name="targetHost">目标主机</param>
         /// <param name="certificateValidationCallback">远程证书验证回调</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -93,7 +88,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         /// <summary>
         /// 当接收到远程端的数据时，将触发此方法
         /// </summary>
-        /// <param name="streamReader">数据读取器</param>    
+        /// <param name="streamReader">数据读取器</param>
         /// <returns></returns>
         protected sealed override Task OnReceiveAsync(ISessionStreamReader streamReader)
         {
@@ -127,7 +122,6 @@ namespace Shriek.ServiceProxy.Tcp.Fast
                 list.Add(packet);
             }
         }
-
 
         /// <summary>
         /// 处理接收到服务发来的数据包
@@ -187,11 +181,10 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             throw new ApiNotExistException(requestContext.Packet.ApiName);
         }
 
-
         /// <summary>
         /// 执行Api行为
         /// </summary>
-        /// <param name="actionContext">上下文</param>  
+        /// <param name="actionContext">上下文</param>
         /// <returns></returns>
         private async Task ExecuteActionAsync(ActionContext actionContext)
         {
@@ -223,23 +216,22 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             }
         }
 
-
         /// <summary>
         ///  当操作中遇到处理异常时，将触发此方法
         /// </summary>
         /// <param name="packet">数据包对象</param>
-        /// <param name="exception">异常对象</param> 
+        /// <param name="exception">异常对象</param>
         protected virtual void OnException(FastPacket packet, Exception exception)
         {
         }
 
         /// <summary>
-        /// 调用服务端实现的Api        
-        /// </summary>       
+        /// 调用服务端实现的Api
+        /// </summary>
         /// <param name="api">Api行为的api</param>
-        /// <param name="parameters">参数列表</param>          
-        /// <exception cref="SocketException"></exception> 
-        /// <exception cref="SerializerException"></exception> 
+        /// <param name="parameters">参数列表</param>
+        /// <exception cref="SocketException"></exception>
+        /// <exception cref="SerializerException"></exception>
         public void InvokeApi(string api, params object[] parameters)
         {
             var packet = new FastPacket(api, this.packetIdProvider.NewId(), true);
@@ -248,15 +240,15 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// 调用服务端实现的Api   
+        /// 调用服务端实现的Api
         /// 并返回结果数据任务
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="api">Api行为的api</param>
         /// <param name="parameters">参数</param>
-        /// <exception cref="SocketException"></exception>        
+        /// <exception cref="SocketException"></exception>
         /// <exception cref="SerializerException"></exception>
-        /// <returns>远程数据任务</returns>    
+        /// <returns>远程数据任务</returns>
         public ApiResult<T> InvokeApi<T>(string api, params object[] parameters)
         {
             var id = this.packetIdProvider.NewId();
@@ -266,7 +258,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// 断开时清除数据任务列表  
+        /// 断开时清除数据任务列表
         /// </summary>
         protected override void OnDisconnected()
         {

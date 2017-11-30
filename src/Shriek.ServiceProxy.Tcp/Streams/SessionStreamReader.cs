@@ -1,17 +1,13 @@
 ﻿using Shriek.ServiceProxy.Tcp.Util;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Streams
 {
     /// <summary>
     /// 提供对内存流读取
-    /// 非线程安全类型  
+    /// 非线程安全类型
     /// </summary>
     [DebuggerDisplay("Position = {Position}, Length = {Length}")]
     [DebuggerTypeProxy(typeof(DebugView))]
@@ -26,7 +22,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// 获取同步锁对象
         /// </summary>
         public object SyncRoot { get; private set; }
-
 
         /// <summary>
         /// 获取用字节表示的流长度
@@ -54,7 +49,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             }
         }
 
-
         /// <summary>
         /// 获取指定位置的字节
         /// </summary>
@@ -73,7 +67,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             }
         }
 
-
         /// <summary>
         /// 对内存流读取
         /// </summary>
@@ -91,7 +84,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
 
         /// <summary>
         /// 从流中读取一个字节，并将流内的位置向前推进一个字节
-        /// </summary>       
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public bool ReadBoolean()
@@ -101,7 +94,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
 
         /// <summary>
         /// 从流中读取一个字节，并将流内的位置向前推进一个字节，如果已到达流的末尾，则返回 -1
-        /// </summary>      
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public byte ReadByte()
@@ -112,7 +105,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取2个字节，并将流内的位置向前推进2个字节，
         /// 返回其Int16表示类型
-        /// </summary>     
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public short ReadInt16()
@@ -123,7 +116,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取2个字节，并将流内的位置向前推进2个字节，
         /// 返回其Int16表示类型
-        /// </summary>     
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public short ReadInt16(Endians endian)
@@ -135,7 +128,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取2个字节，并将流内的位置向前推进2个字节，
         /// 返回其UInt16表示类型
-        /// </summary>      
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public ushort ReadUInt16()
@@ -146,7 +139,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取2个字节，并将流内的位置向前推进2个字节，
         /// 返回其UInt16表示类型
-        /// </summary>      
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public ushort ReadUInt16(Endians endian)
@@ -158,7 +151,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取4个字节，并将流内的位置向前推进4个字节，
         /// 返回其Int32表示类型
-        /// </summary>          
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public int ReadInt32()
@@ -169,7 +162,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取4个字节，并将流内的位置向前推进4个字节，
         /// 返回其Int32表示类型
-        /// </summary>          
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public int ReadInt32(Endians endian)
@@ -181,7 +174,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取4个字节，并将流内的位置向前推进4个字节，
         /// 返回其UInt32表示类型
-        /// </summary>     
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public uint ReadUInt32()
@@ -192,7 +185,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取4个字节，并将流内的位置向前推进4个字节，
         /// 返回其UInt32表示类型
-        /// </summary>     
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public uint ReadUInt32(Endians endian)
@@ -204,7 +197,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取8个字节，并将流内的位置向前推进8个字节，
         /// 返回其Int64表示类型
-        /// </summary>         
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public long ReadInt64()
@@ -215,7 +208,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取8个字节，并将流内的位置向前推进8个字节，
         /// 返回其Int64表示类型
-        /// </summary>         
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public long ReadInt64(Endians endian)
@@ -227,7 +220,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取8个字节，并将流内的位置向前推进8个字节，
         /// 返回其UInt64表示类型
-        /// </summary>        
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public ulong ReadUInt64()
@@ -238,7 +231,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取8个字节，并将流内的位置向前推进8个字节，
         /// 返回其UInt64表示类型
-        /// </summary>        
+        /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns></returns>
         public ulong ReadUInt64(Endians endian)
@@ -246,7 +239,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             var range = this.ReadArraySegment(sizeof(ulong));
             return ByteConverter.ToUInt64(range.Array, range.Offset, endian);
         }
-
 
         /// <summary>
         /// 从流中读取到末尾的字节，并将流内的位置向前推进相同的字节
@@ -272,12 +264,11 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             return bytes;
         }
 
-
         /// <summary>
         /// 从流中读取Position到末尾的所有字节，并将流内的位置推到末尾
         /// 返回以指定编码转换的字符串
-        /// </summary>  
-        /// <param name="encode">编码</param>        
+        /// </summary>
+        /// <param name="encode">编码</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
         public string ReadString(Encoding encode)
@@ -288,7 +279,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从流中读取count字节，并将流内的位置向前推进count字节
         /// 返回以指定编码转换的字符串
-        /// </summary>        
+        /// </summary>
         /// <param name="count">字节数</param>
         /// <param name="encode">编码</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -305,7 +296,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             return encode.GetString(range.Array, range.Offset, range.Count);
         }
 
-
         /// <summary>
         /// 从流中读取count字节的范围标记
         /// 并将流内的位置向前推进count个字节
@@ -321,7 +311,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         }
 
         /// <summary>
-        /// 清空所有数据          
+        /// 清空所有数据
         /// </summary>
         /// <returns></returns>
         public void Clear()
@@ -331,7 +321,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         }
 
         /// <summary>
-        /// 从开始位置清除数据        
+        /// 从开始位置清除数据
         /// </summary>
         /// <param name="count">清除的字节数</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -354,7 +344,7 @@ namespace Shriek.ServiceProxy.Tcp.Streams
         /// <summary>
         /// 从开始位置将指定长度的数据复制到目标数组
         /// </summary>
-        /// <param name="dstArray">目标数组</param>     
+        /// <param name="dstArray">目标数组</param>
         /// <param name="count">要复制的字节数</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -409,7 +399,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             return -1;
         }
 
-
         /// <summary>
         /// 从Position位置开始查找第一个匹配的值
         /// 返回相对于Position的偏移量
@@ -430,7 +419,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
             }
             return -1;
         }
-
 
         /// <summary>
         /// 从Position位置开始
@@ -455,7 +443,6 @@ namespace Shriek.ServiceProxy.Tcp.Streams
                 return this.StartWith(pBytes, pBin, bin.Length);
             }
         }
-
 
         /// <summary>
         /// 是否开始包含pBin

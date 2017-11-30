@@ -1,8 +1,4 @@
 ﻿using Shriek.ServiceProxy.Tcp.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Fast
 {
@@ -12,9 +8,9 @@ namespace Shriek.ServiceProxy.Tcp.Fast
     public abstract class FastFilterAttribute : FilterAttribute
     {
         /// <summary>
-        /// 在执行Api行为前触发       
+        /// 在执行Api行为前触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>       
+        /// <param name="filterContext">上下文</param>
         /// <returns></returns>
         protected sealed override void OnExecuting(IActionContext filterContext)
         {
@@ -24,7 +20,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         /// <summary>
         /// 在执行Api行为后触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>      
+        /// <param name="filterContext">上下文</param>
         protected sealed override void OnExecuted(IActionContext filterContext)
         {
             this.OnExecuted(filterContext as ActionContext);
@@ -39,12 +35,10 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             this.OnException(filterContext as ExceptionContext);
         }
 
-
-
         /// <summary>
-        /// 在执行Api行为前触发       
+        /// 在执行Api行为前触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>       
+        /// <param name="filterContext">上下文</param>
         /// <returns></returns>
         protected virtual void OnExecuting(ActionContext filterContext)
         {
@@ -53,7 +47,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         /// <summary>
         /// 在执行Api行为后触发
         /// </summary>
-        /// <param name="filterContext">上下文</param>      
+        /// <param name="filterContext">上下文</param>
         protected virtual void OnExecuted(ActionContext filterContext)
         {
         }

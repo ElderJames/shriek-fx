@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.EventSourcing;
 using Shriek.Storage;
+using System;
 
 namespace Shriek.EventStorage.EFCore
 {

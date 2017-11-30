@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Util
@@ -98,8 +96,6 @@ namespace Shriek.ServiceProxy.Tcp.Util
 
             return expandedBytes;
         }
-
-
 
         /// <summary>
         /// Url解码
@@ -308,19 +304,18 @@ namespace Shriek.ServiceProxy.Tcp.Util
             return false;
         }
 
-
-
-
         private class UrlDecoder
         {
             private int _bufferSize;
 
             // Accumulate characters in a special array
             private int _numChars;
+
             private char[] _charBuffer;
 
             // Accumulate bytes for decoding into characters in a special array
             private int _numBytes;
+
             private byte[] _byteBuffer;
 
             // Encoding to convert chars to bytes

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading;
-using Shriek.Commands;
+﻿using Shriek.Commands;
 using Shriek.Events;
 using Shriek.Samples.Dapper.Commands;
+using System;
+using System.Threading;
 
 namespace Shriek.Samples.Dapper.Handlers
 {

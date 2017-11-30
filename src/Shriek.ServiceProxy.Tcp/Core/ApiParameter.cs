@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -41,15 +36,14 @@ namespace Shriek.ServiceProxy.Tcp.Core
         }
 
         /// <summary>
-        /// 获取参数的值        
+        /// 获取参数的值
         /// </summary>
         public object Value { get; set; }
-
 
         /// <summary>
         /// Api参数
         /// </summary>
-        /// <param name="info">参数信息</param>         
+        /// <param name="info">参数信息</param>
         public ApiParameter(ParameterInfo info)
         {
             this.Info = info;

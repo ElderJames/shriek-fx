@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp
 {
     /// <summary>
     /// 定义会话的接口
-    /// </summary>   
+    /// </summary>
     public interface ISession : ISubscriber, IDisposable
     {
         /// <summary>
@@ -46,7 +42,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// 获取会话的包装对象
         /// 该对象一般为会话对协议操作的包装
         /// </summary>
-        IWrapper Wrapper { get; }         
+        IWrapper Wrapper { get; }
 
         /// <summary>
         /// 设置会话的协议名和会话包装对象
@@ -69,9 +65,9 @@ namespace Shriek.ServiceProxy.Tcp
         /// <returns></returns>
         int Send(ArraySegment<byte> byteRange);
 
-        /// <summary>      
+        /// <summary>
         /// 断开和远程端的连接
         /// </summary>
-        void Close(); 
+        void Close();
     }
 }

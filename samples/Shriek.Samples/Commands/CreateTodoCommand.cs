@@ -1,5 +1,5 @@
-﻿using System;
-using Shriek.Commands;
+﻿using Shriek.Commands;
+using System;
 
 namespace Shriek.Samples.Commands
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Messages;
+using System;
+using System.Linq;
 
 namespace Shriek.Events
 {

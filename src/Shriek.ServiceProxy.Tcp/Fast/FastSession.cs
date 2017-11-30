@@ -1,17 +1,10 @@
 ﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Fast
 {
     /// <summary>
-    /// 表示fast协议的会话对象  
+    /// 表示fast协议的会话对象
     /// </summary>
     public sealed class FastSession : IWrapper
     {
@@ -70,7 +63,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// fast协议的会话对象  
+        /// fast协议的会话对象
         /// </summary>
         /// <param name="session">会话对象</param>
         /// <param name="middleware">中间件实例</param>
@@ -80,7 +73,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             this.middleware = middleware;
         }
 
-        /// <summary>      
+        /// <summary>
         /// 断开和远程端的连接
         /// </summary>
         public void Close()
@@ -89,12 +82,12 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// 调用远程端实现的Api        
-        /// </summary>        
+        /// 调用远程端实现的Api
+        /// </summary>
         /// <param name="api">数据包Api名</param>
-        /// <param name="parameters">参数列表</param>      
-        /// <exception cref="SocketException"></exception>     
-        /// <exception cref="SerializerException"></exception>   
+        /// <param name="parameters">参数列表</param>
+        /// <exception cref="SocketException"></exception>
+        /// <exception cref="SerializerException"></exception>
         public void InvokeApi(string api, params object[] parameters)
         {
             var id = this.middleware.PacketIdProvider.NewId();
@@ -104,15 +97,15 @@ namespace Shriek.ServiceProxy.Tcp.Fast
         }
 
         /// <summary>
-        /// 调用远程端实现的Api      
+        /// 调用远程端实现的Api
         /// 并返回结果数据任务
         /// </summary>
-        /// <typeparam name="T">返回值类型</typeparam>        
+        /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="api">数据包Api名</param>
-        /// <param name="parameters">参数</param>       
-        /// <exception cref="SocketException"></exception>      
+        /// <param name="parameters">参数</param>
+        /// <exception cref="SocketException"></exception>
         /// <exception cref="SerializerException"></exception>
-        /// <returns>远程数据任务</returns>         
+        /// <returns>远程数据任务</returns>
         public ApiResult<T> InvokeApi<T>(string api, params object[] parameters)
         {
             var id = this.middleware.PacketIdProvider.NewId();
@@ -120,7 +113,6 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             packet.SetBodyParameters(this.middleware.Serializer, parameters);
             return Common.InvokeApi<T>(this.session, this.middleware.TaskSetterTable, this.middleware.Serializer, packet, this.middleware.TimeOut);
         }
-
 
         /// <summary>
         /// 还原到包装前

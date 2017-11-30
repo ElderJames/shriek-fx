@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp
 {
@@ -12,7 +8,7 @@ namespace Shriek.ServiceProxy.Tcp
     public interface IPlug
     {
         /// <summary>
-        /// 会话连接成功后触发    
+        /// 会话连接成功后触发
         /// 如果关闭了会话，将停止传递给下个插件的OnConnected
         /// </summary>
         /// <param name="sender">发生者</param>

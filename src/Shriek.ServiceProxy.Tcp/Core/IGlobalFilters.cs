@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -27,7 +24,7 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <summary>
         /// 添加过滤器并按Order字段排序
         /// </summary>
-        /// <param name="filter">过滤器</param>       
+        /// <param name="filter">过滤器</param>
         void Add(IFilter filter);
 
         /// <summary>

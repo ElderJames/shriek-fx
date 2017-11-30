@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Shriek.ServiceProxy.Tcp
+﻿namespace Shriek.ServiceProxy.Tcp
 {
     /// <summary>
     /// 表示字节存储次序枚举
@@ -14,6 +9,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// 高位在前
         /// </summary>
         Big,
+
         /// <summary>
         /// 低位在前
         /// </summary>

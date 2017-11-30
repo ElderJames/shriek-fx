@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp
 {
     /// <summary>
     /// 表示用户附加数据
-    /// </summary>   
+    /// </summary>
     internal class DefaultTag : ConcurrentDictionary<string, object>, ITag
     {
         /// <summary>
@@ -59,7 +55,6 @@ namespace Shriek.ServiceProxy.Tcp
             var value = base.GetOrAdd(key, (k) => valueFactory());
             return new TagItem(value);
         }
-
 
         /// <summary>
         /// 删除

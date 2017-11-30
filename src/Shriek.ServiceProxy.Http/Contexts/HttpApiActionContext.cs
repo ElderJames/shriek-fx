@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using Shriek.ServiceProxy.Abstractions.Context;
+﻿using Shriek.ServiceProxy.Abstractions.Context;
+using System.Net.Http;
 
 namespace Shriek.ServiceProxy.Http.Contexts
 {

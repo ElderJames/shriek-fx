@@ -1,5 +1,5 @@
-﻿using System;
-using Shriek.ServiceProxy.Abstractions.Attributes;
+﻿using Shriek.ServiceProxy.Abstractions.Attributes;
+using System;
 
 namespace Shriek.ServiceProxy.Abstractions
 {

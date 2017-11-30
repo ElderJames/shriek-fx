@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Tasks
 {
@@ -32,7 +27,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         /// 执行完成后切换为原始同步上下文
         /// </summary>
         /// <param name="action">要等待的同步或异步方法</param>
-        /// <exception cref="ArgumentNullException"></exception>      
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns>当action有异步操作返回true</returns>
         public static bool Wait(Action action)
         {
@@ -105,7 +100,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 this.callbackQuque.Value.Dispose();
             }
         }
-
 
         /// <summary>
         /// 表示同步上下文委托队列
@@ -181,7 +175,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 this.resetEvent.Dispose();
             }
 
-
             /// <summary>
             /// 在同步上下文执行的委托
             /// </summary>
@@ -191,6 +184,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 /// 参数
                 /// </summary>
                 private readonly object state;
+
                 /// <summary>
                 /// 委托
                 /// </summary>
@@ -216,7 +210,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 }
             }
         }
-
 
         /// <summary>
         /// 表示Async的同步上下文
@@ -282,7 +275,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 base.OperationCompleted();
             }
 
-
             /// <summary>
             /// 等待未完成的任务
             /// </summary>
@@ -296,6 +288,5 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
                 return count;
             }
         }
-
     }
 }

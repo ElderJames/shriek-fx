@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Shriek.ServiceProxy.Tcp.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
-using Newtonsoft.Json;
-using Shriek.ServiceProxy.Tcp.Exceptions;
-using Shriek.ServiceProxy.Tcp.Util;
 
 #if NETSTANDARD2_0
 

@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shriek.Commands;
 using Shriek.Samples.CQRS.EFCore.Models;
 using Shriek.Samples.Queries;
+using System.Diagnostics;
 
 namespace Shriek.Samples.CQRS.EFCore.Controllers
 {

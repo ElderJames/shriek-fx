@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +31,6 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
             }
         }
 
-
         /// <summary>
         /// 任务行为
         /// </summary>
@@ -46,8 +42,8 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
 
         /// <summary>
         /// 设置任务的行为结果
-        /// </summary>     
-        /// <param name="value">数据值</param>   
+        /// </summary>
+        /// <param name="value">数据值</param>
         /// <returns></returns>
         bool ITaskSetter.SetResult(object value)
         {
@@ -56,8 +52,8 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
 
         /// <summary>
         /// 设置任务的行为结果
-        /// </summary>     
-        /// <param name="value">数据值</param>   
+        /// </summary>
+        /// <param name="value">数据值</param>
         /// <returns></returns>
         public bool SetResult(TResult value)
         {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Shriek.Events;
+﻿using Shriek.Events;
+using System.Collections.Generic;
 
 namespace Shriek.Notifications
 {

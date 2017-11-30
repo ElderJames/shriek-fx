@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.ObjectPool;
@@ -14,6 +7,12 @@ using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Abstractions.Internal;
 using Shriek.ServiceProxy.Http.Contexts;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace Shriek.ServiceProxy.Http.ParameterAttributes
 {

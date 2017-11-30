@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data;
-using Dapper;
+﻿using Dapper;
 using Shriek.EventSourcing;
 using Shriek.IoC;
 using Shriek.Storage.Mementos;
+using System;
+using System.Data;
 
 namespace Shriek.EventStorage.Dapper
 {

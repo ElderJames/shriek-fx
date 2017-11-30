@@ -1,12 +1,8 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp.Tasks
 {
@@ -32,7 +28,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
         }
 
         /// <summary>
-        /// 创建带id的任务并添加到列表中        
+        /// 创建带id的任务并添加到列表中
         /// </summary>
         /// <typeparam name="TResult">任务结果类型</typeparam>
         /// <param name="id">任务id</param>
@@ -47,7 +43,7 @@ namespace Shriek.ServiceProxy.Tcp.Tasks
             return taskSetter;
         }
 
-        /// <summary>      
+        /// <summary>
         /// 获取并移除与id匹配的任务
         /// 如果没有匹配则返回null
         /// </summary>

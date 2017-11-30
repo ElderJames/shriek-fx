@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Shriek.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shriek.Notifications;
 
 namespace Shriek.Sample.EventStorage.Mongo.Handlers
 {

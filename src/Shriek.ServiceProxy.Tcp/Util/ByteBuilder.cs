@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace Shriek.ServiceProxy.Tcp.Util
 {
     /// <summary>
-    /// 提供二进制数据生成支持      
-    /// 非线程安全类型  
+    /// 提供二进制数据生成支持
+    /// 非线程安全类型
     /// </summary>
     [DebuggerDisplay("Length = {Length}, Endian = {Endian}")]
     [DebuggerTypeProxy(typeof(DebugView))]
@@ -35,11 +31,10 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// </summary>
         public Endians Endian { get; private set; }
 
-
         /// <summary>
         /// 提供二进制数据读取和操作支持
         /// </summary>
-        /// <param name="endian">字节存储次序</param>       
+        /// <param name="endian">字节存储次序</param>
         public ByteBuilder(Endians endian)
         {
             this.Endian = endian;
@@ -66,7 +61,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将16位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(short value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -76,7 +71,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将16位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(ushort value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -86,7 +81,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将32位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(int value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -96,7 +91,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将32位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(uint value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -106,7 +101,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将64位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(long value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -116,7 +111,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将64位整数转换为byte数组再添加
         /// </summary>
-        /// <param name="value">整数</param>        
+        /// <param name="value">整数</param>
         public void Add(ulong value)
         {
             var bytes = ByteConverter.ToBytes(value, this.Endian);
@@ -168,7 +163,6 @@ namespace Shriek.ServiceProxy.Tcp.Util
             this.Length = newLength;
         }
 
-
         /// <summary>
         /// 扩容
         /// </summary>
@@ -197,7 +191,6 @@ namespace Shriek.ServiceProxy.Tcp.Util
             }
             this._buffer = newBuffer;
         }
-
 
         /// <summary>
         /// 获取或设置指定位置的字节
@@ -228,7 +221,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
         /// <summary>
         /// 将指定长度的数据复制到目标数组
         /// </summary>
-        /// <param name="dstArray">目标数组</param>     
+        /// <param name="dstArray">目标数组</param>
         /// <param name="count">要复制的字节数</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -277,8 +270,8 @@ namespace Shriek.ServiceProxy.Tcp.Util
 
         /// <summary>
         /// 转换为ArraySegment类型
-        /// </summary>      
-        /// <returns></returns>        
+        /// </summary>
+        /// <returns></returns>
         public ArraySegment<byte> ToArraySegment()
         {
             return new ArraySegment<byte>(this._buffer, 0, this.Length);

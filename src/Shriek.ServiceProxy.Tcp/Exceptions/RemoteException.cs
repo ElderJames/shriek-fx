@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Exceptions
 {
@@ -14,7 +11,7 @@ namespace Shriek.ServiceProxy.Tcp.Exceptions
     {
         /// <summary>
         /// 远程端Api行为异常
-        /// </summary>       
+        /// </summary>
         /// <param name="message">异常信息</param>
         public RemoteException(string message)
             : base(message)

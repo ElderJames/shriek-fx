@@ -1,7 +1,6 @@
-﻿using Shriek.ServiceProxy.Tcp.Exceptions;
+﻿using Shriek.ServiceProxy.Tcp.Core.Internal;
 using System;
 using System.Text;
-using Shriek.ServiceProxy.Tcp.Core.Internal;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {

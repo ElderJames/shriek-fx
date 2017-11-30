@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Core
 {
@@ -20,15 +17,16 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <summary>
         /// Api标记特性
         /// 提供给远程端来调用
-        /// </summary> 
+        /// </summary>
         public ApiAttribute()
         {
         }
+
         /// <summary>
         /// Api标记特性
         /// 提供给远程端来调用
-        /// </summary>       
-        /// <param name="name">Api名称</param>       
+        /// </summary>
+        /// <param name="name">Api名称</param>
         public ApiAttribute(string name)
         {
             this.Name = name;

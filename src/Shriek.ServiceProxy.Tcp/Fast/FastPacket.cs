@@ -1,10 +1,8 @@
 ﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
 using Shriek.ServiceProxy.Tcp.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 namespace Shriek.ServiceProxy.Tcp.Fast

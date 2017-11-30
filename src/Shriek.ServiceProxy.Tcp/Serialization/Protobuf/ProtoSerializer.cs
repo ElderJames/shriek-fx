@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.IO;
-using ProtoBuf;
 
 namespace Shriek.ServiceProxy.Tcp.Serialization.Protobuf
 {

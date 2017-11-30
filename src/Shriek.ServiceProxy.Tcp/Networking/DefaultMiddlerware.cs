@@ -1,8 +1,4 @@
 ﻿using Shriek.ServiceProxy.Tcp.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Tcp
@@ -24,7 +20,7 @@ namespace Shriek.ServiceProxy.Tcp
         public IMiddleware Next { set; private get; }
 
         /// <summary>
-        /// 执行中间件          
+        /// 执行中间件
         /// </summary>
         /// <param name="context">上下文</param>
         /// <returns></returns>
