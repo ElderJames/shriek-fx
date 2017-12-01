@@ -91,21 +91,17 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
                     _params.Add(kv.key, kv.value);
                 }
             }
-
-            if (parameter.IsUriParameterType)
+            if (parameter.ParameterType.IsArray && parameter.Value is Array array)
             {
-                _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));
-            }
-            else if (parameter.ParameterType.IsArray && parameter.Value is Array array)
-            {
-                foreach (var item in array)
-                {
-                    _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", item));
-                }
+                _params.Add(parameter.Name, array);
             }
             else if (parameter.ParameterType.IsEnum)
             {
                 _params.Add(parameter.Name, parameter.Value);
+            }
+            else if (parameter.IsUriParameterType)
+            {
+                _params.Add(parameter.Name, string.Format(CultureInfo.InvariantCulture, "{0}", parameter.Value));
             }
             else
             {

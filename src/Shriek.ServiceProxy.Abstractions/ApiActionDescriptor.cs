@@ -47,7 +47,7 @@ namespace Shriek.ServiceProxy.Abstractions
             if (ReturnTaskType.IsGenericType && ReturnTaskType.GetGenericTypeDefinition() == typeof(Task<>))
                 return this.ExecuteAsync(context).CastResult(this.ReturnDataType);
             else
-                return ((dynamic)this.ExecuteAsync(context).CastResult(this.ReturnDataType)).Result;
+                return this.ExecuteAsync(context).Result;
         }
 
         /// <summary>

@@ -52,11 +52,14 @@ namespace Shriek.Samples.WebApiProxy
 
             Console.ReadKey();
 
-            var result = todoService.Get(1).Result;
-            Console.WriteLine(JsonConvert.SerializeObject(result));
+            //var result = todoService.Get(1).Result;
+            //Console.WriteLine(JsonConvert.SerializeObject(result));
 
-            result = todoService.Get(2).Result;
-            Console.WriteLine(JsonConvert.SerializeObject(result));
+            //result = todoService.Get(2).Result;
+            //Console.WriteLine(JsonConvert.SerializeObject(result));
+
+            var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.睡觉 });
+            Console.WriteLine(JsonConvert.SerializeObject(typeResult));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务
             //var result2 = testService.Test(11);
@@ -68,8 +71,8 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine("press any key to tcp testing...");
             Console.ReadKey();
 
-            var result4 = tcpService.Test("hahaha").Result;
-            Console.WriteLine(JsonConvert.SerializeObject(result4));
+            //var result4 = tcpService.Test("hahaha").Result;
+            //Console.WriteLine(JsonConvert.SerializeObject(result4));
 
             Console.ReadKey();
         }

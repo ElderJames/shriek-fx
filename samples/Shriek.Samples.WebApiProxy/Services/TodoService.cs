@@ -2,6 +2,7 @@
 using Shriek.Samples.WebApiProxy.Models;
 using System;
 using System.Threading.Tasks;
+using Type = Shriek.Samples.WebApiProxy.Contracts.Type;
 
 namespace Shriek.Samples.WebApiProxy.Services
 {
@@ -20,6 +21,11 @@ namespace Shriek.Samples.WebApiProxy.Services
         public Task<Todo> Get(string name)
         {
             return Task.FromResult(new Todo { AggregateId = Guid.NewGuid(), Name = name, Desception = "上班", FinishTime = DateTime.Now });
+        }
+
+        public Type[] GetTypes(Type[] types)
+        {
+            return types;
         }
     }
 }

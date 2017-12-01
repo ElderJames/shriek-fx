@@ -19,5 +19,13 @@ namespace Shriek.Samples.WebApiProxy.Contracts
 
         [HttpGet("{name}")]
         Task<Todo> Get(string name);
+
+        [HttpGet("types")]
+        Type[] GetTypes(Type[] types);
+    }
+
+    public enum Type
+    {
+        起床, 工作, 睡觉
     }
 }
