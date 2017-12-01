@@ -84,11 +84,12 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
                 {
                     var keyvalue = group.Split('=');
                     return new { key = keyvalue[0], value = keyvalue[1] };
-                });
+                })
+                .GroupBy(x => x.key).ToDictionary(x => x.Key, x => x.Count() > 1 ? (object)x.Select(o => o.value) : x.FirstOrDefault()?.value);
 
                 foreach (var kv in keyValues)
                 {
-                    _params.Add(kv.key, kv.value);
+                    _params.Add(kv.Key, kv.Value);
                 }
             }
             if (parameter.ParameterType.IsArray && parameter.Value is Array array)
