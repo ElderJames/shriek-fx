@@ -7,6 +7,7 @@ using Shriek.Samples.WebApiProxy.Contracts;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
 using System;
+using Shriek.Samples.WebApiProxy.Models;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -52,13 +53,16 @@ namespace Shriek.Samples.WebApiProxy
 
             Console.ReadKey();
 
-            //var result = todoService.Get(1).Result;
-            //Console.WriteLine(JsonConvert.SerializeObject(result));
+            var createRsult = todoService.Create(new Todo() { Name = "james" });
+            Console.WriteLine(JsonConvert.SerializeObject(createRsult));
 
-            //result = todoService.Get(2).Result;
-            //Console.WriteLine(JsonConvert.SerializeObject(result));
+            var result = todoService.Get(1).Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result));
 
-            var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.睡觉 });
+            result = todoService.Get(2).Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result));
+
+            var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.睡觉 }, "james", 10);
             Console.WriteLine(JsonConvert.SerializeObject(typeResult));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务

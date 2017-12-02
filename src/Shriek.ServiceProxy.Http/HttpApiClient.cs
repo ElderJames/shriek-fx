@@ -140,7 +140,7 @@ namespace Shriek.ServiceProxy.Http
                     errMsg += "--->" + ex.InnerException.Message;
                     ex = ex.InnerException;
                 }
-                throw new Exception($"请求远程服务{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{errMsg}", ex);
+                throw new Exception($"请求远程服务[{actionContext.RequestMessage?.Method.Method}]{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{errMsg}", ex);
             }
         }
 

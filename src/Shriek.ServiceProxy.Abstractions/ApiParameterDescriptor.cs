@@ -44,7 +44,7 @@ namespace Shriek.ServiceProxy.Abstractions
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{this.Name} = {this.Value}";
+            return $"[{ParameterType.FullName}]:{this.Name} = {this.Value}";
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace Shriek.Samples.WebApiProxy.Services
             return Task.FromResult(new Todo { AggregateId = Guid.NewGuid(), Name = name, Desception = "上班", FinishTime = DateTime.Now });
         }
 
-        public Type[] GetTypes(Type[] types)
+        public Type[] GetTypes(Type[] types, string name, int age)
         {
             return types;
         }

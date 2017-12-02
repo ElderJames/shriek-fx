@@ -25,16 +25,16 @@ namespace Shriek
                 return true;
             }
 
-            if (parameterType.BaseType == typeof(Array) && parameterType.GetElementType().IsUriParameterType())
-            {
-                return true;
-            }
-
             return parameterType == typeof(string)
                    || parameterType == typeof(decimal)
                    || parameterType == typeof(DateTime)
                    || parameterType == typeof(Guid)
                    || parameterType == typeof(Uri);
+        }
+
+        public static bool IsUriParameterTypeArray(this Type parameterType)
+        {
+            return parameterType.BaseType == typeof(Array) && parameterType.GetElementType().IsUriParameterType();
         }
     }
 }

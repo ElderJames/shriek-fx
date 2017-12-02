@@ -119,6 +119,9 @@ namespace Shriek.ServiceProxy.Http.Contexts
                 descriptor.Attributes = descriptor.Attributes.Concat(new[] { new HttpPostAttribute($"method/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.Name))}") }).ToArray();
             }
 
+            if (descriptor.Parameters.Count(x => x.Attributes.Any(o => o.GetType() != typeof(PathQueryAttribute))) > 1)
+                throw new NotSupportedException("不支持多个非值类型作为参数，请使用实体封装。");
+
             return descriptor;
         }
 
@@ -142,21 +145,19 @@ namespace Shriek.ServiceProxy.Http.Contexts
 
             var methodAttrs = method.GetCustomAttributes<ApiActionAttribute>(true);
 
+            if (methodAttrs.Any(x => x is HttpGetAttribute) && !parameterDescriptor.IsUriParameterType && !parameterDescriptor.ParameterType.IsUriParameterTypeArray())
+                throw new Exception($"Get请求方法不支持非Uri支持类型的参数[{parameter.ParameterType}]:{parameter.Name}，请在操作方法标记HttpPostAttribute方法特性。");
+
             if (!parameterDescriptor.Attributes.Any())
             {
-                if (methodAttrs.Any(x => x is HttpGetAttribute))
-                {
+                if (parameterDescriptor.IsUriParameterType || (methodAttrs.Any(x => x is HttpGetAttribute) && parameterDescriptor.ParameterType.IsUriParameterTypeArray()))
                     parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
-                }
-                else if (parameterDescriptor.IsUriParameterType)
-                {
-                    parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
-                }
-                else
-                {
+                else if (parameterDescriptor.ParameterType.IsUriParameterTypeArray())
                     parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
-                }
+                else
+                    parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
             }
+
             return parameterDescriptor;
         }
 

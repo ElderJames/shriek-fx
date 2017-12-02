@@ -11,7 +11,7 @@ namespace Shriek.Samples.WebApiProxy.Contracts
     public interface ITodoService
     {
         [HttpPost("todo")]
-        Task<Todo> Create([JsonContent] Todo todo);
+        Task<Todo> Create([FormContent] Todo todo);
 
         //[Route("route/{id:int}")]
         //[HttpGet("route2/{id:int}")]
@@ -21,11 +21,13 @@ namespace Shriek.Samples.WebApiProxy.Contracts
         Task<Todo> Get(string name);
 
         [HttpGet("types")]
-        Type[] GetTypes(Type[] types);
+        Type[] GetTypes(Type[] types, string name, int age);
     }
 
-    public enum Type
+    public enum Type : ulong
     {
-        起床, 工作, 睡觉
+        睡觉 = 1 << 20,
+        工作 = 1 << 21,
+        起床 = 1 << 22,
     }
 }

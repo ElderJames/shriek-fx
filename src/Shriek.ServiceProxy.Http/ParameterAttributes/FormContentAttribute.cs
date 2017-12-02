@@ -39,13 +39,13 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
         /// <returns></returns>
         protected virtual string GetFormContent(ApiParameterDescriptor parameter, Encoding encoding)
         {
-            if (parameter.IsUriParameterType)
-            {
-                return this.GetContentSimple(parameter.Name, parameter.Value, encoding);
-            }
             if (parameter.ParameterType.IsArray)
             {
                 return this.GetContentArray(parameter, encoding);
+            }
+            if (parameter.IsUriParameterType)
+            {
+                return this.GetContentSimple(parameter.Name, parameter.Value, encoding);
             }
 
             return this.GetContentComplex(parameter, encoding);
@@ -97,9 +97,13 @@ namespace Shriek.ServiceProxy.Http.ParameterAttributes
         /// <returns></returns>
         private string GetContentSimple(string name, object value, Encoding encoding)
         {
+            if (value != null && value.GetType().IsEnum)
+                value = Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()));
+
             var valueString = value?.ToString();
+
             var valueEncoded = HttpUtility.UrlEncode(valueString, encoding);
-            return string.Format("{0}={1}", name, valueEncoded);
+            return $"{name}={valueEncoded}";
         }
     }
 }
