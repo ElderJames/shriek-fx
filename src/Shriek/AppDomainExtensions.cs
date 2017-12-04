@@ -8,33 +8,30 @@ namespace Shriek
 {
     public static class AppDomainExtensions
     {
+        private static readonly object Locker = new object();
+
+        private static IEnumerable<Assembly> excutingAssembiles;
+
         private static string GetActualDomainPath(this AppDomain @this)
         {
             return @this.RelativeSearchPath ?? @this.BaseDirectory;
         }
 
-        private static IEnumerable<Assembly> excutingAssembiles;
-
         /// <summary>
         /// 获取引用了Shriek的程序集
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="type"></param>
         /// <returns></returns>
-        public static IEnumerable<Assembly> GetExcutingAssembiles(this AppDomain @this, Type type = null)
+        public static IEnumerable<Assembly> GetExcutingAssembiles(this AppDomain @this)
         {
-            type = type ?? typeof(AppDomainExtensions);
-
             if (excutingAssembiles == null || !excutingAssembiles.Any())
-                excutingAssembiles = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()))
-                    .Where(assembly =>
-                    {
-                        return type.AssemblyQualifiedName != null
-                        && (!assembly.IsDynamic && assembly.FullName == type.AssemblyQualifiedName.Replace(type.FullName + ", ", "")
-                        || assembly.GetReferencedAssemblies().Any(ass => ass.FullName == type.AssemblyQualifiedName.Replace(type.FullName + ", ", "")));
-                    });
+                lock (Locker)
+                {
+                    if (excutingAssembiles == null || !excutingAssembiles.Any())
+                        excutingAssembiles = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+                }
 
-            return excutingAssembiles.Union(@this.GetAssemblies()).Distinct();
+            return excutingAssembiles;
         }
     }
 }

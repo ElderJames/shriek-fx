@@ -37,6 +37,8 @@ namespace Shriek.ServiceProxy.Abstractions
         /// </summary>
         public Type ReturnDataType { get; set; }
 
+        private static ApiReturnAttribute[] apiReturnAttributes;
+
         /// <summary>
         /// 执行api
         /// </summary>
@@ -85,8 +87,7 @@ namespace Shriek.ServiceProxy.Abstractions
             if (context.ApiReturnAttribute != null)
                 return await context.ApiReturnAttribute.GetTaskResult(context);
 
-            foreach (var attr in AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
-                .Where(x => x.BaseType == typeof(ApiReturnAttribute)).Select(x => Activator.CreateInstance(x) as ApiReturnAttribute))
+            foreach (var attr in ApiReturnAttributes)
             {
                 if (attr == null) continue;
                 var result = await attr.GetTaskResult(context);
@@ -96,6 +97,19 @@ namespace Shriek.ServiceProxy.Abstractions
 
             var message = $"不支持的类型{context.ApiActionDescriptor.ReturnDataType}的解析";
             throw new NotSupportedException(message);
+        }
+
+        private ApiReturnAttribute[] ApiReturnAttributes
+        {
+            get
+            {
+                if (apiReturnAttributes == null || !apiReturnAttributes.Any())
+                    apiReturnAttributes = AppDomain.CurrentDomain.GetExcutingAssembiles().SelectMany(x => x.GetTypes())
+                        .Where(x => x.BaseType == typeof(ApiReturnAttribute))
+                        .Select(x => Activator.CreateInstance(x) as ApiReturnAttribute).ToArray();
+
+                return apiReturnAttributes;
+            }
         }
 
         /// <summary>
