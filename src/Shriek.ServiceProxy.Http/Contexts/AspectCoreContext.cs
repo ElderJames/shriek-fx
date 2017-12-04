@@ -152,10 +152,12 @@ namespace Shriek.ServiceProxy.Http.Contexts
             {
                 if (parameterDescriptor.IsUriParameterType || (methodAttrs.Any(x => x is HttpGetAttribute) && parameterDescriptor.ParameterType.IsUriParameterTypeArray()))
                     parameterDescriptor.Attributes = new[] { new PathQueryAttribute() };
-                else if (parameterDescriptor.ParameterType.IsUriParameterTypeArray())
-                    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
+                //else if (parameterDescriptor.ParameterType.IsUriParameterTypeArray())
+                //    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
+                //else
+                //    parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
                 else
-                    parameterDescriptor.Attributes = new[] { new FormContentAttribute() };
+                    parameterDescriptor.Attributes = new[] { new JsonContentAttribute() };
             }
 
             return parameterDescriptor;

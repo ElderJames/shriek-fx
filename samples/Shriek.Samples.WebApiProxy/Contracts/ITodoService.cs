@@ -10,8 +10,8 @@ namespace Shriek.Samples.WebApiProxy.Contracts
     [Route("api")]
     public interface ITodoService
     {
-        [HttpPost("todo")]
-        Task<Todo> Create([FormContent] Todo todo);
+        //[HttpPost("todo")]
+        Task<Todo> Create(Todo todo);
 
         //[Route("route/{id:int}")]
         //[HttpGet("route2/{id:int}")]
@@ -20,7 +20,7 @@ namespace Shriek.Samples.WebApiProxy.Contracts
         [HttpGet("{name}")]
         Task<Todo> Get(string name);
 
-        [HttpGet("types")]
+        //[HttpGet("types")]
         Type[] GetTypes(Type[] types, string name, int age);
     }
 

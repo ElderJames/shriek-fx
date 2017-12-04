@@ -53,7 +53,7 @@ namespace Shriek.Samples.WebApiProxy
 
             Console.ReadKey();
 
-            var createRsult = todoService.Create(new Todo() { Name = "james" });
+            var createRsult = todoService.Create(new Todo() { Name = "james" }).Result;
             Console.WriteLine(JsonConvert.SerializeObject(createRsult));
 
             var result = todoService.Get(1).Result;
