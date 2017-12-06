@@ -22,7 +22,7 @@ namespace Shriek
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static IEnumerable<Assembly> GetExcutingAssembiles(this AppDomain @this)
+        public static IEnumerable<Assembly> GetExcutingAssemblies(this AppDomain @this)
         {
             if (excutingAssembiles == null || !excutingAssembiles.Any())
                 lock (Locker)
@@ -32,6 +32,13 @@ namespace Shriek
                 }
 
             return excutingAssembiles;
+        }
+
+        public static void UpdateExcutingAssemblies(this AppDomain @this)
+        {
+            var assemblies = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+
+            excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies).Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
         }
     }
 }

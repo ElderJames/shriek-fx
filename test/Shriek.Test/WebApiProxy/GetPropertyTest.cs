@@ -1,12 +1,14 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Shriek.WebApi.Proxy;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions.Attributes;
+using Shriek.ServiceProxy.Http;
+using Shriek.ServiceProxy.Http.ActionAttributes;
 
 namespace Shriek.Test.WebApiProxy
 {
@@ -48,9 +50,9 @@ namespace Shriek.Test.WebApiProxy
             _invokation.SetupProperty(i => i.ReturnValue);
             _invokation.SetupGet(i => i.Proxy).Returns(typeof(IGreetings));
 
-            var client = new HttpApiClient(_client.Object);
-            apiClient = client.GetHttpApi<IGreetings>("http://localhost");
-            ((IInterceptor)client).Intercept(_invokation.Object);
+            //var client = new HttpApiClient(_client.Object);
+            //apiClient = client.GetHttpApi<IGreetings>("http://localhost");
+            //((IInterceptor)client).Intercept(_invokation.Object);
         }
 
         [TestMethod]

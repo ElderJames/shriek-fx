@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Npgsql" Version="3.2.5" />
+    <PackageReference Include="Npgsql" Version="3.2.6" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,17 +3,17 @@
         <TargetFramework>netcoreapp2.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171012-09" />
-        <PackageReference Include="Moq" Version="4.7.142" />
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+        <PackageReference Include="Moq" Version="4.7.145" />
         <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
         <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
-      <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Castle\Shriek.ServiceProxy.Castle.csproj" />
+      <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
       <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Tcp\Shriek.ServiceProxy.Tcp.csproj" />
       <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
     </ItemGroup>

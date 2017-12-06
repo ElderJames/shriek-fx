@@ -28,6 +28,8 @@ namespace Shriek.ServiceProxy.Http
         /// <param name="optionAction"></param>
         public static IServiceCollection AddWebApiProxy(this IServiceCollection service, Action<WebApiProxyOptions> optionAction)
         {
+            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
+
             var option = new WebApiProxyOptions();
             optionAction(option);
 

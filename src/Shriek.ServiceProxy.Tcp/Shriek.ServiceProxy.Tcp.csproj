@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.2.0" />
-    <PackageReference Include="protobuf-net" Version="2.3.2" />
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.2.4" />
+    <PackageReference Include="protobuf-net" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
