@@ -36,9 +36,16 @@ namespace Shriek
 
         public static void UpdateExcutingAssemblies(this AppDomain @this)
         {
-            var assemblies = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+            try
+            {
+                var assemblies = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
 
-            excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies).Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
+                excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies)
+                    .Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
+            }
+            catch
+            {
+            }
         }
     }
 }
