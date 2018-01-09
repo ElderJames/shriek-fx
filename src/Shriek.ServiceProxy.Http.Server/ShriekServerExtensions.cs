@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Server.Internal;
@@ -63,11 +62,9 @@ namespace Shriek.ServiceProxy.Http.Server
                 mvcBuilder.ConfigureApplicationPartManager(manager =>
                 {
                     var featureProvider = new ServiceControllerFeatureProvider(interfaceTypes);
-                    manager.FeatureProviders.Remove(
-                        manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
+                    manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
                     manager.FeatureProviders.Add(featureProvider);
                 });
-                ;
             }
 
             return mvcBuilder;

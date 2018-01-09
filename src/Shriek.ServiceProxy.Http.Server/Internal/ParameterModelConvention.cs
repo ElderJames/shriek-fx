@@ -32,6 +32,8 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
                        && actionParams.Any(x => mthParams.Where(o => x.Name == o.Name).Any(o => x.GetType() == o.GetType()));
             });
 
+            if (method == null) return;
+
             var theParam = method.GetParameters().FirstOrDefault(x => x.ParameterType == parameter.ParameterInfo.ParameterType);
             var isGetMethod = method.GetCustomAttribute<HttpGetAttribute>(true) != null;
 

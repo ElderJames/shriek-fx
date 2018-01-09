@@ -25,13 +25,13 @@ namespace Shriek.Samples.WebApiProxy
                         .AddWebApiProxyServer(opt =>
                             {
                                 opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                             });
 
                     //服务里注册代理客户端
                     services.AddWebApiProxy(opt =>
                     {
                         opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                        //opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                     });
                 })
                 .Configure(app => app.UseMvc())
@@ -42,13 +42,13 @@ namespace Shriek.Samples.WebApiProxy
                 .AddWebApiProxy(opt =>
                 {
                     opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                    //opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                    opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                 })
                 .BuildAspectCoreServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
-            //  var sampleTestService = provider.GetService<Samples.Services.ITestService>();
+            var sampleTestService = provider.GetService<Samples.Services.ITestService>();
             var tcpService = provider.GetService<ITcpTestService>();
 
             Console.ReadKey();
@@ -66,10 +66,10 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine(JsonConvert.SerializeObject(typeResult));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务
-            //var result2 = testService.Test(11);
-            //Console.WriteLine(JsonConvert.SerializeObject(result2));
+            var result2 = testService.Test(11);
+            Console.WriteLine(JsonConvert.SerializeObject(result2));
 
-            //var result3 = sampleTestService.Test("elderjames");
+            //var result3 = sampleTestService.Test("elderjames").Result;
             //Console.WriteLine(JsonConvert.SerializeObject(result3));
 
             Console.WriteLine("press any key to tcp testing...");
