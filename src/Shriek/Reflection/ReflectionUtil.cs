@@ -97,7 +97,7 @@ namespace Shriek.Reflection
                 {
                     if (Path.GetDirectoryName(assemblyName) == AppDomain.CurrentDomain.BaseDirectory)
                     {
-                        assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
+                        assembly = Assembly.LoadFrom(Path.GetFileNameWithoutExtension(assemblyName));
                     }
                     else
                     {
@@ -106,7 +106,7 @@ namespace Shriek.Reflection
                 }
                 else
                 {
-                    assembly = Assembly.Load(assemblyName);
+                    assembly = Assembly.LoadFrom(assemblyName);
                 }
                 return assembly;
             }
