@@ -45,10 +45,14 @@ namespace Shriek.ServiceProxy.Http
 
             if (_client == null)
             {
-                var httpClient = new HttpClient
+                var httpClient = new HttpClient(new HttpClientHandler
+                {
+                    UseProxy = false,
+                })
                 {
                     Timeout = TimeSpan.FromSeconds(10)
                 };
+
                 httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
 
                 _client = new HttpClientAdapter(httpClient);
@@ -63,7 +67,10 @@ namespace Shriek.ServiceProxy.Http
         {
             if (_client == null)
             {
-                var httpClient = new HttpClient
+                var httpClient = new HttpClient(new HttpClientHandler
+                {
+                    UseProxy = false,
+                })
                 {
                     Timeout = TimeSpan.FromSeconds(10)
                 };
