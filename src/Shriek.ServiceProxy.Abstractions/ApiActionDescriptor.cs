@@ -104,10 +104,12 @@ namespace Shriek.ServiceProxy.Abstractions
             get
             {
                 if (apiReturnAttributes == null || !apiReturnAttributes.Any())
-                    apiReturnAttributes = AppDomain.CurrentDomain.GetExcutingAssemblies().SelectMany(x => x.GetTypes())
+                {
+                    AppDomain.CurrentDomain.UpdateExcutingAssemblies();
+                    apiReturnAttributes = AppDomain.CurrentDomain.GetAllTypes()
                         .Where(x => x.BaseType == typeof(ApiReturnAttribute))
                         .Select(x => Activator.CreateInstance(x) as ApiReturnAttribute).ToArray();
-
+                }
                 return apiReturnAttributes;
             }
         }

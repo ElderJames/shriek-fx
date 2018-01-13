@@ -18,8 +18,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
             this.ServiceTypes = ServiceTypes;
         }
 
-        public void PopulateFeature(IEnumerable<ApplicationPart> parts,
-            ControllerFeature feature)
+        public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
             foreach (var type in AppDomain.CurrentDomain.GetExcutingAssemblies().SelectMany(o => o.DefinedTypes))
             {

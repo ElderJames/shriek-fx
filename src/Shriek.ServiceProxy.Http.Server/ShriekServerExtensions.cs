@@ -11,19 +11,22 @@ namespace Shriek.ServiceProxy.Http.Server
     {
         public static IMvcBuilder AddWebApiProxyServer(this IMvcBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
         {
+            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
             mvcBuilder.Services.AddMvcCore().AddWebApiProxyServer(optionAction);
             return mvcBuilder;
         }
 
         public static IMvcBuilder AddWebApiProxyServer(this IMvcBuilder mvcBuilder)
         {
+            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
             mvcBuilder.Services.AddMvcCore().AddWebApiProxyServer();
             return mvcBuilder;
         }
 
         public static IMvcCoreBuilder AddWebApiProxyServer(this IMvcCoreBuilder mvcBuilder)
         {
-            var webApiProxyTypes = AppDomain.CurrentDomain.GetExcutingAssemblies().SelectMany(x => x.GetTypes())
+            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
+            var webApiProxyTypes = AppDomain.CurrentDomain.GetAllTypes()
                 .Where(x => !x.IsAbstract && typeof(WebApiProxy).IsAssignableFrom(x));
 
             mvcBuilder.AddWebApiProxyServer(opt =>
@@ -39,8 +42,6 @@ namespace Shriek.ServiceProxy.Http.Server
 
         public static IMvcCoreBuilder AddWebApiProxyServer(this IMvcCoreBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
         {
-            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
-
             var option = new WebApiProxyOptions();
             optionAction(option);
 

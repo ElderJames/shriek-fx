@@ -34,7 +34,7 @@ namespace Shriek.EntityFrameworkCore
             //if (!entities.Any())
             //    return new Type[] { };
 
-            var types = AppDomain.CurrentDomain.GetExcutingAssemblies().SelectMany(ass => ass.GetTypes())
+            var types = AppDomain.CurrentDomain.GetAllTypes()
                  .Where(x =>
                  {
                      //获取IEntityTypeConfiguration<>的实现类
