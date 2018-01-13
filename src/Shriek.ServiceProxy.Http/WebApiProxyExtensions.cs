@@ -34,26 +34,16 @@ namespace Shriek.ServiceProxy.Http
             var option = new WebApiProxyOptions();
             optionAction(option);
 
-            var proxyService = new List<Type>();
-
-            // var proxyGeneratorBuilder = new ProxyGeneratorBuilder();
-
             foreach (var o in option.WebApiProxies)
             {
                 var types = o.GetType().Assembly.GetTypes().Where(x =>
                     x.IsInterface && x.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any());
 
-                //proxyGeneratorBuilder.Configure(config =>
-                //{
-                //    config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { o.BaseUrl ?? option.ProxyHost });
-                //});
                 foreach (var type in types)
                 {
                     var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type, new HttpApiClient(o.BaseUrl ?? option.ProxyHost));
                     service.AddSingleton(type, x => proxy);
                 }
-
-                //proxyService.AddRange(types);
             }
 
             foreach (var type in option.RegisteredServices)
@@ -61,25 +51,10 @@ namespace Shriek.ServiceProxy.Http
                 if (type.Value.IsInterface && type.Value.GetMethods()
                         .SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any())
                 {
-                    //proxyGeneratorBuilder.Configure(config =>
-                    //{
-                    //    config.Interceptors.AddTyped(typeof(HttpApiClient), new object[] { type.Key ?? option.ProxyHost });
-                    //});
                     var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new HttpApiClient(type.Key ?? option.ProxyHost));
                     service.AddSingleton(type.Value, x => proxy);
-
-                    //proxyService.Add(type.Value);
                 }
             }
-
-            //var proxyGenerator = proxyGeneratorBuilder.Build();
-
-            //foreach (var type in proxyService)
-            //{
-            //    //var proxy = proxyGenerator.CreateInterfaceProxy(type);
-            //    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type, new HttpApiClient(type.Key ?? option.ProxyHost));
-            //    service.AddSingleton(type, x => proxy);
-            //}
 
             return service;
         }
