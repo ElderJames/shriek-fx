@@ -1,18 +1,19 @@
-﻿using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Context;
 using Shriek.ServiceProxy.Abstractions.Internal;
 using Shriek.ServiceProxy.Http.Contexts;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Shriek.DynamicProxy;
+using System.Reflection;
 
 namespace Shriek.ServiceProxy.Http
 {
     /// <summary>
     /// 表示web api请求客户端
     /// </summary>
-    public class HttpApiClient : AbstractInterceptorAttribute, IServiceClient, IDisposable
+    public class HttpApiClient : IApiInterceptor, IServiceClient, IDisposable
     {
         /// <summary>
         /// 静态httpClient
@@ -105,15 +106,26 @@ namespace Shriek.ServiceProxy.Http
             // this.HttpClient.Dispose();
         }
 
-        public override async Task Invoke(AspectContext context, AspectDelegate next)
+        public async Task SendAsync(ApiActionContext context)
         {
-            var httpContext = AspectCoreContext.From(context);
+            if (context is HttpApiActionContext httpContext)
+            {
+                httpContext.ResponseMessage = await this.HttpClient.SendAsync(httpContext.RequestMessage);
+
+                if (!httpContext.ResponseMessage.IsSuccessStatusCode)
+                    throw new HttpRequestException(httpContext.ResponseMessage.ReasonPhrase);
+            }
+        }
+
+        public object Intercept(object target, MethodInfo method, object[] @params)
+        {
+            var httpContext = AspectContext.From(method);
 
             if (RequestHost == null || string.IsNullOrEmpty(RequestHost.OriginalString))
                 if (httpContext.HostAttribute.Host != null && !string.IsNullOrEmpty(httpContext.HostAttribute.Host.OriginalString))
                     RequestHost = httpContext.HostAttribute.Host;
                 else
-                    throw new ArgumentNullException(nameof(context), "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
+                    throw new ArgumentNullException(nameof(method), "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
             var actionContext = new HttpApiActionContext
             {
@@ -128,15 +140,14 @@ namespace Shriek.ServiceProxy.Http
             var parameters = actionContext.ApiActionDescriptor.Parameters;
             for (var i = 0; i < parameters.Length; i++)
             {
-                parameters[i].Value = context.Parameters[i];
+                parameters[i].Value = @params[i];
             }
 
             var apiAction = httpContext.ApiActionDescriptor;
 
-            await next(context);
             try
             {
-                context.ReturnValue = apiAction.Execute(actionContext);
+                return apiAction.Execute(actionContext);
             }
             catch (Exception ex)
             {
@@ -148,17 +159,6 @@ namespace Shriek.ServiceProxy.Http
                     ex = ex.InnerException;
                 }
                 throw new Exception($"请求远程服务[{actionContext.RequestMessage?.Method.Method}]{actionContext.RequestMessage?.RequestUri ?? RequestHost}异常:{errMsg}", ex);
-            }
-        }
-
-        public async Task SendAsync(ApiActionContext context)
-        {
-            if (context is HttpApiActionContext httpContext)
-            {
-                httpContext.ResponseMessage = await this.HttpClient.SendAsync(httpContext.RequestMessage);
-
-                if (!httpContext.ResponseMessage.IsSuccessStatusCode)
-                    throw new HttpRequestException(httpContext.ResponseMessage.ReasonPhrase);
             }
         }
     }

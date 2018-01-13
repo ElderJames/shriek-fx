@@ -65,7 +65,7 @@ namespace Shriek
                     {
                         try
                         {
-                            return x.GetTypes();
+                            return x.DefinedTypes.Select(t => t.AsType());
                         }
                         catch (ReflectionTypeLoadException ex)
                         {

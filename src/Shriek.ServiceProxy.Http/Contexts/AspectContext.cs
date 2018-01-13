@@ -1,5 +1,4 @@
-﻿using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Http.ActionAttributes;
 using Shriek.ServiceProxy.Http.ParameterAttributes;
@@ -13,9 +12,9 @@ using System.Threading.Tasks;
 namespace Shriek.ServiceProxy.Http.Contexts
 {
     /// <summary>
-    /// 表示Castle相关上下文
+    /// 表示Aop相关上下文
     /// </summary>
-    internal class AspectCoreContext
+    internal class AspectContext
     {
         /// <summary>
         /// 获取HttpHostAttribute
@@ -45,36 +44,34 @@ namespace Shriek.ServiceProxy.Http.Contexts
         /// <summary>
         /// 缓存字典
         /// </summary>
-        private static readonly ConcurrentDictionary<MethodInfo, AspectCoreContext> cache;
+        private static readonly ConcurrentDictionary<MethodInfo, AspectContext> cache;
 
         /// <summary>
         /// Castle相关上下文
         /// </summary>
-        static AspectCoreContext()
+        static AspectContext()
         {
-            cache = new ConcurrentDictionary<MethodInfo, AspectCoreContext>(new IInvocationComparer());
+            cache = new ConcurrentDictionary<MethodInfo, AspectContext>(new IInvocationComparer());
         }
 
         /// <summary>
         /// 从拦截内容获得
         /// 使用缓存
         /// </summary>
-        /// <param name="invocation">拦截内容</param>
+        /// <param name="method">拦截方法</param>
         /// <returns></returns>
-        public static AspectCoreContext From(AspectContext context)
+        public static AspectContext From(MethodInfo method)
         {
-            return cache.GetOrAdd(context.ServiceMethod, GetContextNoCache(context));
+            return cache.GetOrAdd(method, GetContextNoCache(method));
         }
 
         /// <summary>
         /// 从拦截内容获得
         /// </summary>
-        /// <param name="invocation">拦截内容</param>
+        /// <param name="method">拦截方法</param>
         /// <returns></returns>
-        private static AspectCoreContext GetContextNoCache(AspectContext invocation)
+        private static AspectContext GetContextNoCache(MethodInfo method)
         {
-            var method = invocation.ServiceMethod;
-
             var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ?? new RouteAttribute[0];
 
             var hostAttribute = GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ?? new HttpHostAttribute("");
@@ -86,25 +83,23 @@ namespace Shriek.ServiceProxy.Http.Contexts
             var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);
             var filterAttributes = methodFilters.Concat(interfaceFilters).Distinct(new ApiActionFilterAttributeComparer()).ToArray();
 
-            return new AspectCoreContext
+            return new AspectContext
             {
                 HostAttribute = hostAttribute,
                 RouteAttributes = routeAttributes,
                 ApiReturnAttribute = returnAttribute,
                 ApiActionFilterAttributes = filterAttributes,
-                ApiActionDescriptor = GetActionDescriptor(invocation)
+                ApiActionDescriptor = GetActionDescriptor(method)
             };
         }
 
         /// <summary>
         /// 生成ApiActionDescriptor
         /// </summary>
-        /// <param name="invocation">拦截内容</param>
+        /// <param name="method">拦截方法</param>
         /// <returns></returns>
-        private static ApiActionDescriptor GetActionDescriptor(AspectContext invocation)
+        private static ApiActionDescriptor GetActionDescriptor(MethodInfo method)
         {
-            var method = invocation.ServiceMethod;
-
             var descriptor = new ApiActionDescriptor
             {
                 Name = method.Name,

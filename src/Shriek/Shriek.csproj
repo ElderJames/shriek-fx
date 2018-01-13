@@ -7,6 +7,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Scrutor" Version="2.1.2" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DynamicProxy\" />
   </ItemGroup>
 </Project>

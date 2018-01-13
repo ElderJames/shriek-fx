@@ -1,6 +1,5 @@
-﻿using AspectCore.Configuration;
-using AspectCore.DynamicProxy;
-using System;
+﻿using System;
+using Shriek.DynamicProxy;
 
 namespace Shriek.ServiceProxy.Http
 {
@@ -53,20 +52,7 @@ namespace Shriek.ServiceProxy.Http
         /// <returns></returns>
         private static object GeneratoProxy(Type type, string host)
         {
-            var proxyGeneratorBuilder = new ProxyGeneratorBuilder();
-            proxyGeneratorBuilder.Configure(config =>
-            {
-                config.Interceptors.AddDelegate(async (ctx, next) =>
-                {
-                    await next(ctx);
-                });
-
-                config.Interceptors.AddTyped<HttpApiClient>(new object[] { host });
-            });
-
-            var proxyGenerator = proxyGeneratorBuilder.Build();
-
-            return proxyGenerator.CreateInterfaceProxy(type);
+            return ProxyGenerator.CreateInterfaceProxyWithoutTarget(type, new HttpApiClient(host));
         }
     }
 }
