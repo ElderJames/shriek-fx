@@ -118,6 +118,23 @@ namespace Shriek.Reflection
             {
                 throw;
             }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var sb = new StringBuilder();
+                foreach (var exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    var exFileNotFound = exSub as FileNotFoundException;
+                    if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog))
+                    {
+                        sb.AppendLine("Fusion Log:");
+                        sb.AppendLine(exFileNotFound.FusionLog);
+                    }
+                    sb.AppendLine();
+                }
+                var errorMessage = sb.ToString();
+                throw new Exception(errorMessage, ex);
+            }
             catch (BadImageFormatException)
             {
                 throw;
@@ -504,7 +521,27 @@ namespace Shriek.Reflection
         /// <returns></returns>
         private static Assembly LoadAssembly(AssemblyName assemblyName)
         {
-            return Assembly.Load(assemblyName);
+            try
+            {
+                return Assembly.Load(assemblyName);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var sb = new StringBuilder();
+                foreach (var exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    var exFileNotFound = exSub as FileNotFoundException;
+                    if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog))
+                    {
+                        sb.AppendLine("Fusion Log:");
+                        sb.AppendLine(exFileNotFound.FusionLog);
+                    }
+                    sb.AppendLine();
+                }
+                var errorMessage = sb.ToString();
+                throw new Exception(errorMessage, ex);
+            }
         }
     }
 }

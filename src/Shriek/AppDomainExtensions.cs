@@ -12,6 +12,8 @@ namespace Shriek
 
         private static IEnumerable<Assembly> excutingAssembiles;
 
+        private static Type[] typeCache;
+
         private static string GetActualDomainPath(this AppDomain @this)
         {
             return @this.RelativeSearchPath ?? @this.BaseDirectory;
@@ -28,7 +30,8 @@ namespace Shriek
                 lock (Locker)
                 {
                     if (excutingAssembiles == null || !excutingAssembiles.Any())
-                        excutingAssembiles = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+                        excutingAssembiles =
+                            ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
                 }
 
             return excutingAssembiles;
@@ -40,12 +43,38 @@ namespace Shriek
             {
                 var assemblies = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
 
-                excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies)
-                    .Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
+                excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies).Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
             }
             catch
             {
             }
+        }
+
+        /// <summary>
+        /// 获取所有类型
+        /// </summary>
+        /// <param name="this">程序域</param>
+        /// <param name="fromCache">从缓存获取</param>
+        /// <returns></returns>
+        public static Type[] GetAllTypes(this AppDomain @this, bool fromCache = true)
+        {
+            if (fromCache && (typeCache == null || !typeCache.Any()) || !fromCache)
+            {
+                typeCache = @this.GetExcutingAssemblies()
+                    .SelectMany(x =>
+                    {
+                        try
+                        {
+                            return x.GetTypes();
+                        }
+                        catch (ReflectionTypeLoadException ex)
+                        {
+                            return ex.Types.Where(t => t != null);
+                        }
+                    }).ToArray();
+            }
+
+            return typeCache;
         }
     }
 }
