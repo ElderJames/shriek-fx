@@ -10,7 +10,4 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
     <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DynamicProxy\" />
-  </ItemGroup>
 </Project>

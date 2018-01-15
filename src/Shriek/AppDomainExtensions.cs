@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Shriek
 {
@@ -23,32 +24,38 @@ namespace Shriek
         /// 获取引用了Shriek的程序集
         /// </summary>
         /// <param name="this"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        public static IEnumerable<Assembly> GetExcutingAssemblies(this AppDomain @this)
+        public static IEnumerable<Assembly> GetExcutingAssemblies(this AppDomain @this, Func<Assembly, bool> predicate)
         {
             if (excutingAssembiles == null || !excutingAssembiles.Any())
                 lock (Locker)
                 {
                     if (excutingAssembiles == null || !excutingAssembiles.Any())
-                        excutingAssembiles =
-                            ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+                        excutingAssembiles = DependencyContext.Default.RuntimeLibraries
+                            .SelectMany(library => library.GetDefaultAssemblyNames(DependencyContext.Default))
+                            .Select(Assembly.Load)
+                            .Where(predicate)
+                            .ToArray();
                 }
 
             return excutingAssembiles;
         }
 
-        public static void UpdateExcutingAssemblies(this AppDomain @this)
-        {
-            try
-            {
-                var assemblies = ReflectionUtil.GetAssemblies(new AssemblyFilter(@this.GetActualDomainPath()));
+        public static IEnumerable<Assembly> GetExcutingAssemblies(this AppDomain @this) => @this.GetExcutingAssemblies(_ => true);
 
-                excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies).Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
-            }
-            catch
-            {
-            }
+        public static void UpdateExcutingAssemblies(this AppDomain @this, Func<Assembly, bool> predicate)
+        {
+            var assemblies = DependencyContext.Default.RuntimeLibraries
+                .SelectMany(library => library.GetDefaultAssemblyNames(DependencyContext.Default))
+                .Select(Assembly.Load)
+                .Where(predicate)
+                .ToArray();
+
+            excutingAssembiles = @this.GetExcutingAssemblies().Union(assemblies).Union(new[] { Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly() }).Distinct();
         }
+
+        public static void UpdateExcutingAssemblies(this AppDomain @this) => @this.UpdateExcutingAssemblies(_ => true);
 
         /// <summary>
         /// 获取所有类型
