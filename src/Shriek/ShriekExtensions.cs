@@ -41,7 +41,7 @@ namespace Shriek
 
             builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));
 
-            var messages = AppDomain.CurrentDomain.GetAllTypes().Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
+            var messages = allTyeps.Where(x => x.Assembly != Assembly.GetExecutingAssembly() && typeof(Message).IsAssignableFrom(x));
 
             foreach (var msg in messages)
             {
