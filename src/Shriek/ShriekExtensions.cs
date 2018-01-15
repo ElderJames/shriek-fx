@@ -16,10 +16,25 @@ namespace Shriek
         {
             var builder = new ShriekBuilder(services);
 
-            builder.Services.Scan(scan => scan.FromAssemblies(AppDomain.CurrentDomain.GetExcutingAssemblies())
-            .AddClasses()
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+            var allTyeps = AppDomain.CurrentDomain.GetAllTypes(false);
+            var interfaces = allTyeps.Where(x => x.IsInterface);
+            foreach (var itfc in interfaces.Where(x => !x.IsGenericTypeDefinition))
+            {
+                var impls = allTyeps.Where(x => x.IsClass && !x.IsGenericType && !x.IsAbstract && itfc.IsAssignableFrom(x));
+                foreach (var impl in impls)
+                {
+                    builder.Services.Add(new ServiceDescriptor(itfc, impl, ServiceLifetime.Scoped));
+                }
+            }
+
+            var handlers = allTyeps.Where(x => x.IsClass && x.GetInterfaces().Any(o => o.IsGenericType && (o.GetGenericTypeDefinition() == typeof(ICommandHandler<>) || o.GetGenericTypeDefinition() == typeof(IEventHandler<>))));
+            foreach (var hdl in handlers)
+            {
+                foreach (var itf in hdl.GetInterfaces())
+                {
+                    builder.Services.Add(new ServiceDescriptor(itf, hdl, ServiceLifetime.Scoped));
+                }
+            }
 
             builder.Services.AddScoped<IEventStorage, InMemoryEventStorage>();
             builder.Services.AddScoped<IMessagePublisher, InProcessMessagePublisher>();

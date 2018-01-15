@@ -1,7 +1,5 @@
-﻿using AspectCore.DynamicProxy;
-using Shriek.ServiceProxy.Abstractions;
+﻿using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
-using Shriek.ServiceProxy.Abstractions.Context;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -59,9 +57,9 @@ namespace Shriek.ServiceProxy.Tcp
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        public static AspectCoreContext From(AspectContext invocation)
+        public static AspectCoreContext From(MethodInfo method)
         {
-            return cache.GetOrAdd(invocation.ServiceMethod, GetContextNoCache(invocation));
+            return cache.GetOrAdd(method, GetContextNoCache(method));
         }
 
         /// <summary>
@@ -69,10 +67,8 @@ namespace Shriek.ServiceProxy.Tcp
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        private static AspectCoreContext GetContextNoCache(AspectContext invocation)
+        private static AspectCoreContext GetContextNoCache(MethodInfo method)
         {
-            var method = invocation.ServiceMethod;
-
             var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ??
                                  new RouteAttribute[] { };
 
@@ -90,7 +86,7 @@ namespace Shriek.ServiceProxy.Tcp
                 RouteAttributes = routeAttributes,
                 ApiReturnAttribute = returnAttribute,
                 ApiActionFilterAttributes = filterAttributes,
-                ApiActionDescriptor = GetActionDescriptor(invocation)
+                ApiActionDescriptor = GetActionDescriptor(method)
             };
         }
 
@@ -99,10 +95,8 @@ namespace Shriek.ServiceProxy.Tcp
         /// </summary>
         /// <param name="invocation">拦截内容</param>
         /// <returns></returns>
-        private static ApiActionDescriptor GetActionDescriptor(AspectContext invocation)
+        private static ApiActionDescriptor GetActionDescriptor(MethodInfo method)
         {
-            var method = invocation.ServiceMethod;
-
             var descriptor = new ApiActionDescriptor
             {
                 Name = $"{method.DeclaringType.Name}.{method.Name}",

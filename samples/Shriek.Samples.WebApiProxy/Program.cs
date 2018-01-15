@@ -1,5 +1,4 @@
-﻿using AspectCore.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -44,7 +43,7 @@ namespace Shriek.Samples.WebApiProxy
                     opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                     opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
                 })
-                .BuildAspectCoreServiceProvider();
+                .BuildServiceProvider();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
