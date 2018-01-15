@@ -16,17 +16,17 @@ namespace Shriek.DynamicProxy
         /// <summary>
         /// IApiInterceptor的Intercept方法
         /// </summary>
-        private static readonly MethodInfo interceptMethod = typeof(IApiInterceptor).GetMethod("Intercept");
+        private static readonly MethodInfo interceptMethod = typeof(IApiInterceptor).GetMethod(nameof(IApiInterceptor.Intercept));
 
         /// <summary>
         /// 代理类型的构造器的参数类型
         /// </summary>
-        private static readonly Type[] proxyTypeCtorArgTypes = new Type[] { typeof(IApiInterceptor), typeof(MethodInfo[]) };
+        private static readonly Type[] proxyTypeCtorArgTypes = { typeof(IApiInterceptor), typeof(MethodInfo[]) };
 
         /// <summary>
-        /// 应用程序池下的程序集创建器
+        /// 程序集HashCode^模块HashCode与模块创建器的缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<Assembly, AssemblyBuilder> domainAssemblyBuilderCache = new ConcurrentDictionary<Assembly, AssemblyBuilder>(); //AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("ApiProxyAssembly"), AssemblyBuilderAccess.Run);
+        private static readonly ConcurrentDictionary<int, ModuleBuilder> hashCodeModuleBuilderCache = new ConcurrentDictionary<int, ModuleBuilder>();
 
         /// <summary>
         /// 接口类型与代理类型的构造器缓存
@@ -34,14 +34,9 @@ namespace Shriek.DynamicProxy
         private static readonly ConcurrentDictionary<Type, ConstructorInfo> proxyTypeCtorCache = new ConcurrentDictionary<Type, ConstructorInfo>();
 
         /// <summary>
-        /// 模块与模块创建器的缓存
-        /// </summary>
-        private static readonly ConcurrentDictionary<Module, ModuleBuilder> moduleModuleBuilderCache = new ConcurrentDictionary<Module, ModuleBuilder>();
-
-        /// <summary>
         /// 创建接口的代理实例
         /// </summary>
-        /// <typeparam name="T">接口殴类型</typeparam>
+        /// <typeparam name="T">接口类型</typeparam>
         /// <param name="interceptor">拦截器</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NotSupportedException"></exception>
@@ -54,6 +49,12 @@ namespace Shriek.DynamicProxy
             return proxyTypeCtor.Invoke(new object[] { interceptor, apiMethods }) as T;
         }
 
+        /// <summary>
+        /// 创建接口的代理实例
+        /// </summary>
+        /// <param name="interfaceType">接口类型</param>
+        /// <param name="interceptor">拦截器</param>
+        /// <returns></returns>
         public static object CreateInterfaceProxyWithoutTarget(Type interfaceType, IApiInterceptor interceptor)
         {
             var apiMethods = interfaceType.GetApiAllMethods();
@@ -70,8 +71,11 @@ namespace Shriek.DynamicProxy
         /// <returns></returns>
         private static ConstructorInfo GenerateProxyTypeCtor(Type interfaceType, MethodInfo[] apiMethods)
         {
-            var domainAssemblyBuilder = domainAssemblyBuilderCache.GetOrAdd(interfaceType.Assembly, modelut => AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("Shriek_" + interfaceType.Assembly.GetName().Name), AssemblyBuilderAccess.Run));
-            var moduleBuilder = moduleModuleBuilderCache.GetOrAdd(interfaceType.Module, module => domainAssemblyBuilder.DefineDynamicModule(module.Name));
+            var moduleName = interfaceType.Module.Name;
+            var hashCode = interfaceType.Assembly.GetHashCode() ^ interfaceType.Module.GetHashCode();
+
+            // 每个动态集下面只会有一个模块
+            var moduleBuilder = hashCodeModuleBuilderCache.GetOrAdd(hashCode, hash => AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(hash.ToString()), AssemblyBuilderAccess.Run).DefineDynamicModule(moduleName));
             var typeBuilder = moduleBuilder.DefineType(interfaceType.FullName, TypeAttributes.Class);
             typeBuilder.AddInterfaceImplementation(interfaceType);
 
@@ -157,6 +161,7 @@ namespace Shriek.DynamicProxy
                     {
                         apiMethodIL.Emit(OpCodes.Box, parameterType);
                     }
+
                     apiMethodIL.Emit(OpCodes.Stelem_Ref);
                 }
 
@@ -170,8 +175,10 @@ namespace Shriek.DynamicProxy
                 {
                     apiMethodIL.Emit(OpCodes.Pop);
                 }
+
                 apiMethodIL.Emit(OpCodes.Ret);
             }
+
             return typeBuilder.CreateTypeInfo();
         }
     }
