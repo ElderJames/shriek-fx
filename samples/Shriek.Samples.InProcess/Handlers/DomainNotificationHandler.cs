@@ -16,7 +16,7 @@ namespace Shriek.Samples.InProcess.Handlers
 
         public void Handle(DomainNotification message)
         {
-            Console.WriteLine("exception:" + message.Key + ":" + message.Value);
+            Console.WriteLine("DomainNotificationHandler get a exception:" + message.Key + ":" + message.Value);
             _notifications.Add(message);
         }
 

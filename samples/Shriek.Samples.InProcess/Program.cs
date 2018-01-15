@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Shriek.Samples.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using Shriek.Commands;
 using Shriek.Samples.InProcess.Commands;
 using Shriek.Storage;
@@ -57,6 +58,17 @@ namespace Shriek.Samples.InProcess
                         });
 
                         Console.WriteLine($"\tid-2: \tcommand {j++} sended!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception:" + ex.Message);
+                    }
+                }
+                else if (key.Key == ConsoleKey.D3)
+                {
+                    try
+                    {
+                        bus.Send(new CreateTodoCommand(Guid.NewGuid()) { Desception = "hello other assembly!", FinishTime = DateTime.Now.AddDays(-1) });
                     }
                     catch (Exception ex)
                     {
