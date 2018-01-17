@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Server.Internal;
@@ -45,28 +46,32 @@ namespace Shriek.ServiceProxy.Http.Server
             var option = new WebApiProxyOptions();
             optionAction(option);
 
-            foreach (var o in option.WebApiProxies)
+            foreach (var inf in option.WebApiProxies.SelectMany(x => x.GetType().Assembly.GetTypes().Where(t => t.IsInterface)))
             {
-                var interfaceTypes = o.GetType().Assembly.GetTypes()
-                    .Where(x => x.IsInterface);
+                option.RegisteredServices.Add(new KeyValuePair<string, Type>("", inf));
+            }
 
-                foreach (var t in interfaceTypes)
-                {
-                    mvcBuilder.AddMvcOptions(opt =>
-                    {
-                        opt.Conventions.Add(new ControllerModelConvention(t));
-                        opt.Conventions.Add(new ActionModelConvention(t));
-                        opt.Conventions.Add(new ParameterModelConvention(t));
-                    });
-                }
+            return mvcBuilder.ConfigureInterfaces(option);
+        }
 
-                mvcBuilder.ConfigureApplicationPartManager(manager =>
+        private static IMvcCoreBuilder ConfigureInterfaces(this IMvcCoreBuilder mvcBuilder, WebApiProxyOptions options)
+        {
+            foreach (var t in options.RegisteredServices.Select(x => x.Value))
+            {
+                mvcBuilder.AddMvcOptions(opt =>
                 {
-                    var featureProvider = new ServiceControllerFeatureProvider(interfaceTypes);
-                    manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
-                    manager.FeatureProviders.Add(featureProvider);
+                    opt.Conventions.Add(new ControllerModelConvention(t));
+                    opt.Conventions.Add(new ActionModelConvention(t));
+                    opt.Conventions.Add(new ParameterModelConvention(t));
                 });
             }
+
+            mvcBuilder.ConfigureApplicationPartManager(manager =>
+            {
+                var featureProvider = new ServiceControllerFeatureProvider(options.RegisteredServices.Select(x => x.Value));
+                manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
+                manager.FeatureProviders.Add(featureProvider);
+            });
 
             return mvcBuilder;
         }

@@ -1,10 +1,7 @@
-﻿//using AspectCore.Configuration;
-//using AspectCore.DynamicProxy;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Shriek.DynamicProxy;
 
