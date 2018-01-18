@@ -45,8 +45,7 @@ namespace Shriek.ServiceProxy.Http
 
             foreach (var type in option.RegisteredServices)
             {
-                if (type.Value.IsInterface && type.Value.GetMethods()
-                        .SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any())
+                if (type.Value.IsInterface/* && type.Value.GetMethods().SelectMany(m => m.GetCustomAttributes(typeof(ApiActionAttribute), true)).Any()*/)
                 {
                     var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new HttpApiClient(type.Key ?? option.ProxyHost));
                     service.AddSingleton(type.Value, x => proxy);

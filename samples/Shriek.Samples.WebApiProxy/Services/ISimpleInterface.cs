@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Shriek.Samples.WebApiProxy.Services
 {
-    public class TcpTestService : ITcpTestService
+    public class SimpleInterface : ISimpleInterface
     {
         public async Task<string> Test(string sth)
         {

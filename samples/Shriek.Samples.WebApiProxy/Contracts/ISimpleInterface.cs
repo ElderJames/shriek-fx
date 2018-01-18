@@ -2,7 +2,7 @@
 
 namespace Shriek.Samples.WebApiProxy.Contracts
 {
-    public interface ITcpTestService
+    public interface ISimpleInterface
     {
         Task<string> Test(string sth);
     }
