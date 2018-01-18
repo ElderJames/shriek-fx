@@ -23,8 +23,8 @@ namespace Shriek.Samples.WebApiProxy
                         .AddJsonFormatters()
                         .AddWebApiProxyServer(opt =>
                             {
-                                opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                                opt.AddWebApiProxy<SampleApiProxy>();
+                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>();
                             });
 
                     //服务里注册代理客户端
@@ -68,8 +68,8 @@ namespace Shriek.Samples.WebApiProxy
             var result2 = testService.Test(11);
             Console.WriteLine(JsonConvert.SerializeObject(result2));
 
-            //var result3 = sampleTestService.Test("elderjames").Result;
-            //Console.WriteLine(JsonConvert.SerializeObject(result3));
+            var result3 = sampleTestService.Test("elderjames").Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result3));
 
             Console.WriteLine("press any key to tcp testing...");
             Console.ReadKey();
