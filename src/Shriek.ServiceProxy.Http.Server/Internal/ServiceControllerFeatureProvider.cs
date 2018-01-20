@@ -20,16 +20,16 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
 
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            foreach (var type in AppDomain.CurrentDomain.GetExcutingAssemblies().SelectMany(o => o.DefinedTypes))
+            foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
             {
-                if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type) && o.Assembly == type.Assembly) && !feature.Controllers.Contains(type))
+                if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)/* && o.Assembly == type.Assembly*/) && !feature.Controllers.Contains(type))
                 {
-                    feature.Controllers.Add(type);
+                    feature.Controllers.Add(type.GetTypeInfo());
                 }
             }
         }
 
-        protected bool IsController(TypeInfo typeInfo)
+        protected bool IsController(Type typeInfo)
         {
             if (!typeInfo.IsClass)
             {
