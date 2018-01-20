@@ -16,6 +16,8 @@ public interface ISimpleInterface
 
 ## 服务设置
 
+需要安装`Shriek.ServiceProxy.Http.Server`类库
+
 只需要简单地在`Startup.cs`文件中的`ConfigureServices`方法中的AddMVC()后面加入以下一行：
 
 ```csharp
@@ -31,6 +33,8 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ## 服务调用
+
+需要安装`Shriek.ServiceProxy.Http`类库
 
 首先，实现这个接口定义一个类，这个类只是简单的类：
 
