@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -34,7 +35,21 @@ namespace Shriek.Samples.WebApiProxy
                         opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                     });
                 })
-                .Configure(app => app.UseMvc())
+                .Configure(app =>
+                {
+                    app.Use(async (context, next) =>
+                    {
+                        try
+                        {
+                            await next();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw;
+                        }
+                    });
+                    app.UseMvc();
+                })
                 .Build()
                 .Start();
 
