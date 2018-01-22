@@ -16,26 +16,6 @@ public interface ISimpleInterface
 
 ## 服务设置
 
-需要安装`Shriek.ServiceProxy.Http.Server`类库
-
-只需要简单地在`Startup.cs`文件中的`ConfigureServices`方法中的AddMVC()后面加入以下一行：
-
-```csharp
-//Startup.cs
-
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddMvc().AddWebApiProxyServer(opt =>
-    {
-         opt.AddService<ISimpleInterface>();
-    });
-}
-```
-
-## 服务调用
-
-需要安装`Shriek.ServiceProxy.Http`类库
-
 首先，实现这个接口定义一个类，这个类只是简单的类：
 
 ```csharp
@@ -50,7 +30,27 @@ public class SimpleInterface : ISimpleInterface
 
 ```
 
-然后需要在`Startup.cs`类中简单地在`IServiceCollection`中注册我们的客户端组件：
+接下来，我们要把这个实现类设置成一个网络服务，只需要简单地在`Startup.cs`文件中的`ConfigureServices`方法中的AddMVC()后面加入以下一行：
+
+```csharp
+//Startup.cs
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc().AddWebApiProxyServer(opt =>
+    {
+         opt.AddService<ISimpleInterface>();
+    });
+}
+```
+
+此时，已经自动配置了一个可以用POST方式调用的WebApi，接受一个字符串参数，路由是用接口名+方法名+参数名生成的。
+
+> 服务设置需要安装`Shriek.ServiceProxy.Http.Server`类库
+
+## 服务调用
+
+只需要需要在`Startup.cs`类中简单地在`IServiceCollection`中注册我们的客户端组件：
 
 ```csharp
 
@@ -60,8 +60,9 @@ services.AddWebApiProxy(opt =>
 {
     opt.AddService<ISimpleInterface>("http://localhost:5000");
 });
-
 ```
+
+> 服务调用需要安装`Shriek.ServiceProxy.Http`类库
 
 调用时可以直接从`IServiceProvider`获取实例，并且直接调用。
 
@@ -71,6 +72,7 @@ var provider = services.BuildServiceProvider();
 var simpleService = provider.GetService<ISimpleInterface>();
 var result = await simpleService.Test("hello word!"); // -->result = "server: hello word!"
 ```
+
 ---
 
 当在ASP.NET Core中使用时，只需在`Startup.cs`类中的`ConfigureServices`方法中给`services`变量通过以上方法注册，即可在控制器注入客户端了。
