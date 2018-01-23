@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Http.Contexts
@@ -111,7 +112,9 @@ namespace Shriek.ServiceProxy.Http.Contexts
 
             if (!descriptor.Attributes.Any(x => x is HttpMethodAttribute))
             {
-                descriptor.Attributes = descriptor.Attributes.Concat(new[] { new HttpPostAttribute($"method/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.Name))}") }).ToArray();
+                descriptor.Attributes = descriptor.Attributes.Concat(new[] {
+                    new HttpPostAttribute(Regex.Replace($"method/{method.DeclaringType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-"))
+                }).ToArray();
             }
 
             if (descriptor.Parameters.Count(x => x.Attributes.Any(o => o.GetType() != typeof(PathQueryAttribute))) > 1)
