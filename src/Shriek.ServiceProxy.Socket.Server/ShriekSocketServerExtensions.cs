@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Shriek.ServiceProxy.Abstractions;
+using Shriek.ServiceProxy.Socket.Fast;
 
 namespace Shriek.ServiceProxy.Socket.Server
 {
@@ -12,11 +13,14 @@ namespace Shriek.ServiceProxy.Socket.Server
 
             var options = new WebApiProxyOptions();
             optionAction(options);
+            var listener = new TcpListener();
+            var middleware = listener.Use<FastMiddleware>();
 
-            foreach (var t in options.RegisteredServices.Select(x => x.Value))
+            foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
             {
             }
 
+            listener.Start(options.Port);
             return builder;
         }
     }

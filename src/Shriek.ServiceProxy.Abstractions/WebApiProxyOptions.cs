@@ -11,6 +11,8 @@ namespace Shriek.ServiceProxy.Abstractions
 
         public string ProxyHost { get; set; }
 
+        public int Port { get; set; }
+
         /// <summary>
         /// 使用对象类型注册Http请求服务，会自动注册该对象类型所在程序集中的服务接口（必需有标记HttpMethod特性）
         /// </summary>

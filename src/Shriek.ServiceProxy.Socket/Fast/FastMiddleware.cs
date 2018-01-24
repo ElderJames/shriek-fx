@@ -103,6 +103,12 @@ namespace Shriek.ServiceProxy.Socket.Fast
             }
         }
 
+        public void BindService(Type serviceType)
+        {
+            var actions = Common.GetServiceApiActions(serviceType);
+            this.apiActionTable.AddRange(actions);
+        }
+
         /// <summary>
         /// 执行中间件
         /// </summary>
