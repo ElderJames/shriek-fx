@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 提供URL的编解码功能

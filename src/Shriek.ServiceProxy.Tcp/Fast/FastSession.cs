@@ -1,7 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
+﻿using Shriek.ServiceProxy.socket;
+using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Fast.Internal;
 using System.Net;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示fast协议的会话对象

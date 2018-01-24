@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core.Internal
 {
     /// <summary>
     /// 默认提供的Api行为特性过滤器提供者

@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp.Core
+﻿namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义克隆相关的接口

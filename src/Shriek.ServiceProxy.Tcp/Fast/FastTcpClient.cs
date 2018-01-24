@@ -1,13 +1,16 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
-using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Core.Internal;
+using Shriek.ServiceProxy.Socket.Exceptions;
+using Shriek.ServiceProxy.Socket.Fast.Context;
+using Shriek.ServiceProxy.Socket.Fast.Internal;
+using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示Fast协议的tcp客户端

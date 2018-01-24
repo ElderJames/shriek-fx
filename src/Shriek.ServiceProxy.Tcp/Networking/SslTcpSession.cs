@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 表示SSL的Tcp会话对象
@@ -84,7 +84,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// 绑定一个Socket对象
         /// </summary>
         /// <param name="socket">套接字</param>
-        public override void SetSocket(Socket socket)
+        public override void SetSocket(System.Net.Sockets.Socket socket)
         {
             var nsStream = new NetworkStream(socket, false);
             this.sslStream = new SslStream(nsStream, false, this.certificateValidationCallback);
@@ -176,16 +176,10 @@ namespace Shriek.ServiceProxy.Tcp
         /// 同步发送数据
         /// </summary>
         /// <param name="byteRange">数据范围</param>
-        /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="SocketException"></exception>
         /// <returns></returns>
         public override int Send(ArraySegment<byte> byteRange)
         {
-            if (byteRange == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             if (this.IsConnected == false)
             {
                 throw new SocketException((int)SocketError.NotConnected);

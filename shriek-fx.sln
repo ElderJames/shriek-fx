@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -45,8 +45,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - fx", "1 - fx", "{5F35B0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - service proxy", "2 - service proxy", "{F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Tcp", "src\Shriek.ServiceProxy.Tcp\Shriek.ServiceProxy.Tcp.csproj", "{A3D49B5D-BCB4-415D-ADCF-0334DF340332}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Abstractions", "src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj", "{AB79D05A-249F-4103-B28A-89F1912FB060}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Http", "src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj", "{3A976908-6482-4A42-BB5A-9E7B063A6B96}"
@@ -68,6 +66,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.Dapper", "src\Shriek.EventStorage.Dapper\Shriek.EventStorage.Dapper.csproj", "{6A84F582-882B-41E9-B57F-98582AFA8EF7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.Dapper", "samples\Shriek.Samples.Dapper\Shriek.Samples.Dapper.csproj", "{CB140925-FF8C-4444-9F69-52FD3F0C88E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket", "src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj", "{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,10 +127,6 @@ Global
 		{84BF49D4-478A-4A6A-9922-4C9D9355FF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84BF49D4-478A-4A6A-9922-4C9D9355FF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84BF49D4-478A-4A6A-9922-4C9D9355FF03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3D49B5D-BCB4-415D-ADCF-0334DF340332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3D49B5D-BCB4-415D-ADCF-0334DF340332}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3D49B5D-BCB4-415D-ADCF-0334DF340332}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3D49B5D-BCB4-415D-ADCF-0334DF340332}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB79D05A-249F-4103-B28A-89F1912FB060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB79D05A-249F-4103-B28A-89F1912FB060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB79D05A-249F-4103-B28A-89F1912FB060}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -175,6 +171,10 @@ Global
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -195,7 +195,6 @@ Global
 		{84BF49D4-478A-4A6A-9922-4C9D9355FF03} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{5F35B0CE-D94D-4526-ABE2-D03927AAA1B1} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
 		{F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A} = {462AFBD1-F8B2-475E-988F-13E968C4EA15}
-		{A3D49B5D-BCB4-415D-ADCF-0334DF340332} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{AB79D05A-249F-4103-B28A-89F1912FB060} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{3A976908-6482-4A42-BB5A-9E7B063A6B96} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{8352D42D-4971-4331-BF1D-429924910D28} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
@@ -207,6 +206,7 @@ Global
 		{FE58D7FB-9FDA-4B22-990C-2B134320EC68} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{6A84F582-882B-41E9-B57F-98582AFA8EF7} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7} = {D89488AA-4409-4E15-9945-A918008FBA0A}
+		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}

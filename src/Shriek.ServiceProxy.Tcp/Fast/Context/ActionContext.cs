@@ -1,8 +1,8 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
+﻿using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Exceptions;
 using System.Diagnostics;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast.Context
 {
     /// <summary>
     /// 表示Fast协议的Api执行上下文

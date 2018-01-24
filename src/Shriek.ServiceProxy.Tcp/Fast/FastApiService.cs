@@ -1,11 +1,13 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
+﻿using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Exceptions;
+using Shriek.ServiceProxy.Socket.Fast.Context;
+using Shriek.ServiceProxy.Socket.Fast.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示Fast协议的Api服务基类

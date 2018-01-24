@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp.Core
+﻿namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义Api执行上下文

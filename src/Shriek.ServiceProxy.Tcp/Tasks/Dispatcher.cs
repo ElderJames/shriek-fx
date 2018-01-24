@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace Shriek.ServiceProxy.Tcp.Tasks
+namespace Shriek.ServiceProxy.Socket.Tasks
 {
     /// <summary>
     /// 提供方法等待调度

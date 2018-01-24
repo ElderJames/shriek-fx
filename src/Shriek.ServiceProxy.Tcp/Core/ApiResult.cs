@@ -1,9 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 表示异步Api结果

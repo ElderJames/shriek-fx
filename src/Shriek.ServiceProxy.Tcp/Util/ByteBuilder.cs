@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 提供二进制数据生成支持

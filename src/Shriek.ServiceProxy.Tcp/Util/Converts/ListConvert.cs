@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Util.Converts
+namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
     /// 表示List转换单元

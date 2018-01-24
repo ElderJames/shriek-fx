@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp.Util.Converts
+namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
     /// 表示最后一个转换单元

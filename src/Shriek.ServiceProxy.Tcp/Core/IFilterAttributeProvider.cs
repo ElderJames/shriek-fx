@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 特性过滤器提供者

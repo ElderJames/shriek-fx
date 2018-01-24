@@ -1,8 +1,8 @@
-﻿using Shriek.ServiceProxy.Tcp.Reflection;
+﻿using Shriek.ServiceProxy.Socket.Reflection;
 using System;
 using System.Dynamic;
 
-namespace Shriek.ServiceProxy.Tcp.Util.Converts
+namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
     /// 表示动态类型转换单元

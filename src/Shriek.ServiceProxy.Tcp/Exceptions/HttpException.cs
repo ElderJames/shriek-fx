@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Shriek.ServiceProxy.Tcp.Exceptions
+namespace Shriek.ServiceProxy.Socket.Exceptions
 {
     /// <summary>
     /// 表示http异常

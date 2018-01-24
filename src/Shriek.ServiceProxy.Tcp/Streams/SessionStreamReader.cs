@@ -1,9 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Util;
+﻿using Shriek.ServiceProxy.Socket.Util;
 using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace Shriek.ServiceProxy.Tcp.Streams
+namespace Shriek.ServiceProxy.Socket.Streams
 {
     /// <summary>
     /// 提供对内存流读取

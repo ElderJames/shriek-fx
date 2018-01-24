@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core.Internal
 {
     /// <summary>
     /// 默认的依赖关系解析程序的实现

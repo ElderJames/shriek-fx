@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Tasks
+namespace Shriek.ServiceProxy.Socket.Tasks
 {
     /// <summary>
     /// 表示超时任务管理表

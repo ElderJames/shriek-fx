@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 表示插件管理器

@@ -1,13 +1,17 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Exceptions;
-using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.socket;
+using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Core.Internal;
+using Shriek.ServiceProxy.Socket.Exceptions;
+using Shriek.ServiceProxy.Socket.Fast.Context;
+using Shriek.ServiceProxy.Socket.Fast.Internal;
+using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示fast协议中间件
@@ -78,7 +82,7 @@ namespace Shriek.ServiceProxy.Tcp.Fast
             this.DependencyResolver = new DefaultDependencyResolver();
             this.FilterAttributeProvider = new DefaultFilterAttributeProvider();
 
-            DomainAssembly.GetAssemblies().ForEach(item => this.BindService(item));
+            DomainAssembly.GetAssemblies().ForEach(this.BindService);
         }
 
         /// <summary>

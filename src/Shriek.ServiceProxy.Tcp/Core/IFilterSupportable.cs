@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp.Core
+﻿namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义支持过滤器功能的接口

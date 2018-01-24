@@ -1,6 +1,7 @@
-﻿using Shriek.ServiceProxy.Tcp.Streams;
-using Shriek.ServiceProxy.Tcp.Tasks;
-using Shriek.ServiceProxy.Tcp.Util;
+﻿using Shriek.ServiceProxy.socket;
+using Shriek.ServiceProxy.Socket.Streams;
+using Shriek.ServiceProxy.Socket.Tasks;
+using Shriek.ServiceProxy.Socket.Util;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 接收完成委托
@@ -47,7 +48,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// <summary>
         /// 获取绑定的Socket对象
         /// </summary>
-        protected Socket Socket { get; private set; }
+        protected System.Net.Sockets.Socket Socket { get; private set; }
 
         /// <summary>
         /// 处理和分析收到的数据的委托
@@ -130,7 +131,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// </summary>
         /// <param name="socket">套接字</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void SetSocket(Socket socket)
+        public virtual void SetSocket(System.Net.Sockets.Socket socket)
         {
             if (socket == null)
             {
@@ -190,21 +191,14 @@ namespace Shriek.ServiceProxy.Tcp
         /// 同步发送数据
         /// </summary>
         /// <param name="byteRange">数据范围</param>
-        /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="SocketException"></exception>
         /// <returns></returns>
         public virtual int Send(ArraySegment<byte> byteRange)
         {
-            if (byteRange.Array == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             if (this.IsConnected == false)
             {
                 throw new SocketException((int)SocketError.NotConnected);
             }
-
             return this.Socket.Send(byteRange.Array, byteRange.Offset, byteRange.Count, SocketFlags.None);
         }
 
@@ -308,7 +302,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// <param name="dueTime">延迟的时间量（以毫秒为单位）</param>
         /// <param name="period">时间间隔（以毫秒为单位）</param>
         /// <returns></returns>
-        private bool TrySetKeepAlive(Socket socket, int dueTime, int period)
+        private bool TrySetKeepAlive(System.Net.Sockets.Socket socket, int dueTime, int period)
         {
             var inOptionValue = new byte[12];
             var outOptionValue = new byte[12];

@@ -1,9 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Reflection;
+﻿using Shriek.ServiceProxy.Socket.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Util.Converts
+namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
     /// 表示字典转换单元

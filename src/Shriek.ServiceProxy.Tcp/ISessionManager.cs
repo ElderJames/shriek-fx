@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using Shriek.ServiceProxy.socket;
+using System.Collections;
 using System.Collections.Generic;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义会话管理者的接口

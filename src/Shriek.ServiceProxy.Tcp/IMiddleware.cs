@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义协议中间件的行为

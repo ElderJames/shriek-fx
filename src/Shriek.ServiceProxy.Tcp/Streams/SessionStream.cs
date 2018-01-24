@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Shriek.ServiceProxy.Tcp.Streams
+namespace Shriek.ServiceProxy.Socket.Streams
 {
     /// <summary>
     /// 表示会话收到的数据流

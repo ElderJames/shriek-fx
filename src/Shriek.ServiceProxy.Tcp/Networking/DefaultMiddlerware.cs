@@ -1,7 +1,7 @@
-﻿using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.Socket.Tasks;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 表示默认的最后一个中间件

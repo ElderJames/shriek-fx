@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Shriek.ServiceProxy.Tcp.Util.Converts
+namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
     /// 表示数组转换单元

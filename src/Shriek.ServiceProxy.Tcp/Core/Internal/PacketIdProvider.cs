@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core.Internal
 {
     /// <summary>
     /// 表示数据包id提供者

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义发布订阅

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// GZip

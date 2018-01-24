@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 提供设置SocketAsyncEventArgs缓冲区或申请缓冲区

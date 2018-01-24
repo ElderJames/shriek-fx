@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义Api异常上下文

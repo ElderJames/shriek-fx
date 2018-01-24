@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义会话收到的数据流读取接口

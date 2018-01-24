@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.socket;
+using System;
 using System.Net;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义会话的接口

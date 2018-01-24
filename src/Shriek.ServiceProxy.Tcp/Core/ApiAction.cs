@@ -1,5 +1,5 @@
-﻿using Shriek.ServiceProxy.Tcp.Reflection;
-using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.Socket.Reflection;
+using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 表示Api行为
@@ -156,20 +156,18 @@ namespace Shriek.ServiceProxy.Tcp.Core
         /// <returns></returns>
         public Task<object> ExecuteAsync(object service, params object[] parameters)
         {
-            if (this.IsTaskReturn == true)
-            {
-                var task = this.Execute(service, parameters) as Task;
-                if (task == null)
-                {
-                    return Task.FromResult<object>(null);
-                }
-                return task.Cast<object>(this.Method.Info.ReturnType);
-            }
-            else
+            if (this.IsTaskReturn == false)
             {
                 var result = this.Execute(service, parameters);
                 return Task.FromResult(result);
             }
+
+            var task = this.Execute(service, parameters) as Task;
+            if (task == null)
+            {
+                return Task.FromResult<object>(null);
+            }
+            return task.Cast<object>(this.Method.Info.ReturnType);
         }
 
         /// <summary>

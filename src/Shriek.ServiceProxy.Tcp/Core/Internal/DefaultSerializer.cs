@@ -1,8 +1,7 @@
-﻿using Shriek.ServiceProxy.Tcp.Core.Internal;
-using System;
+﻿using System;
 using System.Text;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core.Internal
 {
     /// <summary>
     /// 默认提供的二进制序列化工具

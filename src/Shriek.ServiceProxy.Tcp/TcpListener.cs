@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Socket.Networking;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 表示Tcp监听服务
@@ -14,7 +15,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// <summary>
         /// 用于监听的socket
         /// </summary>
-        private volatile Socket listenSocket;
+        private volatile System.Net.Sockets.Socket listenSocket;
 
         /// <summary>
         /// 接受参数
@@ -176,7 +177,7 @@ namespace Shriek.ServiceProxy.Tcp
             {
                 return;
             }
-            this.listenSocket = new Socket(localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this.listenSocket = new System.Net.Sockets.Socket(localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             this.listenSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             this.listenSocket.Bind(localEndPoint);
             this.listenSocket.Listen(backlog);
@@ -267,7 +268,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// </summary>
         /// <param name="socket">要绑定的socket</param>
         /// <returns></returns>
-        private TcpSessionBase GenerateSession(Socket socket)
+        private TcpSessionBase GenerateSession(System.Net.Sockets.Socket socket)
         {
             // 创建会话，绑定处理委托
             var session = this.sessionManager.Alloc(this.Certificate);

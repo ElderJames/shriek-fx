@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义IApiResult接口

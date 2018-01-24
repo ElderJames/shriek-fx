@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 定义全局过滤器管理者

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 表示Api参数

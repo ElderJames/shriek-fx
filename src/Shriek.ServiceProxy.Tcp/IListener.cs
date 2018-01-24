@@ -2,7 +2,7 @@
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义监听服务的行为

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.Socket.Fast.Context;
+using System;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 定义fast协议的Api服务

@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp.Util
+﻿namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 表示byte类型转换工具类

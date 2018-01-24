@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Shriek.ServiceProxy.Tcp.Exceptions
+namespace Shriek.ServiceProxy.Socket.Exceptions
 {
     /// <summary>
     /// 表示远程端Api行为异常

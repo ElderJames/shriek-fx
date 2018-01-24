@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp.Exceptions
+namespace Shriek.ServiceProxy.Socket.Exceptions
 {
     /// <summary>
     /// 表示Api执行异常

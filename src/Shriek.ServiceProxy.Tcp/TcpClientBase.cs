@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Shriek.ServiceProxy.socket;
+using Shriek.ServiceProxy.Socket.Networking;
+using System;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 表示Tcp客户端抽象类
@@ -170,7 +172,7 @@ namespace Shriek.ServiceProxy.Tcp
             {
                 addressFamily = remoteEndPoint.AddressFamily;
             }
-            var socket = new Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
+            var socket = new System.Net.Sockets.Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {
@@ -255,7 +257,7 @@ namespace Shriek.ServiceProxy.Tcp
             {
                 addressFamily = remoteEndPoint.AddressFamily;
             }
-            var socket = new Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
+            var socket = new System.Net.Sockets.Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 定义类型转换单元的接口

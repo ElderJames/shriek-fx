@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp
+﻿namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 表示上下文对象

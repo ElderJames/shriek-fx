@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace Shriek.ServiceProxy.Socket.Util.Converts
 {
     /// <summary>
-    /// 表示不作转换的转换单元
+    /// 表示JToken对象转换器
     /// </summary>
-    public class NoConvert : IConvert
+    public class JTokenConvert : IConvert
     {
         /// <summary>
         /// 转换器实例
@@ -25,17 +26,13 @@ namespace Shriek.ServiceProxy.Socket.Util.Converts
         /// <returns></returns>
         public object Convert(object value, Type targetType)
         {
-            if (targetType == typeof(object))
+            var token = value as JToken;
+            if (token == null)
             {
-                return value;
+                return this.NextConvert.Convert(value, targetType);
             }
 
-            if (value != null && targetType == value.GetType())
-            {
-                return value;
-            }
-
-            return this.NextConvert.Convert(value, targetType);
+            return token.ToObject(targetType);
         }
     }
 }

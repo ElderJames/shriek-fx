@@ -1,9 +1,9 @@
-﻿using Shriek.ServiceProxy.Tcp.Tasks;
+﻿using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Core
+namespace Shriek.ServiceProxy.Socket.Core
 {
     /// <summary>
     /// 表示Api行为过滤器基础特性

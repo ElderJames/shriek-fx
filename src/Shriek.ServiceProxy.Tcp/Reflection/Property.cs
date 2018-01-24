@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
 
-namespace Shriek.ServiceProxy.Tcp.Reflection
+namespace Shriek.ServiceProxy.Socket.Reflection
 {
     /// <summary>
     /// 表示属性
@@ -13,12 +13,12 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
         /// <summary>
         /// 获取器
         /// </summary>
-        private readonly Method geter;
+        private readonly PropertyGetter geter;
 
         /// <summary>
         /// 设置器
         /// </summary>
-        private readonly Method seter;
+        private readonly PropertySetter seter;
 
         /// <summary>
         /// 获取属性名称
@@ -39,16 +39,13 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
             this.Name = property.Name;
             this.Info = property;
 
-            var getMethod = property.GetGetMethod();
-            if (getMethod != null)
+            if (property.CanRead == true)
             {
-                this.geter = new Method(getMethod);
+                this.geter = new PropertyGetter(property);
             }
-
-            var setMethod = property.GetSetMethod();
-            if (setMethod != null)
+            if (property.CanWrite == true)
             {
-                this.seter = new Method(setMethod);
+                this.seter = new PropertySetter(property);
             }
         }
 
@@ -64,7 +61,7 @@ namespace Shriek.ServiceProxy.Tcp.Reflection
             {
                 throw new NotSupportedException();
             }
-            return this.geter.Invoke(instance, null);
+            return this.geter.Invoke(instance);
         }
 
         /// <summary>

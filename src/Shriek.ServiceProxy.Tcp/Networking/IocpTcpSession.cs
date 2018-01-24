@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp
+namespace Shriek.ServiceProxy.Socket.Networking
 {
     /// <summary>
     /// 表示IOCP的Tcp会话对象
@@ -39,7 +39,7 @@ namespace Shriek.ServiceProxy.Tcp
         /// 绑定一个Socket对象
         /// </summary>
         /// <param name="socket">套接字</param>
-        public override void SetSocket(Socket socket)
+        public override void SetSocket(System.Net.Sockets.Socket socket)
         {
             this.recvArg.SocketError = SocketError.Success;
             base.SetSocket(socket);

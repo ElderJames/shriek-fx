@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Shriek.ServiceProxy.Tcp.Reflection
+namespace Shriek.ServiceProxy.Socket.Reflection
 {
     /// <summary>
     /// 提供类型扩展

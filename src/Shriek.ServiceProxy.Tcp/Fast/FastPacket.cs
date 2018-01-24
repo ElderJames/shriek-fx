@@ -1,11 +1,11 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
-using Shriek.ServiceProxy.Tcp.Util;
+﻿using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示Fast协议的封包

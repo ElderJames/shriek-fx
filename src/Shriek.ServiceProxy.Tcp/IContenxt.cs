@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp
+﻿namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 定义会话请求的上下文

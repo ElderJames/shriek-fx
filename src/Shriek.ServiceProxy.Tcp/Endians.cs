@@ -1,4 +1,4 @@
-﻿namespace Shriek.ServiceProxy.Tcp
+﻿namespace Shriek.ServiceProxy.Socket
 {
     /// <summary>
     /// 表示字节存储次序枚举

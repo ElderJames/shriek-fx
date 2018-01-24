@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 提供获取Tcp端口快照信息

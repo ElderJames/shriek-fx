@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Tasks
+namespace Shriek.ServiceProxy.Socket.Tasks
 {
     /// <summary>
     /// 表示任务行为

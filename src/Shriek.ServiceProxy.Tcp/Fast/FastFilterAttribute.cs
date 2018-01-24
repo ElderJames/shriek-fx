@@ -1,6 +1,7 @@
-﻿using Shriek.ServiceProxy.Tcp.Core;
+﻿using Shriek.ServiceProxy.Socket.Core;
+using Shriek.ServiceProxy.Socket.Fast.Context;
 
-namespace Shriek.ServiceProxy.Tcp.Fast
+namespace Shriek.ServiceProxy.Socket.Fast
 {
     /// <summary>
     /// 表示Fast协议过滤器

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Shriek.ServiceProxy.Tcp.Reflection
+namespace Shriek.ServiceProxy.Socket.Reflection
 {
     /// <summary>
     /// 表示方法

@@ -1,10 +1,10 @@
-﻿using Shriek.ServiceProxy.Tcp.Util.Converts;
+﻿using Shriek.ServiceProxy.Socket.Util.Converts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Shriek.ServiceProxy.Tcp.Util
+namespace Shriek.ServiceProxy.Socket.Util
 {
     /// <summary>
     /// 提供丰富的类型转换功能
@@ -63,6 +63,7 @@ namespace Shriek.ServiceProxy.Tcp.Util
                 .AddLast<DictionaryConvert>()
                 .AddLast<ArrayConvert>()
                 .AddLast<ListConvert>()
+                .AddLast<JTokenConvert>()
                 .AddLast<DynamicObjectConvert>();
         }
 

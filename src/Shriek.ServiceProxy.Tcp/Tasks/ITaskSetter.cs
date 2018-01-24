@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shriek.ServiceProxy.Tcp.Tasks
+namespace Shriek.ServiceProxy.Socket.Tasks
 {
     /// <summary>
     /// 定义任务行为接口
