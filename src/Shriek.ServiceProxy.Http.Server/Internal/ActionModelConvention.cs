@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Http.ActionAttributes;
 using System;
@@ -45,7 +46,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
             var actionAttrs = new List<object>();
 
             if (!attrs.Any(x => x is HttpMethodAttribute || x is RouteAttribute))
-                actionAttrs.Add(new HttpPost($"method/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.Name))}"));
+                actionAttrs.Add(new HttpPost(Regex.Replace($"method/{serviceType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-")));
             else
                 foreach (var att in attrs)
                 {
