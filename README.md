@@ -23,6 +23,8 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 
 ---
 
+### [文档](https://yangshunjie.com/shriek-fx)
+
 ### 安装Nuget包
 
 目前开发版本已发布到MyGet，从Nuget安装时需要添加MyGet的源地址，或者在解决方案根目录添加`NuGet.config`文件，内容如下：
@@ -44,7 +46,7 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 
 ---
 
-### 任务列表（更新中）：
+### 任务列表（会不断调整）：
 
 - C端
   - [x] 命令总线 CommandBus
@@ -62,26 +64,29 @@ A ddd-cqrs framework for **.NET Core 2.0**  that would make you shriek! For it's
 	- [x] Redis
   - Bus / 消息队列（MQ）
 	- [x] RabbitMQ
-	- [ ] Orleans
-  - [ ] Actor
-  - [ ] Saga
-- Q端 + Real DB 
+  - [ ] Actor 响应式架构
+  - [ ] Saga 流程管理
+- Q端 + Real DB 适配器
   - [x] EF Core
   - [ ] Dapper
+  - [ ] TiDB
   - [ ] 查询基类
 - 应用服务层
-  - WebApi 接口动态代理
+  - 接口即服务
 	- [x] Http / MVC
-	- [ ] TCP  / RPC (DotNetty)
-  - [ ] GraphSQL
+	- [ ] TCP  / RPC 
+  - [ ] GraphQL
 - UI层
   - [ ] 权限管理
   - [ ] OAuth 2.0
-  - [ ] MVC Razor Helpers
+  - [ ] ASP.NET Core 扩展
   - [ ] Angular
+  - [ ] Vue (Vuetify)
 - 定时任务
   - [ ] Hangfire
 - 基础设施
+  - Aop 拦截器
+	- [ ] [AspectCore](https://github.com/dotnetcore/AspectCore-Framework)
   - 日志
 	- [ ] NLog
 	- [ ] Log4net
