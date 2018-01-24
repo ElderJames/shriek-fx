@@ -6,11 +6,11 @@ namespace Shriek.ServiceProxy.Http
 {
     internal class HttpClientAdapter : IHttpClient
     {
-        private readonly HttpClient httpClient;
+        private static HttpClient httpClient;
 
-        public HttpClientAdapter(HttpClient httpClient)
+        public HttpClientAdapter(HttpClient client)
         {
-            this.httpClient = httpClient;
+            httpClient = client;
         }
 
         public void Dispose()

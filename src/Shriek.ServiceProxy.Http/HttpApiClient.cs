@@ -18,7 +18,7 @@ namespace Shriek.ServiceProxy.Http
         /// <summary>
         /// 静态httpClient
         /// </summary>
-        private static IHttpClient _client;
+        private readonly IHttpClient _client;
 
         /// <summary>
         /// 获取或设置http客户端
