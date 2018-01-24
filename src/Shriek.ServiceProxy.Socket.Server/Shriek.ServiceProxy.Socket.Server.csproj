@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj" />
-    <ProjectReference Include="..\Shriek.ServiceProxy.Tcp\Shriek.ServiceProxy.Socket.csproj" />
     <ProjectReference Include="..\Shriek\Shriek.csproj" />
   </ItemGroup>
-
 </Project>

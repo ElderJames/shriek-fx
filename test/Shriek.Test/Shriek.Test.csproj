@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-        <PackageReference Include="Moq" Version="4.8.1" />
-        <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
-        <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
-      <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
-      <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Tcp\Shriek.ServiceProxy.Socket.csproj" />
-      <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Shriek.EntityFrameworkCore\Shriek.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj" />
+    <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
 </Project>
