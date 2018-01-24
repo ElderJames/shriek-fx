@@ -69,6 +69,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Samples.Dapper", "sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket", "src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj", "{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket.Server", "src\Shriek.ServiceProxy.Socket.Server\Shriek.ServiceProxy.Socket.Server.csproj", "{B56E33E0-8105-4B10-89BF-775F9C41486E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +177,10 @@ Global
 		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{6A84F582-882B-41E9-B57F-98582AFA8EF7} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
+		{B56E33E0-8105-4B10-89BF-775F9C41486E} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
