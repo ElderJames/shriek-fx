@@ -1,18 +1,11 @@
-﻿using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shriek.Samples.WebApiProxy.Contracts;
-using Shriek.ServiceProxy.Http;
-using Shriek.ServiceProxy.Http.Server;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Shriek.Samples.WebApiProxy.Models;
-using Shriek.ServiceProxy.Socket;
 using Shriek.ServiceProxy.Socket.Core;
 using Shriek.ServiceProxy.Socket.Fast;
+using Shriek.ServiceProxy.Socket.Server;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -20,9 +13,14 @@ namespace Shriek.Samples.WebApiProxy
     {
         public static void Main(string[] args)
         {
-            var listener = new TcpListener();
-            listener.Use<FastMiddleware>();
-            listener.Start(1212);
+            //var listener = new TcpListener();
+            //listener.Use<FastMiddleware>();
+            //listener.Start(1212);
+
+            var services = new ServiceCollection().AddShriek().AddSocketServer(option =>
+            {
+                option.AddService<ISimpleInterface>();
+            });
 
             Console.ReadKey();
 

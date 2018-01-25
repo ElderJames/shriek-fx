@@ -16,8 +16,13 @@ namespace Shriek.ServiceProxy.Socket.Server
             var listener = new TcpListener();
             var middleware = listener.Use<FastMiddleware>();
 
-            foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
+            foreach (var type in AppDomain.CurrentDomain.GetAllTypes().Where(x => !x.IsInterface))
             {
+                var serviceTypes = options.RegisteredServices.Where(x => x.Value.IsAssignableFrom(type));
+                if (serviceTypes.Any())
+                {
+                    middleware.BindService(type);
+                }
             }
 
             listener.Start(options.Port);
