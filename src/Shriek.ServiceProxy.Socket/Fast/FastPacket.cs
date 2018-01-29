@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Shriek.ServiceProxy.Socket.Exceptions;
 
 namespace Shriek.ServiceProxy.Socket.Fast
 {

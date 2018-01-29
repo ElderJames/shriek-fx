@@ -6,6 +6,7 @@ using Shriek.ServiceProxy.Socket.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 
@@ -120,6 +121,13 @@ namespace Shriek.ServiceProxy.Socket.Fast.Internal
             var taskSetter = taskSetActionTable.Create<T>(packet.Id, timeout);
             session.Send(packet.ToArraySegment());
             return new ApiResult<T>(taskSetter);
+        }
+
+        public static ApiResult<object> InvokeApi(Type returnType, ISession session, TaskSetterTable<long> taskSetActionTable, ISerializer serializer, FastPacket packet, TimeSpan timeout)
+        {
+            var taskSetter = taskSetActionTable.Create(returnType, packet.Id, timeout);
+            session.Send(packet.ToArraySegment());
+            return new ApiResult<object>(taskSetter);
         }
 
         /// <summary>

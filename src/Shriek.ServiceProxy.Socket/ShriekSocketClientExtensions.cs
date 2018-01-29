@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Shriek.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Socket
@@ -24,6 +25,15 @@ namespace Shriek.ServiceProxy.Socket
 
             var option = new WebApiProxyOptions();
             optionAction(option);
+
+            foreach (var type in option.RegisteredServices)
+            {
+                if (type.Value.IsInterface)
+                {
+                    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new SocketClient(option.Port));
+                    service.AddSingleton(type.Value, x => proxy);
+                }
+            }
 
             return service;
         }

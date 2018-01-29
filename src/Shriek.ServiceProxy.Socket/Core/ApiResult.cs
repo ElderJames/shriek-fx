@@ -23,11 +23,7 @@ namespace Shriek.ServiceProxy.Socket.Core
         /// <exception cref="ArgumentNullException"></exception>
         public ApiResult(ITaskSetter<TResult> taskSetter)
         {
-            if (taskSetter == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.taskSetter = taskSetter;
+            this.taskSetter = taskSetter ?? throw new ArgumentNullException();
         }
 
         /// <summary>

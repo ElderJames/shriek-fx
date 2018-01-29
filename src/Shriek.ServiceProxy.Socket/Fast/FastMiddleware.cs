@@ -21,7 +21,7 @@ namespace Shriek.ServiceProxy.Socket.Fast
         /// <summary>
         /// 所有Api行为
         /// </summary>
-        private ApiActionTable apiActionTable;
+        private readonly ApiActionTable apiActionTable;
 
         /// <summary>
         /// 获取数据包id提供者

@@ -43,6 +43,15 @@ namespace Shriek.ServiceProxy.Socket.Tasks
             return taskSetter;
         }
 
+        public ITaskSetter<object> Create(Type returnType, T id, TimeSpan timeout)
+        {
+            var taskSetter = new TaskSetter<object>(returnType)
+                .TimeoutAfter(timeout, (t) => this.Remove(id).SetException(new TimeoutException()));
+
+            this.table.TryAdd(id, taskSetter);
+            return taskSetter;
+        }
+
         /// <summary>
         /// 获取并移除与id匹配的任务
         /// 如果没有匹配则返回null

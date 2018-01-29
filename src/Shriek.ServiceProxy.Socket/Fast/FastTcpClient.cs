@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Shriek.DynamicProxy;
+using System.Reflection;
 
 namespace Shriek.ServiceProxy.Socket.Fast
 {
@@ -258,6 +260,14 @@ namespace Shriek.ServiceProxy.Socket.Fast
             var packet = new FastPacket(api, id, true);
             packet.SetBodyParameters(this.Serializer, parameters);
             return Common.InvokeApi<T>(this.UnWrap(), this.taskSetterTable, this.Serializer, packet, this.TimeOut);
+        }
+
+        public ApiResult<dynamic> InvokeApi(Type returnType, string api, params object[] parameters)
+        {
+            var id = this.packetIdProvider.NewId();
+            var packet = new FastPacket(api, id, true);
+            packet.SetBodyParameters(this.Serializer, parameters);
+            return Common.InvokeApi(returnType, this.UnWrap(), this.taskSetterTable, this.Serializer, packet, this.TimeOut);
         }
 
         /// <summary>

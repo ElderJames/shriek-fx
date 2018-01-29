@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Shriek.ServiceProxy.Socket.Exceptions;
 
 namespace Shriek.ServiceProxy.Socket.Core.Internal
 {

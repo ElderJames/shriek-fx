@@ -3,6 +3,7 @@ using Shriek.Samples.WebApiProxy.Contracts;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Socket;
 using Shriek.ServiceProxy.Socket.Core;
 using Shriek.ServiceProxy.Socket.Fast;
 using Shriek.ServiceProxy.Socket.Server;
@@ -19,14 +20,24 @@ namespace Shriek.Samples.WebApiProxy
 
             var services = new ServiceCollection().AddShriek().AddSocketServer(option =>
             {
+                option.Port = 1212;
                 option.AddService<ISimpleInterface>();
             });
 
             Console.ReadKey();
 
-            var client = new FastTcpClient();
-            client.Connect(IPAddress.Loopback, 1212);
-            var users = client.InvokeApi<string>("About", "admin").GetResult();
+            var provider = new ServiceCollection().AddSocketProxy(options =>
+            {
+                options.Port = 1212;
+                options.AddService<ISimpleInterface>();
+            }).BuildServiceProvider();
+
+            var simpleInterfaceService = provider.GetService<ISimpleInterface>();
+            var users = simpleInterfaceService.Test("elderjames").Result;
+
+            //var client = new FastTcpClient();
+            //client.Connect(IPAddress.Loopback, 1212);
+            //var users = client.InvokeApi<string>("About", "admin").GetResult();
             Console.Write(users);
 
             Console.ReadKey();

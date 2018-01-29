@@ -1,4 +1,5 @@
 ﻿using System;
+using Shriek.ServiceProxy.Socket.Exceptions;
 
 namespace Shriek.ServiceProxy.Socket.Core
 {

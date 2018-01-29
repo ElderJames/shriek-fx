@@ -82,7 +82,8 @@ namespace Shriek.ServiceProxy.Socket.Core
             }
             else
             {
-                return Regex.Replace(method.Name, @"Async$", string.Empty, RegexOptions.IgnoreCase);
+                return Regex.Replace($"method/{method.DeclaringType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-");
+                // return Regex.Replace(method.Name, @"Async$", string.Empty, RegexOptions.IgnoreCase);
             }
         }
 

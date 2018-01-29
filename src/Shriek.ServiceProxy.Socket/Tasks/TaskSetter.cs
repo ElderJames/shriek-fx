@@ -23,19 +23,21 @@ namespace Shriek.ServiceProxy.Socket.Tasks
         /// <summary>
         /// 获取任务的返回值类型
         /// </summary>
-        public Type ValueType
-        {
-            get
-            {
-                return typeof(TResult);
-            }
-        }
+        public Type ValueType { get; }
 
         /// <summary>
         /// 任务行为
         /// </summary>
         public TaskSetter()
         {
+            this.ValueType = typeof(TResult);
+            this.taskSource = new TaskCompletionSource<TResult>();
+            this.tokenSourceLazy = new Lazy<CancellationTokenSource>();
+        }
+
+        public TaskSetter(Type valueType)
+        {
+            this.ValueType = valueType;
             this.taskSource = new TaskCompletionSource<TResult>();
             this.tokenSourceLazy = new Lazy<CancellationTokenSource>();
         }
