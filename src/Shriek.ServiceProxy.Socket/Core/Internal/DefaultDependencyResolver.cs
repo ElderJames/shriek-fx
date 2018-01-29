@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Shriek.ServiceProxy.Socket.Core.Internal
 {
@@ -7,6 +9,8 @@ namespace Shriek.ServiceProxy.Socket.Core.Internal
     /// </summary>
     internal class DefaultDependencyResolver : IDependencyResolver
     {
+        private ICollection<Type> serviceTypes;
+
         /// <summary>
         /// 解析支持任意对象创建的一次注册的服务
         /// </summary>
@@ -24,6 +28,11 @@ namespace Shriek.ServiceProxy.Socket.Core.Internal
         public void TerminateService(IDisposable service)
         {
             service.Dispose();
+        }
+
+        public void AddService(Type serviceType)
+        {
+            serviceTypes.Add(serviceType);
         }
     }
 }

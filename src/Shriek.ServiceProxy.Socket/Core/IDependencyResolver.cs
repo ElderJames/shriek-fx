@@ -19,5 +19,7 @@ namespace Shriek.ServiceProxy.Socket.Core
         /// </summary>
         /// <param name="service">服务实例</param>
         void TerminateService(IDisposable service);
+
+        void AddService(Type serviceType);
     }
 }

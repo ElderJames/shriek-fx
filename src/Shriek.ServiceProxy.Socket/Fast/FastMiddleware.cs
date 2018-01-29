@@ -268,8 +268,17 @@ namespace Shriek.ServiceProxy.Socket.Fast
             try
             {
                 var serviceType = actionContext.Action.DeclaringService;
-                var fastApiService = this.DependencyResolver.GetService(serviceType) as FastApiService;
-                return fastApiService.Init(this);
+                if (typeof(FastApiService).IsAssignableFrom(serviceType))
+                {
+                    var fastApiService = this.DependencyResolver.GetService(serviceType) as FastApiService;
+                    return fastApiService.Init(this);
+                }
+                else
+                {
+                    var service = this.DependencyResolver.GetService(serviceType);
+                    var fastApiService = new FastApiService(service);
+                    return fastApiService.Init(this);
+                }
             }
             catch (Exception ex)
             {

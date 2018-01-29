@@ -12,7 +12,7 @@ namespace Shriek.ServiceProxy.Socket.Fast
     /// <summary>
     /// 表示Fast协议的Api服务基类
     /// </summary>
-    public abstract class FastApiService : FastFilterAttribute, IFastApiService
+    public class FastApiService : FastFilterAttribute, IFastApiService
     {
         /// <summary>
         /// 获取关联的服务器实例
@@ -24,11 +24,19 @@ namespace Shriek.ServiceProxy.Socket.Fast
         /// </summary>
         protected ActionContext CurrentContext { get; private set; }
 
+        protected object Service { get; private set; }
+
+        public FastApiService()
+        {
+            this.Service = this;
+        }
+
         /// <summary>
         /// Fast协议的Api服务基类
         /// </summary>
-        public FastApiService()
+        public FastApiService(object service)
         {
+            this.Service = service;
         }
 
         /// <summary>
@@ -39,6 +47,7 @@ namespace Shriek.ServiceProxy.Socket.Fast
         internal FastApiService Init(FastMiddleware middleware)
         {
             this.Middleware = middleware;
+            // this.Service = this;
             return this;
         }
 
@@ -106,7 +115,7 @@ namespace Shriek.ServiceProxy.Socket.Fast
         private async Task ExecutingActionAsync(ActionContext actionContext, IEnumerable<IFilter> filters)
         {
             var paramters = actionContext.Action.Parameters.Select(p => p.Value).ToArray();
-            var result = await actionContext.Action.ExecuteAsync(this, paramters);
+            var result = await actionContext.Action.ExecuteAsync(this.Service, paramters);
 
             this.ExecFiltersAfterAction(filters, actionContext);
             if (actionContext.Result != null)
