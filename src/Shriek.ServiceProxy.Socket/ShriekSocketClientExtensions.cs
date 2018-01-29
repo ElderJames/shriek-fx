@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.DynamicProxy;
@@ -30,7 +31,7 @@ namespace Shriek.ServiceProxy.Socket
             {
                 if (type.Value.IsInterface)
                 {
-                    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new SocketClient(option.Port));
+                    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, option.EndPoint == null ? new SocketClient(option.ProxyHost) : new SocketClient(option.EndPoint));
                     service.AddSingleton(type.Value, x => proxy);
                 }
             }

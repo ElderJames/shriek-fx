@@ -51,7 +51,7 @@ namespace Shriek.ServiceProxy.Socket
         /// <summary>
         /// 获取所监听的本地IP和端口
         /// </summary>
-        public IPEndPoint LocalEndPoint { get; private set; }
+        public EndPoint LocalEndPoint { get; private set; }
 
         /// <summary>
         /// 获取服务器证书
