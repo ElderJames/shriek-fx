@@ -18,9 +18,16 @@ namespace Shriek.ServiceProxy.Socket
 
         private Type ReturnTaskType { get; set; }
 
-        public SocketClient(int prot)
+        public SocketClient(EndPoint endPoint)
         {
-            this.Connect(IPAddress.Loopback, prot);
+            this.Connect(endPoint);
+        }
+
+        public SocketClient(string hostAndPort)
+        {
+            var host = hostAndPort.Split(':')[0];
+            var port = hostAndPort.Split(':')[1];
+            this.Connect(host, int.TryParse(port, out var _port) ? _port : 80);
         }
 
         public object Intercept(object target, MethodInfo method, object[] parameters)

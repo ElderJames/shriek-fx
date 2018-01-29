@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Shriek.ServiceProxy.Abstractions
 {
@@ -11,7 +12,13 @@ namespace Shriek.ServiceProxy.Abstractions
 
         public string ProxyHost { get; set; }
 
-        public int Port { get; set; }
+        public EndPoint EndPoint
+        {
+            get => endPoint ?? new DnsEndPoint(ProxyHost.Split(':')[0], int.TryParse(ProxyHost.Split(':')[1], out var port) ? port : 80);
+            set => endPoint = value;
+        }
+
+        private EndPoint endPoint;
 
         /// <summary>
         /// 使用对象类型注册Http请求服务，会自动注册该对象类型所在程序集中的服务接口（必需有标记HttpMethod特性）

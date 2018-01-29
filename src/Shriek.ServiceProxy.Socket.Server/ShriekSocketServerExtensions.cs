@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Socket.Fast;
@@ -12,21 +13,8 @@ namespace Shriek.ServiceProxy.Socket.Server
         {
             AppDomain.CurrentDomain.UpdateExcutingAssemblies();
 
-            var options = new WebApiProxyOptions();
-            optionAction(options);
-            var listener = new TcpListener();
-            var middleware = listener.Use<FastMiddleware>();
+            builder.Services.AddSocketServer(optionAction);
 
-            foreach (var type in AppDomain.CurrentDomain.GetAllTypes().Where(x => !x.IsInterface))
-            {
-                var serviceTypes = options.RegisteredServices.Where(x => x.Value.IsAssignableFrom(type));
-                if (serviceTypes.Any())
-                {
-                    middleware.BindService(type);
-                }
-            }
-
-            listener.Start(options.Port);
             return builder;
         }
 
@@ -36,6 +24,10 @@ namespace Shriek.ServiceProxy.Socket.Server
 
             var options = new WebApiProxyOptions();
             optionAction(options);
+
+            if (!(options.EndPoint is IPEndPoint ipEndpoint))
+                throw new ArgumentException("服务端只能使用IPEndPoint");
+
             var listener = new TcpListener();
             var middleware = listener.Use<FastMiddleware>();
 
@@ -48,7 +40,7 @@ namespace Shriek.ServiceProxy.Socket.Server
                 }
             }
 
-            listener.Start(options.Port);
+            listener.Start(ipEndpoint, 128);
 
             return services;
         }

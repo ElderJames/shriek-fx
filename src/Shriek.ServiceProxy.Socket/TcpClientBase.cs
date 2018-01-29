@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Socket
