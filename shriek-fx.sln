@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462AFBD1-F8B2-475E-988F-13E968C4EA15}"
 EndProject
@@ -70,6 +70,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket", "src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj", "{210FAE89-137D-4F32-AE7A-9C8DE3E8D904}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket.Server", "src\Shriek.ServiceProxy.Socket.Server\Shriek.ServiceProxy.Socket.Server.csproj", "{B56E33E0-8105-4B10-89BF-775F9C41486E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.DotNetty", "src\Shriek.Dotnetty\Shriek.DotNetty.csproj", "{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +183,10 @@ Global
 		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B56E33E0-8105-4B10-89BF-775F9C41486E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +220,7 @@ Global
 		{CB140925-FF8C-4444-9F69-52FD3F0C88E7} = {D89488AA-4409-4E15-9945-A918008FBA0A}
 		{210FAE89-137D-4F32-AE7A-9C8DE3E8D904} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
 		{B56E33E0-8105-4B10-89BF-775F9C41486E} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
+		{9BDE2BAF-6AAB-423A-83C4-D94ED7F53D91} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
