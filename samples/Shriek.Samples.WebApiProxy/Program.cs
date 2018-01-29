@@ -26,16 +26,16 @@ namespace Shriek.Samples.WebApiProxy
                 .ConfigureServices(services =>
                 {
                     //tcp服务端
-                    services.AddSocketServer(option =>
+                    services.AddSocketServer(options =>
                     {
-                        option.Port = 1212;
-                        option.AddService<ISimpleInterface>();
+                        options.EndPoint = new IPEndPoint(IPAddress.Loopback, 1212);
+                        options.AddService<ISimpleInterface>();
                     });
 
                     //tcp客户端
                     services.AddSocketProxy(options =>
                     {
-                        options.Port = 1212;
+                        options.EndPoint = new IPEndPoint(IPAddress.Loopback, 1212);
                         options.AddService<ISimpleInterface>();
                     });
 
@@ -78,7 +78,7 @@ namespace Shriek.Samples.WebApiProxy
                 })
                 .AddSocketProxy(options =>
                 {
-                    options.Port = 1212;
+                    options.ProxyHost = "localhost:1212";
                     options.AddService<ISimpleInterface>();
                 })
                 .BuildServiceProvider();
