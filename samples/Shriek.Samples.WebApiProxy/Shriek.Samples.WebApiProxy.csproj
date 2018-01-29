@@ -16,6 +16,8 @@
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http.Server\Shriek.ServiceProxy.Http.Server.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Socket.Server\Shriek.ServiceProxy.Socket.Server.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj" />
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>
 </Project>
