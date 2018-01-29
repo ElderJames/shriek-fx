@@ -262,7 +262,7 @@ namespace Shriek.ServiceProxy.Socket.Fast
             return Common.InvokeApi<T>(this.UnWrap(), this.taskSetterTable, this.Serializer, packet, this.TimeOut);
         }
 
-        public ApiResult<dynamic> InvokeApi(Type returnType, string api, params object[] parameters)
+        public ApiResult<object> InvokeApi(Type returnType, string api, params object[] parameters)
         {
             var id = this.packetIdProvider.NewId();
             var packet = new FastPacket(api, id, true);

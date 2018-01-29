@@ -26,18 +26,18 @@ namespace Shriek.Samples.WebApiProxy
 
             Console.ReadKey();
 
-            //var provider = new ServiceCollection().AddSocketProxy(options =>
-            //{
-            //    options.Port = 1212;
-            //    options.AddService<ISimpleInterface>();
-            //}).BuildServiceProvider();
+            var provider = new ServiceCollection().AddSocketProxy(options =>
+            {
+                options.Port = 1212;
+                options.AddService<ISimpleInterface>();
+            }).BuildServiceProvider();
 
-            //var simpleInterfaceService = provider.GetService<ISimpleInterface>();
-            //var users = simpleInterfaceService.Test("elderjames").Result;
+            var simpleInterfaceService = provider.GetService<ISimpleInterface>();
+            var users = simpleInterfaceService.Test("elderjames").Result;
 
-            var client = new FastTcpClient();
-            client.Connect(IPAddress.Loopback, 1212);
-            var users = client.InvokeApi<string>("Test", "elderjames").GetResult();
+            //var client = new FastTcpClient();
+            //client.Connect(IPAddress.Loopback, 1212);
+            //var users = client.InvokeApi<string>("Test", "elderjames").GetResult();
             Console.Write(users);
 
             Console.ReadKey();

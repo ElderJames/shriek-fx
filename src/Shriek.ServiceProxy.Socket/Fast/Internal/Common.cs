@@ -27,7 +27,7 @@ namespace Shriek.ServiceProxy.Socket.Fast.Internal
         {
             return seviceType
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-                .Where(item => Attribute.IsDefined(item, typeof(ApiAttribute)))
+                //.Where(item => Attribute.IsDefined(item, typeof(ApiAttribute)))
                 .Select(method => new ApiAction(method));
         }
 

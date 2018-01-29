@@ -47,7 +47,6 @@ namespace Shriek.ServiceProxy.Socket.Fast
         internal FastApiService Init(FastMiddleware middleware)
         {
             this.Middleware = middleware;
-            // this.Service = this;
             return this;
         }
 

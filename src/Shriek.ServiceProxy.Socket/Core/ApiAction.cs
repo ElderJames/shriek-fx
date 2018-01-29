@@ -68,6 +68,16 @@ namespace Shriek.ServiceProxy.Socket.Core
             this.Parameters = method.GetParameters().Select(p => new ApiParameter(p)).ToArray();
         }
 
+        public ApiAction(string apiName, MethodInfo method)
+        {
+            this.Method = new Method(method);
+            this.ApiName = apiName;
+            this.DeclaringService = method.DeclaringType;
+            this.IsTaskReturn = typeof(Task).IsAssignableFrom(method.ReturnType);
+            this.IsVoidReturn = method.ReturnType.Equals(typeof(void)) || method.ReturnType.Equals(typeof(Task));
+            this.Parameters = method.GetParameters().Select(p => new ApiParameter(p)).ToArray();
+        }
+
         /// <summary>
         /// 获取ApiName
         /// </summary>
@@ -82,8 +92,18 @@ namespace Shriek.ServiceProxy.Socket.Core
             }
             else
             {
-                //return Regex.Replace($"method/{method.DeclaringType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-");
-                return Regex.Replace(method.Name, @"Async$", string.Empty, RegexOptions.IgnoreCase);
+                var actionParams = method.GetParameters();
+
+                var serviceType = method.DeclaringType.GetInterfaces().FirstOrDefault(t => t.GetMethods().Any(mth =>
+                 {
+                     var mthParams = mth.GetParameters();
+                     return method.Name == mth.Name
+                            && actionParams.Length == mthParams.Length
+                            && actionParams.Any(x => mthParams.Where(o => x.Name == o.Name).Any(o => x.GetType() == o.GetType()));
+                 })) ?? method.DeclaringType;
+
+                return Regex.Replace($"method/{serviceType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-");
+                //return Regex.Replace(method.Name, @"Async$", string.Empty, RegexOptions.IgnoreCase);
             }
         }
 
