@@ -10,7 +10,7 @@ using Shriek.ServiceProxy.Socket.Fast;
 
 namespace Shriek.ServiceProxy.Socket
 {
-    public class SocketClient : FastTcpClient, IApiInterceptor
+    public class SocketClient : FastTcpClient, IInterceptor
     {
         private ApiAction ApiAction { get; set; }
 

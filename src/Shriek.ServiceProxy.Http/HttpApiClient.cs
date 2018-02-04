@@ -13,7 +13,7 @@ namespace Shriek.ServiceProxy.Http
     /// <summary>
     /// 表示web api请求客户端
     /// </summary>
-    public class HttpApiClient : IApiInterceptor, IServiceClient, IDisposable
+    public class HttpApiClient : IInterceptor, IServiceClient, IDisposable
     {
         /// <summary>
         /// 静态httpClient
