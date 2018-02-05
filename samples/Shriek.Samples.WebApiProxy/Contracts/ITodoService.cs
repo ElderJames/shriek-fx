@@ -1,7 +1,7 @@
-﻿using Shriek.Samples.WebApiProxy.Models;
+﻿using System.ComponentModel;
+using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using Shriek.ServiceProxy.Http.ActionAttributes;
-using Shriek.ServiceProxy.Http.ParameterAttributes;
 using System.Threading.Tasks;
 
 namespace Shriek.Samples.WebApiProxy.Contracts
@@ -26,8 +26,12 @@ namespace Shriek.Samples.WebApiProxy.Contracts
 
     public enum Type : ulong
     {
+        [Description("描述：睡觉")]
         睡觉 = 1 << 20,
+
         工作 = 1 << 21,
+
+        [Description("描述：起床")]
         起床 = 1 << 22,
     }
 }
