@@ -44,7 +44,12 @@ public class SimpleInterface : ISimpleInterface
 
    此时，已经自动配置了一个可以用 POST 方式调用的 WebApi，接受一个字符串参数，路由是用接口名+方法名+参数名生成的。
 
-   > HTTP 服务设置需要安装`Shriek.ServiceProxy.Http.Server`类库
+   > HTTP 服务设置需要安装`Shriek.ServiceProxy.Http.Server`类库。另外还需要以下 ASP.NET Core 基础类库:
+   >
+   > * Microsoft.AspNetCore.Hosting.Server.Abstractions
+   > * Microsoft.AspNetCore.Hosting
+   > * Microsoft.AspNetCore.Server.Kestrel
+   > * Microsoft.Extensions.DependencyInjection
 
 2. TCP 服务的配置
 
@@ -79,7 +84,8 @@ public class SimpleInterface : ISimpleInterface
 
    services.AddWebApiProxy(opt =>
    {
-       opt.AddService<ISimpleInterface>("http://localhost:5000");
+        option.ProxyHost = "http://localhost:5000";
+        opt.AddService<ISimpleInterface>();
    });
    ```
 
@@ -92,8 +98,8 @@ public class SimpleInterface : ISimpleInterface
 
    services.AddSocketProxy(options =>
    {
-       options.ProxyHost = "localhost:1212";//对应服务端的ip和端口号
-       options.AddService<ISimpleInterface>();
+        options.ProxyHost = "localhost:1212";//对应服务端的ip和端口号
+        options.AddService<ISimpleInterface>();
    });
    ```
 
@@ -120,7 +126,8 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddWebApiProxy(opt =>
     {
-        opt.AddService<ISimpleInterface>("http://localhost:5000");
+        option.ProxyHost = "http://localhost:5000";
+        opt.AddService<ISimpleInterface>();
     });
 
     services.AddSocketProxy(options =>
