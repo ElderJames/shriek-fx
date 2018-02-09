@@ -1,5 +1,6 @@
 language: csharp
-mono: none
+solution: shriek-fx.sln
+mono: latest
 dotnet: 2.0.0
 dist: trusty
 branches:
@@ -7,4 +8,5 @@ branches:
     - master
 script:
  - dotnet restore 
- - dotnet build -r linux-x64
+ - dotnet build -r linux-x64 -f netstandard2.0
+ - xbuild /p:Configuration=Release shriek-fx.sln /p:TargetFrameworkVersion="v4.6.1"
