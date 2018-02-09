@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Shriek
@@ -78,6 +79,26 @@ namespace Shriek
                     prop.SetValue(md, d.Value);
             }
             return md;
+        }
+
+        /// <summary>
+        /// 获取枚举类型的描述信息
+        /// </summary>
+        public static string Description(this Enum enumValue)
+        {
+            var type = enumValue.GetType();
+            var name = Enum.GetName(type, enumValue);
+
+            if (name == null) return null;
+
+            var field = type.GetField(name);
+
+            if (!(Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute))
+            {
+                return name;
+            }
+
+            return attribute.Description;
         }
     }
 }

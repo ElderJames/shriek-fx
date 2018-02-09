@@ -16,12 +16,12 @@ namespace Shriek.DynamicProxy
         /// <summary>
         /// IApiInterceptor的Intercept方法
         /// </summary>
-        private static readonly MethodInfo interceptMethod = typeof(IApiInterceptor).GetMethod(nameof(IApiInterceptor.Intercept));
+        private static readonly MethodInfo interceptMethod = typeof(IInterceptor).GetMethod(nameof(IInterceptor.Intercept));
 
         /// <summary>
         /// 代理类型的构造器的参数类型
         /// </summary>
-        private static readonly Type[] proxyTypeCtorArgTypes = { typeof(IApiInterceptor), typeof(MethodInfo[]) };
+        private static readonly Type[] proxyTypeCtorArgTypes = { typeof(IInterceptor), typeof(MethodInfo[]) };
 
         /// <summary>
         /// 程序集HashCode^模块HashCode与模块创建器的缓存
@@ -41,7 +41,7 @@ namespace Shriek.DynamicProxy
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <returns></returns>
-        public static T CreateInterfaceProxyWithoutTarget<T>(IApiInterceptor interceptor) where T : class
+        public static T CreateInterfaceProxyWithoutTarget<T>(IInterceptor interceptor) where T : class
         {
             var interfaceType = typeof(T);
             var apiMethods = interfaceType.GetApiAllMethods();
@@ -55,7 +55,7 @@ namespace Shriek.DynamicProxy
         /// <param name="interfaceType">接口类型</param>
         /// <param name="interceptor">拦截器</param>
         /// <returns></returns>
-        public static object CreateInterfaceProxyWithoutTarget(Type interfaceType, IApiInterceptor interceptor)
+        public static object CreateInterfaceProxyWithoutTarget(Type interfaceType, IInterceptor interceptor)
         {
             var apiMethods = interfaceType.GetApiAllMethods();
             var proxyTypeCtor = proxyTypeCtorCache.GetOrAdd(interfaceType, type => GenerateProxyTypeCtor(type, apiMethods));
@@ -94,7 +94,7 @@ namespace Shriek.DynamicProxy
         {
             // 字段
             var filedAttribute = FieldAttributes.Private | FieldAttributes.InitOnly;
-            var fieldInterceptor = typeBuilder.DefineField("interceptor", typeof(IApiInterceptor), filedAttribute);
+            var fieldInterceptor = typeBuilder.DefineField("interceptor", typeof(IInterceptor), filedAttribute);
             var fieldApiMethods = typeBuilder.DefineField("apiMethods", typeof(MethodInfo[]), filedAttribute);
 
             // 构造器

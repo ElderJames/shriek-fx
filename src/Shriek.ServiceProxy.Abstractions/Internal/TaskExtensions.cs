@@ -6,7 +6,7 @@ namespace Shriek.ServiceProxy.Abstractions.Internal
     /// <summary>
     /// 提供Taskof(Object)类型转换强类型
     /// </summary>
-    internal static class TaskExtensions
+    public static class TaskExtensions
     {
         /// <summary>
         /// 完成的任务

@@ -5,7 +5,7 @@ namespace Shriek.DynamicProxy
     /// <summary>
     /// 定义http接口拦截器的行为
     /// </summary>
-    public interface IApiInterceptor
+    public interface IInterceptor
     {
         /// <summary>
         /// 拦截方法的调用

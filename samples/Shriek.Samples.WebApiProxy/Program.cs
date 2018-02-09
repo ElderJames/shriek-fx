@@ -1,13 +1,16 @@
-﻿using System.Runtime.InteropServices;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shriek.Samples.WebApiProxy.Contracts;
+using System;
+using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Shriek.Samples.WebApiProxy.Contracts;
+using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
-using System;
-using Shriek.Samples.WebApiProxy.Models;
+using Shriek.ServiceProxy.Socket;
+using Shriek.ServiceProxy.Socket.Server;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -20,20 +23,31 @@ namespace Shriek.Samples.WebApiProxy
                 .UseUrls("http://*:8080", "http://*:8081")
                 .ConfigureServices(services =>
                 {
+                    //tcp服务端
+                    services.AddSocketServer(options =>
+                    {
+                        options.EndPoint = new IPEndPoint(IPAddress.Loopback, 1212);
+                        options.AddService<ISimpleInterface>();
+                    });
+
+                    //tcp客户端
+                    services.AddSocketProxy(options =>
+                    {
+                        options.EndPoint = new IPEndPoint(IPAddress.Loopback, 1212);
+                        options.AddService<ISimpleInterface>();
+                    });
+
                     services.AddMvcCore()
                         .AddJsonFormatters()
                         .AddWebApiProxyServer(opt =>
                             {
                                 opt.AddWebApiProxy<SampleApiProxy>();
                                 opt.AddWebApiProxy<Samples.Services.SampleApiProxy>();
-                                opt.AddService<ISimpleInterface>();
+                                opt.AddService<Samples.Services.ITestService>();
                             });
 
                     //服务里注册代理客户端
-                    services.AddWebApiProxy(opt =>
-                    {
-                        opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                    });
+                    services.AddWebApiProxy(opt => { opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081"); });
                 })
                 .Configure(app =>
                 {
@@ -45,7 +59,7 @@ namespace Shriek.Samples.WebApiProxy
                         }
                         catch (Exception ex)
                         {
-                            throw;
+                            throw ex;
                         }
                     });
                     app.UseMvc();
@@ -58,7 +72,12 @@ namespace Shriek.Samples.WebApiProxy
                 {
                     opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                     opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                    opt.AddService<ISimpleInterface>("http://localhost:8080");
+                    opt.AddService<Samples.Services.ITestService>("http://localhost:8080");
+                })
+                .AddSocketProxy(options =>
+                {
+                    options.ProxyHost = "localhost:1212";
+                    options.AddService<ISimpleInterface>();
                 })
                 .BuildServiceProvider();
 
@@ -66,7 +85,6 @@ namespace Shriek.Samples.WebApiProxy
             var testService = provider.GetService<ITestService>();
             var sampleTestService = provider.GetService<Samples.Services.ITestService>();
             var tcpService = provider.GetService<ISimpleInterface>();
-
             Console.ReadKey();
 
             var createRsult = todoService.Create(new Todo() { Name = "james" }).Result;
@@ -78,8 +96,8 @@ namespace Shriek.Samples.WebApiProxy
             result = todoService.Get(2).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result));
 
-            var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.睡觉 }, "james", 10);
-            Console.WriteLine(JsonConvert.SerializeObject(typeResult));
+            var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.工作, Contracts.Type.睡觉 }, "james", 10);
+            Console.WriteLine(JsonConvert.SerializeObject(typeResult.Select(x => x.Description())));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务
             var result2 = testService.Test(11);
