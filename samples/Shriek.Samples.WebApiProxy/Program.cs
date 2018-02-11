@@ -9,8 +9,10 @@ using Newtonsoft.Json;
 using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
+using Shriek.ServiceProxy.Http.Tracer.Butterfly;
 using Shriek.ServiceProxy.Socket;
 using Shriek.ServiceProxy.Socket.Server;
+using Butterfly.Client;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -37,9 +39,14 @@ namespace Shriek.Samples.WebApiProxy
                         options.AddService<ISimpleInterface>();
                     });
 
-                    services.AddMvcCore()
-                        .AddJsonFormatters()
-                        .AddWebApiProxyServer(opt =>
+                    services.AddMvcCore().AddJsonFormatters();
+                    services.AddButterflyForShriek(opt =>
+                        {
+                            opt.CollectorUrl = "http://localhost:9618";
+                            opt.Service = "shriek.sample.backend";
+                        });
+
+                    services.AddWebApiProxyServer(opt =>
                             {
                                 opt.AddWebApiProxy<SampleApiProxy>();
                                 opt.AddWebApiProxy<Samples.Services.SampleApiProxy>();
@@ -67,19 +74,28 @@ namespace Shriek.Samples.WebApiProxy
                 .Build()
                 .Start();
 
-            var provider = new ServiceCollection()
-                .AddWebApiProxy(opt =>
-                {
-                    opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
-                    opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
-                    opt.AddService<Samples.Services.ITestService>("http://localhost:8080");
-                })
-                .AddSocketProxy(options =>
-                {
-                    options.ProxyHost = "localhost:1212";
-                    options.AddService<ISimpleInterface>();
-                })
-                .BuildServiceProvider();
+            var service = new ServiceCollection();
+
+            service.AddButterflyForShriekConsole(opt =>
+            {
+                opt.CollectorUrl = "http://localhost:9618";
+                opt.Service = "shriek.sample.console";
+            });
+
+            service.AddWebApiProxy(opt =>
+            {
+                opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
+                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
+                opt.AddService<Samples.Services.ITestService>("http://localhost:8080");
+            })
+            .AddSocketProxy(options =>
+            {
+                options.ProxyHost = "localhost:1212";
+                options.AddService<ISimpleInterface>();
+            });
+
+            var provider = service.BuildServiceProvider();
+            provider.GetService<IButterflyDispatcher>().Initialization().Wait();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();

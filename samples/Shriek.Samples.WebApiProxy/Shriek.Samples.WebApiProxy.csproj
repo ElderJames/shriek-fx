@@ -9,12 +9,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Butterfly.Client.AspNetCore" Version="0.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Abstractions\Shriek.ServiceProxy.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http.Server\Shriek.ServiceProxy.Http.Server.csproj" />
+    <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http.Tracer.Butterfly\Shriek.ServiceProxy.Http.Tracer.Butterfly.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Http\Shriek.ServiceProxy.Http.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Socket.Server\Shriek.ServiceProxy.Socket.Server.csproj" />
     <ProjectReference Include="..\..\src\Shriek.ServiceProxy.Socket\Shriek.ServiceProxy.Socket.csproj" />
