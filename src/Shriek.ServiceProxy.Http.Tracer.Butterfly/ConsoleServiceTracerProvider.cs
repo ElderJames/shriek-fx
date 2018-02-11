@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Butterfly.Client.AspNetCore;
 using Butterfly.Client.Tracing;
 using Butterfly.OpenTracing;
@@ -19,7 +20,8 @@ namespace Shriek.ServiceProxy.Http.Tracer.Butterfly
 
         public IServiceTracer GetServiceTracer()
         {
-            return new ServiceTracer(_tracer, _options.Service, "console", "console", Dns.GetHostName());
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.UserDomainName;
+            return new ServiceTracer(_tracer, _options.Service, environmentName, Environment.UserName, Dns.GetHostName());
         }
     }
 }

@@ -12,6 +12,7 @@ using Shriek.ServiceProxy.Http.Server;
 using Shriek.ServiceProxy.Http.Tracer.Butterfly;
 using Shriek.ServiceProxy.Socket;
 using Shriek.ServiceProxy.Socket.Server;
+using Butterfly.Client;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -94,6 +95,7 @@ namespace Shriek.Samples.WebApiProxy
             });
 
             var provider = service.BuildServiceProvider();
+            provider.GetService<IButterflyDispatcher>().Initialization().Wait();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();
