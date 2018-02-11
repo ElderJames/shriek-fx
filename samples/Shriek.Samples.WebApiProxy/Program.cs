@@ -95,7 +95,6 @@ namespace Shriek.Samples.WebApiProxy
             });
 
             var provider = service.BuildServiceProvider();
-            provider.GetService<IButterflyDispatcher>().Initialization().Wait();
 
             var todoService = provider.GetService<ITodoService>();
             var testService = provider.GetService<ITestService>();

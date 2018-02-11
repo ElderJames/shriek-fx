@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Butterfly.Client;
 using Butterfly.Client.AspNetCore;
 using Butterfly.Client.Tracing;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,12 @@ namespace Shriek.ServiceProxy.Http.Tracer.Butterfly
             services.AddSingleton<ILoggerFactory>(new LoggerFactory());
             services.AddSingleton<IOptions<ButterflyOptions>>(new OptionsWrapper<ButterflyOptions>(option));
             services.AddSingleton<IServiceTracerProvider, ConsoleServiceTracerProvider>();
+            services.AddSingleton<IButterflyDispatcher>(provider =>
+            {
+                var dispatcher = provider.GetRequiredService<IButterflyDispatcherProvider>().GetDispatcher();
+                dispatcher.Initialization().Wait();
+                return dispatcher;
+            });
 
             services.AddSingleton<IHttpClient>(p =>
             {
