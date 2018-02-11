@@ -73,8 +73,15 @@ namespace Shriek.Samples.WebApiProxy
                 .Build()
                 .Start();
 
-            var service = new ServiceCollection()
-            .AddWebApiProxy(opt =>
+            var service = new ServiceCollection();
+
+            service.AddButterflyForShriekConsole(opt =>
+            {
+                opt.CollectorUrl = "http://localhost:9618";
+                opt.Service = "shriek.sample.console";
+            });
+
+            service.AddWebApiProxy(opt =>
             {
                 opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081");
                 opt.AddWebApiProxy<Samples.Services.SampleApiProxy>("http://localhost:8080");
