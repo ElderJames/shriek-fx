@@ -3,6 +3,7 @@ using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Abstractions.Attributes;
 using System;
 using System.Linq;
+using System.Net.Http;
 using Shriek.DynamicProxy;
 
 namespace Shriek.ServiceProxy.Http
@@ -38,8 +39,19 @@ namespace Shriek.ServiceProxy.Http
 
                 foreach (var type in types)
                 {
-                    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type, new HttpApiClient(o.BaseUrl ?? option.ProxyHost));
-                    service.AddSingleton(type, x => proxy);
+                    service.AddSingleton(type, x =>
+                    {
+                        var httpclient = x.GetService<IHttpClient>()
+                                         ?? new HttpClientAdapter(new HttpClient(new HttpClientHandler
+                                         {
+                                             UseProxy = false,
+                                         })
+                                         {
+                                             Timeout = TimeSpan.FromSeconds(10)
+                                         });
+
+                        return ProxyGenerator.CreateInterfaceProxyWithoutTarget(type, new HttpApiClient(httpclient, o.BaseUrl ?? option.ProxyHost));
+                    });
                 }
             }
 
@@ -47,8 +59,19 @@ namespace Shriek.ServiceProxy.Http
             {
                 if (type.Value.IsInterface)
                 {
-                    var proxy = ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new HttpApiClient(type.Key ?? option.ProxyHost));
-                    service.AddSingleton(type.Value, x => proxy);
+                    service.AddSingleton(type.Value, x =>
+                    {
+                        var httpclient = x.GetService<IHttpClient>()
+                                         ?? new HttpClientAdapter(new HttpClient(new HttpClientHandler
+                                         {
+                                             UseProxy = false,
+                                         })
+                                         {
+                                             Timeout = TimeSpan.FromSeconds(10)
+                                         });
+
+                        return ProxyGenerator.CreateInterfaceProxyWithoutTarget(type.Value, new HttpApiClient(httpclient, type.Key ?? option.ProxyHost));
+                    });
                 }
             }
 

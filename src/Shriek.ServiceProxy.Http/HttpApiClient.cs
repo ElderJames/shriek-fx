@@ -86,14 +86,17 @@ namespace Shriek.ServiceProxy.Http
         /// web api请求客户端
         /// </summary>
         /// <param name="httpClient">关联的http客户端</param>
-        public HttpApiClient(HttpClient httpClient)
+        /// <param name="baseUrl"></param>
+        public HttpApiClient(IHttpClient httpClient, string baseUrl)
         {
-            RequestHost = httpClient.BaseAddress;
+            if (!string.IsNullOrEmpty(baseUrl))
+                RequestHost = new Uri(baseUrl);
+
             if (_client == null)
             {
-                httpClient.Timeout = TimeSpan.FromSeconds(10);
-                httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
-                _client = new HttpClientAdapter(httpClient);
+                //httpClient.Timeout = TimeSpan.FromSeconds(10);
+                //httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
+                _client = httpClient;
             }
             this.JsonFormatter = new DefaultJsonFormatter();
         }

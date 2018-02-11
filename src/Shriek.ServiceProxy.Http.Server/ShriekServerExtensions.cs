@@ -10,6 +10,13 @@ namespace Shriek.ServiceProxy.Http.Server
 {
     public static class ShriekServerExtensions
     {
+        public static IServiceCollection AddWebApiProxyServer(this IServiceCollection services, Action<WebApiProxyOptions> optionAction)
+        {
+            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
+            services.AddMvcCore().AddWebApiProxyServer(optionAction);
+            return services;
+        }
+
         public static IMvcBuilder AddWebApiProxyServer(this IMvcBuilder mvcBuilder, Action<WebApiProxyOptions> optionAction)
         {
             AppDomain.CurrentDomain.UpdateExcutingAssemblies();
