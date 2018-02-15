@@ -46,12 +46,12 @@ namespace Shriek
             foreach (var msg in messages)
             {
                 var type = typeof(IMessageSubscriber<>).MakeGenericType(msg);
-                if (typeof(Command).IsAssignableFrom(msg))
+                if (typeof(ICommand).IsAssignableFrom(msg))
                 {
                     var impl = typeof(CommandMessageSubscriber<>).MakeGenericType(msg);
                     builder.Services.AddSingleton(type, impl);
                 }
-                if (typeof(Event).IsAssignableFrom(msg))
+                if (typeof(IEvent).IsAssignableFrom(msg))
                 {
                     var impl = typeof(EventMessageSubscriber<>).MakeGenericType(msg);
                     builder.Services.AddSingleton(type, impl);

@@ -30,7 +30,7 @@ namespace Shriek.Samples.InProcess
             {
                 var key = Console.ReadKey();
 
-                if (key.Key == ConsoleKey.D1)
+                if (key.KeyChar == '1')
                 {
                     try
                     {
@@ -47,7 +47,7 @@ namespace Shriek.Samples.InProcess
                         Console.WriteLine("Exception:" + ex.Message);
                     }
                 }
-                else if (key.Key == ConsoleKey.D2)
+                else if (key.KeyChar =='2')
                 {
                     try
                     {
@@ -77,7 +77,7 @@ namespace Shriek.Samples.InProcess
                 }
                 else
                 {
-                    break;
+                    continue;
                 }
             }
         }

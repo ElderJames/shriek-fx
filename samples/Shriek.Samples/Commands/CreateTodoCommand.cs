@@ -5,7 +5,7 @@ namespace Shriek.Samples.Commands
 {
     public class CreateTodoCommand : Command<Guid>
     {
-        public CreateTodoCommand(Guid id, int version = 0) : base(id, version)
+        public CreateTodoCommand(Guid id) : base(id)
         {
         }
 

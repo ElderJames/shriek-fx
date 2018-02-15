@@ -24,7 +24,7 @@ namespace Shriek.Messages.RabbitMQ
             channel.Dispose();
         }
 
-        public void Send<TCommand>(TCommand command) where TCommand : Command
+        public void Send<TCommand>(TCommand command) where TCommand : Message
         {
             if (command == null)
                 return;

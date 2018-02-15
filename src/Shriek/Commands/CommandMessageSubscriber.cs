@@ -7,7 +7,7 @@ using System;
 
 namespace Shriek.Commands
 {
-    public class CommandMessageSubscriber<TCommand> : IMessageSubscriber<TCommand> where TCommand : Command
+    public class CommandMessageSubscriber<TCommand> : IMessageSubscriber<TCommand> where TCommand : Message
     {
         private readonly IServiceProvider container;
         private readonly ICommandContext commandContext;
