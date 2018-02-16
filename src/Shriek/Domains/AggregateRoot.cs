@@ -9,8 +9,17 @@ using System.Linq;
 
 namespace Shriek.Domains
 {
-    public abstract class AggregateRoot<TKey> : AggregateRoot, IAggregateRoot<TKey> where TKey : IEquatable<TKey>
+    public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>
+        where TKey : IEquatable<TKey>
     {
+        [Key]
+        public int Id { get; protected set; }
+
+        public int Version { get; protected set; } = -1;
+
+        protected List<Event> Changes { get; }
+
+
         public TKey AggregateId { get; protected set; }
 
         protected AggregateRoot() : this(default(TKey))
@@ -19,6 +28,7 @@ namespace Shriek.Domains
 
         protected AggregateRoot(TKey aggregateId)
         {
+            this.Changes = new List<Event>();
             AggregateId = aggregateId;
         }
 
@@ -58,7 +68,7 @@ namespace Shriek.Domains
             return GetType().Name + " [Id=" + AggregateId + "]";
         }
 
-        public override void LoadsFromHistory(IEnumerable<Event> history)
+        public  void LoadsFromHistory(IEnumerable<Event> history)
         {
             foreach (var e in history)
             {
@@ -82,29 +92,10 @@ namespace Shriek.Domains
             }
         }
 
-        public override Memento GetMemento()
+        public  Memento GetMemento()
         {
             return new Memento() { AggregateId = AggregateId.ToString(), Data = JsonConvert.SerializeObject(this), Version = 0 };
         }
-    }
-
-    public abstract class AggregateRoot : IOriginator, IEventProvider
-    {
-        [Key]
-        public int Id { get; protected set; }
-
-        public int Version { get; protected set; } = -1;
-
-        protected List<Event> Changes { get; }
-
-        protected AggregateRoot()
-        {
-            this.Changes = new List<Event>();
-        }
-
-        public abstract Memento GetMemento();
-
-        public abstract void LoadsFromHistory(IEnumerable<Event> history);
 
         public IEnumerable<Event> GetUncommittedChanges()
         {
@@ -132,4 +123,49 @@ namespace Shriek.Domains
 
         public bool CanCommit => this.Changes.Any();
     }
+
+    //public abstract class AggregateRoot : IOriginator, IEventProvider
+    //{
+    //    [Key]
+    //    public int Id { get; protected set; }
+
+    //    public int Version { get; protected set; } = -1;
+
+    //    protected List<Event> Changes { get; }
+
+    //    protected AggregateRoot()
+    //    {
+    //        this.Changes = new List<Event>();
+    //    }
+
+    //    public abstract Memento GetMemento();
+
+    //    public abstract void LoadsFromHistory(IEnumerable<Event> history);
+
+    //    public IEnumerable<Event> GetUncommittedChanges()
+    //    {
+    //        return Changes;
+    //    }
+
+    //    public void MarkChangesAsCommitted()
+    //    {
+    //        Changes.Clear();
+    //    }
+
+    //    public void SetMemento(Memento memento)
+    //    {
+    //        var data = JObject.Parse(memento.Data);
+    //        foreach (var t in data)
+    //        {
+    //            var prop = GetType().GetProperty(t.Key);
+    //            if (prop == null || !prop.CanWrite)
+    //                continue;
+
+    //            var value = t.Value.ToObject(prop.PropertyType);
+    //            prop.SetValue(this, value);
+    //        }
+    //    }
+
+    //    public bool CanCommit => this.Changes.Any();
+    //}
 }

@@ -67,7 +67,8 @@ namespace Shriek.Storage
             eventStoreRepository.Store(storedEvent);
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : AggregateRoot
+        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate)
+            where TAggregateRoot : IAggregateRoot
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -91,7 +92,7 @@ namespace Shriek.Storage
         }
 
         public TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
-            where TAggregateRoot : AggregateRoot, new()
+            where TAggregateRoot : IAggregateRoot<TKey>, new()
             where TKey : IEquatable<TKey>
         {
             IEnumerable<Event> events;

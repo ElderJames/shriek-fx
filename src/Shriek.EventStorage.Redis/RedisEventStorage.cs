@@ -88,7 +88,7 @@ namespace Shriek.EventStorage.Redis
         }
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate)
-            where TAggregateRoot : AggregateRoot
+            where TAggregateRoot : IAggregateRoot
         {
             var uncommittedChanges = aggregate.GetUncommittedChanges();
             var version = aggregate.Version;
@@ -112,7 +112,7 @@ namespace Shriek.EventStorage.Redis
         }
 
         public TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
-            where TAggregateRoot : AggregateRoot, new()
+            where TAggregateRoot : IAggregateRoot<TKey>, new()
             where TKey : IEquatable<TKey>
         {
             IEnumerable<Event> events;
