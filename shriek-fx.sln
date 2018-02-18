@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		README.md = README.md
+		build\version.props = build\version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.EventStorage.EFCore", "src\Shriek.EventStorage.EFCore\Shriek.EventStorage.EFCore.csproj", "{60117DDA-35FA-49A5-8BCC-7A404B67D37D}"
@@ -71,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Socket.Server", "src\Shriek.ServiceProxy.Socket.Server\Shriek.ServiceProxy.Socket.Server.csproj", "{B56E33E0-8105-4B10-89BF-775F9C41486E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.ServiceProxy.Http.Tracer.Butterfly", "src\Shriek.ServiceProxy.Http.Tracer.Butterfly\Shriek.ServiceProxy.Http.Tracer.Butterfly.csproj", "{AD461C1A-CA2C-4B53-85C5-D987DFEA6143}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.Http.Tracer.Butterfly", "src\Shriek.ServiceProxy.Http.Tracer.Butterfly\Shriek.ServiceProxy.Http.Tracer.Butterfly.csproj", "{AD461C1A-CA2C-4B53-85C5-D987DFEA6143}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
