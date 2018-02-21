@@ -10,13 +10,15 @@ using System.Linq;
 
 namespace Shriek.EventStorage.Redis
 {
-    public class RedisEventStorage : IEventStorage
+    public class RedisEventStorage : AbstractEventStorage, IEventStorage
     {
         private readonly ICacheService cacheService;
         private readonly IEventStorageRepository eventStorageRepository;
         private readonly IMementoRepository mementoRepository;
         private const string EventCachePrefix = "event_cache_";
         private readonly object locker = new object();
+
+        protected override IMementoRepository MementoRepository => mementoRepository;
 
         public RedisEventStorage(ICacheService cacheService, IEventStorageRepository eventStorageRepository, IMementoRepository mementoRepository)
         {
@@ -25,12 +27,11 @@ namespace Shriek.EventStorage.Redis
             this.mementoRepository = mementoRepository;
         }
 
-        public IEnumerable<Event> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
-            where TKey : IEquatable<TKey>
+        public override IEnumerable<Event> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
         {
             lock (locker)
             {
-                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + aggregateId) ?? new Event[0];
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + aggregateId) ?? Enumerable.Empty<Event>();
                 if (!events.Any())
                 {
                     var storeEvents = eventStorageRepository.GetEvents(aggregateId, afterVersion);
@@ -52,17 +53,16 @@ namespace Shriek.EventStorage.Redis
             }
         }
 
-        public IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId)
-            where TKey : IEquatable<TKey>
+        public override IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId)
         {
             return GetEvents(aggregateId).LastOrDefault() as IEvent<TKey>;
         }
 
-        public void Save(Event @event)
+        public override void Save(Event @event)
         {
             lock (locker)
             {
-                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + ((dynamic)@event).AggregateId) ?? new Event[0];
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + ((dynamic)@event).AggregateId) ?? Enumerable.Empty<Event>();
                 if (!events.Any())
                 {
                     events = new[] { @event };
@@ -87,60 +87,6 @@ namespace Shriek.EventStorage.Redis
             }
         }
 
-        public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate)
-            where TAggregateRoot : IAggregateRoot
-        {
-            var uncommittedChanges = aggregate.GetUncommittedChanges();
-            var version = aggregate.Version;
-
-            foreach (var @event in uncommittedChanges)
-            {
-                version++;
-                if (version > 2)
-                {
-                    if (version % 3 == 0)
-                    {
-                        var originator = (IOriginator)aggregate;
-                        var memento = originator.GetMemento();
-                        memento.Version = version;
-                        mementoRepository.SaveMemento(memento);
-                    }
-                }
-                @event.Version = version;
-                Save(@event);
-            }
-        }
-
-        public TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
-            where TKey : IEquatable<TKey>
-        {
-            IEnumerable<Event> events;
-            Memento memento = null;
-            var obj = new TAggregateRoot();
-
-            //获取该记录的更改快照
-            memento = mementoRepository.GetMemento(aggregateId);
-
-            if (memento != null)
-            {
-                //获取该记录最后一次快照之后的更改，避免加载过多历史更改
-                events = GetEvents(aggregateId, memento.Version);
-                //从快照恢复
-                ((IOriginator)obj).SetMemento(memento);
-            }
-            else
-            {
-                //获取所有历史更改记录
-                events = GetEvents(aggregateId);
-            }
-
-            if (memento == null && !events.Any())
-                return default(TAggregateRoot);
-
-            //重现历史更改
-            obj.LoadsFromHistory(events);
-            return obj;
-        }
+      
     }
 }

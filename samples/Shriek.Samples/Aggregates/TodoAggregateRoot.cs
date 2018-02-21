@@ -50,7 +50,6 @@ namespace Shriek.Samples.Aggregates
             this.AggregateId = e.AggregateId;
             this.Name = e.Name;
             this.Desception = e.Desception;
-            this.Version = e.Version;
             this.FinishTime = e.FinishTime;
         }
 
@@ -74,7 +73,6 @@ namespace Shriek.Samples.Aggregates
             this.AggregateId = e.AggregateId;
             this.Name = e.Name;
             this.Desception = e.Desception;
-            this.Version = e.Version;
             this.FinishTime = e.FinishTime;
         }
     }

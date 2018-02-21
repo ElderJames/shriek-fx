@@ -41,7 +41,7 @@ namespace Shriek.EventStorage.Dapper
         public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            IEnumerable<dynamic> result = new dynamic[0];
+            IEnumerable<dynamic> result = Enumerable.Empty<dynamic>();
             DapperExecute(conn =>
             {
                 result = conn.Query($"SELECT * FROM event_store WHERE 'AggregateId' = '{aggregateId}' AND 'Version' >={afterVersion}");

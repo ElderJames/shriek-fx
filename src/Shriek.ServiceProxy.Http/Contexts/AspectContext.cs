@@ -73,7 +73,7 @@ namespace Shriek.ServiceProxy.Http.Contexts
         /// <returns></returns>
         private static AspectContext GetContextNoCache(MethodInfo method)
         {
-            var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ?? new RouteAttribute[0];
+            var routeAttributes = GetAttributesFromMethodAndInterface<RouteAttribute>(method, false) ?? Array.Empty<RouteAttribute>();
 
             var hostAttribute = GetAttributeFromMethodOrInterface<HttpHostAttribute>(method, false) ?? new HttpHostAttribute("");
 

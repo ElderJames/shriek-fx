@@ -21,7 +21,7 @@ namespace Shriek.EventStorage.Redis
         public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.Where(x => x.Version >= afterVersion) ?? new StoredEvent[0];
+            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.Where(x => x.Version >= afterVersion) ?? Enumerable.Empty<StoredEvent>();
         }
 
         public void Dispose()
@@ -36,7 +36,7 @@ namespace Shriek.EventStorage.Redis
 
         public void Store(StoredEvent theEvent)
         {
-            var events = cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + theEvent.AggregateId) ?? new StoredEvent[0];
+            var events = cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + theEvent.AggregateId) ?? Enumerable.Empty<StoredEvent>();
 
             cacheService.Store(theEvent.AggregateId.ToString(), events.Concat(new[] { theEvent }));
         }
@@ -49,7 +49,7 @@ namespace Shriek.EventStorage.Redis
 
         public void SaveMemento(Memento memento)
         {
-            var mementos = cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + memento.AggregateId) ?? new Memento[0];
+            var mementos = cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + memento.AggregateId) ??Enumerable.Empty<Memento>();
 
             cacheService.Store(memento.AggregateId.ToString(), mementos.Concat(new[] { memento }));
         }

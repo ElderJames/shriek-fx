@@ -74,7 +74,7 @@ namespace Shriek.Commands
                 lock (Lock)
                 {
                     //如果不是新增事件
-                    if (aggregate.Version != -1)
+                    if (aggregate.Version != 0)
                     {
                         var lastestEvent = eventStorage.GetLastEvent(((dynamic)aggregate).AggregateId);
                         if (lastestEvent != null && lastestEvent.Version != aggregate.Version)
