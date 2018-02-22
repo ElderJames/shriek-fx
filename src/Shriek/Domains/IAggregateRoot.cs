@@ -13,7 +13,6 @@ namespace Shriek.Domains
     {
         bool CanCommit { get; }
 
-
         int Version { get; }
     }
 }

@@ -1,8 +1,5 @@
-﻿using Shriek.Domains;
-using Shriek.Events;
+﻿using Shriek.Events;
 using Shriek.EventSourcing;
-using Shriek.Storage.Mementos;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +9,7 @@ namespace Shriek.Storage
     {
         private readonly List<Event> events;
         private readonly IMementoRepository mementoRepository;
-        
+
         public InMemoryEventStorage(IMementoRepository mementoRepository)
         {
             this.mementoRepository = mementoRepository;
@@ -37,7 +34,7 @@ namespace Shriek.Storage
             return list.Where(e => e.AggregateId.Equals(aggregateId))
                 .OrderBy(e => e.Version).LastOrDefault();
         }
-        
+
         public override void Save(Event @event)
         {
             events.Add(@event);

@@ -85,7 +85,6 @@ namespace Shriek.Domains
         {
             dynamic d = this;
             d.Handle((dynamic)@event);
-            //d.Version = @event.Version;
 
             if (isNew)
             {
