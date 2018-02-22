@@ -9,7 +9,7 @@ namespace Shriek.Domains
         TKey AggregateId { get; }
     }
 
-    public interface IAggregateRoot:IOriginator, IEventProvider
+    public interface IAggregateRoot : IOriginator, IEventProvider
     {
         bool CanCommit { get; }
 

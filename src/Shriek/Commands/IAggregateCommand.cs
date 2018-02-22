@@ -1,19 +1,17 @@
-﻿namespace Shriek.Commands
+﻿using System;
+
+namespace Shriek.Commands
 {
     /// <summary>
     /// 聚合根命令
     /// </summary>
-    /// <typeparam name="TKey">聚合根标识</typeparam>
-    public interface IAggregateCommand<out TKey> : ICommand
+    /// <typeparam name="TAggregateId">聚合根标识</typeparam>
+    public interface IAggregateCommand<out TAggregateId> : ICommand
+        where TAggregateId : IEquatable<TAggregateId>
     {
-        /// <summary>
-        /// 版本号
-        /// </summary>
-        int Version { get; }
-
         /// <summary>
         /// 聚合根标认识
         /// </summary>
-        TKey AggregateId { get; }
+        TAggregateId AggregateId { get; }
     }
 }

@@ -70,13 +70,15 @@ namespace Shriek.EventStorage.InfluxDB
         private static IEnumerable<StoredEvent> SerieToStoredEvent(Serie serie)
         {
             return serie.Values.Select(item => new StoredEvent
+            (
+                item[serie.Columns.IndexOf("AggregateId")].ToString(),
+                item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
+                int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
+                item[serie.Columns.IndexOf("User")].ToString()
+            )
             {
-                AggregateId = item[serie.Columns.IndexOf("AggregateId")].ToString(),
-                Version = int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
-                Data = item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
-                User = item[serie.Columns.IndexOf("User")].ToString(),
                 MessageType = item[serie.Columns.IndexOf("MessageType")].ToString().Replace(@"\", string.Empty),
-                Timestamp = DateTime.Parse(item[0].ToString())
+                Timestamp = DateTime.Parse(item[0].ToString()),
             });
         }
     }

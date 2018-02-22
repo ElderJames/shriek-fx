@@ -16,6 +16,7 @@ namespace Shriek.Storage
             where TKey : IEquatable<TKey>;
 
         public abstract IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>;
+
         public abstract void Save(Event @event);
 
         public void SaveAggregateRoot<TAggregateRoot>(TAggregateRoot aggregate) where TAggregateRoot : IAggregateRoot
@@ -45,7 +46,7 @@ namespace Shriek.Storage
           where TAggregateRoot : IAggregateRoot<TKey>, new()
           where TKey : IEquatable<TKey>
         {
-            IEnumerable<Event> events;
+            IEnumerable<Event> events = Enumerable.Empty<Event>();
             Memento memento = null;
             var obj = new TAggregateRoot();
 

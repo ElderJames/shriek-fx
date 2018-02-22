@@ -15,6 +15,6 @@ namespace Shriek.Events
 
     public class Event : Message, IEvent
     {
-        public int Version { get; set; }
+        public int Version { get; internal set; }
     }
 }

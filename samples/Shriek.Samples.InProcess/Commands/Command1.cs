@@ -49,7 +49,6 @@ namespace Shriek.Samples.InProcess.Commands
             ApplyChange(new SampleEvent()
             {
                 AggregateId = this.AggregateId,
-                Version = this.Version,
                 No = command.No,
                 Delay = command.Delay
             });

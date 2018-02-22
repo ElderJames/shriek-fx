@@ -6,7 +6,7 @@ namespace Shriek.Storage
 {
     public sealed class StoredEvent<TKey> : StoredEvent where TKey : IEquatable<TKey>
     {
-        public StoredEvent(IEvent<TKey> @event, string data, string user)
+        public StoredEvent(IEvent<TKey> @event, string data, string messageType, DateTime timestampe, int version, string user)
             : base(@event.AggregateId.ToString(), data, @event.Version, user)
         {
         }
@@ -20,10 +20,10 @@ namespace Shriek.Storage
 
         public StoredEvent(string aggregateId, string data, int version, string user)
         {
-            AggregateId = aggregateId;
-            Data = data;
-            User = user;
+            this.AggregateId = aggregateId;
+            this.Data = data;
             this.Version = version;
+            this.User = user;
         }
 
         [Key]

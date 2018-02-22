@@ -38,7 +38,6 @@ namespace Shriek.Samples.Aggregates
             ApplyChange(new TodoCreatedEvent()
             {
                 AggregateId = this.AggregateId,
-                Version = this.Version,
                 Name = command.Name,
                 Desception = command.Desception,
                 FinishTime = command.FinishTime
@@ -61,7 +60,6 @@ namespace Shriek.Samples.Aggregates
             ApplyChange(new TodoChangedEvent()
             {
                 AggregateId = this.AggregateId,
-                Version = this.Version,
                 Name = command.Name,
                 Desception = command.Desception,
                 FinishTime = command.FinishTime
