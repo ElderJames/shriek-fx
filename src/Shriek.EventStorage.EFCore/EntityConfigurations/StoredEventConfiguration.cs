@@ -18,7 +18,7 @@ namespace Shriek.EventStorage.EFCore.EntityConfigurations
                 .HasColumnName("Action")
                 .HasColumnType("varchar(100)");
 
-            builder.Property(c => c.AggregateId)
+            builder.Property(c => c.EventId)
                 .HasColumnType("char(36)");
         }
     }

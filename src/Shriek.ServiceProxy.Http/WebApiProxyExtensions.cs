@@ -4,7 +4,7 @@ using Shriek.ServiceProxy.Abstractions.Attributes;
 using System;
 using System.Linq;
 using System.Net.Http;
-using Shriek.DynamicProxy;
+using Shriek.Reflection.DynamicProxy;
 
 namespace Shriek.ServiceProxy.Http
 {

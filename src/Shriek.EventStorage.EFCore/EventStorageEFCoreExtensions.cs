@@ -13,7 +13,7 @@ namespace Shriek.EventStorage.EFCore
             builder.Services.AddDbContext<EventStorageSQLContext>(optionsAction);
             builder.Services.AddScoped<IEventStorageRepository, EventStorageSQLRepository>();
             builder.Services.AddScoped<IMementoRepository, EventStorageSQLRepository>();
-            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
         }
     }
 }

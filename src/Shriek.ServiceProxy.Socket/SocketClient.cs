@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
-using Shriek.DynamicProxy;
+using Shriek.Reflection.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions.Internal;
 using Shriek.ServiceProxy.Socket.Core;
 using Shriek.ServiceProxy.Socket.Fast;

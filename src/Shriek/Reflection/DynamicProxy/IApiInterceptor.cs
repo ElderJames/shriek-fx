@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Shriek.DynamicProxy
+namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
     /// 定义http接口拦截器的行为

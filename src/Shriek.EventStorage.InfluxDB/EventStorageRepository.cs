@@ -24,19 +24,19 @@ namespace Shriek.EventStorage.InfluxDB
         {
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            var query = $"SELECT * FROM {TableName} WHERE AggregateId='{aggregateId}' AND Version >= {afterVersion}";
+            var query = $"SELECT * FROM {TableName} WHERE EventId = '{eventId}' AND Version >= {afterVersion}";
             var result = dbContext.QueryAsync(query).Result;
 
             return result == null ? new StoredEvent[] { } : SerieToStoredEvent(result);
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey eventId)
             where TKey : IEquatable<TKey>
         {
-            var query = $"SELECT * FROM {TableName} WHERE AggregateId = '{aggregateId}' ORDER BY time DESC LIMIT 1";
+            var query = $"SELECT * FROM {TableName} WHERE EventId = '{eventId}' ORDER BY time DESC LIMIT 1";
             var result = dbContext.QueryAsync(query).Result;
 
             return result == null ? null : SerieToStoredEvent(result).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace Shriek.EventStorage.InfluxDB
                 Name = TableName,
                 Tags = new Dictionary<string, object>()
             {
-                {"AggregateId", theEvent.AggregateId}
+                {"AggregateId", theEvent.EventId}
             },
                 Fields = new Dictionary<string, object>()
             {
@@ -71,7 +71,7 @@ namespace Shriek.EventStorage.InfluxDB
         {
             return serie.Values.Select(item => new StoredEvent
             (
-                item[serie.Columns.IndexOf("AggregateId")].ToString(),
+                item[serie.Columns.IndexOf("EventId")].ToString(),
                 item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
                 item[serie.Columns.IndexOf("User")].ToString()

@@ -15,7 +15,7 @@ namespace Shriek.EventStorage.MongoDB
             builder.Services.AddScoped(x => new MongoDatabase(options));
             builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             builder.Services.AddScoped<IMementoRepository, EventStorageRepository>();
-            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
         }
     }
 }

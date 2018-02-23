@@ -1,5 +1,5 @@
 ﻿using System;
-using Shriek.DynamicProxy;
+using Shriek.Reflection.DynamicProxy;
 
 namespace Shriek.ServiceProxy.Http
 {

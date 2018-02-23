@@ -19,20 +19,20 @@ namespace Shriek.EventStorage.MongoDB
             this.database = database.Database;
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            return EventStore.Find(e => e.AggregateId == aggregateId.ToString() && e.Version >= afterVersion).ToEnumerable();
+            return EventStore.Find(e => e.EventId == eventId.ToString() && e.Version >= afterVersion).ToEnumerable();
         }
 
         public void Dispose()
         {
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey eventId)
             where TKey : IEquatable<TKey>
         {
-            return EventStore.Find(e => e.AggregateId == aggregateId.ToString()).SortByDescending(e => e.Timestamp).FirstOrDefault();
+            return EventStore.Find(e => e.EventId == eventId.ToString()).SortByDescending(e => e.Timestamp).FirstOrDefault();
         }
 
         public Memento GetMemento<TKey>(TKey aggregateId)

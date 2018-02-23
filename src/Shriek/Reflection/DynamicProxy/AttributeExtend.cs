@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Shriek.DynamicProxy
+namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
     /// 成员特性扩展
@@ -20,8 +20,8 @@ namespace Shriek.DynamicProxy
         {
             return member
                 .GetCustomAttributes(inherit)
-                .Select(item => item as TAttribute)
-                .FirstOrDefault(item => item != null);
+                .OfType<TAttribute>()
+                .FirstOrDefault();
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ namespace Shriek.Notifications
 {
     public class DomainNotification : Event
     {
-        public Guid AggregateId => DomainNotificationId;
+        public override string EventId => DomainNotificationId.ToString();
         public Guid DomainNotificationId { get; }
         public string Key { get; }
         public string Value { get; }

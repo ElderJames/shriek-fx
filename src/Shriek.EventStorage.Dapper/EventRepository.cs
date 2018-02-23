@@ -38,25 +38,25 @@ namespace Shriek.EventStorage.Dapper
         {
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
             var result = Enumerable.Empty<StoredEvent>();
             DapperExecute(conn =>
             {
-                result = conn.Query<StoredEvent>($"SELECT * FROM event_store WHERE 'AggregateId' = '{aggregateId}' AND 'Version' >={afterVersion}");
+                result = conn.Query<StoredEvent>($"SELECT * FROM event_store WHERE 'EventId' = '{eventId}' AND 'Version' >={afterVersion}");
             });
 
             return result;
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey eventId)
             where TKey : IEquatable<TKey>
         {
             StoredEvent result = null;
             DapperExecute(conn =>
             {
-                result = conn.QueryFirstOrDefault<StoredEvent>($"SELECT * FROM event_store WHERE 'AggregateId' = '{aggregateId}' ORDER BY 'Timestamp' DESC");
+                result = conn.QueryFirstOrDefault<StoredEvent>($"SELECT * FROM event_store WHERE 'EventId' = '{eventId}' ORDER BY 'Timestamp' DESC");
             });
 
             return result;
@@ -67,7 +67,7 @@ namespace Shriek.EventStorage.Dapper
             DapperExecute(conn =>
             {
                 conn.Execute(
-                    $@"INSERT INTO event_store ('AggregateId','Data','MessageType','Timestamp','Version','User') VALUES (@AggregateId,@Data,@MessageType,@Timestamp,@Version,@User)",
+                    $@"INSERT INTO event_store ('EventId','Data','MessageType','Timestamp','Version','User') VALUES (@EventId,@Data,@MessageType,@Timestamp,@Version,@User)",
                     theEvent);
             });
         }
