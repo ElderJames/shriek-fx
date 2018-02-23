@@ -11,12 +11,12 @@ namespace Shriek.Messages.RabbitMQ
         private readonly IModel channel;
         private readonly CommandBusRabbitMqOptions options;
 
-        public RabbitMqCommandBus(IMessagePublisher messagePublisher, CommandBusRabbitMqOptions options)
+        public RabbitMqCommandBus(IServiceProvider serviceProvider, CommandBusRabbitMqOptions options)
         {
             this.channel = options.Channel;
             this.options = options;
 
-            options.MessagePublisher = messagePublisher;
+            options.ServiceProvider = serviceProvider;
         }
 
         public void Dispose()

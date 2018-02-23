@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using System;
+using RabbitMQ.Client;
 using _ExchangeType = RabbitMQ.Client.ExchangeType;
 
 namespace Shriek.Messages.RabbitMQ
@@ -21,6 +22,6 @@ namespace Shriek.Messages.RabbitMQ
 
         internal IModel Channel { get; set; }
 
-        internal IMessagePublisher MessagePublisher { get; set; }
+        internal IServiceProvider ServiceProvider { get; set; }
     }
 }

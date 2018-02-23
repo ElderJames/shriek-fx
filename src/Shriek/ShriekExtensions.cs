@@ -54,10 +54,14 @@ namespace Shriek
                     var impl = typeof(CommandMessageSubscriber<>).MakeGenericType(msg);
                     builder.Services.AddSingleton(type, impl);
                 }
-                if (typeof(IEvent).IsAssignableFrom(msg))
+                else if (typeof(IEvent).IsAssignableFrom(msg))
                 {
                     var impl = typeof(EventMessageSubscriber<>).MakeGenericType(msg);
                     builder.Services.AddSingleton(type, impl);
+                }
+                else
+                {
+                    allTyeps.Where(x => type.IsAssignableFrom(x)).ForEach(x => builder.Services.AddSingleton(type, x));
                 }
             }
 

@@ -61,11 +61,17 @@ namespace Shriek.Messages.RabbitMQ
             {
                 var json = Encoding.UTF8.GetString(args.Body);
                 var o = JObject.Parse(json);
-                dynamic message = o.ToObject(Type.GetType(o[nameof(Message.MessageType)].Value<string>()));
+                var messageType = Type.GetType(o[nameof(Message.MessageType)].Value<string>());
+                dynamic message = o.ToObject(messageType);
 
                 try
                 {
-                    option.MessagePublisher.Send(message);
+                    var subscribers = option.ServiceProvider.GetServices(typeof(IMessageSubscriber<>).MakeGenericType(messageType));
+
+                    foreach (var sub in subscribers)
+                    {
+                        ((dynamic)sub).Execute((dynamic)message);
+                    }
 
                     //确认该消息已被消费
                     channel.BasicAck(args.DeliveryTag, false);
