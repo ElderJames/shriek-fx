@@ -20,8 +20,8 @@ namespace Shriek.Reflection.DynamicProxy
         {
             return member
                 .GetCustomAttributes(inherit)
-                .Select(item => item as TAttribute)
-                .FirstOrDefault(item => item != null);
+                .OfType<TAttribute>()
+                .FirstOrDefault();
         }
 
         /// <summary>

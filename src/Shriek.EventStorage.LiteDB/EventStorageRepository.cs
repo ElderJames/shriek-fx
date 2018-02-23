@@ -16,9 +16,9 @@ namespace Shriek.EventStorage.LiteDB
             this.liteDatabase = liteDatabase;
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0) where TKey : IEquatable<TKey>
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0) where TKey : IEquatable<TKey>
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId.ToString() && e.Version >= afterVersion);
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.EventId == eventId.ToString() && e.Version >= afterVersion);
         }
 
         public void Dispose()
@@ -26,9 +26,9 @@ namespace Shriek.EventStorage.LiteDB
             this.liteDatabase.Dispose();
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>
+        public StoredEvent GetLastEvent<TKey>(TKey eventId) where TKey : IEquatable<TKey>
         {
-            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.AggregateId == aggregateId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
+            return this.liteDatabase.GetCollection<StoredEvent>().Find(e => e.EventId == eventId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
         public Memento GetMemento<TKey>(TKey aggregateId) where TKey : IEquatable<TKey>

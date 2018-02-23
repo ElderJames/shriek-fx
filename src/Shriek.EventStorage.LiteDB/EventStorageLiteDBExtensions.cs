@@ -15,7 +15,7 @@ namespace Shriek.EventStorage.LiteDB
             builder.Services.AddScoped<EventStorageLiteDatabase>();
             builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             builder.Services.AddScoped<IMementoRepository, EventStorageRepository>();
-            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
         }
     }
 }

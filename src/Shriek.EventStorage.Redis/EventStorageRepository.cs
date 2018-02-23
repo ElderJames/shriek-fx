@@ -18,27 +18,27 @@ namespace Shriek.EventStorage.Redis
             this.cacheService = cacheService;
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.Where(x => x.Version >= afterVersion) ?? Enumerable.Empty<StoredEvent>();
+            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + eventId)?.Where(x => x.Version >= afterVersion) ?? Enumerable.Empty<StoredEvent>();
         }
 
         public void Dispose()
         {
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey eventId)
             where TKey : IEquatable<TKey>
         {
-            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + aggregateId)?.OrderByDescending(e => e.Timestamp).FirstOrDefault();
+            return cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + eventId)?.OrderByDescending(e => e.Timestamp).FirstOrDefault();
         }
 
         public void Store(StoredEvent theEvent)
         {
-            var events = cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + theEvent.AggregateId) ?? Enumerable.Empty<StoredEvent>();
+            var events = cacheService.Get<IEnumerable<StoredEvent>>(eventStorePrefix + theEvent.EventId) ?? Enumerable.Empty<StoredEvent>();
 
-            cacheService.Store(theEvent.AggregateId.ToString(), events.Concat(new[] { theEvent }));
+            cacheService.Store(theEvent.EventId, events.Concat(new[] { theEvent }));
         }
 
         public Memento GetMemento<TKey>(TKey aggregateId)
@@ -49,9 +49,9 @@ namespace Shriek.EventStorage.Redis
 
         public void SaveMemento(Memento memento)
         {
-            var mementos = cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + memento.AggregateId) ??Enumerable.Empty<Memento>();
+            var mementos = cacheService.Get<IEnumerable<Memento>>(mementoStorePrefix + memento.AggregateId) ?? Enumerable.Empty<Memento>();
 
-            cacheService.Store(memento.AggregateId.ToString(), mementos.Concat(new[] { memento }));
+            cacheService.Store(memento.AggregateId, mementos.Concat(new[] { memento }));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Shriek.EventStorage.InfluxDB
             builder.Services.AddScoped<InfluxDbContext>();
             builder.Services.AddScoped<IEventStorageRepository, EventStorageRepository>();
             builder.Services.AddScoped<IMementoRepository, MementoRepository>();
-            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
         }
     }
 }

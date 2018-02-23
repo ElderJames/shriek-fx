@@ -1,40 +1,38 @@
 ﻿using Newtonsoft.Json;
-using Shriek.Domains;
 using Shriek.Events;
 using Shriek.EventSourcing;
 using Shriek.Storage;
-using Shriek.Storage.Mementos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Shriek.EventStorage.Redis
 {
-    public class RedisEventStorage : AbstractEventStorage, IEventStorage
+    public class RedisEventStorage : DefalutEventStorage
     {
         private readonly ICacheService cacheService;
-        private readonly IEventStorageRepository eventStorageRepository;
-        private readonly IMementoRepository mementoRepository;
         private const string EventCachePrefix = "event_cache_";
         private readonly object locker = new object();
 
-        protected override IMementoRepository MementoRepository => mementoRepository;
+        protected override IMementoRepository MementoRepository { get; }
+
+        protected override IEventStorageRepository EventStorageRepository { get; }
 
         public RedisEventStorage(ICacheService cacheService, IEventStorageRepository eventStorageRepository, IMementoRepository mementoRepository)
         {
             this.cacheService = cacheService;
-            this.eventStorageRepository = eventStorageRepository;
-            this.mementoRepository = mementoRepository;
+            this.MementoRepository = mementoRepository;
+            this.EventStorageRepository = eventStorageRepository;
         }
 
-        public override IEnumerable<Event> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public override IEnumerable<Event> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
         {
             lock (locker)
             {
-                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + aggregateId) ?? Enumerable.Empty<Event>();
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + eventId) ?? Enumerable.Empty<Event>();
                 if (!events.Any())
                 {
-                    var storeEvents = eventStorageRepository.GetEvents(aggregateId, afterVersion);
+                    var storeEvents = EventStorageRepository.GetEvents(eventId, afterVersion);
                     var eventlist = new List<Event>();
                     foreach (var e in storeEvents)
                     {
@@ -44,7 +42,7 @@ namespace Shriek.EventStorage.Redis
 
                     if (eventlist.Any())
                     {
-                        cacheService.Store(EventCachePrefix + aggregateId, eventlist);
+                        cacheService.Store(EventCachePrefix + eventId, eventlist);
                         events = eventlist;
                     }
                 }
@@ -53,40 +51,38 @@ namespace Shriek.EventStorage.Redis
             }
         }
 
-        public override IEvent<TKey> GetLastEvent<TKey>(TKey aggregateId)
+        public override IEvent<TKey> GetLastEvent<TKey>(TKey eventId)
         {
-            return GetEvents(aggregateId).LastOrDefault() as IEvent<TKey>;
+            return GetEvents(eventId).LastOrDefault() as IEvent<TKey>;
         }
 
         public override void Save(Event @event)
         {
             lock (locker)
             {
-                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + ((dynamic)@event).AggregateId) ?? Enumerable.Empty<Event>();
+                var events = cacheService.Get<IEnumerable<Event>>(EventCachePrefix + @event.EventId) ?? Enumerable.Empty<Event>();
                 if (!events.Any())
                 {
                     events = new[] { @event };
-                    cacheService.Store(EventCachePrefix + ((dynamic)@event).AggregateId, events);
+                    cacheService.Store(EventCachePrefix + @event.EventId, events);
                 }
                 else
                 {
                     events = events.Concat(new[] { @event });
-                    cacheService.Store(EventCachePrefix + ((dynamic)@event).AggregateId, events);
+                    cacheService.Store(EventCachePrefix + @event.EventId, events);
                 }
 
                 var serializedData = JsonConvert.SerializeObject(@event);
 
                 var storedEvent = new StoredEvent(
-                    ((dynamic)@event).AggregateId.ToString(),
+                    @event.EventId,
                     serializedData,
                     @event.Version,
                     ""
                 );
 
-                eventStorageRepository.Store(storedEvent);
+                EventStorageRepository.Store(storedEvent);
             }
         }
-
-      
     }
 }

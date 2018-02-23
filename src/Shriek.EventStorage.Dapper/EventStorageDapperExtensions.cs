@@ -15,7 +15,7 @@ namespace Shriek.EventStorage.Dapper
             builder.Services.AddScoped(x => options);
             builder.Services.AddScoped<IEventStorageRepository, EventRepository>();
             builder.Services.AddScoped<IMementoRepository, MementoRepository>();
-            builder.Services.AddScoped<IEventStorage, SqlEventStorage>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
         }
     }
 }

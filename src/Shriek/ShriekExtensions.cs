@@ -7,6 +7,7 @@ using Shriek.Storage;
 using System;
 using System.Linq;
 using System.Reflection;
+using Shriek.EventSourcing;
 
 namespace Shriek
 {
@@ -36,7 +37,9 @@ namespace Shriek
                 }
             }
 
-            builder.Services.AddScoped<IEventStorage, InMemoryEventStorage>();
+            builder.Services.AddScoped<IMementoRepository, InMemoryEventStorageRepository>();
+            builder.Services.AddScoped<IEventStorageRepository, InMemoryEventStorageRepository>();
+            builder.Services.AddScoped<IEventStorage, DefalutEventStorage>();
             builder.Services.AddScoped<IMessagePublisher, InProcessMessagePublisher>();
 
             builder.Services.AddSingleton(typeof(IMessageSubscriber<DomainNotification>), typeof(EventMessageSubscriber<DomainNotification>));

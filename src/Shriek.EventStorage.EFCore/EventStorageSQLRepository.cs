@@ -9,17 +9,17 @@ namespace Shriek.EventStorage.EFCore
 {
     public class EventStorageSQLRepository : IEventStorageRepository, IMementoRepository
     {
-        private EventStorageSQLContext context;
+        private readonly EventStorageSQLContext context;
 
         public EventStorageSQLRepository(EventStorageSQLContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey aggregateId, int afterVersion = 0)
+        public IEnumerable<StoredEvent> GetEvents<TKey>(TKey eventId, int afterVersion = 0)
             where TKey : IEquatable<TKey>
         {
-            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId.ToString() && e.Version >= afterVersion);
+            return context.Set<StoredEvent>().Where(e => e.EventId == eventId.ToString() && e.Version >= afterVersion);
         }
 
         public void Dispose()
@@ -27,10 +27,10 @@ namespace Shriek.EventStorage.EFCore
             context.Dispose();
         }
 
-        public StoredEvent GetLastEvent<TKey>(TKey aggregateId)
+        public StoredEvent GetLastEvent<TKey>(TKey eventId)
             where TKey : IEquatable<TKey>
         {
-            return context.Set<StoredEvent>().Where(e => e.AggregateId == aggregateId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
+            return context.Set<StoredEvent>().Where(e => e.EventId == eventId.ToString()).OrderBy(e => e.Timestamp).LastOrDefault();
         }
 
         public void Store(StoredEvent theEvent)
