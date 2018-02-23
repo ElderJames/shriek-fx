@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Shriek.DynamicProxy
+namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
     /// 类型扩展

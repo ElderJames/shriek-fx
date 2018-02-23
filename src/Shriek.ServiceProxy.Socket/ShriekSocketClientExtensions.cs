@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using Shriek.DynamicProxy;
+using Shriek.Reflection.DynamicProxy;
 using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Socket

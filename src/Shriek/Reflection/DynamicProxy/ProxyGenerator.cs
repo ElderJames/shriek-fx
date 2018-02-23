@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Shriek.DynamicProxy
+namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
     /// 接口的代理类型生成器

@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Shriek.DynamicProxy;
 using System.Reflection;
 
 namespace Shriek.ServiceProxy.Socket.Fast

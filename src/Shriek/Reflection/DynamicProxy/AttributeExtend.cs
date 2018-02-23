@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Shriek.DynamicProxy
+namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
     /// 成员特性扩展
