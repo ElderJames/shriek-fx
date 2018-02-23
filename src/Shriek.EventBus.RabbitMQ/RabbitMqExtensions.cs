@@ -13,26 +13,21 @@ namespace Shriek.Messages.RabbitMQ
     {
         public static void UseRabbitMqEventBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
-            var option = new EventBusRabbitMqOptions();
-            optionAction(option);
-
-            AddRabbitMq(builder, option);
-
+            builder.AddRabbitMQ(optionAction);
             builder.Services.AddTransient<IEventBus, RabbitMqEventBus>();
         }
 
         public static void UseRabbitMqCommandBus(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
-            var option = new CommandBusRabbitMqOptions();
-            optionAction(option);
-
-            AddRabbitMq(builder, option);
-
+            builder.AddRabbitMQ(optionAction);
             builder.Services.AddTransient<ICommandBus, RabbitMqCommandBus>();
         }
 
-        private static void AddRabbitMq(ShriekOptionBuilder builder, RabbitMqOptions option)
+        public static void AddRabbitMQ(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
+            var option = new EventBusRabbitMqOptions();
+            optionAction(option);
+
             var factory = new ConnectionFactory()
             {
                 HostName = option.HostName,
