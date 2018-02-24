@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
 
@@ -9,10 +10,12 @@ namespace Shriek.Messages.RabbitMQ
         private readonly IModel channel;
         private readonly RabbitMqOptions options;
 
-        public RabbitMqMessagePublisher(RabbitMqOptions options)
+        public RabbitMqMessagePublisher(IServiceProvider serviceProvider, RabbitMqOptions options)
         {
             this.channel = options.Channel;
             this.options = options;
+
+            options.ServiceProvider = serviceProvider;
         }
 
         public void Dispose()

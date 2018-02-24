@@ -25,7 +25,7 @@ namespace Shriek.Messages.RabbitMQ
 
         public static void AddRabbitMQ(this ShriekOptionBuilder builder, Action<RabbitMqOptions> optionAction)
         {
-            var option = new EventBusRabbitMqOptions();
+            var option = new RabbitMqOptions();
             optionAction(option);
 
             var factory = new ConnectionFactory()

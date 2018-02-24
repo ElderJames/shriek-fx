@@ -1,38 +1,30 @@
-﻿using Newtonsoft.Json;
-using RabbitMQ.Client;
-using Shriek.Events;
+﻿using Shriek.Events;
 using System;
-using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace Shriek.Messages.RabbitMQ
 {
     public class RabbitMqEventBus : IEventBus, IDisposable
     {
-        private readonly IModel channel;
-        private readonly EventBusRabbitMqOptions options;
+        private readonly IMessagePublisher _messagePublisher;
 
-        public RabbitMqEventBus(IServiceProvider serviceProvider, EventBusRabbitMqOptions options)
+        public RabbitMqEventBus(IMessagePublisher messagePublisher)
         {
-            this.channel = options.Channel;
-            this.options = options;
-
-            options.ServiceProvider = serviceProvider;
+            this._messagePublisher = messagePublisher;
         }
 
         public void Dispose()
         {
-            channel.Dispose();
+            _messagePublisher.Dispose();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Publish<TEvent>(TEvent @event) where TEvent : Event
         {
             if (@event == null)
                 return;
 
-            var msg = JsonConvert.SerializeObject(@event);
-            var sendBytes = Encoding.UTF8.GetBytes(msg);
-
-            channel.BasicPublish(options.ExchangeName, options.RouteKey, null, sendBytes);
+            _messagePublisher.Send(@event);
         }
     }
 }
