@@ -1,6 +1,5 @@
 # ShriekFx:zap: 
 [![](https://img.shields.io/badge/.NET%20Core-2.0.0-brightgreen.svg?style=flat-square)](https://www.microsoft.com/net/download/core) 
-[![Build Status](https://travis-ci.org/ElderJames/shriek-fx.svg?branch=master)](https://travis-ci.org/ElderJames/shriek-fx)
 [![Build status](https://ci.appveyor.com/api/projects/status/mcwi2kqe0daija6c?svg=true)](https://ci.appveyor.com/project/ElderJames/shriekfx)
 [![MyGet Pre Release](https://img.shields.io/myget/shriek-fx/vpre/Shriek.svg?style=flat-square&label=myget)](https://www.myget.org/feed/Packages/shriek-fx)
 [![Author](https://img.shields.io/badge/author-ElderJames-brightgreen.svg?style=flat-square)](https://yangshunjie.com)
