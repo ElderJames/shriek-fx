@@ -22,7 +22,7 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
         {
             foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
             {
-                if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)/* && o.Assembly == type.Assembly*/) && !feature.Controllers.Contains(type))
+                if (IsController(type) || ServiceTypes.Any(o => type.IsClass && o.IsAssignableFrom(type)) && !feature.Controllers.Contains(type))
                 {
                     feature.Controllers.Add(type.GetTypeInfo());
                 }

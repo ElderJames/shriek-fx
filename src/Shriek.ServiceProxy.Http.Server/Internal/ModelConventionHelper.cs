@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Shriek.ServiceProxy.Http.Server.Internal
 {
@@ -206,6 +207,19 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
             foreach (var item in items)
             {
                 list.Add(item);
+            }
+        }
+
+        public class ParameterInfoEqualityComparer : IEqualityComparer<ParameterInfo>
+        {
+            public bool Equals(ParameterInfo x, ParameterInfo y)
+            {
+                return y != null && x != null && x.ParameterType == y.ParameterType;
+            }
+
+            public int GetHashCode(ParameterInfo obj)
+            {
+                return obj.ParameterType.GetHashCode();
             }
         }
     }
