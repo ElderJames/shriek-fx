@@ -1,4 +1,5 @@
 ﻿using System;
+
 using RabbitMQ.Client;
 using _ExchangeType = RabbitMQ.Client.ExchangeType;
 
@@ -20,7 +21,7 @@ namespace Shriek.Messages.RabbitMQ
 
         public string RouteKey { get; set; }
 
-        internal IModel Channel { get; set; }
+        internal IModel Publisher { get; set; }
 
         internal IServiceProvider ServiceProvider { get; set; }
     }
