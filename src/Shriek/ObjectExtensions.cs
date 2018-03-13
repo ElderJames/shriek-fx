@@ -84,7 +84,7 @@ namespace Shriek
         /// <summary>
         /// 获取枚举类型的描述信息
         /// </summary>
-        public static string Description(this Enum enumValue)
+        public static string GetDescription(this Enum enumValue)
         {
             var type = enumValue.GetType();
             var name = Enum.GetName(type, enumValue);
@@ -99,6 +99,51 @@ namespace Shriek
             }
 
             return attribute.Description;
+        }
+
+        /// <summary>
+        /// 获取枚举类型的字段名
+        /// </summary>
+        /// <param name="enumValue"></param>
+        /// <returns></returns>
+        public static string GetName(this Enum enumValue)
+        {
+            return Enum.GetName(enumValue.GetType(), enumValue);
+        }
+
+        /// <summary>
+        /// Converts string to enum value.
+        /// </summary>
+        /// <typeparam name="T">Type of enum</typeparam>
+        /// <param name="value">String value to convert</param>
+        /// <returns>Returns enum object</returns>
+        public static T ToEnum<T>(this string value)
+            where T : struct
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return (T)Enum.Parse(typeof(T), value);
+        }
+
+        /// <summary>
+        /// Converts string to enum value.
+        /// </summary>
+        /// <typeparam name="T">Type of enum</typeparam>
+        /// <param name="value">String value to convert</param>
+        /// <param name="ignoreCase">Ignore case</param>
+        /// <returns>Returns enum object</returns>
+        public static T ToEnum<T>(this string value, bool ignoreCase)
+            where T : struct
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return (T)Enum.Parse(typeof(T), value, ignoreCase);
         }
     }
 }
