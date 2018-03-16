@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Shriek.ServiceProxy.Abstractions;
 
 namespace Shriek.ServiceProxy.Socket.Core
 {
@@ -102,7 +103,8 @@ namespace Shriek.ServiceProxy.Socket.Core
                             && actionParams.Any(x => mthParams.Where(o => x.Name == o.Name).Any(o => x.GetType() == o.GetType()));
                  })) ?? method.DeclaringType;
 
-                return Regex.Replace($"method/{serviceType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-");
+                return method.GetPath(serviceType);
+                // return Regex.Replace($"method/{serviceType.FullName}/{method.Name}/{string.Join("-", method.GetParameters().Select(x => x.ParameterType.FullName))}".ToLower(), "[^a-z|0-9]", "-");
                 //return Regex.Replace(method.Name, @"Async$", string.Empty, RegexOptions.IgnoreCase);
             }
         }

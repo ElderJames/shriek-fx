@@ -112,7 +112,7 @@ namespace Shriek.Samples.WebApiProxy
             Console.WriteLine(JsonConvert.SerializeObject(result));
 
             var typeResult = todoService.GetTypes(new[] { Contracts.Type.起床, Contracts.Type.工作, Contracts.Type.睡觉 }, "james", 10);
-            Console.WriteLine(JsonConvert.SerializeObject(typeResult.Select(x => x.Description())));
+            Console.WriteLine(JsonConvert.SerializeObject(typeResult.Select(x => x.GetDescription())));
 
             //这个调用服务，服务内注入了一个代理客户端调用另一个服务
             var result2 = testService.Test(11);

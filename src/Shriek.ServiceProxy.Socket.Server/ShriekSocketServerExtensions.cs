@@ -11,10 +11,7 @@ namespace Shriek.ServiceProxy.Socket.Server
     {
         public static IShriekBuilder AddSocketServer(this IShriekBuilder builder, Action<WebApiProxyOptions> optionAction)
         {
-            AppDomain.CurrentDomain.UpdateExcutingAssemblies();
-
             builder.Services.AddSocketServer(optionAction);
-
             return builder;
         }
 
