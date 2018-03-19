@@ -101,6 +101,9 @@
   - [ ] 服务定位器
   - [ ] 加密
   - [ ] 爬虫
+- 单元测试
+  - [ ] CQRS
+  - [ ] ServiceProxy
 - 示例 （Samples）
   - [x] 内存事件仓储
   - [x] EFCore事件仓储
