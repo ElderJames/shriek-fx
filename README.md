@@ -83,7 +83,7 @@
   - [ ] 权限管理
   - [ ] OAuth 2.0
   - [ ] ASP.NET Core 扩展
-	-[ ] WebApi JS客户端生成
+	- [ ] WebApi JS客户端生成
   - [ ] Angular
   - [ ] Vue (Vuetify)
 - 定时任务
