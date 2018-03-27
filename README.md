@@ -5,7 +5,9 @@
 [![Author](https://img.shields.io/badge/author-ElderJames-brightgreen.svg?style=flat-square)](https://yangshunjie.com)
 [![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/ElderJames/ShriekFx/blob/master/LICENSE)  
 
-一个使用 **.NET Core 2.0** 开发的简单易用的领域驱动设计分层框架（DDD+CQRS），宗旨是让小型应用也能用DDD的思想去开发，使开发者告别对领域驱动设计的复杂认识。
+shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的基础框架，遵循领域驱动设计思维，并结合CQRS架构。目标是协助小型应用使用DDD的思维去开发，最终让开发者告别对领域驱动设计的复杂认识，并且享受到正真意义的面向对象设计模式来带的美感。
+
+除此之外，还有围绕核心框架功能而开发的众多有用的、面向微服务的拓展组件。
 
 ### 特性：
 
@@ -14,13 +16,15 @@
 3. 事件驱动架构 (EDA)
 4. 事件回溯 （ES）
 5. 最终一致性 （Eventually Consistent）
-6. [契约即服务](https://elderjames.github.io/shriek-fx/#/zh-cn/service-intro) (通过定义的接口自动获得客户端和服务端实现)
+6. [契约即服务](https://ehttps://shriek-projects.github.io/shriek-fx) (通过定义的接口自动生成客户端和服务端实现，支持Http和Socket)
 7. 框架中每个组件都有基础实现，最简单时只需一个核心类库就能跑起来
 8. 遵循端口与适配器模式，框架组件适配多种第三方组件实现，可从单体架构到面向服务架构按需扩展
 
 ---
 
-### [文档](https://yangshunjie.com/shriek-fx)
+### 文档
+
+- [中文](https://shriek-projects.github.io/shriek-fx)
 
 ### 安装Nuget包
 
@@ -45,7 +49,8 @@
 
 ### 示例项目
 
-[ShriekFX.CMS](https://github.com/ElderJames/ShriekFx.CMS) 开发中
+[ShriekFX.Auth](https://github.com/Shriek-Projects/shriek-auth) 开发中
+[ShriekFX.CMS](https://github.com/Shriek-Projects/shriek-cms) 开发中
 
 其他示例在Samples目录下
 
@@ -71,13 +76,17 @@
   - [ ] Saga 流程管理
 - Q端 + Real DB 适配器
   - [x] EF Core
-  - [ ] Dapper
+  - Dapper
+    - [ ] 接口标注Sql特性动态创建仓储
+    - [ ] xml sql模板
+    - [ ] Linq 扩展
+    - [ ] 特性指定事务范围
   - [ ] TiDB
   - [ ] 查询基类
 - 应用服务层
   - 接口即服务
 	- [x] Http / MVC
-	- [x] TCP  / RPC 
+	- [ ] TCP  / RPC（dotnetty）
   - [ ] GraphQL
 - UI层
   - [ ] 权限管理
