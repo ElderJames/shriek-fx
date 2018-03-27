@@ -49,8 +49,9 @@ shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的基础框架
 
 ### 示例项目
 
-[ShriekFX.Auth](https://github.com/Shriek-Projects/shriek-auth) 开发中
-[ShriekFX.CMS](https://github.com/Shriek-Projects/shriek-cms) 开发中
+[认证授权系统 ShriekFX.Auth](https://github.com/Shriek-Projects/shriek-auth) 开发中
+
+[内容管理系统 ShriekFX.CMS](https://github.com/Shriek-Projects/shriek-cms) 开发中
 
 其他示例在Samples目录下
 
