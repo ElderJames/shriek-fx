@@ -5,9 +5,13 @@
 [![Author](https://img.shields.io/badge/author-ElderJames-brightgreen.svg?style=flat-square)](https://yangshunjie.com)
 [![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/ElderJames/ShriekFx/blob/master/LICENSE)  
 
-shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的基础框架，遵循领域驱动设计思维，并结合CQRS架构。目标是协助小型应用使用DDD的思维去开发，最终让开发者告别对领域驱动设计的复杂认识，并且享受到正真意义的面向对象设计模式来带的美感。
+shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的快速开发框架，遵循领域驱动设计规范约束，并结合CQRS架构提供实现事件驱动、事件回溯、响应式等特性的基础设施。内部调用对用户几乎无感知也无需自己实现，开箱即用。目标是协助小型应用使用DDD的思维去开发，最终让开发者告别对领域驱动设计的复杂认识，并且享受到正真意义的面向对象设计模式来带的美感。
 
-除此之外，还有围绕核心框架功能而开发的众多有用的、面向微服务的拓展组件。
+除此之外，还包含为了增强核心框架功能和迎合通用业务系统快速开发需求的众多实用的、面向微服务的拓展组件。
+
+PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则提供了规范约束，是能够让这种设计理论真正落地实现的开发工具套件（SDK）。
+
+本框架参考自《领域驱动设计》原著、《实现领域驱动设计》和ENode。
 
 ### 特性：
 
@@ -19,6 +23,11 @@ shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的基础框架
 6. [契约即服务](https://ehttps://shriek-projects.github.io/shriek-fx) (通过定义的接口自动生成客户端和服务端实现，支持Http和Socket)
 7. 框架中每个组件都有基础实现，最简单时只需一个核心类库就能跑起来
 8. 遵循端口与适配器模式，框架组件适配多种第三方组件实现，可从单体架构到面向服务架构按需扩展
+
+### 设计规范
+
+1. 尽量使用.NET Standard和官方提供的类库，第三方类库设计成组件利用DI来按需组合。
+
 
 ---
 
@@ -79,7 +88,7 @@ shriek-fx 是一个基于 **.NET Core 2.0** 开发的简单易用的基础框架
   - [x] EF Core
   - Dapper
     - [ ] 接口标注Sql特性动态创建仓储
-    - [ ] xml sql模板
+    - [ ] Xml Sql模板
     - [ ] Linq 扩展
     - [ ] 特性指定事务范围
   - [ ] TiDB
