@@ -6,9 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Dapper;
 using Shriek.Extensions.Dapper.Attributes;
 
