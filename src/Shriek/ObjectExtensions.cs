@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace Shriek
@@ -109,6 +110,19 @@ namespace Shriek
         public static string GetName(this Enum enumValue)
         {
             return Enum.GetName(enumValue.GetType(), enumValue);
+        }
+
+        /// <summary>
+        /// 获取枚举的名称(Key)和对应值(Value)的集合 调用方式<code>tyoeof(AnyEnum).GetEnumKeyValuePairs()</code>
+        /// </summary>
+        /// <param name="enumType">枚举类型</param>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<string, dynamic>> GetEnumKeyValuePairs(this Type enumType)
+        {
+            if (!enumType.IsEnum)
+                throw new ArgumentException($"{nameof(enumType)} is not a enum type.");
+
+            return Enum.GetValues(enumType).Cast<dynamic>().Select(x => new KeyValuePair<string, dynamic>(Enum.GetName(enumType, x), x));
         }
 
         /// <summary>

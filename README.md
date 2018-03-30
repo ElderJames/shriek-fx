@@ -128,7 +128,7 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
   - [x] EFCore事件仓储
   - [x] NoSQL事件仓储
   - [x] InfluxDB事件仓储
-  - [x] Redis事件仓储 
+  - [x] Redis事件仓储
   - [x] RabbitMQ总线
   - [x] WebApi代理
   - [ ] CQRS 整体示例
