@@ -5,16 +5,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
 //sorry .net 4.0, this is why you can't have nice things.
 #if !NET40
 
-namespace Dapper
+namespace Shriek.Extensions.Dapper
 {
     /// <summary>
     /// Main class for Dapper.SimpleCRUD extensions
     /// </summary>
-    public static partial class SimpleCRUD
+    public static partial class SqlMapperExtensions
     {
         /// <summary>
         /// <para>By default queries the table matching the class name asynchronously </para>
@@ -253,6 +254,8 @@ namespace Dapper
             if (!idProps.Any())
                 throw new ArgumentException("Insert<T> only supports an entity with a [Key] or Id property");
 
+            SetDialect(connection);
+
             var keyHasPredefinedValue = false;
             var baseType = typeof(TKey);
             var underlyingType = Nullable.GetUnderlyingType(baseType);
@@ -307,7 +310,7 @@ namespace Dapper
             var r = await connection.QueryAsync(sb.ToString(), entityToInsert, transaction, commandTimeout);
             return (TKey)r.First().id;
         }
-        
+
         /// <summary>
         ///  <para>Updates a record or records in the database asynchronously</para>
         ///  <para>By default updates records in the table matching the class name</para>
@@ -328,6 +331,8 @@ namespace Dapper
 
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
+
+            SetDialect(connection);
 
             var name = GetTableName(entityToUpdate);
 
@@ -366,6 +371,8 @@ namespace Dapper
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
 
+            SetDialect(connection);
+
             var name = GetTableName(entityToDelete);
 
             var sb = new StringBuilder();
@@ -398,9 +405,11 @@ namespace Dapper
         {
             var currenttype = typeof(T);
             var idProps = GetIdProperties(currenttype).ToList();
-            
+
             if (!idProps.Any())
                 throw new ArgumentException("Delete<T> only supports an entity with a [Key] or Id property");
+
+            SetDialect(connection);
 
             var name = GetTableName(currenttype);
 
@@ -429,7 +438,6 @@ namespace Dapper
             return connection.ExecuteAsync(sb.ToString(), dynParms, transaction, commandTimeout);
         }
 
-
         /// <summary>
         /// <para>Deletes a list of records in the database</para>
         /// <para>By default deletes records in the table matching the class name</para>
@@ -447,9 +455,10 @@ namespace Dapper
         /// <returns>The number of records effected</returns>
         public static Task<int> DeleteListAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-
             var currenttype = typeof(T);
             var name = GetTableName(currenttype);
+
+            SetDialect(connection);
 
             var sb = new StringBuilder();
             var whereprops = GetAllProperties(whereConditions).ToArray();
@@ -491,6 +500,8 @@ namespace Dapper
             var currenttype = typeof(T);
             var name = GetTableName(currenttype);
 
+            SetDialect(connection);
+
             var sb = new StringBuilder();
             sb.AppendFormat("Delete from {0}", name);
             sb.Append(" " + conditions);
@@ -505,7 +516,7 @@ namespace Dapper
         /// <para>By default queries the table matching the class name</para>
         /// <para>-Table name can be overridden by adding an attribute on your class [Table("YourTableName")]</para>
         /// <para>conditions is an SQL where clause ex: "where name='bob'" or "where age>=@Age" - not required </para>
-        /// <para>parameters is an anonymous type to pass in named parameter values: new { Age = 15 }</para>   
+        /// <para>parameters is an anonymous type to pass in named parameter values: new { Age = 15 }</para>
         /// <para>Supports transaction and command timeout</para>
         /// /// </summary>
         /// <typeparam name="T"></typeparam>
