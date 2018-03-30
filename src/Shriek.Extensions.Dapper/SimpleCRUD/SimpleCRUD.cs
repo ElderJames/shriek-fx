@@ -14,7 +14,6 @@ namespace Dapper
     /// </summary>
     public static partial class SimpleCRUD
     {
-
         static SimpleCRUD()
         {
             SetDialect(_dialect);
@@ -31,6 +30,17 @@ namespace Dapper
         private static ITableNameResolver _tableNameResolver = new TableNameResolver();
         private static IColumnNameResolver _columnNameResolver = new ColumnNameResolver();
 
+        private static readonly Dictionary<string, Dialect> AdapterDictionary
+            = new Dictionary<string, Dialect>
+            {
+                ["sqlconnection"] = Dialect.SQLServer,
+                //["sqlceconnection"] = new SqlCeServerAdapter(),
+                ["npgsqlconnection"] = Dialect.PostgreSQL,
+                ["sqliteconnection"] = Dialect.SQLite,
+                ["mysqlconnection"] = Dialect.MySQL,
+                //["fbconnection"] = new FbAdapter()
+            };
+
         /// <summary>
         /// Returns the current dialect name
         /// </summary>
@@ -40,8 +50,19 @@ namespace Dapper
             return _dialect.ToString();
         }
 
+        private static void SetDialect(IDbConnection connection)
+        {
+            var name = connection.GetType().Name.ToLower();
+
+            var dialect = !AdapterDictionary.ContainsKey(name)
+                ? _dialect
+                : AdapterDictionary[name];
+
+            SetDialect(dialect);
+        }
+
         /// <summary>
-        /// Sets the database dialect 
+        /// Sets the database dialect
         /// </summary>
         /// <param name="dialect"></param>
         public static void SetDialect(Dialect dialect)
@@ -54,18 +75,21 @@ namespace Dapper
                     _getIdentitySql = string.Format("SELECT LASTVAL() AS id");
                     _getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {RowsPerPage} OFFSET (({PageNumber}-1) * {RowsPerPage})";
                     break;
+
                 case Dialect.SQLite:
                     _dialect = Dialect.SQLite;
                     _encapsulation = "\"{0}\"";
                     _getIdentitySql = string.Format("SELECT LAST_INSERT_ROWID() AS id");
                     _getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {RowsPerPage} OFFSET (({PageNumber}-1) * {RowsPerPage})";
                     break;
+
                 case Dialect.MySQL:
                     _dialect = Dialect.MySQL;
                     _encapsulation = "`{0}`";
                     _getIdentitySql = string.Format("SELECT LAST_INSERT_ID() AS id");
                     _getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage}";
                     break;
+
                 default:
                     _dialect = Dialect.SQLServer;
                     _encapsulation = "[{0}]";
@@ -332,6 +356,8 @@ namespace Dapper
             if (!idProps.Any())
                 throw new ArgumentException("Insert<T> only supports an entity with a [Key] or Id property");
 
+            SetDialect(connection);
+
             var keyHasPredefinedValue = false;
             var baseType = typeof(TKey);
             var underlyingType = Nullable.GetUnderlyingType(baseType);
@@ -409,6 +435,8 @@ namespace Dapper
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
 
+            SetDialect(connection);
+
             var name = GetTableName(entityToUpdate);
 
             var sb = new StringBuilder();
@@ -442,9 +470,10 @@ namespace Dapper
         {
             var idProps = GetIdProperties(entityToDelete).ToList();
 
-
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
+
+            SetDialect(connection);
 
             var name = GetTableName(entityToDelete);
 
@@ -479,9 +508,10 @@ namespace Dapper
             var currenttype = typeof(T);
             var idProps = GetIdProperties(currenttype).ToList();
 
-
             if (!idProps.Any())
                 throw new ArgumentException("Delete<T> only supports an entity with a [Key] or Id property");
+
+            SetDialect(connection);
 
             var name = GetTableName(currenttype);
 
@@ -527,9 +557,10 @@ namespace Dapper
         /// <returns>The number of records effected</returns>
         public static int DeleteList<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-
             var currenttype = typeof(T);
             var name = GetTableName(currenttype);
+
+            SetDialect(connection);
 
             var sb = new StringBuilder();
             var whereprops = GetAllProperties(whereConditions).ToArray();
@@ -568,6 +599,8 @@ namespace Dapper
                 throw new ArgumentException("DeleteList<T> requires a where clause");
             if (!conditions.ToLower().Contains("where"))
                 throw new ArgumentException("DeleteList<T> requires a where clause and must contain the WHERE keyword");
+
+            SetDialect(connection);
 
             var currenttype = typeof(T);
             var name = GetTableName(currenttype);
@@ -677,7 +710,6 @@ namespace Dapper
                 if (propertyInfos.ElementAt(i).GetCustomAttributes(true).SingleOrDefault(attr => attr.GetType().Name == typeof(ColumnAttribute).Name) != null)
                     sb.Append(" as " + Encapsulate(propertyInfos.ElementAt(i).Name));
                 addedAny = true;
-
             }
         }
 
@@ -744,7 +776,6 @@ namespace Dapper
             }
             if (sb.ToString().EndsWith(", "))
                 sb.Remove(sb.Length - 2, 2);
-
         }
 
         //build insert parameters which include all properties in the class that are not:
@@ -792,12 +823,11 @@ namespace Dapper
 
             props = props.Where(p => p.GetCustomAttributes(true).Any(attr => attr.GetType().Name == typeof(EditableAttribute).Name && !IsEditable(p)) == false);
 
-
             return props.Where(p => p.PropertyType.IsSimpleType() || IsEditable(p));
         }
 
         //Determine if the Attribute has an AllowEdit key and return its boolean state
-        //fake the funk and try to mimick EditableAttribute in System.ComponentModel.DataAnnotations 
+        //fake the funk and try to mimick EditableAttribute in System.ComponentModel.DataAnnotations
         //This allows use of the DataAnnotations property in the model and have the SimpleCRUD engine just figure it out without a reference
         private static bool IsEditable(PropertyInfo pi)
         {
@@ -813,9 +843,8 @@ namespace Dapper
             return false;
         }
 
-
         //Determine if the Attribute has an IsReadOnly key and return its boolean state
-        //fake the funk and try to mimick ReadOnlyAttribute in System.ComponentModel 
+        //fake the funk and try to mimick ReadOnlyAttribute in System.ComponentModel
         //This allows use of the DataAnnotations property in the model and have the SimpleCRUD engine just figure it out without a reference
         private static bool IsReadOnly(PropertyInfo pi)
         {
@@ -913,6 +942,7 @@ namespace Dapper
         {
             return string.Format(_encapsulation, databaseword);
         }
+
         /// <summary>
         /// Generates a guid based on the current date/time
         /// http://stackoverflow.com/questions/1752004/sequential-guid-generator-c-sharp
@@ -1014,10 +1044,12 @@ namespace Dapper
         {
             Name = tableName;
         }
+
         /// <summary>
         /// Name of the table
         /// </summary>
         public string Name { get; private set; }
+
         /// <summary>
         /// Name of the schema
         /// </summary>
@@ -1039,6 +1071,7 @@ namespace Dapper
         {
             Name = columnName;
         }
+
         /// <summary>
         /// Name of the column
         /// </summary>
@@ -1087,6 +1120,7 @@ namespace Dapper
         {
             AllowEdit = iseditable;
         }
+
         /// <summary>
         /// Does this property persist to the database?
         /// </summary>
@@ -1108,6 +1142,7 @@ namespace Dapper
         {
             IsReadOnly = isReadOnly;
         }
+
         /// <summary>
         /// Does this property persist to the database?
         /// </summary>
@@ -1140,7 +1175,6 @@ namespace Dapper
     public class IgnoreUpdateAttribute : Attribute
     {
     }
-
 }
 
 internal static class TypeExtension
