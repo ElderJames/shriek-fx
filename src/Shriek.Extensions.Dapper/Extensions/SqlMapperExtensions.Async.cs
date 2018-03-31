@@ -34,23 +34,23 @@ namespace Shriek.Extensions.Dapper
         public static async Task<T> GetAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var idProps = GetIdProperties(currenttype).ToList();
+            var idProps = currenttype.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Get<T> only supports an entity with a [Key] or Id property");
 
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
             var sb = new StringBuilder();
             sb.Append("Select ");
             //create a new empty instance of the type to get the base properties
-            BuildSelect(sb, GetScaffoldableProperties<T>().ToArray());
+            sb.BuildSelect(GetScaffoldableProperties<T>().ToArray());
             sb.AppendFormat(" from {0} where ", name);
 
             for (var i = 0; i < idProps.Count; i++)
             {
                 if (i > 0)
                     sb.Append(" and ");
-                sb.AppendFormat("{0} = @{1}", GetColumnName(idProps[i]), idProps[i].Name);
+                sb.AppendFormat("{0} = @{1}", idProps[i].GetColumnName(), idProps[i].Name);
             }
 
             var dynParms = new DynamicParameters();
@@ -85,24 +85,24 @@ namespace Shriek.Extensions.Dapper
         public static Task<IEnumerable<T>> GetListAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var idProps = GetIdProperties(currenttype).ToList();
+            var idProps = currenttype.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] property");
 
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             var sb = new StringBuilder();
-            var whereprops = GetAllProperties(whereConditions).ToArray();
+            var whereprops = whereConditions.GetAllProperties().ToArray();
             sb.Append("Select ");
             //create a new empty instance of the type to get the base properties
-            BuildSelect(sb, GetScaffoldableProperties<T>().ToArray());
+            sb.BuildSelect(GetScaffoldableProperties<T>().ToArray());
             sb.AppendFormat(" from {0}", name);
 
             if (whereprops.Any())
             {
                 sb.Append(" where ");
-                BuildWhere(sb, whereprops, (T)Activator.CreateInstance(typeof(T)), whereConditions);
+                sb.BuildWhere<T>(whereprops, whereConditions);
             }
 
             if (Debugger.IsAttached)
@@ -129,16 +129,16 @@ namespace Shriek.Extensions.Dapper
         public static Task<IEnumerable<T>> GetListAsync<T>(this IDbConnection connection, string conditions, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var idProps = GetIdProperties(currenttype).ToList();
+            var idProps = currenttype.GetIdProperties().ToList();
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] property");
 
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             var sb = new StringBuilder();
             sb.Append("Select ");
             //create a new empty instance of the type to get the base properties
-            BuildSelect(sb, GetScaffoldableProperties<T>().ToArray());
+            sb.BuildSelect(GetScaffoldableProperties<T>().ToArray());
             sb.AppendFormat(" from {0}", name);
 
             sb.Append(" " + conditions);
@@ -186,20 +186,20 @@ namespace Shriek.Extensions.Dapper
                 throw new Exception("GetListPage is not supported with the current SQL Dialect");
 
             var currenttype = typeof(T);
-            var idProps = GetIdProperties(currenttype).ToList();
+            var idProps = currenttype.GetIdProperties().ToList();
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] property");
 
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
             var sb = new StringBuilder();
             var query = _getPagedListSql;
             if (string.IsNullOrEmpty(orderby))
             {
-                orderby = GetColumnName(idProps.First());
+                orderby = idProps.First().GetColumnName();
             }
 
             //create a new empty instance of the type to get the base properties
-            BuildSelect(sb, GetScaffoldableProperties<T>().ToArray());
+            sb.BuildSelect(GetScaffoldableProperties<T>().ToArray());
             query = query.Replace("{SelectColumns}", sb.ToString());
             query = query.Replace("{TableName}", name);
             query = query.Replace("{PageNumber}", pageNumber.ToString());
@@ -249,7 +249,7 @@ namespace Shriek.Extensions.Dapper
         /// <returns>The ID (primary key) of the newly inserted record if it is identity using the defined type, otherwise null</returns>
         public static async Task<TKey> InsertAsync<TKey, TEntity>(this IDbConnection connection, TEntity entityToInsert, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-            var idProps = GetIdProperties(entityToInsert).ToList();
+            var idProps = entityToInsert.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Insert<T> only supports an entity with a [Key] or Id property");
@@ -265,15 +265,15 @@ namespace Shriek.Extensions.Dapper
                 throw new Exception("Invalid return type");
             }
 
-            var name = GetTableName(entityToInsert);
+            var name = entityToInsert.GetTableName();
             var sb = new StringBuilder();
             sb.AppendFormat("insert into {0}", name);
             sb.Append(" (");
-            BuildInsertParameters<TEntity>(sb);
+            sb.BuildInsertParameters<TEntity>();
             sb.Append(") ");
             sb.Append("values");
             sb.Append(" (");
-            BuildInsertValues<TEntity>(sb);
+            sb.BuildInsertValues<TEntity>();
             sb.Append(")");
 
             if (keytype == typeof(Guid))
@@ -327,22 +327,22 @@ namespace Shriek.Extensions.Dapper
         /// <returns>The number of effected records</returns>
         public static Task<int> UpdateAsync<TEntity>(this IDbConnection connection, TEntity entityToUpdate, IDbTransaction transaction = null, int? commandTimeout = null, System.Threading.CancellationToken? token = null)
         {
-            var idProps = GetIdProperties(entityToUpdate).ToList();
+            var idProps = entityToUpdate.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
 
             SetDialect(connection);
 
-            var name = GetTableName(entityToUpdate);
+            var name = entityToUpdate.GetTableName();
 
             var sb = new StringBuilder();
             sb.AppendFormat("update {0}", name);
 
             sb.AppendFormat(" set ");
-            BuildUpdateSet(entityToUpdate, sb);
+            sb.BuildUpdateSet<TEntity>();
             sb.Append(" where ");
-            BuildWhere(sb, idProps, entityToUpdate);
+            sb.BuildWhere<TEntity>(idProps);
 
             if (Debugger.IsAttached)
                 Trace.WriteLine(String.Format("Update: {0}", sb));
@@ -366,20 +366,20 @@ namespace Shriek.Extensions.Dapper
         /// <returns>The number of records effected</returns>
         public static Task<int> DeleteAsync<T>(this IDbConnection connection, T entityToDelete, IDbTransaction transaction = null, int? commandTimeout = null)
         {
-            var idProps = GetIdProperties(entityToDelete).ToList();
+            var idProps = entityToDelete.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Entity must have at least one [Key] or Id property");
 
             SetDialect(connection);
 
-            var name = GetTableName(entityToDelete);
+            var name = entityToDelete.GetTableName();
 
             var sb = new StringBuilder();
             sb.AppendFormat("delete from {0}", name);
 
             sb.Append(" where ");
-            BuildWhere(sb, idProps, entityToDelete);
+            sb.BuildWhere<T>(idProps);
 
             if (Debugger.IsAttached)
                 Trace.WriteLine(String.Format("Delete: {0}", sb));
@@ -404,14 +404,14 @@ namespace Shriek.Extensions.Dapper
         public static Task<int> DeleteAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var idProps = GetIdProperties(currenttype).ToList();
+            var idProps = currenttype.GetIdProperties().ToList();
 
             if (!idProps.Any())
                 throw new ArgumentException("Delete<T> only supports an entity with a [Key] or Id property");
 
             SetDialect(connection);
 
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             var sb = new StringBuilder();
             sb.AppendFormat("Delete from {0} where ", name);
@@ -420,7 +420,7 @@ namespace Shriek.Extensions.Dapper
             {
                 if (i > 0)
                     sb.Append(" and ");
-                sb.AppendFormat("{0} = @{1}", GetColumnName(idProps[i]), idProps[i].Name);
+                sb.AppendFormat("{0} = @{1}", idProps[i].GetColumnName(), idProps[i].Name);
             }
 
             var dynParms = new DynamicParameters();
@@ -456,17 +456,17 @@ namespace Shriek.Extensions.Dapper
         public static Task<int> DeleteListAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             SetDialect(connection);
 
             var sb = new StringBuilder();
-            var whereprops = GetAllProperties(whereConditions).ToArray();
+            var whereprops = whereConditions.GetAllProperties().ToArray();
             sb.AppendFormat("Delete from {0}", name);
             if (whereprops.Any())
             {
                 sb.Append(" where ");
-                BuildWhere(sb, whereprops, (T)Activator.CreateInstance(typeof(T)));
+                sb.BuildWhere<T>(whereprops);
             }
 
             if (Debugger.IsAttached)
@@ -498,7 +498,7 @@ namespace Shriek.Extensions.Dapper
                 throw new ArgumentException("DeleteList<T> requires a where clause and must contain the WHERE keyword");
 
             var currenttype = typeof(T);
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             SetDialect(connection);
 
@@ -529,7 +529,7 @@ namespace Shriek.Extensions.Dapper
         public static Task<int> RecordCountAsync<T>(this IDbConnection connection, string conditions = "", object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
             var sb = new StringBuilder();
             sb.Append("Select count(1)");
             sb.AppendFormat(" from {0}", name);
@@ -557,16 +557,16 @@ namespace Shriek.Extensions.Dapper
         public static Task<int> RecordCountAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             var currenttype = typeof(T);
-            var name = GetTableName(currenttype);
+            var name = currenttype.GetTableName();
 
             var sb = new StringBuilder();
-            var whereprops = GetAllProperties(whereConditions).ToArray();
+            var whereprops = whereConditions.GetAllProperties().ToArray();
             sb.Append("Select count(1)");
             sb.AppendFormat(" from {0}", name);
             if (whereprops.Any())
             {
                 sb.Append(" where ");
-                BuildWhere(sb, whereprops, (T)Activator.CreateInstance(typeof(T)));
+                sb.BuildWhere<T>(whereprops);
             }
 
             if (Debugger.IsAttached)
