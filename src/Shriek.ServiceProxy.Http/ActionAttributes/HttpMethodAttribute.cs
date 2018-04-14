@@ -8,65 +8,64 @@ using System.Threading.Tasks;
 
 namespace Shriek.ServiceProxy.Http.ActionAttributes
 {
-    /// <summary>
-    /// 表示http请求方法描述特性
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
-    public class HttpMethodAttribute : ApiActionAttribute
-    {
-        /// <summary>
-        /// 获取请求方法
-        /// </summary>
-        public HttpMethod Method { get; }
+	/// <summary>
+	/// 表示http请求方法描述特性
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
+	public class HttpMethodAttribute : ApiActionAttribute
+	{
+		/// <summary>
+		/// 获取请求方法
+		/// </summary>
+		public HttpMethod Method { get; }
 
-        /// <summary>
-        /// 获取请求相对路径
-        /// </summary>
-        public string Path { get; }
+		/// <summary>
+		/// 获取请求相对路径
+		/// </summary>
+		public string Path { get; }
 
-        /// <summary>
-        /// http请求方法描述特性
-        /// </summary>
-        /// <param name="method">请求方法</param>
-        /// <param name="path">请求相对路径</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public HttpMethodAttribute(HttpMethod method, string path)
-        {
-            //if (string.IsNullOrEmpty(path))
-            //{
-            //    throw new ArgumentNullException();
-            //}
-            this.Method = method;
-            this.Path = path.TrimEnd('&');
-        }
+		/// <summary>
+		/// http请求方法描述特性
+		/// </summary>
+		/// <param name="method">请求方法</param>
+		/// <param name="path">请求相对路径</param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public HttpMethodAttribute(HttpMethod method, string path)
+		{
+			//if (string.IsNullOrEmpty(path))
+			//{
+			//    throw new ArgumentNullException();
+			//}
+			this.Method = method;
+			this.Path = path.TrimEnd('&');
+		}
 
-        /// <summary>
-        /// 执行前
-        /// </summary>
-        /// <param name="context">上下文</param>
-        /// <returns></returns>
-        public override Task BeforeRequestAsync(ApiActionContext context)
-        {
-            if (context is HttpApiActionContext httpApiActionContext)
-            {
-                httpApiActionContext.RequestMessage.Method = this.Method;
+		/// <summary>
+		/// 执行前
+		/// </summary>
+		/// <param name="context">上下文</param>
+		/// <returns></returns>
+		public override Task BeforeRequestAsync(ApiActionContext context)
+		{
+			if (context is HttpApiActionContext httpApiActionContext)
+			{
+				httpApiActionContext.RequestMessage.Method = this.Method;
 
-                var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1)
-                    .Select(x => x.Template.Trim('/'));
+				var routes = context.RouteAttributes.Where((x, i) => string.IsNullOrEmpty(this.Path) || i < 1)
+					.Select(x => x.Template.Trim('/'));
 
-                httpApiActionContext.RequestMessage.RequestUri = new Uri(context.HttpApiClient.RequestHost,
-                    string.Join("/", routes) + '/' + this.Path.Trim('/'));
-            }
-            return Task.CompletedTask;
-        }
+				httpApiActionContext.RequestMessage.RequestUri = new Uri(string.Concat(context.HttpApiClient.RequestHost.Trim('/'), "/", string.Join("/", routes) + '/' + this.Path.Trim('/')));
+			}
+			return Task.CompletedTask;
+		}
 
-        /// <summary>
-        /// 转换为字符串
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", this.Method, this.Path);
-        }
-    }
+		/// <summary>
+		/// 转换为字符串
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return string.Format("{0} {1}", this.Method, this.Path);
+		}
+	}
 }
