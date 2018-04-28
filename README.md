@@ -72,6 +72,8 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
   - [x] 进程内异步队列
   - [x] 内存事件缓存
   - [x] 接口实现自动注册
+  - [ ] Actor 响应式架构
+  - [ ] Saga 流程管理
   - 事件存储 + 聚合快照（备忘录模式）
 	- [x] 内存模式 *(聚合修改后立刻持久化)*
 	- [x] EF Core实现
@@ -82,13 +84,11 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
 	- [x] Redis
   - Bus / 消息队列（MQ）
 	- [x] RabbitMQ
-  - [ ] Actor 响应式架构
-  - [ ] Saga 流程管理
 - Q端 + Real DB 适配器
   - [x] EF Core
   - Dapper
-    - [ ] 接口标注Sql特性动态创建仓储
-    - [ ] Xml Sql模板
+    - [x] 接口标注Sql特性动态创建仓储
+    - [x] [SmartSql](https://github.com/Ahoo-Wang/SmartSql)扩展（实现Xml Sql模板）
     - [ ] Linq 扩展
     - [ ] 特性指定事务范围
   - [ ] TiDB
@@ -96,7 +96,8 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
 - 应用服务层
   - 接口即服务
 	- [x] Http / MVC
-	- [ ] TCP  / RPC（dotnetty）
+	- [x] TCP  / RPC
+	- [ ] Dotnetty
   - [ ] GraphQL
 - UI层
   - [ ] 权限管理
