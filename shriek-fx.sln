@@ -77,7 +77,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Web.Api", "src\Shrie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.Extensions.Dapper", "src\Shriek.Extensions.Dapper\Shriek.Extensions.Dapper.csproj", "{8F1B03A9-AD55-4EE1-B2C0-B93017099B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.ServiceProxy.DotNetty", "src\Shriek.ServiceProxy,DotNetty\Shriek.ServiceProxy.DotNetty.csproj", "{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shriek.ServiceProxy.DotNetty", "src\Shriek.ServiceProxy,DotNetty\Shriek.ServiceProxy.DotNetty.csproj", "{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shriek.Extensions.SmartSql", "src\Shriek.Extensions.SmartSql\Shriek.Extensions.SmartSql.csproj", "{B0AC42DA-137B-4505-AA19-8C94978B5A72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +207,10 @@ Global
 		{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AC42DA-137B-4505-AA19-8C94978B5A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AC42DA-137B-4505-AA19-8C94978B5A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AC42DA-137B-4505-AA19-8C94978B5A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AC42DA-137B-4505-AA19-8C94978B5A72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +248,7 @@ Global
 		{73A3FBCB-E804-4F22-B44F-143BFA32B6EE} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{8F1B03A9-AD55-4EE1-B2C0-B93017099B68} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 		{A38BE26C-63C5-43DB-9A45-0BB3A930E2BA} = {F0BFC07A-EBF5-48D7-8F60-9AEA7B94847A}
+		{B0AC42DA-137B-4505-AA19-8C94978B5A72} = {5F35B0CE-D94D-4526-ABE2-D03927AAA1B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B7121CB-4CDF-4D0B-82C7-736ABF500F14}
