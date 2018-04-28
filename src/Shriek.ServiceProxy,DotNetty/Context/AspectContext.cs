@@ -22,16 +22,6 @@ namespace Shriek.ServiceProxy.DotNetty.Context
 		public EndPointAttribute HostAttribute { get; private set; }
 
 		/// <summary>
-		/// 中间路由模版
-		/// </summary>
-		public RouteAttribute[] RouteAttributes { get; internal set; }
-
-		/// <summary>
-		/// 获取ApiReturnAttribute
-		/// </summary>
-		public ApiReturnAttribute ApiReturnAttribute { get; private set; }
-
-		/// <summary>
 		/// 获取ApiActionFilterAttribute
 		/// </summary>
 		public ApiActionFilterAttribute[] ApiActionFilterAttributes { get; set; }
@@ -81,13 +71,13 @@ namespace Shriek.ServiceProxy.DotNetty.Context
 			var methodFilters = method.GetCustomAttributes<ApiActionFilterAttribute>(true);
 
 			var interfaceFilters = method.DeclaringType.GetCustomAttributes<ApiActionFilterAttribute>(true);
+
 			var filterAttributes = methodFilters.Concat(interfaceFilters).Distinct(new ApiActionFilterAttributeComparer()).ToArray();
 
 			return new AspectContext
 			{
 				HostAttribute = hostAttribute,
-				RouteAttributes = routeAttributes,
-				ApiReturnAttribute = returnAttribute,
+
 				ApiActionFilterAttributes = filterAttributes,
 				ApiActionDescriptor = GetActionDescriptor(method)
 			};

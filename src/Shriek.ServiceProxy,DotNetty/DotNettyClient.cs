@@ -21,11 +21,11 @@ namespace Shriek.ServiceProxy.DotNetty
 
 		public object Intercept(object target, MethodInfo method, object[] @params)
 		{
-			var httpContext = AspectContext.From(method);
+			var socketContext = AspectContext.From(method);
 
 			if (RequestHost == null || string.IsNullOrEmpty(RequestHost))
-				if (httpContext.HostAttribute.EndsPoint != null)
-					RequestHost = httpContext.HostAttribute.EndsPoint.ToString();
+				if (socketContext.HostAttribute.EndsPoint != null)
+					RequestHost = socketContext.HostAttribute.EndsPoint.ToString();
 				else
 					throw new ArgumentNullException(nameof(method), "未定义任何请求服务器地址,请在注册时传入BaseUrl或在服务契约添加HttpHost标签");
 
@@ -33,10 +33,10 @@ namespace Shriek.ServiceProxy.DotNetty
 			{
 				HttpApiClient = this,
 				RequestMessage = new SocketRequestMessage(),
-				RouteAttributes = httpContext.RouteAttributes,
-				ApiReturnAttribute = httpContext.ApiReturnAttribute,
-				ApiActionFilterAttributes = httpContext.ApiActionFilterAttributes,
-				ApiActionDescriptor = httpContext.ApiActionDescriptor.Clone() as ApiActionDescriptor
+				//RouteAttributes = socketContext.RouteAttributes,
+				//ApiReturnAttribute = socketContext.ApiReturnAttribute,
+				ApiActionFilterAttributes = socketContext.ApiActionFilterAttributes,
+				ApiActionDescriptor = socketContext.ApiActionDescriptor.Clone() as ApiActionDescriptor
 			};
 
 			var parameters = actionContext.ApiActionDescriptor.Parameters;
@@ -45,7 +45,7 @@ namespace Shriek.ServiceProxy.DotNetty
 				parameters[i].Value = @params[i];
 			}
 
-			var apiAction = httpContext.ApiActionDescriptor;
+			var apiAction = socketContext.ApiActionDescriptor;
 
 			try
 			{
