@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Confluent.Kafka;
+using NLog.Kafka;
+using System.Globalization;
+using System.Threading;
 
 namespace NLog.Targets
 {
@@ -20,7 +23,32 @@ namespace NLog.Targets
 
 		protected override void Write(LogEventInfo logEvent)
 		{
-			var message = this.Layout.Render(logEvent);
+			var obj = new LogstashEvent
+			{
+				version = 1,
+				timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture),
+				app = topic,
+				source_host = Environment.MachineName,
+				thread_name = Thread.CurrentThread.Name,
+				@class = logEvent.CallerClassName,
+				method = logEvent.CallerMemberName,
+				line_number = logEvent.CallerLineNumber.ToString(),
+				level = logEvent.Level.Name,
+				logger_name = logEvent.LoggerName,
+				message = logEvent.FormattedMessage
+			};
+
+			if (logEvent.Exception != null)
+			{
+				obj.exception = new LogstashException
+				{
+					exception_class = logEvent.Exception.GetType().ToString(),
+					exception_message = logEvent.Exception.Message,
+					stacktrace = logEvent.Exception.StackTrace
+				};
+			}
+
+			var message = obj.ToJson();
 			SendMessageToQueue(message);
 			base.Write(logEvent);
 		}
