@@ -18,6 +18,9 @@ namespace Shriek.Events
     public abstract class Event : Message, IEvent
     {
         public abstract string EventId { get; }
+
+        public string Creator { get; set; }
+
         public int Version { get; internal set; }
     }
 }
