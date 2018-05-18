@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Shriek.Domains;
 using Shriek.Storage.Mementos;
 
@@ -97,12 +98,13 @@ namespace Shriek.Storage
         }
 
         public TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
+            where TAggregateRoot : IAggregateRoot<TKey>
             where TKey : IEquatable<TKey>
         {
             IEnumerable<Event> events = Enumerable.Empty<Event>();
             Memento memento = null;
-            var obj = new TAggregateRoot();
+
+            var instance = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
 
             //获取该记录的更改快照
             memento = MementoRepository.GetMemento(aggregateId);
@@ -112,7 +114,7 @@ namespace Shriek.Storage
                 //获取该记录最后一次快照之后的更改，避免加载过多历史更改
                 events = GetEvents(aggregateId, memento.Version);
                 //从快照恢复
-                ((IOriginator)obj).SetMemento(memento);
+                ((IOriginator)instance).SetMemento(memento);
             }
             else
             {
@@ -124,8 +126,8 @@ namespace Shriek.Storage
                 return default(TAggregateRoot);
 
             //重现历史更改
-            obj.LoadsFromHistory(events);
-            return obj;
+            instance.LoadsFromHistory(events);
+            return instance;
         }
     }
 }

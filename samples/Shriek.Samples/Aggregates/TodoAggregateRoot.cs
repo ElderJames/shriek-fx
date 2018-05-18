@@ -9,7 +9,7 @@ namespace Shriek.Samples.Aggregates
 {
     public class TodoAggregateRoot : AggregateRoot<Guid>, IHandle<TodoCreatedEvent>, IHandle<TodoChangedEvent>
     {
-        public TodoAggregateRoot() : this(Guid.Empty)
+        private TodoAggregateRoot() : this(Guid.Empty)
         {
         }
 
@@ -38,6 +38,8 @@ namespace Shriek.Samples.Aggregates
             ApplyChange(new TodoCreatedEvent()
             {
                 AggregateId = this.AggregateId,
+                Creator = "james",
+
                 Name = command.Name,
                 Desception = command.Desception,
                 FinishTime = command.FinishTime
@@ -60,6 +62,8 @@ namespace Shriek.Samples.Aggregates
             ApplyChange(new TodoChangedEvent()
             {
                 AggregateId = this.AggregateId,
+                Creator = "james",
+
                 Name = command.Name,
                 Desception = command.Desception,
                 FinishTime = command.FinishTime

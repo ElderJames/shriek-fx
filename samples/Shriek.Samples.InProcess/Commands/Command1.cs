@@ -25,11 +25,11 @@ namespace Shriek.Samples.InProcess.Commands
     public class SampleAggregateRoot : AggregateRoot<Guid>,
         IHandle<SampleEvent>
     {
-        public int No { get; set; }
+        public int No { get; private set; }
 
-        public TimeSpan Delay { get; set; }
+        public TimeSpan Delay { get; private set; }
 
-        public SampleAggregateRoot() : base(Guid.Empty)
+        private SampleAggregateRoot() : base(Guid.Empty)
         {
         }
 

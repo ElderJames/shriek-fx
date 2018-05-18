@@ -34,7 +34,7 @@ namespace Shriek.Commands
         /// <param name="initFromRepository"></param>
         /// <returns></returns>
         public TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key, Func<TAggregateRoot> initFromRepository)
-             where TAggregateRoot : IAggregateRoot<TKey>, new()
+             where TAggregateRoot : IAggregateRoot<TKey>
              where TKey : IEquatable<TKey>
         {
             var obj = GetById<TKey, TAggregateRoot>(key);
@@ -47,8 +47,19 @@ namespace Shriek.Commands
             return obj;
         }
 
+        public TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key)
+            where TAggregateRoot : IAggregateRoot<TKey>
+            where TKey : IEquatable<TKey>
+        {
+            var obj = GetById<TKey, TAggregateRoot>(key);
+            if (obj != null)
+                aggregates.Enqueue(obj);
+
+            return obj;
+        }
+
         private TAggregateRoot GetById<TKey, TAggregateRoot>(TKey id)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
+            where TAggregateRoot : IAggregateRoot<TKey>
             where TKey : IEquatable<TKey>
         {
             return eventStorage.Source<TAggregateRoot, TKey>(id);
@@ -92,17 +103,6 @@ namespace Shriek.Commands
                 }
                 aggregate.MarkChangesAsCommitted();
             }
-        }
-
-        public TAggregateRoot GetAggregateRoot<TKey, TAggregateRoot>(TKey key)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
-            where TKey : IEquatable<TKey>
-        {
-            var obj = GetById<TKey, TAggregateRoot>(key);
-            if (obj != null)
-                aggregates.Enqueue(obj);
-
-            return obj;
         }
     }
 }

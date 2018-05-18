@@ -18,7 +18,7 @@ namespace Shriek.Storage
         ///    /// <typeparam name="TKey">聚合根Id类型</typeparam>
         /// <param name="aggregateId">唯一标识</param>
         TAggregateRoot Source<TAggregateRoot, TKey>(TKey aggregateId)
-            where TAggregateRoot : IAggregateRoot<TKey>, new()
+            where TAggregateRoot : IAggregateRoot<TKey>
             where TKey : IEquatable<TKey>;
 
         IEvent<TKey> GetLastEvent<TKey>(TKey eventId) where TKey : IEquatable<TKey>;
