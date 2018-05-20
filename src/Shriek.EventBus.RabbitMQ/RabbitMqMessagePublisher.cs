@@ -28,8 +28,8 @@ namespace Shriek.Messages.RabbitMQ
             if (message == null)
                 return;
 
-            var msg = JsonConvert.SerializeObject(message);
-            var sendBytes = Encoding.UTF8.GetBytes(msg);
+            var msgPack = new MessagePack(message);
+            var sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msgPack));
 
             var properties = channel.CreateBasicProperties();
             properties.Persistent = true;

@@ -36,7 +36,7 @@ namespace Shriek.EventStorage.Redis
                     var eventlist = new List<Event>();
                     foreach (var e in storeEvents)
                     {
-                        var eventType = Type.GetType(e.MessageType);
+                        var eventType = Type.GetType(e.EventType);
                         eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                     }
 
@@ -75,10 +75,8 @@ namespace Shriek.EventStorage.Redis
                 var serializedData = JsonConvert.SerializeObject(@event);
 
                 var storedEvent = new StoredEvent(
-                    @event.EventId,
-                    serializedData,
-                    @event.Version,
-                    ""
+                    @event,
+                    serializedData
                 );
 
                 EventStorageRepository.Store(storedEvent);

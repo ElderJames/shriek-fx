@@ -40,7 +40,7 @@ namespace Shriek.Storage
                 var eventlist = new ConcurrentBag<Event>();
                 foreach (var e in storeEvents)
                 {
-                    var eventType = Type.GetType(e.MessageType);
+                    var eventType = Type.GetType(e.EventType);
                     eventlist.Add(JsonConvert.DeserializeObject(e.Data, eventType) as Event);
                 }
                 return eventlist;
@@ -65,10 +65,8 @@ namespace Shriek.Storage
             var serializedData = JsonConvert.SerializeObject(theEvent);
 
             var storedEvent = new StoredEvent(
-                theEvent.EventId,
-                serializedData,
-                theEvent.Version,
-                ""
+                theEvent,
+                serializedData
                 );
 
             EventStorageRepository.Store(storedEvent);

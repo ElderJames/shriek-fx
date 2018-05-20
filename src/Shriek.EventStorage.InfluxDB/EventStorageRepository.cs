@@ -54,8 +54,8 @@ namespace Shriek.EventStorage.InfluxDB
                 Fields = new Dictionary<string, object>()
             {
                 {"Data", theEvent.Data},
-                {"MessageType", theEvent.MessageType},
-                {"User", theEvent.User},
+                {"EventType", theEvent.EventType},
+                {"Creator", theEvent.Creator},
                 {"Version", theEvent.Version}
             },
                 Timestamp = theEvent.Timestamp
@@ -72,12 +72,12 @@ namespace Shriek.EventStorage.InfluxDB
             return serie.Values.Select(item => new StoredEvent
             (
                 item[serie.Columns.IndexOf("EventId")].ToString(),
+                item[serie.Columns.IndexOf("EventType")].ToString().Replace(@"\", string.Empty),
                 item[serie.Columns.IndexOf("Data")].ToString().Replace(@"\", string.Empty),
                 int.Parse(item[serie.Columns.IndexOf("Version")].ToString()),
-                item[serie.Columns.IndexOf("User")].ToString()
+                item[serie.Columns.IndexOf("Creator")].ToString()
             )
             {
-                MessageType = item[serie.Columns.IndexOf("MessageType")].ToString().Replace(@"\", string.Empty),
                 Timestamp = DateTime.Parse(item[0].ToString()),
             });
         }

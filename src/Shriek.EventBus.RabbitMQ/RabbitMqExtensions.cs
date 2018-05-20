@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -59,9 +60,10 @@ namespace Shriek.Messages.RabbitMQ
             //接收到消息事件
             consumer.Received += (sender, args) =>
             {
-                var json = Encoding.UTF8.GetString(args.Body);
-                var o = JObject.Parse(json);
-                var messageType = Type.GetType(o[nameof(Message.MessageType)].Value<string>());
+                var msgPackJson = Encoding.UTF8.GetString(args.Body);
+                var msgPack = JsonConvert.DeserializeObject<MessagePack>(msgPackJson);
+                var o = JObject.Parse(msgPack.Data);
+                var messageType = Type.GetType(msgPack.MessageType);
                 dynamic message = o.ToObject(messageType);
 
                 try
