@@ -5,6 +5,9 @@ using Shriek.ServiceProxy.Abstractions;
 using Shriek.ServiceProxy.Http.Server.Internal;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Routing;
+using Shriek.ServiceProxy.Http.Server.RouteAnalyzer;
+using Shriek.ServiceProxy.Http.Server.RouteAnalyzer.Impl;
 
 namespace Shriek.ServiceProxy.Http.Server
 {
@@ -76,11 +79,24 @@ namespace Shriek.ServiceProxy.Http.Server
             mvcBuilder.ConfigureApplicationPartManager(manager =>
             {
                 var featureProvider = new ServiceControllerFeatureProvider(options.RegisteredServices.Select(x => x.Value));
-                manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
+
+                // manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
                 manager.FeatureProviders.Add(featureProvider);
             });
 
             return mvcBuilder;
+        }
+
+        public static IServiceCollection AddRouteAnalyzer(this IServiceCollection services)
+        {
+            services.AddSingleton<IRouteAnalyzer, RouteAnalyzer.Impl.RouteAnalyzer>();
+            return services;
+        }
+
+        public static IRouteBuilder MapRouteAnalyzer(this IRouteBuilder routes, string routeAnalyzerUrlPath)
+        {
+            routes.Routes.Add(new Router(routes.DefaultHandler, routeAnalyzerUrlPath));
+            return routes;
         }
     }
 }
