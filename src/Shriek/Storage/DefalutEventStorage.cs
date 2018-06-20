@@ -5,8 +5,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Shriek.Domains;
+using Shriek.Reflection;
 using Shriek.Storage.Mementos;
 
 namespace Shriek.Storage
@@ -102,7 +102,7 @@ namespace Shriek.Storage
             IEnumerable<Event> events = Enumerable.Empty<Event>();
             Memento memento = null;
 
-            var instance = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
+            var instance = New<TAggregateRoot>.Instance();
 
             //获取该记录的更改快照
             memento = MementoRepository.GetMemento(aggregateId);

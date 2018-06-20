@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Shriek.Events;
 using Shriek.Storage.Mementos;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,21 +14,21 @@ namespace Shriek.Domains
         where TKey : IEquatable<TKey>
     {
         [Key]
-        public int Id { get; protected set; }
+        public int Id { get; private set; }
 
         public int Version { get; private set; } = -1;
 
-        protected List<Event> Changes { get; }
+        private ConcurrentBag<Event> _changes;
+
+        private ConcurrentBag<Event> Changes => _changes ?? (_changes = new ConcurrentBag<Event>());
+
+        public bool CanCommit => this.Changes.Any();
 
         public TKey AggregateId { get; protected set; }
 
-        protected AggregateRoot() : this(default(TKey))
-        {
-        }
-
         protected AggregateRoot(TKey aggregateId)
         {
-            this.Changes = new List<Event>();
+            //this.Changes = new List<Event>();
             AggregateId = aggregateId;
         }
 
@@ -104,7 +105,10 @@ namespace Shriek.Domains
 
         public void MarkChangesAsCommitted()
         {
-            Changes.Clear();
+            while (!Changes.IsEmpty)
+            {
+                Changes.TryTake(out var _);
+            }
         }
 
         public void SetMemento(Memento memento)
@@ -120,7 +124,5 @@ namespace Shriek.Domains
                 prop.SetValue(this, value);
             }
         }
-
-        public bool CanCommit => this.Changes.Any();
     }
 }

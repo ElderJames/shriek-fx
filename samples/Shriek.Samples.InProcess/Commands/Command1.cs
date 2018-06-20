@@ -29,9 +29,9 @@ namespace Shriek.Samples.InProcess.Commands
 
         public TimeSpan Delay { get; private set; }
 
-        private SampleAggregateRoot() : base(Guid.Empty)
-        {
-        }
+        //private SampleAggregateRoot() : base(Guid.Empty)
+        //{
+        //}
 
         public SampleAggregateRoot(Guid aggregateId) : base(aggregateId)
         {
