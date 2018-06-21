@@ -10,8 +10,9 @@ namespace Shriek.Samples.InProcess.Handlers
     {
         public void Execute(ICommandContext context, SampleCommand command)
         {
-            var root = context.GetAggregateRoot(command.AggregateId, () => SampleAggregateRoot.Register(command));
-            root.Create(command);
+            var root = context.GetAggregateRoot(command.AggregateId, () => new SampleAggregateRoot(command.AggregateId, command.No, command.Delay));
+            if (!root.CanCommit)
+                root.Change(command.AggregateId, command.No, command.Delay);
         }
     }
 

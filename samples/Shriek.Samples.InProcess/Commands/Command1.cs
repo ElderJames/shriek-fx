@@ -29,28 +29,23 @@ namespace Shriek.Samples.InProcess.Commands
 
         public TimeSpan Delay { get; private set; }
 
-        //private SampleAggregateRoot() : base(Guid.Empty)
-        //{
-        //}
-
-        public SampleAggregateRoot(Guid aggregateId) : base(aggregateId)
-        {
-        }
-
-        public static SampleAggregateRoot Register(SampleCommand command)
-        {
-            var root = new SampleAggregateRoot(command.AggregateId);
-
-            return root;
-        }
-
-        public void Create(SampleCommand command)
+        public SampleAggregateRoot(Guid aggregateId, int no, TimeSpan delay) : base(aggregateId)
         {
             ApplyChange(new SampleEvent()
             {
                 AggregateId = this.AggregateId,
-                No = command.No,
-                Delay = command.Delay
+                No = no,
+                Delay = delay
+            });
+        }
+
+        public void Change(Guid aggregateId, int no, TimeSpan delay)
+        {
+            ApplyChange(new SampleEvent()
+            {
+                AggregateId = this.AggregateId,
+                No = no,
+                Delay = delay
             });
         }
 

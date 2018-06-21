@@ -26,9 +26,12 @@ namespace Shriek.Domains
 
         public TKey AggregateId { get; protected set; }
 
+        private AggregateRoot()
+        {
+        }
+
         protected AggregateRoot(TKey aggregateId)
         {
-            //this.Changes = new List<Event>();
             AggregateId = aggregateId;
         }
 
