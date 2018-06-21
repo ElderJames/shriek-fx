@@ -2,6 +2,7 @@
 using Shriek.Samples.WebApiProxy.Models;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Type = Shriek.Samples.WebApiProxy.Contracts.Type;
 
 namespace Shriek.Samples.WebApiProxy.Services

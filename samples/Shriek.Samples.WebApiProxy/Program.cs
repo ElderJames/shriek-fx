@@ -114,7 +114,7 @@ namespace Shriek.Samples.WebApiProxy
             var tcpService = provider.GetService<ISimpleInterface>();
             Console.ReadKey();
 
-            var createRsult = todoService.Create(new Todo() { Name = "james" }).Result;
+            var createRsult = todoService.Create(new Todo() { Name = "james", AggregateId = Guid.NewGuid(), Desception = "hhhh", FinishTime = DateTime.Now }).Result;
             Console.WriteLine(JsonConvert.SerializeObject(createRsult));
 
             var result = todoService.Get(1).Result;

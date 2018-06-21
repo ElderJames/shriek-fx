@@ -40,10 +40,17 @@ namespace Shriek.ServiceProxy.Http.Server.Internal
             if (!paramAttrs.Any())
             {
                 //默认配置：如果参数类型为uri参数或者是uri参数数组，并且Action且为Get方法，则从QueryString取（框架默认，所以直接返回），否则从Body取
-                if (!theParam.ParameterType.IsUriParameterType() && !isGetMethod)
-                    paramAttrs = new[] { new FromBodyAttribute() };
-                else
+                if (theParam.ParameterType.IsUriParameterType() || theParam.ParameterType.IsUriParameterTypeArray())
                     return;
+
+                if (isGetMethod)
+                {
+                    paramAttrs = new[] { new FromQueryAttribute() };
+                }
+                else
+                {
+                    paramAttrs = new IBindingSourceMetadata[] { new FromBodyAttribute(), new FromFormAttribute() };
+                }
             }
 
             parameter.BindingInfo = BindingInfo.GetBindingInfo(paramAttrs);

@@ -33,7 +33,7 @@ namespace Shriek
             {
                 foreach (var itf in hdl.GetInterfaces())
                 {
-                    builder.Services.Add(new ServiceDescriptor(itf, hdl, ServiceLifetime.Scoped));
+                    builder.Services.Add(new ServiceDescriptor(itf, hdl, ServiceLifetime.Transient));
                 }
             }
 
