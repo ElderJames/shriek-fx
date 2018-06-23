@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Internal;
 
 namespace Shriek.ServiceProxy.Http.Server.RouteAnalyzer.Impl
 {
@@ -21,6 +24,12 @@ namespace Shriek.ServiceProxy.Http.Server.RouteAnalyzer.Impl
             foreach (var action in descriptors)
             {
                 var info = new RouteInformation();
+
+                if (action.ActionConstraints != null)
+                {
+                    var httpMethod = action.ActionConstraints.Where(x => x is HttpMethodActionConstraint).OfType<HttpMethodActionConstraint>();
+                    info.HttpMethod = string.Join("|", httpMethod.SelectMany(x => x.HttpMethods));
+                }
 
                 // Area
                 if (action.RouteValues.ContainsKey("area"))
