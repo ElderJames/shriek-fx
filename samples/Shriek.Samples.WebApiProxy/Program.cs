@@ -41,18 +41,19 @@ namespace Shriek.Samples.WebApiProxy
                     });
 
                     services.AddMvcCore().AddJsonFormatters();
+
                     //services.AddButterflyForShriek(opt =>
-                    //    {
-                    //        opt.CollectorUrl = "http://localhost:9618";
-                    //        opt.Service = "shriek.sample.backend";
-                    //    });
+                    //{
+                    //    opt.CollectorUrl = "http://localhost:9618";
+                    //    opt.Service = "shriek.sample.backend";
+                    //});
 
                     services.AddWebApiProxyServer(opt =>
-                            {
-                                opt.AddWebApiProxy<SampleApiProxy>();
-                                opt.AddWebApiProxy<Samples.Services.SampleApiProxy>();
-                                opt.AddService<Samples.Services.ITestService>();
-                            });
+                    {
+                        opt.AddWebApiProxy<SampleApiProxy>();
+                        opt.AddWebApiProxy<Samples.Services.SampleApiProxy>();
+                        opt.AddService<Samples.Services.ITestService>();
+                    });
 
                     //服务里注册代理客户端
                     services.AddWebApiProxy(opt => { opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081"); });
@@ -74,14 +75,18 @@ namespace Shriek.Samples.WebApiProxy
                     });
                     app.UseMvc(routes =>
                     {
+                        routes.MapRoute(
+                            name: "default",
+                            template: "{controller=Home}/{action=Index}/{id?}");
+
                         routes.MapRouteAnalyzer("/routes"); // Add
                     });
 
-                    var routeAnalyzer = app.ApplicationServices.GetService<IRouteAnalyzer>();
-                    foreach (var info in routeAnalyzer.GetAllRouteInformations())
-                    {
-                        Console.WriteLine(info);
-                    }
+                    //var routeAnalyzer = app.ApplicationServices.GetService<IRouteAnalyzer>();
+                    //foreach (var info in routeAnalyzer.GetAllRouteInformations())
+                    //{
+                    //    Console.WriteLine(info);
+                    //}
                 })
                 .Build()
                 .Start();

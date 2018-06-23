@@ -80,7 +80,7 @@ namespace Shriek.ServiceProxy.Http.Server
             {
                 var featureProvider = new ServiceControllerFeatureProvider(options.RegisteredServices.Select(x => x.Value));
 
-                // manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
+                manager.FeatureProviders.Remove(manager.FeatureProviders.FirstOrDefault(x => x.GetType() == typeof(ControllerFeatureProvider)));
                 manager.FeatureProviders.Add(featureProvider);
             });
 
