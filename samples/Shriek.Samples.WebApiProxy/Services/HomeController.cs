@@ -5,7 +5,7 @@ namespace Shriek.Samples.WebApiProxy.Services
     [Controller]
     public class Home
     {
-        [HttpGet, HttpPost]
+        [HttpGet("gethome"), HttpPost("posthome")]
         public string Index()
         {
             return "ok";

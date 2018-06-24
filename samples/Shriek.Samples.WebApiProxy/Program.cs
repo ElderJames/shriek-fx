@@ -9,11 +9,9 @@ using Newtonsoft.Json;
 using Shriek.Samples.WebApiProxy.Models;
 using Shriek.ServiceProxy.Http;
 using Shriek.ServiceProxy.Http.Server;
-using Shriek.ServiceProxy.Http.Tracer.Butterfly;
 using Shriek.ServiceProxy.Socket;
 using Shriek.ServiceProxy.Socket.Server;
-using Butterfly.Client;
-using Shriek.ServiceProxy.Http.Server.RouteAnalyzer;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Shriek.Samples.WebApiProxy
 {
@@ -40,7 +38,7 @@ namespace Shriek.Samples.WebApiProxy
                         options.AddService<ISimpleInterface>();
                     });
 
-                    services.AddMvcCore().AddJsonFormatters();
+                    services.AddMvcCore().AddJsonFormatters().AddApiExplorer();
 
                     //services.AddButterflyForShriek(opt =>
                     //{
@@ -59,6 +57,12 @@ namespace Shriek.Samples.WebApiProxy
                     services.AddWebApiProxy(opt => { opt.AddWebApiProxy<SampleApiProxy>("http://localhost:8081"); });
 
                     services.AddRouteAnalyzer();
+
+                    services.AddSwaggerGen(opt =>
+                    {
+                        opt.SwaggerDoc("v1", new Info { Title = "Shriek sample API", Version = "v1" });
+                        opt.CustomSchemaIds(x => x.FullName);
+                    });
                 })
                 .Configure(app =>
                 {
@@ -73,6 +77,20 @@ namespace Shriek.Samples.WebApiProxy
                             throw ex;
                         }
                     });
+
+                    var virtualPath = "";
+
+                    app.UseSwagger(c =>
+                    {
+                        c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = virtualPath);
+                    });
+
+                    app.UseSwaggerUI(c =>
+                    {
+                        c.SwaggerEndpoint(virtualPath + "/swagger/v1/swagger.json", "Shriek sample API");
+                        c.RoutePrefix = string.Empty;
+                    });
+
                     app.UseMvc(routes =>
                     {
                         routes.MapRoute(
