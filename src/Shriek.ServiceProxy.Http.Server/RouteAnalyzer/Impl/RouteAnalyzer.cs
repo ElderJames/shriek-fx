@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Internal;
@@ -31,6 +32,9 @@ namespace Shriek.ServiceProxy.Http.Server.RouteAnalyzer.Impl
                     info.HttpMethod = string.Join("|", httpMethod.SelectMany(x => x.HttpMethods));
                 }
 
+                if (string.IsNullOrEmpty(info.HttpMethod))
+                    info.HttpMethod = "Get";
+
                 // Area
                 if (action.RouteValues.ContainsKey("area"))
                 {
@@ -53,7 +57,7 @@ namespace Shriek.ServiceProxy.Http.Server.RouteAnalyzer.Impl
                 // Path and Invocation of Controller/Action
                 if (action is ControllerActionDescriptor ca)
                 {
-                    if (info.Path == "")
+                    if (string.IsNullOrEmpty(info.Path))
                     {
                         info.Path = $"/{ca.ControllerName}/{ca.ActionName}";
                     }

@@ -10,5 +10,10 @@ namespace Shriek.Samples.WebApiProxy.Services
         {
             return "ok";
         }
+
+        public string Hello()
+        {
+            return "hello";
+        }
     }
 }
