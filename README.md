@@ -84,13 +84,13 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
 	- [x] Redis
   - Bus / 消息队列（MQ）
 	- [x] RabbitMQ
-- Q端 + Real DB 适配器
+- Q端 + Real DB ORM
   - [x] EF Core
   - Dapper
     - [x] 接口标注Sql特性动态创建仓储
-    - [x] [SmartSql](https://github.com/Ahoo-Wang/SmartSql)扩展（实现Xml Sql模板）
     - [ ] Linq 扩展
     - [ ] 特性指定事务范围
+  - [x] [SmartSql](https://github.com/Ahoo-Wang/SmartSql)扩展（实现Xml Sql模板）
   - [ ] TiDB
   - [ ] 查询基类
 - 应用服务层
@@ -104,6 +104,8 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
   - [ ] OAuth 2.0
   - [ ] ASP.NET Core 扩展
 	- [ ] WebApi JS客户端生成
+	- [ ] Swagger
+  - [ ] 动态表单
   - [ ] Angular
   - [ ] Vue (Vuetify)
 - 定时任务
@@ -112,11 +114,13 @@ PS. 领域驱动设计是一种软件系统设计方法理论，而本框架则�
   - Aop 拦截器
 	- [ ] [AspectCore](https://github.com/dotnetcore/AspectCore-Framework)
   - 跟踪监控
+	- [ ] [SkyWalking](https://github.com/OpenSkywalking/skywalking-netcore)
     - [ ] [Butterfly](https://github.com/ButterflyAPM)
   - 日志
 	- [ ] NLog
 	- [ ] Log4net
 	- [ ] Exceptionless
+	- [ ] Kafka + ELK
   - [ ] 序列化器
   - [ ] 服务定位器
   - [ ] 加密
