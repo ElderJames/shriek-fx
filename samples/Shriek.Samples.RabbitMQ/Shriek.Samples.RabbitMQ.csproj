@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +14,4 @@
     <ProjectReference Include="..\..\src\Shriek.EventBus.RabbitMQ\Shriek.Messages.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\Shriek\Shriek.csproj" />
   </ItemGroup>
-
 </Project>

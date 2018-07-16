@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,5 +27,4 @@
     <ProjectReference Include="..\..\src\Shriek.EventStorage.InfluxDB\Shriek.EventStorage.InfluxDB.csproj" />
     <ProjectReference Include="..\Shriek.Samples\Shriek.Samples.csproj" />
   </ItemGroup>
-
 </Project>
