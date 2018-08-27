@@ -13,7 +13,7 @@ namespace Shriek.Storage
 {
     public class DefalutEventStorage : IEventStorage
     {
-        private readonly ConcurrentDictionary<string, ConcurrentBag<Event>> _eventsDict;
+        private readonly ConcurrentCache<string, ConcurrentBag<Event>> _eventsDict;
 
         public DefalutEventStorage()
         {
@@ -24,7 +24,7 @@ namespace Shriek.Storage
             this.EventStorageRepository = eventStoreRepository;
             this.MementoRepository = mementoRepository;
 
-            _eventsDict = new ConcurrentDictionary<string, ConcurrentBag<Event>>();
+            _eventsDict = new ConcurrentCache<string, ConcurrentBag<Event>>();
         }
 
         protected virtual IMementoRepository MementoRepository { get; }

@@ -85,7 +85,7 @@ namespace Shriek.Reflection
         /// <summary>
         /// 类型属性的Setter缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, Property[]> cached = new ConcurrentDictionary<Type, Property[]>();
+        private static readonly ConcurrentCache<Type, Property[]> cached = new ConcurrentCache<Type, Property[]>();
 
         /// <summary>
         /// 从类型的属性获取属性

@@ -45,19 +45,18 @@ namespace Shriek.ServiceProxy.Http.Contexts
         /// <summary>
         /// 缓存字典
         /// </summary>
-        private static readonly ConcurrentDictionary<MethodInfo, AspectContext> cache;
+        private static readonly ConcurrentCache<MethodInfo, AspectContext> cache;
 
         /// <summary>
         /// Castle相关上下文
         /// </summary>
         static AspectContext()
         {
-            cache = new ConcurrentDictionary<MethodInfo, AspectContext>(new IInvocationComparer());
+            cache = new ConcurrentCache<MethodInfo, AspectContext>(new IInvocationComparer());
         }
 
         /// <summary>
-        /// 从拦截内容获得
-        /// 使用缓存
+        /// 从拦截内容获得 使用缓存
         /// </summary>
         /// <param name="method">拦截方法</param>
         /// <returns></returns>

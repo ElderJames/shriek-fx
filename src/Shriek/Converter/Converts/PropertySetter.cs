@@ -13,7 +13,7 @@ namespace Shriek.Converter.Converts
         /// <summary>
         /// 类型属性的Setter缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, PropertySetter[]> cached = new ConcurrentDictionary<Type, PropertySetter[]>();
+        private static readonly ConcurrentCache<Type, PropertySetter[]> cached = new ConcurrentCache<Type, PropertySetter[]>();
 
         /// <summary>
         /// 从类型的属性获取Setter

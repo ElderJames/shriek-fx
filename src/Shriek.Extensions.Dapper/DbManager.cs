@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
@@ -17,10 +16,10 @@ namespace Shriek.Extensions.Dapper
         private IDbTransaction internalDbTransaction = null;
         private bool isOpened = false;
         private Queue DbActions { get; } = new Queue(8);
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, Delegate> insertDelegates = new ConcurrentDictionary<RuntimeTypeHandle, Delegate>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, Delegate> updateDelegates = new ConcurrentDictionary<RuntimeTypeHandle, Delegate>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, Delegate> deleteDelegates = new ConcurrentDictionary<RuntimeTypeHandle, Delegate>();
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, Delegate> getDelegates = new ConcurrentDictionary<RuntimeTypeHandle, Delegate>();
+        private static readonly ConcurrentCache<RuntimeTypeHandle, Delegate> insertDelegates = new ConcurrentCache<RuntimeTypeHandle, Delegate>();
+        private static readonly ConcurrentCache<RuntimeTypeHandle, Delegate> updateDelegates = new ConcurrentCache<RuntimeTypeHandle, Delegate>();
+        private static readonly ConcurrentCache<RuntimeTypeHandle, Delegate> deleteDelegates = new ConcurrentCache<RuntimeTypeHandle, Delegate>();
+        private static readonly ConcurrentCache<RuntimeTypeHandle, Delegate> getDelegates = new ConcurrentCache<RuntimeTypeHandle, Delegate>();
 
         /// <summary>
         /// construct the DbManager
@@ -29,7 +28,8 @@ namespace Shriek.Extensions.Dapper
         public DbManager(Func<IDbConnection> factory) => internalConnection = new Lazy<IDbConnection>(factory, true);
 
         /// <summary>
-        /// Prepared to insert an entity into table "Ts" and returns identity id or number of inserted rows if inserting a list.
+        /// Prepared to insert an entity into table "Ts" and returns identity id or number of
+        /// inserted rows if inserting a list.
         /// </summary>
         /// <typeparam name="T">The type to insert.</typeparam>
         /// <param name="entity">Entity to insert, can be list of entities</param>
@@ -40,7 +40,8 @@ namespace Shriek.Extensions.Dapper
         }
 
         /// <summary>
-        /// Prepared to update entity in table "Ts", checks if the entity is modified if the entity is tracked by the Get() extension.
+        /// Prepared to update entity in table "Ts", checks if the entity is modified if the entity
+        /// is tracked by the Get() extension.
         /// </summary>
         /// <typeparam name="T">Type to be updated</typeparam>
         /// <param name="entity">Entity to be updated</param>
@@ -60,10 +61,9 @@ namespace Shriek.Extensions.Dapper
         }
 
         /// <summary>
-        /// Returns a single entity by a single id from table "Ts".
-        /// Id must be marked with [Key] attribute.
-        /// Entities created from interfaces are tracked/intercepted for changes and used by the Update() extension
-        /// for optimal performance.
+        /// Returns a single entity by a single id from table "Ts". Id must be marked with [Key]
+        /// attribute. Entities created from interfaces are tracked/intercepted for changes and used
+        /// by the Update() extension for optimal performance.
         /// </summary>
         /// <typeparam name="T">Interface or type to create and populate</typeparam>
         /// <param name="id">Id of the entity to get, must be marked with [Key] attribute</param>
