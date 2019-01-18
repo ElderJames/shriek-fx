@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetty.Codecs" Version="0.4.7" />
-    <PackageReference Include="DotNetty.Transport" Version="0.4.7" />
+    <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
   </ItemGroup>
 
   <ItemGroup>
