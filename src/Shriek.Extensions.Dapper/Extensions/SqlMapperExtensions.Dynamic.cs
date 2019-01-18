@@ -15,7 +15,7 @@ namespace Shriek.Extensions.Dapper
     /// </summary>
     public static partial class SqlMapperExtensions
     {
-        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> _paramCache = new ConcurrentDictionary<Type, List<PropertyInfo>>();
+        private static readonly ConcurrentCache<Type, List<PropertyInfo>> _paramCache = new ConcurrentCache<Type, List<PropertyInfo>>();
 
         /// <summary>
         ///

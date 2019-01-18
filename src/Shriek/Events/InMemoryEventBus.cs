@@ -9,14 +9,14 @@ namespace Shriek.Events
     public class InMemoryEventBus : IEventBus, IDisposable
     {
         private readonly IMessagePublisher messageProcessor;
-        private readonly ConcurrentDictionary<string, ConcurrentQueue<Event>> eventQueueDict;
-        private readonly ConcurrentDictionary<string, Task> taskDict;
+        private readonly ConcurrentCache<string, ConcurrentQueue<Event>> eventQueueDict;
+        private readonly ConcurrentCache<string, Task> taskDict;
 
         public InMemoryEventBus(IMessagePublisher messageProcessor)
         {
             this.messageProcessor = messageProcessor;
-            eventQueueDict = new ConcurrentDictionary<string, ConcurrentQueue<Event>>();
-            taskDict = new ConcurrentDictionary<string, Task>();
+            eventQueueDict = new ConcurrentCache<string, ConcurrentQueue<Event>>();
+            taskDict = new ConcurrentCache<string, Task>();
         }
 
         public void Dispose()

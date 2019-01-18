@@ -7,9 +7,7 @@ using System.Reflection.Emit;
 namespace Shriek.Reflection.DynamicProxy
 {
     /// <summary>
-    /// 接口的代理类型生成器
-    /// 不支持泛型方法
-    /// 不支持ref/out参数
+    /// 接口的代理类型生成器 不支持泛型方法 不支持ref/out参数
     /// </summary>
     public static class ProxyGenerator
     {
@@ -26,12 +24,12 @@ namespace Shriek.Reflection.DynamicProxy
         /// <summary>
         /// 程序集HashCode^模块HashCode与模块创建器的缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<int, ModuleBuilder> hashCodeModuleBuilderCache = new ConcurrentDictionary<int, ModuleBuilder>();
+        private static readonly ConcurrentCache<int, ModuleBuilder> hashCodeModuleBuilderCache = new ConcurrentCache<int, ModuleBuilder>();
 
         /// <summary>
         /// 接口类型与代理类型的构造器缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, ConstructorInfo> proxyTypeCtorCache = new ConcurrentDictionary<Type, ConstructorInfo>();
+        private static readonly ConcurrentCache<Type, ConstructorInfo> proxyTypeCtorCache = new ConcurrentCache<Type, ConstructorInfo>();
 
         /// <summary>
         /// 创建接口的代理实例
@@ -63,8 +61,7 @@ namespace Shriek.Reflection.DynamicProxy
         }
 
         /// <summary>
-        /// 生成接口的代理类
-        /// 返回其构造器
+        /// 生成接口的代理类 返回其构造器
         /// </summary>
         /// <param name="interfaceType">接口类型</param>
         /// <param name="apiMethods">拦截的方法</param>
@@ -84,8 +81,7 @@ namespace Shriek.Reflection.DynamicProxy
         }
 
         /// <summary>
-        /// 实现接口方法
-        /// 返回代理类型
+        /// 实现接口方法 返回代理类型
         /// </summary>
         /// <param name="typeBuilder">类型生成器</param>
         /// <param name="apiMethods">接口的所有方法</param>

@@ -16,7 +16,7 @@ namespace Shriek.Extensions.Dapper
     {
         private static AssemblyBuilder assemblyBuilder = null;
         private static ModuleBuilder moduleBuilder = null;
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, Type> mapperTypeCache = new ConcurrentDictionary<RuntimeTypeHandle, Type>();
+        private static readonly ConcurrentCache<RuntimeTypeHandle, Type> mapperTypeCache = new ConcurrentCache<RuntimeTypeHandle, Type>();
 
         private static AssemblyBuilder GetAssemblyBuilder()
         {

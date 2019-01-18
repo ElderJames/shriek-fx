@@ -12,12 +12,12 @@ namespace Shriek.Reflection
     internal static class ReflectionUtil
     {
         /// <summary>
-        ///     The factories
+        /// The factories
         /// </summary>
-        private static readonly ConcurrentDictionary<ConstructorInfo, Func<object[], object>> factories = new ConcurrentDictionary<ConstructorInfo, Func<object[], object>>();
+        private static readonly ConcurrentCache<ConstructorInfo, Func<object[], object>> factories = new ConcurrentCache<ConstructorInfo, Func<object[], object>>();
 
         /// <summary>
-        ///     The open generic array interfaces
+        /// The open generic array interfaces
         /// </summary>
         public static readonly Type[] OpenGenericArrayInterfaces = typeof(object[]).GetInterfaces()
                                                                                    .Where(i => i.IsGenericType)
@@ -25,7 +25,7 @@ namespace Shriek.Reflection
                                                                                    .ToArray();
 
         /// <summary>
-        ///     Creates the instance.
+        /// Creates the instance.
         /// </summary>
         /// <typeparam name="TBase">The type of the base.</typeparam>
         /// <param name="subtypeofTBase">The subtypeof t base.</param>
@@ -39,7 +39,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the application assemblies.
+        /// Gets the application assemblies.
         /// </summary>
         /// <param name="rootAssembly">The root assembly.</param>
         /// <returns></returns>
@@ -60,7 +60,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the assemblies.
+        /// Gets the assemblies.
         /// </summary>
         /// <param name="assemblyFilter">The assembly filter.</param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the assemblies contains.
+        /// Gets the assemblies contains.
         /// </summary>
         /// <param name="assemblyPrefix">The assembly prefix.</param>
         /// <param name="assemblyFilter">The assembly filter.</param>
@@ -82,7 +82,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the assembly named.
+        /// Gets the assembly named.
         /// </summary>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <exception cref="Exception"></exception>
@@ -147,7 +147,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the assembly named.
+        /// Gets the assembly named.
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <param name="nameFilter">The name filter.</param>
@@ -185,7 +185,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the attributes.
+        /// Gets the attributes.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="item">The item.</param>
@@ -197,7 +197,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the available types.
+        /// Gets the available types.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="includeNonExported">if set to <c>true</c> [include non exported].</param>
@@ -223,7 +223,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the available types ordered.
+        /// Gets the available types ordered.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="includeNonExported">if set to <c>true</c> [include non exported].</param>
@@ -235,9 +235,8 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     If the extended type is a Foo[] or IEnumerable{Foo} which is assignable from Foo[] this method will return
-        ///     typeof(Foo)
-        ///     otherwise <c>null</c>.
+        /// If the extended type is a Foo[] or IEnumerable{Foo} which is assignable from Foo[] this
+        /// method will return typeof(Foo) otherwise <c>null</c>.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
@@ -267,7 +266,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the loaded assemblies.
+        /// Gets the loaded assemblies.
         /// </summary>
         /// <returns></returns>
 
@@ -277,19 +276,17 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Determines whether [has default value].
+        /// Determines whether [has default value].
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>
-        ///     <c>true</c> if [has default value] [the specified item]; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if [has default value] [the specified item]; otherwise, <c>false</c>.</returns>
         public static bool HasDefaultValue(this ParameterInfo item)
         {
             return (item.Attributes & ParameterAttributes.HasDefault) != 0;
         }
 
         /// <summary>
-        ///     Instantiates the specified ctor arguments.
+        /// Instantiates the specified ctor arguments.
         /// </summary>
         /// <param name="ctor">The ctor.</param>
         /// <param name="ctorArgs">The ctor arguments.</param>
@@ -304,24 +301,22 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Determines whether [is].
+        /// Determines whether [is].
         /// </summary>
         /// <typeparam name="TType">The type of the type.</typeparam>
         /// <param name="type">The type.</param>
-        /// <returns>
-        ///     <c>true</c> if [is] [the specified type]; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if [is] [the specified type]; otherwise, <c>false</c>.</returns>
         public static bool Is<TType>(this Type type)
         {
             return typeof(TType).IsAssignableFrom(type);
         }
 
         /// <summary>
-        ///     Determines whether [is assembly file] [the specified file path].
+        /// Determines whether [is assembly file] [the specified file path].
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>
-        ///     <c>true</c> if [is assembly file] [the specified file path]; otherwise, <c>false</c>.
+        /// <c>true</c> if [is assembly file] [the specified file path]; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">filePath</exception>
         public static bool IsAssemblyFile(string filePath)
@@ -343,7 +338,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Adds the application assemblies.
+        /// Adds the application assemblies.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="assemblies">The assemblies.</param>
@@ -365,7 +360,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Builds the factory.
+        /// Builds the factory.
         /// </summary>
         /// <param name="ctor">The ctor.</param>
         /// <returns></returns>
@@ -387,7 +382,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Ensures the is assignable.
+        /// Ensures the is assignable.
         /// </summary>
         /// <typeparam name="TBase">The type of the base.</typeparam>
         /// <param name="subtypeofTBase">The subtypeof t base.</param>
@@ -407,7 +402,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Gets the name of the assembly.
+        /// Gets the name of the assembly.
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns></returns>
@@ -426,7 +421,7 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Instantiates the specified subtypeof t base.
+        /// Instantiates the specified subtypeof t base.
         /// </summary>
         /// <typeparam name="TBase">The type of the base.</typeparam>
         /// <param name="subtypeofTBase">The subtypeof t base.</param>
@@ -478,12 +473,12 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Determines whether [is application assembly] [the specified application name].
+        /// Determines whether [is application assembly] [the specified application name].
         /// </summary>
         /// <param name="applicationName">Name of the application.</param>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <returns>
-        ///     <c>true</c> if [is application assembly] [the specified application name]; otherwise, <c>false</c>.
+        /// <c>true</c> if [is application assembly] [the specified application name]; otherwise, <c>false</c>.
         /// </returns>
         private static bool IsApplicationAssembly(string applicationName, string assemblyName)
         {
@@ -491,31 +486,27 @@ namespace Shriek.Reflection
         }
 
         /// <summary>
-        ///     Determines whether the specified extension is DLL.
+        /// Determines whether the specified extension is DLL.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified extension is DLL; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if the specified extension is DLL; otherwise, <c>false</c>.</returns>
         private static bool IsDll(string extension)
         {
             return ".dll".Equals(extension, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        ///     Determines whether the specified extension is executable.
+        /// Determines whether the specified extension is executable.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified extension is executable; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if the specified extension is executable; otherwise, <c>false</c>.</returns>
         private static bool IsExe(string extension)
         {
             return ".exe".Equals(extension, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
-        ///     Loads the assembly.
+        /// Loads the assembly.
         /// </summary>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <returns></returns>

@@ -12,11 +12,10 @@ namespace Shriek.Reflection
         /// <summary>
         /// 类型信息缓存
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, InfoEx> cached = new ConcurrentDictionary<Type, InfoEx>();
+        private static readonly ConcurrentCache<Type, InfoEx> cached = new ConcurrentCache<Type, InfoEx>();
 
         /// <summary>
-        /// 是否为简单类型
-        /// 指基础类型、guid以及对应的可空类型
+        /// 是否为简单类型 指基础类型、guid以及对应的可空类型
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
@@ -78,7 +77,7 @@ namespace Shriek.Reflection
             /// <summary>
             /// 类型信息
             /// </summary>
-            /// <param name="type">类型  </param>
+            /// <param name="type">类型</param>
             public InfoEx(Type type)
             {
                 this.IsSimple = IsSimpleType(type);
