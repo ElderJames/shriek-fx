@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="0.11.6" />
-    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="NLog" Version="4.6.2" />
   </ItemGroup>
 
 </Project>
