@@ -19,7 +19,7 @@ namespace Shriek.Messages.RabbitMQ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Send<TCommand>(TCommand command) where TCommand : Message
+        public void Send<TCommand>(TCommand command) where TCommand : Command
         {
             if (command == null)
                 return;

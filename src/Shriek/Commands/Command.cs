@@ -3,7 +3,7 @@ using System;
 
 namespace Shriek.Commands
 {
-    public class Command<TAggregateId> : Message, IAggregateCommand<TAggregateId>
+    public class Command<TAggregateId> : Command, IAggregateCommand<TAggregateId>
         where TAggregateId : IEquatable<TAggregateId>
     {
         public Command(TAggregateId aggregateId)
@@ -12,5 +12,9 @@ namespace Shriek.Commands
         }
 
         public TAggregateId AggregateId { get; protected set; }
+    }
+
+    public abstract class Command : Message, ICommand
+    {
     }
 }

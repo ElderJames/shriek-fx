@@ -19,7 +19,7 @@ namespace Shriek.Commands
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="command"></param>
-        public void Send<TCommand>(TCommand command) where TCommand : Message
+        public void Send<TCommand>(TCommand command) where TCommand : Command
         {
             if (command == null)
                 return;

@@ -1,8 +1,6 @@
-﻿using Shriek.Messages;
-
-namespace Shriek.Commands
+﻿namespace Shriek.Commands
 {
-    public interface ICommandHandler<in TCommand> where TCommand : Message
+    public interface ICommandHandler<in TCommand> where TCommand : Command
     {
         void Execute(ICommandContext context, TCommand command);
     }

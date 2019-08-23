@@ -1,6 +1,4 @@
-﻿using Shriek.Messages;
-
-namespace Shriek.Commands
+﻿namespace Shriek.Commands
 {
     /// <summary>
     /// 命令总线
@@ -12,6 +10,6 @@ namespace Shriek.Commands
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="command">命令</param>
-        void Send<TCommand>(TCommand command) where TCommand : Message;
+        void Send<TCommand>(TCommand command) where TCommand : Command;
     }
 }
