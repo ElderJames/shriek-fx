@@ -7,5 +7,9 @@ namespace Shriek.Exceptions
         public DomainException(string msg) : base(msg)
         {
         }
+
+        public DomainException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

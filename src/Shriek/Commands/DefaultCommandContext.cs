@@ -87,8 +87,8 @@ namespace Shriek.Commands
                     //如果不是新增事件
                     if (aggregate.Version != 0)
                     {
-                        var lastestEvent = eventStorage.GetLastEvent(((dynamic)aggregate).AggregateId);
-                        if (lastestEvent != null && lastestEvent.Version != aggregate.Version)
+                        var lastEvent = eventStorage.GetLastEvent(((dynamic)aggregate).AggregateId);
+                        if (lastEvent != null && lastEvent.Version != aggregate.Version)
                         {
                             throw new Exception("事件库中该聚合的状态版本与当前传入聚合状态版本不同，可能已被更新");
                         }

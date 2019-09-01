@@ -8,7 +8,7 @@ namespace Shriek.ServiceProxy.Socket.Core.Internal
     /// </summary>
     internal class DefaultDependencyResolver : IDependencyResolver
     {
-        private ICollection<Type> serviceTypes;
+        private readonly ICollection<Type> serviceTypes = new List<Type>();
 
         /// <summary>
         /// 解析支持任意对象创建的一次注册的服务
